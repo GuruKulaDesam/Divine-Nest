@@ -246,14 +246,18 @@
       </div>
       <div class="flex items-center space-x-4">
         <!-- Search -->
-        <div class="relative">
-          <input
-            type="text"
-            bind:value={searchQuery}
-            placeholder={$_('projects.search_placeholder')}
-            class="pl-10 pr-4 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-          />
-          <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-2.5 w-4 h-4 text-base-content/40" />
+        <div class="form-control">
+          <div class="input-group">
+            <input
+              type="text"
+              bind:value={searchQuery}
+              placeholder={$_('projects.search_placeholder')}
+              class="input input-bordered"
+            />
+            <button class="btn btn-square">
+              <Icon icon="heroicons:magnifying-glass" class="w-5 h-5" />
+            </button>
+          </div>
         </div>
         <!-- Add Task Button -->
         <button

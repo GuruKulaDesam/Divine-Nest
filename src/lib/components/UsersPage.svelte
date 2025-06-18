@@ -249,54 +249,62 @@
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
       <!-- Search -->
       <div class="flex-1 max-w-md">
-        <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Icon icon="heroicons:magnifying-glass" class="h-5 w-5 text-gray-400" />
+        <div class="form-control">
+          <div class="input-group">
+            <input
+              type="text"
+              placeholder={$_('users.search_users')}
+              bind:value={searchTerm}
+              class="input input-bordered"
+            />
+            <button class="btn btn-square">
+              <Icon icon="heroicons:magnifying-glass" class="h-5 w-5" />
+            </button>
           </div>
-          <input
-            type="text"
-            placeholder={$_('users.search_users')}
-            bind:value={searchTerm}
-            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-          >
         </div>
       </div>
       
       <!-- Filters -->
       <div class="flex flex-wrap items-center space-x-4">
-        <select
-          bind:value={selectedRole}
-          class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-        >
-          <option value="">{$_('users.all_roles')}</option>
-          {#each translatedUserRoles as role}
-            <option value={role.id}>{role.name}</option>
-          {/each}
-        </select>
+        <div class="form-control">
+          <select
+            bind:value={selectedRole}
+            class="select select-bordered select-sm"
+          >
+            <option value="">{$_('users.all_roles')}</option>
+            {#each translatedUserRoles as role}
+              <option value={role.id}>{role.name}</option>
+            {/each}
+          </select>
+        </div>
         
-        <select
-          bind:value={selectedStatus}
-          class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-        >
-          <option value="">{$_('users.all_statuses')}</option>
-          {#each translatedUserStatuses as status}
-            <option value={status.id}>{status.name}</option>
-          {/each}
-        </select>
+        <div class="form-control">
+          <select
+            bind:value={selectedStatus}
+            class="select select-bordered select-sm"
+          >
+            <option value="">{$_('users.all_statuses')}</option>
+            {#each translatedUserStatuses as status}
+              <option value={status.id}>{status.name}</option>
+            {/each}
+          </select>
+        </div>
         
-        <select
-          bind:value={selectedDepartment}
-          class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-        >
-          <option value="">{$_('users.all_departments')}</option>
-          {#each departments as dept}
-            <option value={dept}>{dept}</option>
-          {/each}
-        </select>
+        <div class="form-control">
+          <select
+            bind:value={selectedDepartment}
+            class="select select-bordered select-sm"
+          >
+            <option value="">{$_('users.all_departments')}</option>
+            {#each departments as dept}
+              <option value={dept}>{dept}</option>
+            {/each}
+          </select>
+        </div>
         
         <button
           on:click={clearFilters}
-          class="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+          class="btn btn-outline btn-sm"
           use:motionHover
         >
           {$_('common.clear')}
