@@ -1,0 +1,242 @@
+<script>
+  import { createEventDispatcher, onMount } from 'svelte';
+  import Icon from '@iconify/svelte';
+  import { generateUserAvatar, generateFallbackAvatar } from '../utils/avatar.js';
+  import { users } from '../data/dashboard.js';
+  import { navigate } from '../router.js';
+  import { dropdownAnimations, motionHover } from '../utils/motion.js';
+  import NotificationDropdown from './NotificationDropdown.svelte';
+  import MessageDropdown from './MessageDropdown.svelte';
+  import LanguageSwitcher from './LanguageSwitcher.svelte';
+  import { getUnreadNotificationsCount, getUnreadMessagesCount } from '../data/notifications.js';
+  
+  export let sidebarOpen = false;
+  
+  const dispatch = createEventDispatcher();
+  
+  // Generate avatar URL for admin user
+  const userAvatar = generateUserAvatar(users.admin, 'professional');
+  
+  let userMenuOpen = false;
+  let notificationMenuOpen = false;
+  let messageMenuOpen = false;
+  let dropdownElement;
+  
+  // Reactive statements for unread counts
+  $: unreadNotificationsCount = getUnreadNotificationsCount();
+  $: unreadMessagesCount = getUnreadMessagesCount();
+  
+  function toggleSidebar() {
+    dispatch('toggleSidebar');
+  }
+  
+  function toggleUserMenu() {
+    userMenuOpen = !userMenuOpen;
+    notificationMenuOpen = false;
+    messageMenuOpen = false;
+    
+    // Use setTimeout to ensure the element is rendered before animating
+    setTimeout(() => {
+      if (userMenuOpen && dropdownElement) {
+        dropdownAnimations.open(dropdownElement);
+      } else if (!userMenuOpen && dropdownElement) {
+        dropdownAnimations.close(dropdownElement);
+      }
+    }, 10);
+  }
+
+  function toggleNotificationMenu() {
+    notificationMenuOpen = !notificationMenuOpen;
+    userMenuOpen = false;
+    messageMenuOpen = false;
+  }
+
+  function toggleMessageMenu() {
+    messageMenuOpen = !messageMenuOpen;
+    userMenuOpen = false;
+    notificationMenuOpen = false;
+  }
+  
+  function closeUserMenu() {
+    if (userMenuOpen && dropdownElement) {
+      dropdownAnimations.close(dropdownElement);
+    }
+    userMenuOpen = false;
+  }
+
+  function closeNotificationMenu() {
+    notificationMenuOpen = false;
+  }
+
+  function closeMessageMenu() {
+    messageMenuOpen = false;
+  }
+  
+  function handleLogout() {
+    // Handle logout logic here
+    console.log('Logging out...');
+    closeUserMenu();
+  }
+  
+  function handleProfile() {
+    // Navigate to profile page
+    navigate('/profile');
+    closeUserMenu();
+  }
+  
+  function handleSettings() {
+    // Navigate to settings page
+    navigate('/settings');
+    closeUserMenu();
+  }
+
+  // Close menus when clicking outside
+  function handleClickOutside(event) {
+    if (userMenuOpen && !event.target.closest('.user-menu')) {
+      closeUserMenu();
+    }
+    if (notificationMenuOpen && !event.target.closest('.notification-menu')) {
+      closeNotificationMenu();
+    }
+    if (messageMenuOpen && !event.target.closest('.message-menu')) {
+      closeMessageMenu();
+    }
+  }
+</script>
+
+<svelte:window on:click={handleClickOutside} />
+
+<!-- Header -->
+<header class="bg-base-100 shadow-sm border-b border-base-300">
+  <div class="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
+    <!-- Left side -->
+    <div class="flex items-center">
+      <button 
+        class="lg:hidden p-2 rounded-md text-base-content/60 hover:text-base-content hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+        on:click={toggleSidebar}
+      >
+        <Icon icon="heroicons:bars-3" class="w-6 h-6" />
+      </button>
+      
+      <!-- Breadcrumb -->
+      <nav class="hidden md:flex items-center space-x-4 ml-4">
+        <div class="flex items-center space-x-2">
+          <Icon icon="heroicons:home" class="w-4 h-4 text-base-content/40" />
+          <span class="text-sm text-base-content/60">Dashboard</span>
+        </div>
+        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-base-content/40" />
+        <span class="text-sm font-medium text-base-content">Current Page</span>
+      </nav>
+    </div>
+    
+    <!-- Right side -->
+    <div class="flex items-center space-x-4">
+      <!-- Search -->
+      <div class="hidden md:block">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Icon icon="heroicons:magnifying-glass" class="w-4 h-4 text-base-content/40" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search..."
+            class="pl-10 pr-4 py-2 text-sm bg-base-200 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-base-content placeholder-base-content/40"
+          >
+        </div>
+      </div>
+      
+      <!-- Language Switcher -->
+      <LanguageSwitcher />
+      
+      <!-- Notifications -->
+      <div class="relative notification-menu">
+        <button 
+          class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg relative transition-colors duration-200"
+          on:click={toggleNotificationMenu}
+          use:motionHover
+        >
+          <Icon icon="heroicons:bell" class="w-5 h-5" />
+          {#if unreadNotificationsCount > 0}
+            <span class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-xs rounded-full flex items-center justify-center font-medium">
+              {unreadNotificationsCount > 9 ? '9+' : unreadNotificationsCount}
+            </span>
+          {/if}
+        </button>
+        
+        {#if notificationMenuOpen}
+          <NotificationDropdown isOpen={notificationMenuOpen} onClose={closeNotificationMenu} />
+        {/if}
+      </div>
+      
+      <!-- Messages -->
+      <div class="relative message-menu">
+        <button 
+          class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg relative transition-colors duration-200"
+          on:click={toggleMessageMenu}
+          use:motionHover
+        >
+          <Icon icon="heroicons:envelope" class="w-5 h-5" />
+          {#if unreadMessagesCount > 0}
+            <span class="absolute -top-1 -right-1 w-5 h-5 bg-warning text-white text-xs rounded-full flex items-center justify-center font-medium">
+              {unreadMessagesCount > 9 ? '9+' : unreadMessagesCount}
+            </span>
+          {/if}
+        </button>
+        
+        {#if messageMenuOpen}
+          <MessageDropdown isOpen={messageMenuOpen} onClose={closeMessageMenu} />
+        {/if}
+      </div>
+      
+      <!-- User menu -->
+      <div class="relative user-menu">
+        <button 
+          class="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200"
+          on:click={toggleUserMenu}
+        >
+          <img 
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" 
+            alt="User avatar"
+            class="h-8 w-8 rounded-full object-cover bg-base-200"
+          >
+          <div class="hidden md:block text-left">
+            <p class="text-sm font-medium text-base-content">John Doe</p>
+            <p class="text-xs text-base-content/60">Administrator</p>
+          </div>
+          <Icon icon="heroicons:chevron-down" class="w-4 h-4 text-base-content/60" />
+        </button>
+        
+        <!-- Dropdown menu -->
+        {#if userMenuOpen}
+          <div 
+            bind:this={dropdownElement}
+            class="absolute right-0 mt-2 w-48 bg-base-100 rounded-lg shadow-lg border border-base-300 py-1 z-50"
+          >
+            <button 
+              class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200"
+              on:click={handleProfile}
+            >
+              <Icon icon="heroicons:user-circle" class="w-4 h-4 mr-3" />
+              Profile
+            </button>
+            <button 
+              class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200"
+              on:click={handleSettings}
+            >
+              <Icon icon="heroicons:cog-6-tooth" class="w-4 h-4 mr-3" />
+              Settings
+            </button>
+            <hr class="border-base-300 my-1">
+            <button 
+              class="w-full flex items-center px-4 py-2 text-sm text-error hover:bg-base-200 transition-colors duration-200"
+              on:click={handleLogout}
+            >
+              <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3" />
+              Sign out
+            </button>
+          </div>
+        {/if}
+      </div>
+    </div>
+  </div>
+</header> 
