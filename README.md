@@ -1,33 +1,82 @@
-# Takeka - Svelte Dashboard Admin Template
+# Takeka - Open Source Modern Svelte Admin Dashboard Template
 
-A modern, responsive admin dashboard built with Svelte, Vite, and Tailwind CSS. Features a clean design inspired by Windster template with full internationalization (i18n) support.
+A modern, responsive admin dashboard template built with Svelte, Vite, and Tailwind CSS. Features a clean design, dark/light mode support, and comprehensive i18n internationalization.
 
-## ✨ Features
+## Features
 
-- 🎨 **Modern UI/UX** - Clean, responsive design with smooth animations
-- 🌍 **Internationalization** - Support for English, Indonesian, Spanish, and Korean
-- 📊 **Dashboard Analytics** - Revenue charts, user statistics, and data visualization
-- 👥 **User Management** - Complete CRUD operations for users with filtering and search
-- 📦 **Product Management** - Product catalog with inventory tracking
-- 📈 **Analytics Page** - Detailed analytics and reporting
-- ⚙️ **Settings Panel** - User preferences and system configuration
-- 🎭 **Dark/Light Mode** - Theme switching capability
-- 📱 **Responsive Design** - Works perfectly on desktop, tablet, and mobile
-- ⚡ **Fast Performance** - Built with Vite for lightning-fast development and builds
-- 🎯 **Accessibility** - WCAG compliant with proper ARIA labels
+- 🎨 **Modern Design**: Clean and professional UI with Tailwind CSS
+- 🌙 **Dark/Light Mode**: Toggle between themes
+- 🌍 **Internationalization**: Full i18n support with svelte-i18n (English, Indonesian, Spanish, Korean)
+- 📊 **Dashboard Analytics**: Charts and statistics
+- 👥 **User Management**: Complete user CRUD operations
+- 📦 **Product Management**: Product catalog management
+- 📈 **Analytics Page**: Business performance tracking
+- ⚙️ **Settings Page**: Account and application settings
+- 📋 **Project Management**: Kanban board with drag & drop
+- 🔄 **Drag & Drop**: Interactive task management
+- 📱 **Responsive**: Mobile-first design
+- ⚡ **Fast**: Built with Vite for optimal performance
 
-## 🚀 Quick Start
+## Components
 
-### Prerequisites
+### Global Components
 
-- Node.js (version 16 or higher)
-- npm or yarn
+#### DeleteConfirmationModal
+A reusable delete confirmation modal that can be used across all pages:
 
-### Installation
+```svelte
+<script>
+  import DeleteConfirmationModal from '../components/DeleteConfirmationModal.svelte';
+  
+  let showDeleteModal = false;
+  let itemToDelete = null;
+  
+  function handleDelete(item) {
+    itemToDelete = item;
+    showDeleteModal = true;
+  }
+  
+  function handleDeleteConfirm() {
+    // Handle delete logic here
+    console.log('Delete item:', itemToDelete);
+    itemToDelete = null;
+  }
+  
+  function handleDeleteCancel() {
+    itemToDelete = null;
+  }
+</script>
+
+<!-- Your page content -->
+
+<!-- Delete Confirmation Modal -->
+<DeleteConfirmationModal
+  bind:isOpen={showDeleteModal}
+  title={$_('deleteConfirmation.title')}
+  message={$_('deleteConfirmation.message')}
+  itemName={itemToDelete?.name || ''}
+  on:confirm={handleDeleteConfirm}
+  on:cancel={handleDeleteCancel}
+/>
+```
+
+**Props:**
+- `isOpen` (boolean): Controls modal visibility
+- `title` (string): Modal title (optional, uses default if not provided)
+- `message` (string): Modal message (optional, uses default if not provided)
+- `itemName` (string): Name of item to be deleted (optional)
+- `confirmText` (string): Custom confirm button text (optional)
+- `cancelText` (string): Custom cancel button text (optional)
+
+**Events:**
+- `confirm`: Fired when user confirms deletion
+- `cancel`: Fired when user cancels or closes modal
+
+## Getting Started
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone <repository-url>
    cd sveltedashboard
    ```
 
@@ -41,85 +90,78 @@ A modern, responsive admin dashboard built with Svelte, Vite, and Tailwind CSS. 
    npm run dev
    ```
 
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
+4. **Build for production**
+   ```bash
+   npm run build
+   ```
 
-## 🌍 Internationalization (i18n)
+## Project Structure
 
-The dashboard supports multiple languages out of the box:
+```
+src/
+├── lib/
+│   ├── components/          # Reusable components
+│   │   ├── DeleteConfirmationModal.svelte
+│   │   ├── DashboardLayout.svelte
+│   │   └── ...
+│   ├── pages/              # Page components
+│   ├── data/               # Mock data
+│   ├── i18n/               # Internationalization
+│   │   └── locales/        # Translation files
+│   └── utils/              # Utility functions
+├── App.svelte              # Main app component
+└── main.js                 # App entry point
+```
 
-- 🇺🇸 **English** (en)
-- 🇮🇩 **Indonesian** (id)
-- 🇪🇸 **Spanish** (es)
-- 🇰🇷 **Korean** (ko)
+## Internationalization
+
+The dashboard supports multiple languages:
+- English (en)
+- Indonesian (id)
+- Spanish (es)
+- Korean (ko)
+
+Language can be switched using the language switcher in the header.
+
+## Customization
 
 ### Adding New Languages
 
 1. Create a new translation file in `src/lib/i18n/locales/`
-2. Add the language configuration in `src/lib/i18n/index.js`
+2. Add the language to the i18n configuration in `src/lib/i18n/index.js`
 3. Update the language switcher component
-
-### Translation Structure
-
-```json
-{
-  "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome back!"
-  },
-  "users": {
-    "title": "Users",
-    "add_user": "Add User"
-  }
-}
-```
-
-## 🎨 Customization
 
 ### Styling
 
-The project uses Tailwind CSS for styling. You can customize:
-
-- **Colors**: Edit `tailwind.config.js`
-- **Components**: Modify component files in `src/lib/components/`
-- **Layout**: Update `DashboardLayout.svelte`
+The project uses Tailwind CSS for styling. Custom styles can be added in:
+- `src/app.css` for global styles
+- Component-specific `<style>` blocks for component styles
 
 ### Adding New Pages
 
 1. Create a new page component in `src/lib/pages/`
-2. Add the route in `src/lib/router.js`
-3. Update the sidebar navigation in `Sidebar.svelte`
+2. Add the route to `src/App.svelte`
+3. Add navigation item to the sidebar in `src/lib/components/Sidebar.svelte`
 4. Add translations for the new page
 
-### Data Management
+## Contributing
 
-- **Mock Data**: Located in `src/lib/data/`
-- **API Integration**: Replace mock data with real API calls
-- **State Management**: Use Svelte stores for global state
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## 📦 Available Scripts
+## License
 
-```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-# Code Quality
-npm run lint         # Run ESLint
-npm run format       # Format code with Prettier
-```
+## Acknowledgments
 
-## 🛠️ Tech Stack
-
-- **Frontend Framework**: [Svelte 5](https://svelte.dev/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Icons**: [Iconify](https://iconify.design/)
-- **Internationalization**: [svelte-i18n](https://github.com/kaisermann/svelte-i18n)
-- **UI Components**: [DaisyUI](https://daisyui.com/)
-- **Charts**: [Chart.js](https://www.chartjs.org/)
-- **Animations**: [Motion](https://motion.dev/)
+- Design inspired by Windster admin template
+- Icons by Heroicons
+- Charts by Chart.js
+- Internationalization by svelte-i18n
 
 ## 🎯 Key Components
 

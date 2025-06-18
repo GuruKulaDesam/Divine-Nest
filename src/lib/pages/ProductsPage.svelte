@@ -1,6 +1,7 @@
 <script>
   import Icon from "@iconify/svelte";
   import { motionInView, motionHover } from "../utils/motion.js";
+  import { _ } from "svelte-i18n";
   import { 
     products as initialProducts, 
     categoryOptions, 
@@ -71,7 +72,7 @@
   }
 
   function deleteProduct(productId) {
-    if (confirm("Are you sure you want to delete this product?")) {
+    if (confirm($_("products.confirm_delete_product"))) {
       products = products.filter((p) => p.id !== productId);
     }
   }
@@ -85,9 +86,9 @@
   >
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">Products</h1>
+        <h1 class="text-3xl font-bold text-base-content">{$_("products.title")}</h1>
         <p class="mt-2 text-sm text-base-content/60">
-          Manage your product catalog and inventory.
+          {$_("products.description")}
         </p>
       </div>
       <button
@@ -96,7 +97,7 @@
         use:motionHover
       >
         <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
-        Add Product
+        {$_("products.add_product")}
       </button>
     </div>
   </div>
@@ -111,14 +112,14 @@
         <!-- Search -->
         <div class="lg:col-span-2">
           <label class="block text-sm font-medium text-base-content mb-2"
-            >Search Products</label
+            >{$_("products.search_products")}</label
           >
           <div class="join w-full">
             <div class="join-item flex-1">
               <input
                 type="text"
                 bind:value={searchQuery}
-                placeholder="Search by name, description, or SKU..."
+                placeholder={$_("products.search_placeholder")}
                 class="input input-bordered w-full"
               />
             </div>
@@ -131,7 +132,7 @@
         <!-- Category Filter -->
         <div>
           <label class="block text-sm font-medium text-base-content mb-2"
-            >Category</label
+            >{$_("products.category")}</label
           >
           <select
             bind:value={selectedCategory}
@@ -146,7 +147,7 @@
         <!-- Status Filter -->
         <div>
           <label class="block text-sm font-medium text-base-content mb-2"
-            >Status</label
+            >{$_("products.status")}</label
           >
           <select
             bind:value={selectedStatus}
@@ -164,7 +165,7 @@
         class="flex items-center justify-between mt-6 pt-6 border-t border-base-300"
       >
         <div class="flex items-center space-x-4">
-          <span class="text-sm text-base-content/60">Sort by:</span>
+          <span class="text-sm text-base-content/60">{$_("products.sort_by")}</span>
           <select
             bind:value={selectedSortBy}
             class="select select-bordered select-sm"
@@ -176,7 +177,7 @@
         </div>
 
         <div class="text-sm text-base-content/60">
-          {sortedProducts.length} of {products.length} products
+          {sortedProducts.length} {$_("common.of")} {products.length} {$_("products.products_found")}
         </div>
       </div>
     </div>
@@ -234,14 +235,14 @@
               >${product.price}</span
             >
             <span class="text-sm font-medium {getStockColor(product.stock)}">
-              {product.stock} in stock
+              {product.stock} {$_("products.in_stock")}
             </span>
           </div>
 
           <div
             class="flex items-center justify-between text-xs text-base-content/60"
           >
-            <span>SKU: {product.sku}</span>
+            <span>{$_("products.sku")}: {product.sku}</span>
             <span>{product.category}</span>
           </div>
 
@@ -252,14 +253,14 @@
               on:click={() => editProduct(product)}
             >
               <Icon icon="heroicons:pencil-square" class="w-4 h-4 mr-1" />
-              Edit
+              {$_("products.edit")}
             </button>
             <button
               class="btn btn-outline btn-error btn-sm hover:text-white"
               on:click={() => deleteProduct(product.id)}
             >
               <Icon icon="heroicons:trash" class="w-4 h-4 mr-1" />
-              Delete
+              {$_("products.delete")}
             </button>
           </div>
         </div>
@@ -279,17 +280,17 @@
           class="w-16 h-16 text-base-content/40 mx-auto mb-4"
         />
         <h3 class="text-lg font-medium text-base-content mb-2">
-          No products found
+          {$_("products.no_products_found")}
         </h3>
         <p class="text-base-content/60 mb-6">
-          Try adjusting your search or filter criteria.
+          {$_("users.try_adjusting_search")}
         </p>
         <button
           class="btn btn-primary shadow-lg hover:text-primary-content"
           on:click={openAddProductModal}
         >
           <Icon icon="heroicons:plus" class="w-4 h-4 mr-2" />
-          Add Your First Product
+          {$_("products.add_first_product")}
         </button>
       </div>
     </div>
@@ -302,7 +303,7 @@
     <div class="modal-box max-w-2xl">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-bold text-lg">
-          {selectedProduct ? "Edit Product" : "Add New Product"}
+          {selectedProduct ? $_("products.edit_product") : $_("products.add_new_product")}
         </h3>
         <button
           class="btn btn-sm btn-circle btn-ghost hover:text-base-content"
@@ -315,101 +316,101 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Product Name</span>
+            <span class="label-text">{$_("products.product_name")}</span>
           </label>
           <input
             type="text"
             class="input input-bordered"
-            placeholder="Enter product name"
+            placeholder={$_("products.product_name_placeholder")}
           />
         </div>
 
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Category</span>
+            <span class="label-text">{$_("products.category")}</span>
           </label>
           <select class="select select-bordered">
-            <option value="">Select category</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Wearables">Wearables</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Accessories">Accessories</option>
+            <option value="">{$_("products.select_category")}</option>
+            <option value="Electronics">{$_("products.electronics")}</option>
+            <option value="Wearables">{$_("products.wearables")}</option>
+            <option value="Clothing">{$_("products.clothing")}</option>
+            <option value="Accessories">{$_("products.accessories")}</option>
           </select>
         </div>
 
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Price</span>
+            <span class="label-text">{$_("products.price")}</span>
           </label>
           <input
             type="number"
             step="0.01"
             class="input input-bordered"
-            placeholder="0.00"
+            placeholder={$_("products.price_placeholder")}
           />
         </div>
 
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Stock Quantity</span>
+            <span class="label-text">{$_("products.stock_quantity")}</span>
           </label>
-          <input type="number" class="input input-bordered" placeholder="0" />
+          <input type="number" class="input input-bordered" placeholder={$_("products.stock_placeholder")} />
         </div>
 
         <div class="form-control">
           <label class="label">
-            <span class="label-text">SKU</span>
+            <span class="label-text">{$_("products.sku")}</span>
           </label>
           <input
             type="text"
             class="input input-bordered"
-            placeholder="Enter SKU"
+            placeholder={$_("products.sku_placeholder")}
           />
         </div>
 
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Status</span>
+            <span class="label-text">{$_("products.status")}</span>
           </label>
           <select class="select select-bordered">
-            <option value="active">Active</option>
-            <option value="draft">Draft</option>
-            <option value="out-of-stock">Out of Stock</option>
+            <option value="active">{$_("products.active")}</option>
+            <option value="draft">{$_("products.draft")}</option>
+            <option value="out-of-stock">{$_("products.out_of_stock")}</option>
           </select>
         </div>
 
         <div class="form-control md:col-span-2">
           <label class="label">
-            <span class="label-text">Description</span>
+            <span class="label-text">{$_("products.description")}</span>
           </label>
           <textarea
             rows="3"
             class="textarea textarea-bordered"
-            placeholder="Enter product description"
+            placeholder={$_("products.description_placeholder")}
           ></textarea>
         </div>
 
         <div class="form-control md:col-span-2">
           <label class="label">
-            <span class="label-text">Product Image URL</span>
+            <span class="label-text">{$_("products.image_url")}</span>
           </label>
           <input
             type="url"
             class="input input-bordered"
-            placeholder="https://example.com/image.jpg"
+            placeholder={$_("products.image_url_placeholder")}
           />
         </div>
       </div>
 
       <div class="modal-action">
         <button class="btn btn-outline hover:text-base-content" on:click={closeAddProductModal}>
-          Cancel
+          {$_("settings.cancel")}
         </button>
         <button
           class="btn btn-primary shadow-lg hover:text-primary-content"
           on:click={closeAddProductModal}
         >
-          {selectedProduct ? "Update Product" : "Add Product"}
+          {selectedProduct ? $_("products.update_product") : $_("products.add_product")}
         </button>
       </div>
     </div>

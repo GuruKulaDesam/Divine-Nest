@@ -5,6 +5,7 @@
   import { generateUserAvatar, generateFallbackAvatar } from '../utils/avatar.js';
   import { users, userStats, userRoles, userStatuses, departments, userColumns } from '../data/users.js';
   import { motionInView, staggerAnimate, motionHover } from '../utils/motion.js';
+  import DeleteConfirmationModal from './DeleteConfirmationModal.svelte';
   
   let filteredUsers = [...users];
   let searchTerm = '';
@@ -16,6 +17,8 @@
   let showAddUserModal = false;
   let selectedUser = null;
   let showUserModal = false;
+  let showDeleteModal = false;
+  let userToDelete = null;
   
   let statsElements = [];
   let userRowElements = [];
@@ -154,7 +157,7 @@
     if (!dateString) return $_('common.never');
     const date = new Date(dateString);
     const now = new Date();
-    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
     
     if (diffInHours < 1) return $_('common.just_now');
     if (diffInHours < 24) return `${diffInHours}h ago`;
@@ -168,10 +171,20 @@
   }
   
   function handleDeleteUser(user) {
-    if (confirm(`${$_('users.confirm_delete')} ${user.name}?`)) {
+    userToDelete = user;
+    showDeleteModal = true;
+  }
+  
+  function handleDeleteConfirm() {
+    if (userToDelete) {
       // Handle delete logic here
-      console.log('Delete user:', user);
+      console.log('Delete user:', userToDelete);
+      userToDelete = null;
     }
+  }
+  
+  function handleDeleteCancel() {
+    userToDelete = null;
   }
   
   function clearFilters() {
@@ -427,4 +440,14 @@
       {$_('users.showing')} <span class="font-medium">{filteredUsers.length}</span> {$_('users.of')} <span class="font-medium">{users.length}</span> {$_('users.users')}
     </div>
   </div>
-</div> 
+</div>
+
+<!-- Delete Confirmation Modal -->
+<DeleteConfirmationModal
+  bind:isOpen={showDeleteModal}
+  title={$_('deleteConfirmation.title')}
+  message={$_('deleteConfirmation.message')}
+  itemName={userToDelete?.name || ''}
+  on:confirm={handleDeleteConfirm}
+  on:cancel={handleDeleteCancel}
+/> 

@@ -3,6 +3,7 @@
   import { motionInView, motionHover } from '../utils/motion.js';
   import { createDateRangePicker, melt } from '@melt-ui/svelte';
   import AnalyticsChart from '../components/AnalyticsChart.svelte';
+  import { _ } from 'svelte-i18n';
   import { 
     exportAnalyticsData, 
     exportOverviewData, 
@@ -27,15 +28,15 @@
       { month: 'Jun', revenue: 28000, users: 14500, conversions: 580 }
     ],
     topProducts: [
-      { name: 'Premium Plan', sales: 1240, revenue: '$45,200' },
-      { name: 'Basic Plan', sales: 890, revenue: '$22,300' },
-      { name: 'Enterprise', sales: 320, revenue: '$58,900' }
+      { name: $_("analytics.premium_plan"), sales: 1240, revenue: '$45,200' },
+      { name: $_("analytics.basic_plan"), sales: 890, revenue: '$22,300' },
+      { name: $_("analytics.enterprise"), sales: 320, revenue: '$58,900' }
     ],
     recentActivity: [
-      { action: 'New user registered', time: '2 min ago', type: 'user' },
-      { action: 'Payment received', time: '5 min ago', type: 'payment' },
-      { action: 'Product purchased', time: '8 min ago', type: 'purchase' },
-      { action: 'Support ticket', time: '12 min ago', type: 'support' }
+      { action: $_("analytics.new_user_registered"), time: '2 ' + $_("analytics.min_ago"), type: 'user' },
+      { action: $_("analytics.payment_received"), time: '5 ' + $_("analytics.min_ago"), type: 'payment' },
+      { action: $_("analytics.product_purchased"), time: '8 ' + $_("analytics.min_ago"), type: 'purchase' },
+      { action: $_("analytics.support_ticket"), time: '12 ' + $_("analytics.min_ago"), type: 'support' }
     ]
   };
   
@@ -45,10 +46,10 @@
   let showExportMenu = false;
   
   const metricOptions = [
-    { value: 'revenue', label: 'Revenue' },
-    { value: 'users', label: 'Users' },
-    { value: 'conversions', label: 'Conversions' },
-    { value: 'engagement', label: 'Engagement' }
+    { value: 'revenue', label: $_("analytics.revenue") },
+    { value: 'users', label: $_("analytics.users") },
+    { value: 'conversions', label: $_("analytics.conversions") },
+    { value: 'engagement', label: $_("analytics.engagement") }
   ];
   
   // Melt UI Date Range Picker
@@ -133,8 +134,8 @@
   <div class="border-b border-gray-200 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-gray-900">Analytics</h1>
-        <p class="mt-2 text-sm text-gray-600">Track your business performance and insights.</p>
+        <h1 class="text-3xl font-bold text-gray-900">{$_("analytics.title")}</h1>
+        <p class="mt-2 text-sm text-gray-600">{$_("analytics.description")}</p>
       </div>
       <div class="flex items-center space-x-4">
         <!-- Date Range Picker using Melt UI -->
@@ -228,7 +229,7 @@
             use:motionHover
           >
             <Icon icon="heroicons:arrow-down-tray" class="w-4 h-4 mr-2" />
-            Export Report
+            {$_("analytics.export_report")}
             <Icon icon="heroicons:chevron-down" class="w-4 h-4 ml-1" />
           </button>
           
@@ -240,28 +241,28 @@
                   on:click={() => exportData('chart')}
                 >
                   <Icon icon="heroicons:chart-bar" class="w-4 h-4 mr-2 inline" />
-                  Export Chart Data
+                  {$_("analytics.export_chart_data")}
                 </button>
                 <button 
                   class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 text-gray-700"
                   on:click={() => exportData('overview')}
                 >
                   <Icon icon="heroicons:presentation-chart-line" class="w-4 h-4 mr-2 inline" />
-                  Export Overview
+                  {$_("analytics.export_overview")}
                 </button>
                 <button 
                   class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 text-gray-700"
                   on:click={() => exportData('products')}
                 >
                   <Icon icon="heroicons:cube" class="w-4 h-4 mr-2 inline" />
-                  Export Top Products
+                  {$_("analytics.export_top_products")}
                 </button>
                 <button 
                   class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 text-gray-700"
                   on:click={() => exportData('activity')}
                 >
                   <Icon icon="heroicons:clock" class="w-4 h-4 mr-2 inline" />
-                  Export Recent Activity
+                  {$_("analytics.export_recent_activity")}
                 </button>
                 <div class="border-t border-gray-200 my-1"></div>
                 <button 
@@ -269,7 +270,7 @@
                   on:click={() => exportData('all')}
                 >
                   <Icon icon="heroicons:document-arrow-down" class="w-4 h-4 mr-2 inline" />
-                  Export All Data
+                  {$_("analytics.export_all_data")}
                 </button>
               </div>
             </div>
@@ -284,9 +285,9 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionHover>
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+          <p class="text-sm font-medium text-gray-600">{$_("analytics.total_revenue")}</p>
           <p class="text-2xl font-bold text-gray-900">{analyticsData.overview.totalRevenue}</p>
-          <p class="text-sm text-green-600">+12.5% from last month</p>
+          <p class="text-sm text-green-600">+12.5% {$_("analytics.from_last_month")}</p>
         </div>
         <div class="p-3 bg-green-100 rounded-lg">
           <Icon icon="heroicons:currency-dollar" class="w-6 h-6 text-green-600" />
@@ -297,9 +298,9 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionHover>
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">Total Users</p>
+          <p class="text-sm font-medium text-gray-600">{$_("analytics.total_users")}</p>
           <p class="text-2xl font-bold text-gray-900">{analyticsData.overview.totalUsers}</p>
-          <p class="text-sm text-green-600">+8.2% from last month</p>
+          <p class="text-sm text-green-600">+8.2% {$_("analytics.from_last_month")}</p>
         </div>
         <div class="p-3 bg-blue-100 rounded-lg">
           <Icon icon="heroicons:users" class="w-6 h-6 text-blue-600" />
@@ -310,9 +311,9 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionHover>
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">Conversion Rate</p>
+          <p class="text-sm font-medium text-gray-600">{$_("analytics.conversion_rate")}</p>
           <p class="text-2xl font-bold text-gray-900">{analyticsData.overview.conversionRate}</p>
-          <p class="text-sm text-green-600">+2.1% from last month</p>
+          <p class="text-sm text-green-600">+2.1% {$_("analytics.from_last_month")}</p>
         </div>
         <div class="p-3 bg-purple-100 rounded-lg">
           <Icon icon="heroicons:chart-bar" class="w-6 h-6 text-purple-600" />
@@ -323,9 +324,9 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionHover>
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">Avg Session</p>
+          <p class="text-sm font-medium text-gray-600">{$_("analytics.avg_session")}</p>
           <p class="text-2xl font-bold text-gray-900">{analyticsData.overview.avgSessionDuration}</p>
-          <p class="text-sm text-green-600">+15.3% from last month</p>
+          <p class="text-sm text-green-600">+15.3% {$_("analytics.from_last_month")}</p>
         </div>
         <div class="p-3 bg-orange-100 rounded-lg">
           <Icon icon="heroicons:clock" class="w-6 h-6 text-orange-600" />
@@ -341,14 +342,14 @@
       <!-- Revenue Trend Chart -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInLeft' }}>
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-lg font-semibold text-gray-900">Revenue Trend</h2>
+          <h2 class="text-lg font-semibold text-gray-900">{$_("analytics.revenue_trend")}</h2>
           <!-- Metric selector -->
           <div class="relative metric-selector">
             <button 
               class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
               on:click={toggleMetricSelect}
             >
-              {metricOptions.find(opt => opt.value === selectedMetric)?.label || 'Revenue'}
+              {metricOptions.find(opt => opt.value === selectedMetric)?.label || $_("analytics.revenue")}
               <Icon icon="heroicons:chevron-down" class="w-4 h-4 ml-1 inline" />
             </button>
             {#if showMetricSelect}
@@ -379,7 +380,7 @@
       
       <!-- Top Products -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInLeft' }}>
-        <h2 class="text-lg font-semibold text-gray-900 mb-6">Top Products</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">{$_("analytics.top_products")}</h2>
         <div class="space-y-4">
           {#each analyticsData.topProducts as product, index}
             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg" use:motionHover>
@@ -389,7 +390,7 @@
                 </div>
                 <div>
                   <p class="font-medium text-gray-900">{product.name}</p>
-                  <p class="text-sm text-gray-500">{product.sales} sales</p>
+                  <p class="text-sm text-gray-500">{product.sales} {$_("analytics.sales")}</p>
                 </div>
               </div>
               <div class="text-right">
@@ -406,7 +407,7 @@
     <div class="space-y-6">
       <!-- Recent Activity -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInRight' }}>
-        <h2 class="text-lg font-semibold text-gray-900 mb-6">Recent Activity</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">{$_("analytics.recent_activity")}</h2>
         <div class="space-y-4">
           {#each analyticsData.recentActivity as activity}
             <div class="flex items-start space-x-3" use:motionHover>
@@ -422,22 +423,22 @@
       
       <!-- Quick Stats -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInRight' }}>
-        <h2 class="text-lg font-semibold text-gray-900 mb-6">Quick Stats</h2>
+        <h2 class="text-lg font-semibold text-gray-900 mb-6">{$_("analytics.quick_stats")}</h2>
         <div class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">Page Views</span>
+            <span class="text-sm text-gray-600">{$_("analytics.page_views")}</span>
             <span class="text-sm font-medium text-gray-900">45.2K</span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">Bounce Rate</span>
+            <span class="text-sm text-gray-600">{$_("analytics.bounce_rate")}</span>
             <span class="text-sm font-medium text-gray-900">32.1%</span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">Avg Order Value</span>
+            <span class="text-sm text-gray-600">{$_("analytics.avg_order_value")}</span>
             <span class="text-sm font-medium text-gray-900">$89.50</span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">Customer Lifetime Value</span>
+            <span class="text-sm text-gray-600">{$_("analytics.customer_lifetime_value")}</span>
             <span class="text-sm font-medium text-gray-900">$1,245</span>
           </div>
         </div>

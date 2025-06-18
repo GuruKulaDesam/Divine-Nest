@@ -18,6 +18,7 @@
     { path: '/users', icon: 'heroicons:users', name: $_('navigation.users') },
     { path: '/products', icon: 'heroicons:cube', name: $_('navigation.products') },
     { path: '/analytics', icon: 'heroicons:chart-bar', name: $_('navigation.analytics') },
+    { path: '/projects', icon: 'heroicons:view-columns', name: $_('navigation.projects') },
     { path: '/settings', icon: 'heroicons:cog-6-tooth', name: $_('navigation.settings') }
   ];
   
@@ -54,12 +55,14 @@
 {/if}
 
 <!-- Sidebar -->
-<div class="fixed inset-y-0 left-0 z-50 w-64 bg-base-100 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 {isOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col">
+<div class="fixed inset-y-0 left-0 z-50 w-64 bg-base-100 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 {isOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col h-full">
+  <!-- Logo section -->
   <div class="flex items-center justify-center h-16 px-6 border-b border-base-300 flex-shrink-0">
     <img src="/logo.svg" alt="Logo" class="w-32 h-32">
   </div>
   
-  <nav class="flex-1 px-4 py-6 space-y-2 dropdown-scroll">
+  <!-- Navigation section - takes up remaining space -->
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
     {#each translatedMenuItems as item, index}
       <a
         bind:this={menuItemsElements[index]}
@@ -77,8 +80,8 @@
     {/each}
   </nav>
   
-  <!-- User section -->
-  <div class="border-t border-base-300 p-4 flex-shrink-0">
+  <!-- User section - always at bottom -->
+  <div class="border-t border-base-300 p-4 flex-shrink-0 mt-auto">
     <div class="flex items-center">
       <img 
         src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" 
