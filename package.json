@@ -24,6 +24,7 @@
     "@melt-ui/svelte": "^0.86.6",
     "chart.js": "^4.5.0",
     "daisyui": "^5.0.43",
+    "leaflet": "^1.9.4",
     "motion": "^12.18.1",
     "svelte-i18n": "^4.0.1"
   }

@@ -8,6 +8,7 @@
   import AnalyticsPage from './lib/pages/AnalyticsPage.svelte';
   import ProjectManagementPage from './lib/pages/ProjectManagementPage.svelte';
   import ProfilePage from './lib/pages/ProfilePage.svelte';
+  import MapsPage from './lib/pages/MapsPage.svelte';
   import NotFoundPage from './lib/pages/NotFoundPage.svelte';
   import { route } from './lib/router.js';
   import { pageTransitions } from './lib/utils/motion.js';
@@ -24,6 +25,7 @@
     : $route === '/analytics' ? AnalyticsPage
     : $route === '/projects' ? ProjectManagementPage
     : $route === '/profile' ? ProfilePage
+    : $route === '/maps' ? MapsPage
     : NotFoundPage;
 
   // Handle page transitions

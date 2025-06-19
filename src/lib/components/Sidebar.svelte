@@ -19,6 +19,7 @@
     { path: '/products', icon: 'heroicons:cube', name: $_('navigation.products') },
     { path: '/analytics', icon: 'heroicons:chart-bar', name: $_('navigation.analytics') },
     { path: '/projects', icon: 'heroicons:view-columns', name: $_('navigation.projects') },
+    { path: '/maps', icon: 'heroicons:map', name: $_('navigation.maps') },
     { path: '/profile', icon: 'heroicons:user-circle', name: $_('navigation.profile') },
     { path: '/settings', icon: 'heroicons:cog-6-tooth', name: $_('navigation.settings') }
   ];
