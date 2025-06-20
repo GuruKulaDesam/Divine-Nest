@@ -3,12 +3,13 @@
   import Icon from '@iconify/svelte';
   import { generateUserAvatar, generateFallbackAvatar } from '../utils/avatar.js';
   import { users } from '../data/dashboard.js';
-  import { navigate } from '../router.js';
+  import { navigate, currentRoute } from '../router.js';
   import { dropdownAnimations, motionHover } from '../utils/motion.js';
   import NotificationDropdown from './NotificationDropdown.svelte';
   import MessageDropdown from './MessageDropdown.svelte';
   import LanguageSwitcher from './LanguageSwitcher.svelte';
   import { getUnreadNotificationsCount, getUnreadMessagesCount } from '../data/notifications.js';
+  import { _ } from 'svelte-i18n';
   
   export let sidebarOpen = false;
   
@@ -25,6 +26,25 @@
   // Reactive statements for unread counts
   $: unreadNotificationsCount = getUnreadNotificationsCount();
   $: unreadMessagesCount = getUnreadMessagesCount();
+  
+  // Function to get current page name based on route
+  function getCurrentPageName(route) {
+    const routeMap = {
+      '/': $_('navigation.home'),
+      '/users': $_('navigation.users'), 
+      '/products': $_('navigation.products'),
+      '/analytics': $_('navigation.analytics'),
+      '/settings': $_('navigation.settings'),
+      '/maps': $_('navigation.maps'),
+      '/profile': $_('navigation.profile'),
+      '/projects': $_('navigation.projects')
+    };
+    
+    return routeMap[route] || $_('navigation.home');
+  }
+  
+  // Reactive statement for current page name
+  $: currentPageName = getCurrentPageName($currentRoute);
   
   function toggleSidebar() {
     dispatch('toggleSidebar');
@@ -122,10 +142,12 @@
       <nav class="hidden md:flex items-center space-x-4 ml-4">
         <div class="flex items-center space-x-2">
           <Icon icon="heroicons:home" class="w-4 h-4 text-base-content/40" />
-          <span class="text-sm text-base-content/60">Dashboard</span>
+          <span class="text-sm text-base-content/60">{$_('navigation.home')}</span>
         </div>
-        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-base-content/40" />
-        <span class="text-sm font-medium text-base-content">Current Page</span>
+        {#if $currentRoute !== '/'}
+          <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-base-content/40" />
+          <span class="text-sm font-medium text-base-content">{currentPageName}</span>
+        {/if}
       </nav>
     </div>
     

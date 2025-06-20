@@ -137,7 +137,8 @@
     "salary": "급여",
     "applicants": "지원자",
     "experience": "경험",
-    "posted": "게시됨"
+    "posted": "게시됨",
+    "see_job": "채용 정보 보기"
   },
   "analytics": {
     "title": "분석",

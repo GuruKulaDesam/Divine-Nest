@@ -1,8 +1,9 @@
 <script>
   import Icon from '@iconify/svelte';
   import { onMount, onDestroy, tick } from 'svelte';
-  import { motionInView, motionHover } from '../utils/motion.js';
+  import { motionInView, motionHover, animations } from '../utils/motion.js';
   import { _ } from 'svelte-i18n';
+  import { fade, scale } from 'svelte/transition';
 
   // Map variables
   let mapContainer;
@@ -503,11 +504,11 @@
   let searchQuery = "";
   let selectedType = "all";
   let selectedExperience = "all";
-  let selectedView = "map";
   let showAddJobModal = false;
   let selectedJob = null;
   let mapLoaded = false;
   let mapError = null;
+  let markerRefs = {};
 
   // New job form
   let newJob = {
@@ -560,7 +561,7 @@
   );
 
   // For map view, show all filtered jobs
-  $: filteredJobs = selectedView === 'map' ? allFilteredJobs : paginatedJobs;
+  $: filteredJobs = allFilteredJobs;
 
   // Reset to first page when filters change
   $: if (searchQuery || selectedType || selectedExperience) {
@@ -605,11 +606,8 @@
 
       // Import Leaflet JS
       L = (await import('leaflet')).default;
-      
-      // Initialize map if we're already on map view
-      if (selectedView === 'map') {
-        initializeMapIfNeeded();
-      }
+      // Always initialize map
+      initializeMapIfNeeded();
     } catch (error) {
       console.error('Error loading Leaflet:', error);
       mapError = 'Failed to load map library. Please refresh the page.';
@@ -617,39 +615,22 @@
   });
 
   onDestroy(() => {
-    if (map) {
-      map.remove();
-      map = null;
-    }
-    // Clean up container references
-    if (mapContainer) {
-      if (mapContainer._leaflet_map) {
-        mapContainer._leaflet_map.remove();
-      }
-      mapContainer.innerHTML = '';
-      delete mapContainer._leaflet_id;
-      delete mapContainer._leaflet_map;
-    }
-    mapLoaded = false;
-    mapInitializing = false;
+    cleanupMap();
   });
 
   function updateMapMarkers() {
     if (!map || !L) return;
-    
+    markerRefs = {};
     try {
-      // Clear existing markers
       map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
           map.removeLayer(layer);
         }
       });
-
-      // Add new markers
       filteredJobs.forEach((job) => {
         if (job.coordinates && Array.isArray(job.coordinates) && job.coordinates.length === 2) {
           const marker = L.marker(job.coordinates).addTo(map);
-          
+          markerRefs[job.id] = marker;
           marker.bindPopup(`
             <div style="min-width: 200px; max-width: 300px;">
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
@@ -666,21 +647,39 @@
               <p style="margin: 4px 0; font-size: 12px;"><strong>💼 Type:</strong> ${job.type}</p>
               <p style="margin: 4px 0; font-size: 12px;"><strong>💰 Salary:</strong> ${job.salary}</p>
               <p style="margin: 4px 0; font-size: 12px;"><strong>👥 Applicants:</strong> ${job.applicants}</p>
-              ${job.featured ? '<span style="background: #f59e0b; color: white; padding: 2px 6px; border-radius: 12px; font-size: 10px;">⭐ Featured</span>' : ''}
-              ${job.urgent ? '<span style="background: #ef4444; color: white; padding: 2px 6px; border-radius: 12px; font-size: 10px; margin-left: 4px;">🚨 Urgent</span>' : ''}
+              <div style="margin: 8px 0;">
+                ${job.featured ? '<span style="background: #f59e0b; color: white; padding: 2px 6px; border-radius: 12px; font-size: 10px;">⭐ Featured</span>' : ''}
+                ${job.urgent ? '<span style="background: #ef4444; color: white; padding: 2px 6px; border-radius: 12px; font-size: 10px; margin-left: 4px;">🚨 Urgent</span>' : ''}
+              </div>
+              <button data-job-id="${job.id}" 
+                      style="background: #3B82F6; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-top: 8px; width: 100%;">
+                ${$_('maps.see_job')}
+              </button>
             </div>
           `);
-
-          // Add click event to marker to select job
-          marker.on('click', () => {
-            selectJob(job);
-          });
         }
       });
-
-      // Fit map to show all markers if there are any
+      
+      // Add delegated event handler for "See Job" buttons
+      if (map) {
+        map.on('popupopen', (e) => {
+          const popup = e.popup;
+          const popupElement = popup.getElement();
+          const seeJobButton = popupElement.querySelector('[data-job-id]');
+          if (seeJobButton) {
+            seeJobButton.addEventListener('click', (event) => {
+              const jobId = parseInt(event.target.getAttribute('data-job-id'));
+              const job = filteredJobs.find(j => j.id === jobId);
+              if (job) {
+                selectedJob = job;
+              }
+            });
+          }
+        });
+      }
+      
       if (filteredJobs.length > 0) {
-        const group = new L.featureGroup(map._layers);
+        const group = new L.featureGroup(Object.values(markerRefs));
         if (Object.keys(group._layers).length > 0) {
           map.fitBounds(group.getBounds().pad(0.1));
         }
@@ -691,41 +690,18 @@
   }
 
   function selectJob(job) {
+    if (map && markerRefs[job.id]) {
+      map.setView(job.coordinates, 10, { animate: true });
+      markerRefs[job.id].openPopup();
+    }
+  }
+
+  function openJobDetails(job) {
     selectedJob = job;
   }
 
   function closeJobDetails() {
     selectedJob = null;
-  }
-
-  // Handle view changes
-  function switchToMapView() {
-    console.log('Switching to map view...');
-    selectedView = 'map';
-    
-    // If switching back to map view, ensure proper state
-    if (map) {
-      console.log('Map exists, ensuring it is loaded...');
-      mapLoaded = true;
-      mapError = null;
-      // Force refresh the map after a short delay
-      setTimeout(() => {
-        if (map) {
-          map.invalidateSize();
-          updateMapMarkers();
-        }
-      }, 150);
-    } else {
-      // No map exists, will trigger initialization
-      console.log('No map exists, will initialize...');
-      mapLoaded = false;
-      mapError = null;
-    }
-  }
-
-  function switchToListView() {
-    console.log('Switching to list view...');
-    selectedView = 'list';
   }
 
   function openAddJobModal() {
@@ -821,146 +797,127 @@
     }
   }
 
-  // Map marker click functionality will be handled via list view
-
-  // Initialize map when switching to map view
-  async function initializeMapIfNeeded() {
-    if (selectedView !== 'map') {
-      return;
-    }
-
-    // If map exists and we're just switching back to map view, refresh it
-    if (map && !mapInitializing) {
-      console.log('Map exists, refreshing...');
-      mapLoaded = true;
-      setTimeout(() => {
-        map.invalidateSize();
-        updateMapMarkers();
-        console.log('Map refreshed');
-      }, 100);
-      return;
-    }
-
-    // Initialize new map if it doesn't exist
-    if (!map && !mapInitializing) {
-      mapInitializing = true;
-      
-      try {
-        mapError = null;
-        mapLoaded = false;
-        
-        console.log('Starting map initialization...');
-        
-        // Wait for DOM to be ready
-        await tick();
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        if (!mapContainer) {
-          console.warn('Map container not found');
-          mapInitializing = false;
-          return;
-        }
-
-        // Check if container already has a map instance
-        if (mapContainer._leaflet_id) {
-          console.warn('Map container already initialized, cleaning up...');
-          // Clear any existing map instance
-          if (mapContainer._leaflet_map) {
-            mapContainer._leaflet_map.remove();
-          }
-          // Clear the container
-          mapContainer.innerHTML = '';
-          delete mapContainer._leaflet_id;
-          delete mapContainer._leaflet_map;
-        }
-        
-        // Import Leaflet if not already imported
-        if (!L) {
-          console.log('Importing Leaflet...');
-          L = (await import('leaflet')).default;
-        }
-
-        console.log('Creating map instance...');
-
-        // Initialize map
-        map = L.map(mapContainer, {
-          preferCanvas: true,
-          zoomControl: true,
-          scrollWheelZoom: true,
-          doubleClickZoom: true,
-          boxZoom: true,
-          keyboard: true
-        }).setView([39.8283, -98.5795], 4);
-
-        // Store reference in container for cleanup
-        mapContainer._leaflet_map = map;
-
-        // Add tile layer
-        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          maxZoom: 19,
-          minZoom: 2
-        });
-
-        console.log('Adding tile layer...');
-        tileLayer.addTo(map);
-
-        // Set loaded immediately and add markers
-        mapLoaded = true;
-        mapInitializing = false;
-        
-        console.log('Map initialization complete, adding markers...');
-        
-        // Add markers after a small delay
-        setTimeout(() => {
-          updateMapMarkers();
-          map.invalidateSize();
-          console.log('Map fully ready with markers');
-        }, 100);
-
-        // Handle map events
-        map.on('zoomend moveend', () => {
-          map.invalidateSize();
-        });
-        
-      } catch (error) {
-        console.error('Error initializing map:', error);
-        mapError = 'Failed to load map. Please refresh the page.';
-        mapInitializing = false;
-        mapLoaded = false;
-      }
-    }
-  }
-
   // Function to clean up map
   function cleanupMap() {
-    if (map) {
-      map.remove();
-      map = null;
-    }
-    if (mapContainer) {
-      if (mapContainer._leaflet_map) {
-        mapContainer._leaflet_map.remove();
+    try {
+      if (map && typeof map.remove === 'function') {
+        map.remove();
       }
-      mapContainer.innerHTML = '';
-      delete mapContainer._leaflet_id;
-      delete mapContainer._leaflet_map;
+    } catch (error) {
+      console.warn('Error removing map:', error);
+    }
+    map = null;
+    
+    if (mapContainer) {
+      try {
+        if (mapContainer._leaflet_map && typeof mapContainer._leaflet_map.remove === 'function') {
+          mapContainer._leaflet_map.remove();
+        }
+      } catch (error) {
+        console.warn('Error removing leaflet map from container:', error);
+      }
+      
+      try {
+        mapContainer.innerHTML = '';
+      } catch (error) {
+        console.warn('Error clearing container innerHTML:', error);
+      }
+      
+      try { 
+        delete mapContainer._leaflet_id; 
+      } catch(e) { 
+        mapContainer._leaflet_id = undefined; 
+      }
+      try { 
+        delete mapContainer._leaflet_map; 
+      } catch(e) { 
+        mapContainer._leaflet_map = undefined; 
+      }
     }
     mapLoaded = false;
     mapInitializing = false;
   }
 
-  // Watch for view changes
-  $: if (selectedView === 'map') {
-    // Add a small delay to ensure DOM is ready when switching views
-    setTimeout(() => {
-      initializeMapIfNeeded();
-    }, 50);
-  }
-
-  // Update markers when filters change
-  $: if (map && L && mapLoaded && selectedView === 'map') {
-    updateMapMarkers();
+  // Initialize map when switching to map view
+  async function initializeMapIfNeeded() {
+    // Don't initialize if already initializing
+    if (mapInitializing) return;
+    
+    mapInitializing = true;
+    try {
+      mapError = null;
+      mapLoaded = false;
+      
+      // Wait for DOM to be ready
+      await tick();
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      if (!mapContainer) {
+        console.warn('Map container not found');
+        mapInitializing = false;
+        return;
+      }
+      
+      // Only cleanup if there's an existing map instance
+      if (mapContainer._leaflet_id || map) {
+        try {
+          if (map && typeof map.remove === 'function') {
+            map.remove();
+          }
+          map = null;
+          if (mapContainer._leaflet_map && typeof mapContainer._leaflet_map.remove === 'function') {
+            mapContainer._leaflet_map.remove();
+          }
+          mapContainer.innerHTML = '';
+          try { delete mapContainer._leaflet_id; } catch(e) { mapContainer._leaflet_id = undefined; }
+          try { delete mapContainer._leaflet_map; } catch(e) { mapContainer._leaflet_map = undefined; }
+        } catch (error) {
+          console.warn('Error during map cleanup in initialize:', error);
+        }
+      }
+      
+      // Import Leaflet if not already imported
+      if (!L) {
+        L = (await import('leaflet')).default;
+      }
+      
+      // Initialize map
+      map = L.map(mapContainer, {
+        preferCanvas: true,
+        zoomControl: true,
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        boxZoom: true,
+        keyboard: true
+      }).setView([39.8283, -98.5795], 4);
+      
+      mapContainer._leaflet_map = map;
+      
+      // Add tile layer
+      const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+        minZoom: 2
+      });
+      tileLayer.addTo(map);
+      
+      mapLoaded = true;
+      mapInitializing = false;
+      
+      setTimeout(() => {
+        updateMapMarkers();
+        map.invalidateSize();
+      }, 100);
+      
+      map.on('zoomend moveend', () => {
+        map.invalidateSize();
+      });
+    } catch (error) {
+      console.error('Error initializing map:', error);
+      mapError = 'Failed to load map. Please refresh the page.';
+      mapInitializing = false;
+      mapLoaded = false;
+    }
   }
 </script>
 
@@ -975,26 +932,6 @@
         </p>
       </div>
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <!-- View Toggle -->
-        <div class="join w-full sm:w-auto">
-          <button 
-            class="join-item btn btn-sm flex-1 sm:flex-none {selectedView === 'map' ? 'btn-active' : ''}"
-            on:click={switchToMapView}
-            use:motionHover
-          >
-            <Icon icon="heroicons:map-pin" class="w-4 h-4 sm:mr-2" />
-            <span class="hidden sm:inline">{$_("maps.map_view")}</span>
-          </button>
-          <button 
-            class="join-item btn btn-sm flex-1 sm:flex-none {selectedView === 'list' ? 'btn-active' : ''}"
-            on:click={switchToListView}
-            use:motionHover
-          >
-            <Icon icon="heroicons:list-bullet" class="w-4 h-4 sm:mr-2" />
-            <span class="hidden sm:inline">{$_("maps.list_view")}</span>
-          </button>
-        </div>
-        
         <button
           class="btn btn-primary shadow-lg hover:text-primary-content w-full sm:w-auto"
           on:click={openAddJobModal}
@@ -1030,7 +967,6 @@
             </button>
           </div>
         </div>
-
         <!-- Job Type Filter -->
         <div>
           <label class="block text-sm font-medium text-base-content mb-2">
@@ -1042,7 +978,6 @@
             {/each}
           </select>
         </div>
-
         <!-- Experience Filter -->
         <div>
           <label class="block text-sm font-medium text-base-content mb-2">
@@ -1055,7 +990,6 @@
           </select>
         </div>
       </div>
-
       <!-- Results -->
       <div class="flex items-center justify-between mt-6 pt-6 border-t border-base-300">
         <div class="text-sm text-base-content/60">
@@ -1065,44 +999,41 @@
     </div>
   </div>
 
-  <!-- Main Content -->
-  {#if selectedView === 'map'}
-    <!-- Map View -->
-    <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
-      <div class="card-body p-0">
-        <div class="relative h-[600px] w-full">
-          {#if mapError}
-            <div class="flex items-center justify-center h-full bg-base-200 rounded-lg">
-              <div class="text-center">
-                <Icon icon="heroicons:exclamation-triangle" class="w-16 h-16 text-error mx-auto mb-4" />
-                <h3 class="text-lg font-semibold text-base-content mb-2">{$_("maps.map_error")}</h3>
-                <p class="text-base-content/70 mb-4">{mapError}</p>
-                <button class="btn btn-primary" on:click={() => window.location.reload()}>
-                  <Icon icon="heroicons:arrow-path" class="w-4 h-4 mr-2" />
-                  {$_("maps.reload_page")}
-                </button>
-              </div>
+  <!-- Main Content: Map and Job List Side by Side -->
+  <div class="flex flex-col lg:flex-row gap-6 mt-8 max-w-full overflow-x-hidden">
+    <!-- Map -->
+    <div class="lg:w-3/5 w-full h-[500px] lg:h-[700px]">
+      <div class="relative h-full w-full">
+        {#if mapError}
+          <div class="flex items-center justify-center h-full bg-base-200 rounded-lg">
+            <div class="text-center">
+              <Icon icon="heroicons:exclamation-triangle" class="w-16 h-16 text-error mx-auto mb-4" />
+              <h3 class="text-lg font-semibold text-base-content mb-2">{$_("maps.map_error")}</h3>
+              <p class="text-base-content/70 mb-4">{mapError}</p>
+              <button class="btn btn-primary" on:click={() => window.location.reload()}>
+                <Icon icon="heroicons:arrow-path" class="w-4 h-4 mr-2" />
+                {$_("maps.reload_page")}
+              </button>
             </div>
-          {:else}
-            <div bind:this={mapContainer} class="h-full w-full rounded-lg map-container">
-              {#if !mapLoaded || mapInitializing}
-                <div class="absolute inset-0 flex items-center justify-center bg-base-200 rounded-lg z-10">
-                  <div class="text-center">
-                    <div class="loading loading-spinner loading-lg text-primary mb-4"></div>
-                    <p class="text-base-content/70">
-                      {mapInitializing ? 'Initializing map...' : $_("maps.loading_map")}
-                    </p>
-                  </div>
+          </div>
+        {:else}
+          <div bind:this={mapContainer} class="h-full w-full rounded-lg map-container">
+            {#if !mapLoaded || mapInitializing}
+              <div class="absolute inset-0 flex items-center justify-center bg-base-200 rounded-lg z-10">
+                <div class="text-center">
+                  <div class="loading loading-spinner loading-lg text-primary mb-4"></div>
+                  <p class="text-base-content/70">
+                    {mapInitializing ? 'Initializing map...' : $_("maps.loading_map")}
+                  </p>
                 </div>
-              {/if}
-            </div>
-          {/if}
-        </div>
+              </div>
+            {/if}
+          </div>
+        {/if}
       </div>
     </div>
-  {:else}
-    <!-- List View -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" use:motionInView={{ animation: 'fadeInUp' }}>
+    <!-- Job List -->
+    <div class="lg:w-2/5 w-full max-h-[700px] overflow-y-auto overflow-x-hidden max-w-full space-y-4">
       {#each filteredJobs as job (job.id)}
         <div 
           class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200 cursor-pointer"
@@ -1110,7 +1041,6 @@
           use:motionHover
         >
           <div class="card-body">
-            <!-- Company Header -->
             <div class="flex items-start gap-3 mb-4">
               <img 
                 src={job.companyLogo} 
@@ -1131,8 +1061,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Job Details -->
             <div class="space-y-2">
               <div class="flex items-center gap-2 text-sm text-base-content/70">
                 <Icon icon="heroicons:map-pin" class="w-4 h-4" />
@@ -1147,368 +1075,329 @@
                 <span>{job.salary}</span>
               </div>
             </div>
-
-            <!-- Footer -->
             <div class="card-actions justify-between mt-4 pt-4 border-t border-base-300">
-              <div class="text-xs text-base-content/50">{job.posted}</div>
-              <div class="text-xs text-base-content/50">{job.applicants} applicants</div>
+              <div class="flex items-center gap-4 text-xs text-base-content/50">
+                <span>{job.posted}</span>
+                <span>{job.applicants} applicants</span>
+              </div>
+              <button 
+                class="btn btn-primary btn-sm"
+                on:click|stopPropagation={() => openJobDetails(job)}
+              >
+                <Icon icon="heroicons:eye" class="w-4 h-4 mr-1" />
+                {$_("maps.see_job")}
+              </button>
             </div>
           </div>
         </div>
       {/each}
     </div>
-
-    <!-- Pagination for List View -->
-    {#if selectedView === 'list' && totalPages > 1}
-      <div class="flex justify-center mt-8" use:motionInView={{ animation: 'fadeInUp' }}>
-        <div class="join">
-          <button 
-            class="join-item btn btn-sm" 
-            class:btn-disabled={currentPage === 1}
-            on:click={prevPage}
-          >
-            <Icon icon="heroicons:chevron-left" class="w-4 h-4" />
-            Previous
-          </button>
-          
-          {#each Array(totalPages) as _, i}
-            {@const page = i + 1}
-            {#if page === 1 || page === totalPages || (page >= currentPage - 2 && page <= currentPage + 2)}
-              <button 
-                class="join-item btn btn-sm"
-                class:btn-active={currentPage === page}
-                on:click={() => goToPage(page)}
-              >
-                {page}
-              </button>
-            {:else if page === currentPage - 3 || page === currentPage + 3}
-              <span class="join-item btn btn-sm btn-disabled">...</span>
-            {/if}
-          {/each}
-          
-          <button 
-            class="join-item btn btn-sm" 
-            class:btn-disabled={currentPage === totalPages}
-            on:click={nextPage}
-          >
-            Next
-            <Icon icon="heroicons:chevron-right" class="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      <!-- Pagination Info -->
-      <div class="text-center mt-4 text-sm text-base-content/60">
-        Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, allFilteredJobs.length)} of {allFilteredJobs.length} jobs
-      </div>
-    {/if}
-  {/if}
-</div>
-
-<!-- Add Job Modal -->
-{#if showAddJobModal}
-  <div class="modal modal-open">
-    <div class="modal-box w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto">
-      <!-- Modal Header -->
-      <div class="border-b border-base-300 pb-4 mb-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="text-2xl font-bold text-base-content">{$_("maps.add_new_job")}</h3>
-            <p class="text-sm text-base-content/60 mt-1">Fill in the details to post a new job opportunity</p>
+  </div>
+  <!-- Add Job Modal -->
+  {#if showAddJobModal}
+    <div class="modal modal-open">
+      <div class="modal-box w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto" use:motionInView={{ animation: 'scaleIn' }}>
+        <!-- Modal Header -->
+        <div class="border-b border-base-300 pb-4 mb-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-2xl font-bold text-base-content">{$_("maps.add_new_job")}</h3>
+              <p class="text-sm text-base-content/60 mt-1">Fill in the details to post a new job opportunity</p>
+            </div>
+            <button class="btn btn-sm btn-circle btn-ghost" on:click={closeAddJobModal}>✕</button>
           </div>
-          <button class="btn btn-sm btn-circle btn-ghost" on:click={closeAddJobModal}>✕</button>
         </div>
-      </div>
 
-      <!-- Form Content -->
-      <div class="space-y-6">
-        <!-- Basic Information Section -->
-        <div class="card bg-base-100 border border-base-300">
-          <div class="card-body">
-            <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
-              <Icon icon="heroicons:briefcase" class="w-5 h-5 text-primary" />
-              Basic Information
-            </h4>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.job_title")} *</span>
-                  <span class="label-text-alt text-error">Required</span>
-                </label>
-                <input 
-                  type="text" 
-                  bind:value={newJob.title}
-                  placeholder="e.g. Senior Frontend Developer"
-                  class="input input-bordered focus:input-primary" 
-                />
-              </div>
-
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.company")} *</span>
-                  <span class="label-text-alt text-error">Required</span>
-                </label>
-                <input 
-                  type="text" 
-                  bind:value={newJob.company}
-                  placeholder="e.g. Tech Corp"
-                  class="input input-bordered focus:input-primary" 
-                />
-              </div>
-
-              <div class="form-control lg:col-span-2">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.company_logo_url")}</span>
-                  <span class="label-text-alt text-base-content/50">Optional</span>
-                </label>
-                <div class="join w-full">
+        <!-- Form Content -->
+        <div class="space-y-6">
+          <!-- Basic Information Section -->
+          <div class="card bg-base-100 border border-base-300">
+            <div class="card-body">
+              <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
+                <Icon icon="heroicons:briefcase" class="w-5 h-5 text-primary" />
+                Basic Information
+              </h4>
+              
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.job_title")} *</span>
+                    <span class="label-text-alt text-error">Required</span>
+                  </label>
                   <input 
-                    type="url" 
-                    bind:value={newJob.companyLogo}
-                    placeholder="https://logo.clearbit.com/company.com"
-                    class="input input-bordered join-item flex-1 focus:input-primary" 
+                    type="text" 
+                    bind:value={newJob.title}
+                    placeholder="e.g. Senior Frontend Developer"
+                    class="input input-bordered focus:input-primary" 
                   />
-                  {#if newJob.companyLogo}
-                    <div class="join-item flex items-center px-3 bg-base-200 border border-base-300">
-                      <img 
-                        src={newJob.companyLogo} 
-                        alt="Logo preview" 
-                        class="w-6 h-6 rounded object-cover"
-                        on:error={() => {}}
-                      />
-                    </div>
-                  {/if}
+                </div>
+
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.company")} *</span>
+                    <span class="label-text-alt text-error">Required</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    bind:value={newJob.company}
+                    placeholder="e.g. Tech Corp"
+                    class="input input-bordered focus:input-primary" 
+                  />
+                </div>
+
+                <div class="form-control lg:col-span-2">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.company_logo_url")}</span>
+                    <span class="label-text-alt text-base-content/50">Optional</span>
+                  </label>
+                  <div class="join w-full">
+                    <input 
+                      type="url" 
+                      bind:value={newJob.companyLogo}
+                      placeholder="https://logo.clearbit.com/company.com"
+                      class="input input-bordered join-item flex-1 focus:input-primary" 
+                    />
+                    {#if newJob.companyLogo}
+                      <div class="join-item flex items-center px-3 bg-base-200 border border-base-300">
+                        <img 
+                          src={newJob.companyLogo} 
+                          alt="Logo preview" 
+                          class="w-6 h-6 rounded object-cover"
+                          on:error={() => {}}
+                        />
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+
+                <div class="form-control lg:col-span-2">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.address")} *</span>
+                    <span class="label-text-alt text-error">Required</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    bind:value={newJob.address}
+                    placeholder="e.g. New York, NY, USA"
+                    class="input input-bordered focus:input-primary" 
+                  />
+                  <label class="label">
+                    <span class="label-text-alt text-base-content/50">
+                      <Icon icon="heroicons:information-circle" class="w-3 h-3 inline mr-1" />
+                      Include city, state/province, and country for better map placement
+                    </span>
+                  </label>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div class="form-control lg:col-span-2">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.address")} *</span>
-                  <span class="label-text-alt text-error">Required</span>
-                </label>
-                <input 
-                  type="text" 
-                  bind:value={newJob.address}
-                  placeholder="e.g. New York, NY, USA"
-                  class="input input-bordered focus:input-primary" 
-                />
-                <label class="label">
-                  <span class="label-text-alt text-base-content/50">
-                    <Icon icon="heroicons:information-circle" class="w-3 h-3 inline mr-1" />
-                    Include city, state/province, and country for better map placement
-                  </span>
-                </label>
+          <!-- Job Details Section -->
+          <div class="card bg-base-100 border border-base-300">
+            <div class="card-body">
+              <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
+                <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5 text-primary" />
+                Job Details
+              </h4>
+              
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.job_type")}</span>
+                  </label>
+                  <select bind:value={newJob.type} class="select select-bordered focus:select-primary">
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Remote">Remote</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+                  </select>
+                </div>
+
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.experience")}</span>
+                  </label>
+                  <select bind:value={newJob.experience} class="select select-bordered focus:select-primary">
+                    <option value="Entry Level">Entry Level (0-2 years)</option>
+                    <option value="Mid Level">Mid Level (2-5 years)</option>
+                    <option value="Senior Level">Senior Level (5+ years)</option>
+                    <option value="Lead">Lead/Principal (8+ years)</option>
+                  </select>
+                </div>
+
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.salary_range")}</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    bind:value={newJob.salary}
+                    placeholder="e.g. $80,000 - $120,000"
+                    class="input input-bordered focus:input-primary" 
+                  />
+                </div>
+
+                <div class="form-control lg:col-span-3">
+                  <label class="label">
+                    <span class="label-text font-medium text-base-content">{$_("maps.job_description")}</span>
+                  </label>
+                  <textarea 
+                    bind:value={newJob.description}
+                    placeholder="Describe the role, responsibilities, requirements, and what makes this opportunity exciting..."
+                    class="textarea textarea-bordered h-32 focus:textarea-primary"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job Highlights Section -->
+          <div class="card bg-base-100 border border-base-300">
+            <div class="card-body">
+              <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
+                <Icon icon="heroicons:star" class="w-5 h-5 text-primary" />
+                Job Highlights
+              </h4>
+              
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="form-control">
+                  <label class="label cursor-pointer justify-start gap-3">
+                    <input type="checkbox" bind:checked={newJob.featured} class="checkbox checkbox-primary" />
+                    <div>
+                      <span class="label-text font-medium text-base-content flex items-center gap-2">
+                        <Icon icon="heroicons:star-solid" class="w-4 h-4 text-warning" />
+                        {$_("maps.featured")}
+                      </span>
+                      <p class="text-xs text-base-content/60">Highlight this job to attract more candidates</p>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="form-control">
+                  <label class="label cursor-pointer justify-start gap-3">
+                    <input type="checkbox" bind:checked={newJob.urgent} class="checkbox checkbox-error" />
+                    <div>
+                      <span class="label-text font-medium text-base-content flex items-center gap-2">
+                        <Icon icon="heroicons:exclamation-triangle-solid" class="w-4 h-4 text-error" />
+                        {$_("maps.urgent")}
+                      </span>
+                      <p class="text-xs text-base-content/60">Mark as urgent hiring priority</p>
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Job Details Section -->
-        <div class="card bg-base-100 border border-base-300">
-          <div class="card-body">
-            <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
-              <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5 text-primary" />
-              Job Details
-            </h4>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.job_type")}</span>
-                </label>
-                <select bind:value={newJob.type} class="select select-bordered focus:select-primary">
-                  <option value="Full-time">Full-time</option>
-                  <option value="Part-time">Part-time</option>
-                  <option value="Remote">Remote</option>
-                  <option value="Hybrid">Hybrid</option>
-                  <option value="Contract">Contract</option>
-                  <option value="Internship">Internship</option>
-                </select>
-              </div>
-
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.experience")}</span>
-                </label>
-                <select bind:value={newJob.experience} class="select select-bordered focus:select-primary">
-                  <option value="Entry Level">Entry Level (0-2 years)</option>
-                  <option value="Mid Level">Mid Level (2-5 years)</option>
-                  <option value="Senior Level">Senior Level (5+ years)</option>
-                  <option value="Lead">Lead/Principal (8+ years)</option>
-                </select>
-              </div>
-
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.salary_range")}</span>
-                </label>
-                <input 
-                  type="text" 
-                  bind:value={newJob.salary}
-                  placeholder="e.g. $80,000 - $120,000"
-                  class="input input-bordered focus:input-primary" 
-                />
-              </div>
-
-              <div class="form-control lg:col-span-3">
-                <label class="label">
-                  <span class="label-text font-medium text-base-content">{$_("maps.job_description")}</span>
-                </label>
-                <textarea 
-                  bind:value={newJob.description}
-                  placeholder="Describe the role, responsibilities, requirements, and what makes this opportunity exciting..."
-                  class="textarea textarea-bordered h-32 focus:textarea-primary"
-                ></textarea>
-              </div>
+        <!-- Modal Footer -->
+        <div class="border-t border-base-300 pt-6 mt-8">
+          <div class="flex justify-between items-center">
+            <div class="text-sm text-base-content/60">
+              <Icon icon="heroicons:information-circle" class="w-4 h-4 inline mr-1" />
+              Fields marked with * are required
             </div>
-          </div>
-        </div>
-
-        <!-- Job Highlights Section -->
-        <div class="card bg-base-100 border border-base-300">
-          <div class="card-body">
-            <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
-              <Icon icon="heroicons:star" class="w-5 h-5 text-primary" />
-              Job Highlights
-            </h4>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div class="form-control">
-                <label class="label cursor-pointer justify-start gap-3">
-                  <input type="checkbox" bind:checked={newJob.featured} class="checkbox checkbox-primary" />
-                  <div>
-                    <span class="label-text font-medium text-base-content flex items-center gap-2">
-                      <Icon icon="heroicons:star-solid" class="w-4 h-4 text-warning" />
-                      {$_("maps.featured")}
-                    </span>
-                    <p class="text-xs text-base-content/60">Highlight this job to attract more candidates</p>
-                  </div>
-                </label>
-              </div>
-
-              <div class="form-control">
-                <label class="label cursor-pointer justify-start gap-3">
-                  <input type="checkbox" bind:checked={newJob.urgent} class="checkbox checkbox-error" />
-                  <div>
-                    <span class="label-text font-medium text-base-content flex items-center gap-2">
-                      <Icon icon="heroicons:exclamation-triangle-solid" class="w-4 h-4 text-error" />
-                      {$_("maps.urgent")}
-                    </span>
-                    <p class="text-xs text-base-content/60">Mark as urgent hiring priority</p>
-                  </div>
-                </label>
-              </div>
+            <div class="flex gap-3">
+              <button class="btn btn-ghost" on:click={closeAddJobModal}>
+                <Icon icon="heroicons:x-mark" class="w-4 h-4 mr-2" />
+                {$_("maps.cancel")}
+              </button>
+              <button class="btn btn-primary" on:click={saveJob}>
+                <Icon icon="heroicons:plus" class="w-4 h-4 mr-2" />
+                Post Job
+              </button>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="border-t border-base-300 pt-6 mt-8">
-        <div class="flex justify-between items-center">
-          <div class="text-sm text-base-content/60">
-            <Icon icon="heroicons:information-circle" class="w-4 h-4 inline mr-1" />
-            Fields marked with * are required
-          </div>
-          <div class="flex gap-3">
-            <button class="btn btn-ghost" on:click={closeAddJobModal}>
-              <Icon icon="heroicons:x-mark" class="w-4 h-4 mr-2" />
-              {$_("maps.cancel")}
-            </button>
-            <button class="btn btn-primary" on:click={saveJob}>
-              <Icon icon="heroicons:plus" class="w-4 h-4 mr-2" />
-              Post Job
-            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-{/if}
+  {/if}
 
-<!-- Job Details Modal -->
-{#if selectedJob}
-  <div class="modal modal-open">
-    <div class="modal-box w-11/12 max-w-2xl">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" on:click={closeJobDetails}>✕</button>
-      
-      <div class="space-y-6">
-        <!-- Company Header -->
-        <div class="flex items-start gap-4">
-          <img 
-            src={selectedJob.companyLogo} 
-            alt={selectedJob.company}
-            class="w-16 h-16 rounded-xl object-cover bg-base-200"
-            on:error={() => {}}
-          />
-          <div class="flex-1">
-            <h2 class="text-xl font-bold">{selectedJob.title}</h2>
-            <p class="text-lg text-base-content/70">{selectedJob.company}</p>
-            <div class="flex items-center gap-2 mt-2">
-              {#if selectedJob.featured}
-                <span class="badge badge-warning">Featured</span>
-              {/if}
-              {#if selectedJob.urgent}
-                <span class="badge badge-error">Urgent</span>
-              {/if}
-              <span class="badge badge-outline">{selectedJob.type}</span>
+  <!-- Job Details Modal -->
+  {#if selectedJob}
+    <div class="modal modal-open">
+      <div class="modal-box w-11/12 max-w-2xl" use:motionInView={{ animation: 'scaleIn' }}>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" on:click={closeJobDetails}>✕</button>
+        
+        <div class="space-y-6">
+          <!-- Company Header -->
+          <div class="flex items-start gap-4">
+            <img 
+              src={selectedJob.companyLogo} 
+              alt={selectedJob.company}
+              class="w-16 h-16 rounded-xl object-cover bg-base-200"
+              on:error={() => {}}
+            />
+            <div class="flex-1">
+              <h2 class="text-xl font-bold">{selectedJob.title}</h2>
+              <p class="text-lg text-base-content/70">{selectedJob.company}</p>
+              <div class="flex items-center gap-2 mt-2">
+                {#if selectedJob.featured}
+                  <span class="badge badge-warning">Featured</span>
+                {/if}
+                {#if selectedJob.urgent}
+                  <span class="badge badge-error">Urgent</span>
+                {/if}
+                <span class="badge badge-outline">{selectedJob.type}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Key Info -->
-        <div class="grid grid-cols-2 gap-4">
-          <div class="stat bg-base-200 rounded-lg">
-            <div class="stat-title text-xs">{$_("maps.salary")}</div>
-            <div class="stat-value text-lg text-success">{selectedJob.salary}</div>
+          <!-- Key Info -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="stat bg-base-200 rounded-lg">
+              <div class="stat-title text-xs">{$_("maps.salary")}</div>
+              <div class="stat-value text-lg text-success">{selectedJob.salary}</div>
+            </div>
+            <div class="stat bg-base-200 rounded-lg">
+              <div class="stat-title text-xs">{$_("maps.applicants")}</div>
+              <div class="stat-value text-lg">{selectedJob.applicants}</div>
+            </div>
+            <div class="stat bg-base-200 rounded-lg">
+              <div class="stat-title text-xs">{$_("maps.experience")}</div>
+              <div class="stat-value text-sm">{selectedJob.experience}</div>
+            </div>
+            <div class="stat bg-base-200 rounded-lg">
+              <div class="stat-title text-xs">{$_("maps.posted")}</div>
+              <div class="stat-value text-sm">{selectedJob.posted}</div>
+            </div>
           </div>
-          <div class="stat bg-base-200 rounded-lg">
-            <div class="stat-title text-xs">{$_("maps.applicants")}</div>
-            <div class="stat-value text-lg">{selectedJob.applicants}</div>
-          </div>
-          <div class="stat bg-base-200 rounded-lg">
-            <div class="stat-title text-xs">{$_("maps.experience")}</div>
-            <div class="stat-value text-sm">{selectedJob.experience}</div>
-          </div>
-          <div class="stat bg-base-200 rounded-lg">
-            <div class="stat-title text-xs">{$_("maps.posted")}</div>
-            <div class="stat-value text-sm">{selectedJob.posted}</div>
-          </div>
-        </div>
 
-        <!-- Location -->
-        <div>
-          <h4 class="font-semibold mb-2 flex items-center gap-2">
-            <Icon icon="heroicons:map-pin" class="w-4 h-4" />
-            {$_("maps.location")}
-          </h4>
-          <p class="text-base-content/70">{selectedJob.address}</p>
-        </div>
-
-        <!-- Description -->
-        {#if selectedJob.description}
+          <!-- Location -->
           <div>
-            <h4 class="font-semibold mb-2">{$_("maps.description")}</h4>
-            <p class="text-base-content/70">{selectedJob.description}</p>
+            <h4 class="font-semibold mb-2 flex items-center gap-2">
+              <Icon icon="heroicons:map-pin" class="w-4 h-4" />
+              {$_("maps.location")}
+            </h4>
+            <p class="text-base-content/70">{selectedJob.address}</p>
           </div>
-        {/if}
 
-        <!-- Actions -->
-        <div class="flex justify-between">
-          <button class="btn btn-error btn-outline" on:click={() => deleteJob(selectedJob.id)}>
-            <Icon icon="heroicons:trash" class="w-4 h-4 mr-2" />
-            {$_("maps.delete_job")}
-          </button>
-          <button class="btn btn-primary">
-            <Icon icon="heroicons:paper-airplane" class="w-4 h-4 mr-2" />
-            {$_("maps.apply_now")}
-          </button>
+          <!-- Description -->
+          {#if selectedJob.description}
+            <div>
+              <h4 class="font-semibold mb-2">{$_("maps.description")}</h4>
+              <p class="text-base-content/70">{selectedJob.description}</p>
+            </div>
+          {/if}
+
+          <!-- Actions -->
+          <div class="flex justify-between">
+            <button class="btn btn-error btn-outline" on:click={() => deleteJob(selectedJob.id)}>
+              <Icon icon="heroicons:trash" class="w-4 h-4 mr-2" />
+              {$_("maps.delete_job")}
+            </button>
+            <button class="btn btn-primary">
+              <Icon icon="heroicons:paper-airplane" class="w-4 h-4 mr-2" />
+              {$_("maps.apply_now")}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-{/if}
+  {/if}
+</div>
 
 <style>
   /* Map container styling */

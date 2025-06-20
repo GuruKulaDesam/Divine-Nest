@@ -137,7 +137,8 @@
     "salary": "Salary",
     "applicants": "Applicants",
     "experience": "Experience",
-    "posted": "Posted"
+    "posted": "Posted",
+    "see_job": "See Job"
   },
   "analytics": {
     "title": "Analytics",
