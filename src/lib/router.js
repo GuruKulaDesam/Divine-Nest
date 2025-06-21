@@ -1,23 +1,9 @@
 import { writable, readable } from 'svelte/store';
 
-// Get the base path for GitHub Pages
-const getBasePath = () => {
-  if (typeof window !== 'undefined') {
-    const path = window.location.pathname;
-    // If we're on GitHub Pages, strip the repo name from the path
-    if (path.startsWith('/takeka/')) {
-      return '/takeka';
-    }
-  }
-  return '';
-};
-
-// Helper function to get the route path without base
+// Helper function to get the route path
 const getRoutePath = () => {
   if (typeof window === 'undefined') return '/';
-  const basePath = getBasePath();
-  const fullPath = window.location.pathname;
-  return fullPath.startsWith(basePath) ? fullPath.slice(basePath.length) || '/' : fullPath;
+  return window.location.pathname;
 };
 
 // Create a writable store for the current route
@@ -51,11 +37,8 @@ class Router {
   
   // Navigate to a route
   navigate(path, updateHistory = true) {
-    const basePath = getBasePath();
-    const fullPath = basePath + (path === '/' ? '' : path);
-    
     if (updateHistory) {
-      window.history.pushState({}, '', fullPath);
+      window.history.pushState({}, '', path);
     }
     
     currentRoute.set(path);
@@ -81,8 +64,6 @@ class Router {
 export const router = new Router();
 
 export function navigate(path) {
-  const basePath = getBasePath();
-  const fullPath = basePath + (path === '/' ? '' : path);
-  window.history.pushState({}, '', fullPath);
+  window.history.pushState({}, '', path);
   window.dispatchEvent(new PopStateEvent('popstate'));
 } 
