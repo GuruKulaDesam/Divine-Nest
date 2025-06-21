@@ -1,10 +1,30 @@
 import { writable, readable } from 'svelte/store';
 
+// Get the base path for GitHub Pages
+const getBasePath = () => {
+  if (typeof window !== 'undefined') {
+    const path = window.location.pathname;
+    // If we're on GitHub Pages, strip the repo name from the path
+    if (path.startsWith('/takeka/')) {
+      return '/takeka';
+    }
+  }
+  return '';
+};
+
+// Helper function to get the route path without base
+const getRoutePath = () => {
+  if (typeof window === 'undefined') return '/';
+  const basePath = getBasePath();
+  const fullPath = window.location.pathname;
+  return fullPath.startsWith(basePath) ? fullPath.slice(basePath.length) || '/' : fullPath;
+};
+
 // Create a writable store for the current route
 export const currentRoute = writable('/');
 
-export const route = readable(window.location.pathname, set => {
-  const update = () => set(window.location.pathname);
+export const route = readable(getRoutePath(), set => {
+  const update = () => set(getRoutePath());
   window.addEventListener('popstate', update);
   return () => window.removeEventListener('popstate', update);
 });
@@ -17,11 +37,11 @@ class Router {
     
     // Listen for browser navigation
     window.addEventListener('popstate', () => {
-      this.navigate(window.location.pathname, false);
+      this.navigate(getRoutePath(), false);
     });
     
     // Initialize with current path
-    this.navigate(window.location.pathname, false);
+    this.navigate(getRoutePath(), false);
   }
   
   // Add a route
@@ -31,8 +51,11 @@ class Router {
   
   // Navigate to a route
   navigate(path, updateHistory = true) {
+    const basePath = getBasePath();
+    const fullPath = basePath + (path === '/' ? '' : path);
+    
     if (updateHistory) {
-      window.history.pushState({}, '', path);
+      window.history.pushState({}, '', fullPath);
     }
     
     currentRoute.set(path);
@@ -58,6 +81,8 @@ class Router {
 export const router = new Router();
 
 export function navigate(path) {
-  window.history.pushState({}, '', path);
+  const basePath = getBasePath();
+  const fullPath = basePath + (path === '/' ? '' : path);
+  window.history.pushState({}, '', fullPath);
   window.dispatchEvent(new PopStateEvent('popstate'));
 } 

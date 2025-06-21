@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     host: true,
   },
-  base: process.env.NODE_ENV === 'production' ? '/sveltedashboard/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/takeka/' : '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
