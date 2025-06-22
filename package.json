@@ -20,12 +20,19 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.17",
+    "@fullcalendar/daygrid": "^6.1.17",
+    "@fullcalendar/interaction": "^6.1.17",
+    "@fullcalendar/list": "^6.1.17",
+    "@fullcalendar/multimonth": "^6.1.17",
+    "@fullcalendar/timegrid": "^6.1.17",
     "@iconify/svelte": "^5.0.0",
     "@melt-ui/svelte": "^0.86.6",
     "chart.js": "^4.5.0",
     "daisyui": "^5.0.43",
     "leaflet": "^1.9.4",
     "motion": "^12.18.1",
+    "svelte-fullcalendar": "^3.0.0",
     "svelte-i18n": "^4.0.1"
   }
 }

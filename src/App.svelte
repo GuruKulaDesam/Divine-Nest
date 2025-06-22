@@ -9,13 +9,18 @@
   import ProjectManagementPage from './lib/pages/ProjectManagementPage.svelte';
   import ProfilePage from './lib/pages/ProfilePage.svelte';
   import MapsPage from './lib/pages/MapsPage.svelte';
+  import SchedulePage from './lib/pages/SchedulePage.svelte';
   import NotFoundPage from './lib/pages/NotFoundPage.svelte';
   import { route } from './lib/router.js';
   import { pageTransitions } from './lib/utils/motion.js';
+  import { themeActions } from './lib/stores/theme.js';
+  import { isLoading } from 'svelte-i18n';
+  import { i18nReadyPromise } from './lib/i18n/index.js';
 
   let current;
   let pageElement;
   let previousRoute = '';
+  let appReady = false;
 
   $: $route, current =
     $route === '/' ? HomePage
@@ -26,10 +31,11 @@
     : $route === '/projects' ? ProjectManagementPage
     : $route === '/profile' ? ProfilePage
     : $route === '/maps' ? MapsPage
+    : $route === '/schedule' ? SchedulePage
     : NotFoundPage;
 
   // Handle page transitions
-  $: if ($route !== previousRoute && pageElement) {
+  $: if ($route !== previousRoute && pageElement && appReady) {
     // Exit animation for previous page
     if (previousRoute) {
       pageTransitions.exit(pageElement);
@@ -45,19 +51,39 @@
     previousRoute = $route;
   }
   
-  onMount(() => {
+  onMount(async () => {
+    // Initialize theme system
+    themeActions.init();
+    
+    // Wait for i18n to be ready
+    await i18nReadyPromise;
+    
+    // Mark app as ready
+    appReady = true;
+    
     // Initial page animation
-    if (pageElement) {
-      pageTransitions.enter(pageElement);
-    }
+    setTimeout(() => {
+      if (pageElement) {
+        pageTransitions.enter(pageElement);
+      }
+    }, 100);
   });
 </script>
 
-<DashboardLayout>
-  <div bind:this={pageElement} class="page-container scrollable-container">
-    <svelte:component this={current} />
+{#if !appReady || $isLoading}
+  <div class="flex items-center justify-center min-h-screen bg-base-100">
+    <div class="text-center">
+      <div class="loading loading-spinner loading-lg text-primary"></div>
+      <p class="mt-4 text-base-content/60">Loading...</p>
+    </div>
   </div>
-</DashboardLayout>
+{:else}
+  <DashboardLayout>
+    <div bind:this={pageElement} class="page-container scrollable-container">
+      <svelte:component this={current} />
+    </div>
+  </DashboardLayout>
+{/if}
 
 <style>
   .logo {

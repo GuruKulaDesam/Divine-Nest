@@ -1,27 +1,29 @@
 <script>
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
-  import { _ } from 'svelte-i18n';
+  import { _, isLoading } from 'svelte-i18n';
   import { generateUserAvatar, generateFallbackAvatar } from '../utils/avatar.js';
   import { users, menuItems } from '../data/dashboard.js';
   import { navigate, route } from '../router.js';
   import { motionInView, staggerAnimate } from '../utils/motion.js';
+  import ThemeLogo from './ThemeLogo.svelte';
   
   export let isOpen = false;
   
   let sidebarElement;
   let menuItemsElements = [];
   
-  // Create translated menu items
+  // Create translated menu items with fallbacks
   $: translatedMenuItems = [
-    { path: '/', icon: 'heroicons:home', name: $_('navigation.home') },
-    { path: '/users', icon: 'heroicons:users', name: $_('navigation.users') },
-    { path: '/products', icon: 'heroicons:cube', name: $_('navigation.products') },
-    { path: '/analytics', icon: 'heroicons:chart-bar', name: $_('navigation.analytics') },
-    { path: '/projects', icon: 'heroicons:view-columns', name: $_('navigation.projects') },
-    { path: '/maps', icon: 'heroicons:map', name: $_('navigation.maps') },
-    { path: '/profile', icon: 'heroicons:user-circle', name: $_('navigation.profile') },
-    { path: '/settings', icon: 'heroicons:cog-6-tooth', name: $_('navigation.settings') }
+    { path: '/', icon: 'heroicons:home', name: $isLoading ? 'Home' : $_('navigation.home') },
+    { path: '/users', icon: 'heroicons:users', name: $isLoading ? 'Users' : $_('navigation.users') },
+    { path: '/products', icon: 'heroicons:cube', name: $isLoading ? 'Products' : $_('navigation.products') },
+    { path: '/analytics', icon: 'heroicons:chart-bar', name: $isLoading ? 'Analytics' : $_('navigation.analytics') },
+    { path: '/projects', icon: 'heroicons:view-columns', name: $isLoading ? 'Projects' : $_('navigation.projects') },
+    { path: '/maps', icon: 'heroicons:map', name: $isLoading ? 'Maps' : $_('navigation.maps') },
+    { path: '/schedule', icon: 'heroicons:calendar-days', name: $isLoading ? 'Schedule' : $_('navigation.schedule') },
+    { path: '/profile', icon: 'heroicons:user-circle', name: $isLoading ? 'Profile' : $_('navigation.profile') },
+    { path: '/settings', icon: 'heroicons:cog-6-tooth', name: $isLoading ? 'Settings' : $_('navigation.settings') }
   ];
   
   onMount(() => {
@@ -60,7 +62,7 @@
 <div class="fixed inset-y-0 left-0 z-50 w-64 bg-base-100 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 {isOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col h-full">
   <!-- Logo section -->
   <div class="flex items-center justify-center h-16 px-6 border-b border-base-300 flex-shrink-0">
-    <img src="/logo.svg" alt="Logo" class="w-32 h-32">
+    <ThemeLogo width="w-32" height="h-8" alt="Takeka Logo" />
   </div>
   
   <!-- Navigation section - takes up remaining space -->

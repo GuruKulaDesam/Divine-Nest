@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { register, init, getLocaleFromNavigator, locale } from 'svelte-i18n';
+import { register, init, getLocaleFromNavigator, locale, isLoading, waitLocale } from 'svelte-i18n';
 
 // Available languages
 export const languages = {
@@ -79,8 +79,31 @@ register('id', () => import('./locales/id.json'));
 register('es', () => import('./locales/es.json'));
 register('ko', () => import('./locales/ko.json'));
 
-// Initialize i18n
-init({
-  fallbackLocale: 'en',
-  initialLocale: getInitialLanguage(),
-}); 
+// Create a promise that resolves when i18n is ready
+let i18nReady = false;
+const i18nReadyPromise = new Promise(async (resolve) => {
+  try {
+    await init({
+      fallbackLocale: 'en',
+      initialLocale: getInitialLanguage(),
+    });
+    
+    // Wait for the initial locale to load
+    await waitLocale();
+    
+    i18nReady = true;
+    resolve(true);
+  } catch (error) {
+    console.warn('i18n initialization failed:', error);
+    i18nReady = true; // Consider it ready even if failed
+    resolve(true);
+  }
+});
+
+// Export the loading state and ready promise
+export { isLoading, i18nReadyPromise };
+
+// Helper function to check if i18n is ready
+export function isI18nReady() {
+  return i18nReady;
+} 

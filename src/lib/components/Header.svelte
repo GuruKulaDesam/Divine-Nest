@@ -8,8 +8,9 @@
   import NotificationDropdown from './NotificationDropdown.svelte';
   import MessageDropdown from './MessageDropdown.svelte';
   import LanguageSwitcher from './LanguageSwitcher.svelte';
+  import ThemeToggle from './ThemeToggle.svelte';
   import { getUnreadNotificationsCount, getUnreadMessagesCount } from '../data/notifications.js';
-  import { _ } from 'svelte-i18n';
+  import { _, isLoading } from 'svelte-i18n';
   
   export let sidebarOpen = false;
   
@@ -29,6 +30,21 @@
   
   // Function to get current page name based on route
   function getCurrentPageName(route) {
+    if ($isLoading) {
+      const fallbackMap = {
+        '/': 'Home',
+        '/users': 'Users', 
+        '/products': 'Products',
+        '/analytics': 'Analytics',
+        '/settings': 'Settings',
+        '/maps': 'Maps',
+        '/schedule': 'Schedule',
+        '/profile': 'Profile',
+        '/projects': 'Projects'
+      };
+      return fallbackMap[route] || 'Home';
+    }
+    
     const routeMap = {
       '/': $_('navigation.home'),
       '/users': $_('navigation.users'), 
@@ -36,6 +52,7 @@
       '/analytics': $_('navigation.analytics'),
       '/settings': $_('navigation.settings'),
       '/maps': $_('navigation.maps'),
+      '/schedule': $_('navigation.schedule'),
       '/profile': $_('navigation.profile'),
       '/projects': $_('navigation.projects')
     };
@@ -169,6 +186,9 @@
       
       <!-- Language Switcher -->
       <LanguageSwitcher />
+      
+      <!-- Theme Toggle -->
+      <ThemeToggle />
       
       <!-- Notifications -->
       <div class="relative notification-menu">
