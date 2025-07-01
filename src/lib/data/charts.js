@@ -157,6 +157,16 @@ export const sampleData = {
     users: Array.from({length: 30}, () => Math.floor(Math.random() * 500) + 200),
     conversions: Array.from({length: 30}, () => Math.floor(Math.random() * 100) + 50),
     engagement: Array.from({length: 30}, () => Math.floor(Math.random() * 30) + 60)
+  },
+  // Yearly data for past 5 years
+  yearly: {
+    labels: ['2019', '2020', '2021', '2022', '2023'],
+    revenue: [150000, 175000, 200000, 225000, 250000],
+    sales: [120000, 140000, 160000, 180000, 200000],
+    users: [15000, 16000, 17000, 18000, 19000],
+    orders: [10000, 11000, 12000, 13000, 14000],
+    conversions: [5000, 6000, 7000, 8000, 9000],
+    engagement: [70, 75, 80, 85, 90]
   }
 };
 

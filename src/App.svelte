@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import DashboardLayout from './lib/components/DashboardLayout.svelte';
   import HomePage from './lib/pages/HomePage.svelte';
-  import UsersPage from './lib/components/UsersPage.svelte';
+  import UsersPage from './lib/pages/UsersPage.svelte';
   import ProductsPage from './lib/pages/ProductsPage.svelte';
   import SettingsPage from './lib/pages/SettingsPage.svelte';
   import AnalyticsPage from './lib/pages/AnalyticsPage.svelte';
@@ -11,7 +11,13 @@
   import MapsPage from './lib/pages/MapsPage.svelte';
   import SchedulePage from './lib/pages/SchedulePage.svelte';
   import NotFoundPage from './lib/pages/NotFoundPage.svelte';
-  import { route } from './lib/router.js';
+  import LoginPage from './lib/pages/LoginPage.svelte';
+  import LoginV2 from './lib/pages/LoginV2.svelte';
+  import LoginV3 from './lib/pages/LoginV3.svelte';
+  import RegisterPage from './lib/pages/RegisterPage.svelte';
+  import RegisterV2 from './lib/pages/RegisterV2.svelte';
+  import RegisterV3 from './lib/pages/RegisterV3.svelte';
+  import { currentRoute } from './lib/router.js';
   import { pageTransitions } from './lib/utils/motion.js';
   import { themeActions } from './lib/stores/theme.js';
   import { isLoading } from 'svelte-i18n';
@@ -21,21 +27,34 @@
   let pageElement;
   let previousRoute = '';
   let appReady = false;
+  let showFullPage = false;
 
-  $: $route, current =
-    $route === '/' ? HomePage
-    : $route === '/users' ? UsersPage
-    : $route === '/products' ? ProductsPage
-    : $route === '/settings' ? SettingsPage
-    : $route === '/analytics' ? AnalyticsPage
-    : $route === '/projects' ? ProjectManagementPage
-    : $route === '/profile' ? ProfilePage
-    : $route === '/maps' ? MapsPage
-    : $route === '/schedule' ? SchedulePage
-    : NotFoundPage;
+  $: {
+    // Determine if we should show a full page (without dashboard layout)
+    showFullPage = $currentRoute.startsWith('/auth/');
+    
+    // Update current component based on route
+    current = 
+      $currentRoute === '/' ? HomePage
+      : $currentRoute === '/users' ? UsersPage
+      : $currentRoute === '/products' ? ProductsPage
+      : $currentRoute === '/settings' ? SettingsPage
+      : $currentRoute === '/analytics' ? AnalyticsPage
+      : $currentRoute === '/projects' ? ProjectManagementPage
+      : $currentRoute === '/profile' ? ProfilePage
+      : $currentRoute === '/maps' ? MapsPage
+      : $currentRoute === '/schedule' ? SchedulePage
+      : $currentRoute === '/auth/login' ? LoginPage
+      : $currentRoute === '/auth/login-v2' ? LoginV2
+      : $currentRoute === '/auth/login-v3' ? LoginV3
+      : $currentRoute === '/auth/register' ? RegisterPage
+      : $currentRoute === '/auth/register-v2' ? RegisterV2
+      : $currentRoute === '/auth/register-v3' ? RegisterV3
+      : NotFoundPage;
+  }
 
   // Handle page transitions
-  $: if ($route !== previousRoute && pageElement && appReady) {
+  $: if ($currentRoute !== previousRoute && pageElement && appReady) {
     // Exit animation for previous page
     if (previousRoute) {
       pageTransitions.exit(pageElement);
@@ -48,7 +67,7 @@
       }
     }, 100);
     
-    previousRoute = $route;
+    previousRoute = $currentRoute;
   }
   
   onMount(async () => {
@@ -78,11 +97,17 @@
     </div>
   </div>
 {:else}
-  <DashboardLayout>
-    <div bind:this={pageElement} class="page-container scrollable-container">
+  {#if showFullPage}
+    <div bind:this={pageElement}>
       <svelte:component this={current} />
     </div>
-  </DashboardLayout>
+  {:else}
+    <DashboardLayout>
+      <div bind:this={pageElement} class="page-container scrollable-container">
+        <svelte:component this={current} />
+      </div>
+    </DashboardLayout>
+  {/if}
 {/if}
 
 <style>

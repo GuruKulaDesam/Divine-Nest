@@ -110,9 +110,25 @@
   }
   
   function handleLogout() {
-    // Handle logout logic here
-    console.log('Logging out...');
+    // Array of login version paths
+    const loginPaths = [
+      '/auth/login',
+      '/auth/login-v2',
+      '/auth/login-v3'
+    ];
+    
+    // Get random login path
+    const randomIndex = Math.floor(Math.random() * loginPaths.length);
+    const randomLoginPath = loginPaths[randomIndex];
+    
+    // Close user menu first
     closeUserMenu();
+    
+    // Small delay to allow menu animation to complete
+    setTimeout(() => {
+      // Navigate to random login page
+      navigate(randomLoginPath);
+    }, 150);
   }
   
   function handleProfile() {

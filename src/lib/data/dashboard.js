@@ -34,6 +34,38 @@ export const users = {
       action: 'downloaded',
       item: 'Product Catalog',
       time: '10 minutes ago'
+    },
+    {
+      id: 4,
+      name: 'Alice Brown',
+      email: 'alice.brown@example.com',
+      action: 'reviewed',
+      item: 'Bug #456',
+      time: '15 minutes ago'
+    },
+    {
+      id: 5,
+      name: 'Bob Martin',
+      email: 'bob.martin@example.com',
+      action: 'commented on',
+      item: 'Task ABC',
+      time: '20 minutes ago'
+    },
+    {
+      id: 6,
+      name: 'Carol Lee',
+      email: 'carol.lee@example.com',
+      action: 'approved',
+      item: 'Merge Request',
+      time: '30 minutes ago'
+    },
+    {
+      id: 7,
+      name: 'David Kim',
+      email: 'david.kim@example.com',
+      action: 'archived',
+      item: 'Project XYZ',
+      time: '45 minutes ago'
     }
   ]
 };

@@ -1,18 +1,67 @@
-import { writable, readable } from 'svelte/store';
+import { writable } from 'svelte/store';
+import HomePage from './pages/HomePage.svelte';
+import UsersPage from './pages/UsersPage.svelte';
+import ProductsPage from './pages/ProductsPage.svelte';
+import AnalyticsPage from './pages/AnalyticsPage.svelte';
+import ProjectManagementPage from './pages/ProjectManagementPage.svelte';
+import MapsPage from './pages/MapsPage.svelte';
+import SchedulePage from './pages/SchedulePage.svelte';
+import ProfilePage from './pages/ProfilePage.svelte';
+import SettingsPage from './pages/SettingsPage.svelte';
+import LoginPage from './pages/LoginPage.svelte';
+import LoginV2 from './pages/LoginV2.svelte';
+import LoginV3 from './pages/LoginV3.svelte';
+import RegisterPage from './pages/RegisterPage.svelte';
+import RegisterV2 from './pages/RegisterV2.svelte';
+import RegisterV3 from './pages/RegisterV3.svelte';
+import NotFoundPage from './pages/NotFoundPage.svelte';
 
-// Helper function to get the route path
-const getRoutePath = () => {
-  if (typeof window === 'undefined') return '/';
-  return window.location.pathname;
+// Create stores for routing
+const currentRoute = writable(window.location.pathname);
+const navigationHistory = writable([]);
+
+// Define routes
+const routes = {
+  '/': HomePage,
+  '/users': UsersPage,
+  '/products': ProductsPage,
+  '/analytics': AnalyticsPage,
+  '/projects': ProjectManagementPage,
+  '/maps': MapsPage,
+  '/schedule': SchedulePage,
+  '/profile': ProfilePage,
+  '/settings': SettingsPage,
+  '/auth/login': LoginPage,
+  '/auth/login-v2': LoginV2,
+  '/auth/login-v3': LoginV3,
+  '/auth/register': RegisterPage,
+  '/auth/register-v2': RegisterV2,
+  '/auth/register-v3': RegisterV3,
+  '*': NotFoundPage
 };
 
-// Create a writable store for the current route
-export const currentRoute = writable('/');
+// Helper function to get the route path
+function getPath() {
+  return window.location.pathname;
+}
 
-export const route = readable(getRoutePath(), set => {
-  const update = () => set(getRoutePath());
-  window.addEventListener('popstate', update);
-  return () => window.removeEventListener('popstate', update);
+// Navigation function
+function navigate(path) {
+  if (path === getPath()) return;
+  router.navigate(path);
+  
+  // Update navigation history
+  navigationHistory.update(history => [...history, path]);
+}
+
+// Handle browser back/forward
+window.addEventListener('popstate', () => {
+  router.navigate(window.location.pathname, false);
+});
+
+// Handle initial load
+window.addEventListener('load', () => {
+  router.navigate(window.location.pathname, false);
 });
 
 // Router class
@@ -21,13 +70,18 @@ class Router {
     this.routes = new Map();
     this.currentComponent = null;
     
+    // Initialize all routes
+    Object.entries(routes).forEach(([path, component]) => {
+      this.add(path, component);
+    });
+    
     // Listen for browser navigation
     window.addEventListener('popstate', () => {
-      this.navigate(getRoutePath(), false);
+      this.navigate(window.location.pathname, false);
     });
     
     // Initialize with current path
-    this.navigate(getRoutePath(), false);
+    this.navigate(window.location.pathname, false);
   }
   
   // Add a route
@@ -60,10 +114,14 @@ class Router {
   }
 }
 
-// Create and export router instance
-export const router = new Router();
+// Create router instance
+const router = new Router();
 
-export function navigate(path) {
-  window.history.pushState({}, '', path);
-  window.dispatchEvent(new PopStateEvent('popstate'));
-} 
+// Export everything needed
+export {
+  router,
+  routes,
+  currentRoute,
+  navigationHistory,
+  navigate
+}; 

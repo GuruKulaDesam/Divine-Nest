@@ -237,35 +237,33 @@
 <div class="space-y-6">
   <!-- Page header -->
   <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <h1 class="text-3xl font-bold text-base-content">{$_('projects.title')}</h1>
         <p class="mt-2 text-sm text-base-content/60">
           {$_('projects.description')}
         </p>
       </div>
-      <div class="flex items-center space-x-4">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <!-- Search -->
-        <div class="form-control">
-          <div class="input-group">
-            <input
-              type="text"
-              bind:value={searchQuery}
-              placeholder={$_('projects.search_placeholder')}
-              class="input input-bordered"
-            />
-            <button class="btn btn-square">
-              <Icon icon="heroicons:magnifying-glass" class="w-5 h-5" />
-            </button>
+        <div class="relative">
+          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <Icon icon="ph:magnifying-glass" class="w-5 h-5 text-base-content/40" />
           </div>
+          <input
+            type="text"
+            bind:value={searchQuery}
+            placeholder={$_('projects.search_placeholder')}
+            class="input input-bordered w-full sm:w-[280px] ps-10"
+          />
         </div>
         <!-- Add Task Button -->
         <button
-          class="btn btn-primary shadow-lg hover:text-primary-content"
+          class="btn btn-primary shadow-lg hover:text-primary-content whitespace-nowrap"
           on:click={openAddTaskModal}
           use:motionHover
         >
-          <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+          <Icon icon="ph:plus" class="w-5 h-5 mr-2" />
           {$_('projects.add_task')}
         </button>
       </div>

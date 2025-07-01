@@ -13,11 +13,21 @@
     "users": "사용자",
     "products": "제품",
     "analytics": "분석",
-    "settings": "설정",
     "projects": "프로젝트",
     "maps": "지도",
     "schedule": "일정",
-    "profile": "프로필"
+    "profile": "프로필",
+    "settings": "설정",
+    "account": "계정",
+    "authentication": "인증",
+    "login": "로그인",
+    "register": "회원가입",
+    "login_v1": "로그인 V1",
+    "login_v2": "로그인 V2",
+    "login_v3": "로그인 V3",
+    "register_v1": "회원가입 V1",
+    "register_v2": "회원가입 V2",
+    "register_v3": "회원가입 V3"
   },
   "users": {
     "title": "사용자",
@@ -282,7 +292,9 @@
     "view": "보기",
     "add": "추가",
     "update": "업데이트",
-    "no_data": "데이터가 없습니다"
+    "no_data": "데이터가 없습니다",
+    "logout": "로그아웃",
+    "clear_filters": "필터 지우기"
   },
   "notifications": {
     "title": "알림",

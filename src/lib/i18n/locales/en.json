@@ -13,11 +13,21 @@
     "users": "Users",
     "products": "Products",
     "analytics": "Analytics",
-    "settings": "Settings",
     "projects": "Projects",
     "maps": "Maps",
     "schedule": "Schedule",
-    "profile": "Profile"
+    "profile": "Profile",
+    "settings": "Settings",
+    "account": "Account",
+    "authentication": "Authentication",
+    "login": "Login",
+    "register": "Register",
+    "login_v1": "Login V1",
+    "login_v2": "Login V2",
+    "login_v3": "Login V3",
+    "register_v1": "Register V1",
+    "register_v2": "Register V2",
+    "register_v3": "Register V3"
   },
   "users": {
     "title": "Users",
@@ -273,6 +283,7 @@
     "less": "Less",
     "quick_actions": "Quick Actions",
     "clear": "Clear",
+    "logout": "Logout",
     "never": "Never",
     "just_now": "Just now",
     "delete": "Delete",
@@ -282,7 +293,8 @@
     "view": "View",
     "add": "Add",
     "update": "Update",
-    "no_data": "No data available"
+    "no_data": "No data available",
+    "clear_filters": "Clear Filters"
   },
   "notifications": {
     "title": "Notifications",
@@ -407,5 +419,21 @@
   "deleteConfirmation": {
     "title": "Confirm Delete",
     "message": "Are you sure you want to delete this item? This action cannot be undone."
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Create Account",
+    "register_description": "Create an account to get started",
+    "email": "Email address",
+    "password": "Password",
+    "full_name": "Full name",
+    "agree_terms": "I agree to the Terms of Service and Privacy Policy",
+    "create_account": "Create account",
+    "already_have_account": "Already have an account?",
+    "sign_in": "Sign in",
+    "or": "Or",
+    "continue_with_google": "Sign up with Google",
+    "continue_with_github": "Sign up with GitHub",
+    "continue_with_facebook": "Sign up with Facebook"
   }
 } 

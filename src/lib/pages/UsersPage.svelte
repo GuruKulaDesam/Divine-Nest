@@ -5,7 +5,7 @@
   import { generateUserAvatar, generateFallbackAvatar } from '../utils/avatar.js';
   import { users, userStats, userRoles, userStatuses, departments, userColumns } from '../data/users.js';
   import { motionInView, staggerAnimate, motionHover } from '../utils/motion.js';
-  import DeleteConfirmationModal from './DeleteConfirmationModal.svelte';
+  import DeleteConfirmationModal from '../components/DeleteConfirmationModal.svelte';
   
   let filteredUsers = [...users];
   let searchTerm = '';
@@ -248,96 +248,85 @@
   <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInUp' }}>
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
       <!-- Search -->
-      <div class="flex-1 max-w-md">
-        <div class="form-control">
-          <div class="input-group">
-            <input
-              type="text"
-              placeholder={$_('users.search_users')}
-              bind:value={searchTerm}
-              class="input input-bordered"
-            />
-            <button class="btn btn-square">
-              <Icon icon="heroicons:magnifying-glass" class="h-5 w-5" />
-            </button>
+      <div class="flex-1">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Icon icon="heroicons:magnifying-glass" class="h-5 w-5 text-gray-400" />
           </div>
+          <input
+            type="text"
+            bind:value={searchTerm}
+            placeholder={$_('users.search_placeholder')}
+            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
+          />
         </div>
       </div>
       
       <!-- Filters -->
-      <div class="flex flex-wrap items-center space-x-4">
-        <div class="form-control">
-          <select
-            bind:value={selectedRole}
-            class="select select-bordered select-sm"
-          >
-            <option value="">{$_('users.all_roles')}</option>
-            {#each translatedUserRoles as role}
-              <option value={role.id}>{role.name}</option>
-            {/each}
-          </select>
-        </div>
+      <div class="flex flex-wrap gap-4">
+        <select
+          bind:value={selectedRole}
+          class="block w-full sm:w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-lg"
+        >
+          <option value="">{$_('users.all_roles')}</option>
+          {#each translatedUserRoles as role}
+            <option value={role.id}>{role.name}</option>
+          {/each}
+        </select>
         
-        <div class="form-control">
-          <select
-            bind:value={selectedStatus}
-            class="select select-bordered select-sm"
-          >
-            <option value="">{$_('users.all_statuses')}</option>
-            {#each translatedUserStatuses as status}
-              <option value={status.id}>{status.name}</option>
-            {/each}
-          </select>
-        </div>
+        <select
+          bind:value={selectedStatus}
+          class="block w-full sm:w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-lg"
+        >
+          <option value="">{$_('users.all_statuses')}</option>
+          {#each translatedUserStatuses as status}
+            <option value={status.id}>{status.name}</option>
+          {/each}
+        </select>
         
-        <div class="form-control">
-          <select
-            bind:value={selectedDepartment}
-            class="select select-bordered select-sm"
-          >
-            <option value="">{$_('users.all_departments')}</option>
-            {#each departments as dept}
-              <option value={dept}>{dept}</option>
-            {/each}
-          </select>
-        </div>
+        <select
+          bind:value={selectedDepartment}
+          class="block w-full sm:w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-lg"
+        >
+          <option value="">{$_('users.all_departments')}</option>
+          {#each departments as department}
+            <option value={department}>{department}</option>
+          {/each}
+        </select>
         
         <button
+          class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           on:click={clearFilters}
-          class="btn btn-outline btn-sm"
-          use:motionHover
         >
-          {$_('common.clear')}
+          <Icon icon="heroicons:x-mark" class="h-5 w-5 mr-2" />
+          {$_('common.clear_filters')}
         </button>
       </div>
     </div>
   </div>
   
   <!-- Users table -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden" use:motionInView={{ animation: 'fadeInUp' }}>
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden" use:motionInView={{ animation: 'fadeInUp', delay: 0.2 }}>
     <div class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
             {#each translatedUserColumns as column}
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {#if column.sortable}
-                  <button
-                    class="flex items-center space-x-1 hover:text-gray-700 transition-colors duration-200"
-                    on:click={() => handleSort(column.key)}
-                    use:motionHover
-                  >
-                    <span>{column.label}</span>
-                    {#if sortBy === column.key}
-                      <Icon 
-                        icon={sortDirection === 'asc' ? 'heroicons:chevron-up' : 'heroicons:chevron-down'} 
-                        class="w-4 h-4" 
-                      />
-                    {/if}
-                  </button>
-                {:else}
-                  {column.label}
-                {/if}
+              <th 
+                scope="col" 
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                class:cursor-pointer={column.sortable}
+                on:click={() => column.sortable && handleSort(column.key)}
+              >
+                <div class="flex items-center space-x-1">
+                  <span>{column.label}</span>
+                  {#if column.sortable && sortBy === column.key}
+                    <Icon 
+                      icon={sortDirection === 'asc' ? 'heroicons:chevron-up' : 'heroicons:chevron-down'} 
+                      class="h-4 w-4"
+                    />
+                  {/if}
+                </div>
               </th>
             {/each}
           </tr>
@@ -346,83 +335,62 @@
           {#each filteredUsers as user, index}
             <tr 
               bind:this={userRowElements[index]}
-              class="hover:bg-gray-50 transition-colors duration-200"
-              use:motionHover
+              class="hover:bg-gray-50 transition-colors"
             >
-              <!-- Name -->
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
-                  <img
-                    class="w-10 h-10 rounded-full object-cover bg-gray-100"
-                    src={generateUserAvatar(user, 'avataaars')}
-                    alt={user.name}
-                    on:error={(e) => {
-                      const target = e.target;
-                      if (target instanceof HTMLImageElement) {
-                        target.src = generateFallbackAvatar(user);
-                      }
-                    }}
-                  >
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <img 
+                      src={generateUserAvatar(user.name)} 
+                      alt={user.name}
+                      class="h-10 w-10 rounded-full"
+                      on:error={(e) => e.target.src = generateFallbackAvatar(user.name)}
+                    />
+                  </div>
                   <div class="ml-4">
                     <div class="text-sm font-medium text-gray-900">{user.name}</div>
                   </div>
                 </div>
               </td>
-              
-              <!-- Email -->
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">{user.email}</div>
               </td>
-              
-              <!-- Role -->
               <td class="px-6 py-4 whitespace-nowrap">
                 {#if getRoleInfo(user.role)}
-                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {getRoleInfo(user.role).color}">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {getRoleInfo(user.role).color}">
                     {getRoleInfo(user.role).name}
                   </span>
                 {/if}
               </td>
-              
-              <!-- Department -->
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {user.department}
               </td>
-              
-              <!-- Status -->
               <td class="px-6 py-4 whitespace-nowrap">
                 {#if getStatusInfo(user.status)}
-                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {getStatusInfo(user.status).color}">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {getStatusInfo(user.status).color}">
                     {getStatusInfo(user.status).name}
                   </span>
                 {/if}
               </td>
-              
-              <!-- Last Active -->
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {formatLastActive(user.lastActive)}
               </td>
-              
-              <!-- Join Date -->
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {formatDate(user.joinDate)}
               </td>
-              
-              <!-- Actions -->
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex items-center space-x-2">
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <div class="flex items-center space-x-3 justify-end">
                   <button
+                    class="text-primary-600 hover:text-primary-900"
                     on:click={() => handleEditUser(user)}
-                    class="text-primary-600 hover:text-primary-900 transition-colors duration-200"
-                    use:motionHover
                   >
-                    <Icon icon="heroicons:pencil-square" class="w-4 h-4" />
+                    <Icon icon="heroicons:pencil-square" class="h-5 w-5" />
                   </button>
                   <button
+                    class="text-red-600 hover:text-red-900"
                     on:click={() => handleDeleteUser(user)}
-                    class="text-red-600 hover:text-red-900 transition-colors duration-200"
-                    use:motionHover
                   >
-                    <Icon icon="heroicons:trash" class="w-4 h-4" />
+                    <Icon icon="heroicons:trash" class="h-5 w-5" />
                   </button>
                 </div>
               </td>
@@ -431,31 +399,15 @@
         </tbody>
       </table>
     </div>
-    
-    <!-- Empty state -->
-    {#if filteredUsers.length === 0}
-      <div class="text-center py-12" use:motionInView={{ animation: 'fadeInUp' }}>
-        <Icon icon="heroicons:users" class="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <h3 class="text-lg font-medium text-gray-900 mb-2">{$_('users.no_users_found')}</h3>
-        <p class="text-gray-500">{$_('users.try_adjusting_search')}</p>
-      </div>
-    {/if}
-  </div>
-  
-  <!-- Pagination info -->
-  <div class="flex items-center justify-between text-sm text-gray-700" use:motionInView={{ animation: 'fadeInUp' }}>
-    <div>
-      {$_('users.showing')} <span class="font-medium">{filteredUsers.length}</span> {$_('users.of')} <span class="font-medium">{users.length}</span> {$_('users.users')}
-    </div>
   </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<DeleteConfirmationModal
-  bind:isOpen={showDeleteModal}
-  title={$_('deleteConfirmation.title')}
-  message={$_('deleteConfirmation.message')}
-  itemName={userToDelete?.name || ''}
-  on:confirm={handleDeleteConfirm}
-  on:cancel={handleDeleteCancel}
-/> 
+<!-- Delete confirmation modal -->
+{#if showDeleteModal}
+  <DeleteConfirmationModal
+    title={$_('users.delete_user')}
+    message={$_('users.delete_user_confirm', { values: { name: userToDelete?.name } })}
+    onConfirm={handleDeleteConfirm}
+    onCancel={handleDeleteCancel}
+  />
+{/if} 

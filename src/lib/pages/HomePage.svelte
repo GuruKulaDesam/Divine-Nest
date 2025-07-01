@@ -3,13 +3,25 @@
   import Icon from '@iconify/svelte';
   import { generateUserAvatar, generateFallbackAvatar } from '../utils/avatar.js';
   import RevenueChart from '../components/RevenueChart.svelte';
-  import { stats, chartData, users, quickActions } from '../data/dashboard.js';
+  import { stats, users, quickActions } from '../data/dashboard.js';
   import { motionInView, staggerAnimate, motionHover } from '../utils/motion.js';
+  import { sampleData } from '../data/charts.js';
   
   let chart;
   let statsElements = [];
   let activityElements = [];
   let actionElements = [];
+  
+  // Revenue filter period: 'weekly', 'monthly', or 'yearly'
+  let period = 'monthly';
+  // Build data for RevenueChart based on selected period
+  $: revenueOverviewData = {
+    labels: sampleData[period].labels,
+    datasets: [
+      { ...sampleData[period], data: sampleData[period].revenue, label: 'Revenue', backgroundColor: 'rgba(59, 130, 246, 0.8)', borderColor: 'rgb(59, 130, 246)' },
+      { ...sampleData[period], data: sampleData[period].sales, label: 'Sales', backgroundColor: 'rgba(34, 197, 94, 0.8)', borderColor: 'rgb(34, 197, 94)' }
+    ]
+  };
   
   onMount(() => {
     // Animate stats cards with stagger
@@ -81,46 +93,50 @@
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-semibold text-gray-900">Revenue Overview</h2>
         <div class="flex items-center space-x-2">
-          <button class="px-3 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200" use:motionHover>
+          <button on:click={() => period = 'weekly'} class="px-3 py-1 text-sm rounded-lg transition-colors duration-200 {period === 'weekly' ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" use:motionHover>
             Weekly
           </button>
-          <button class="px-3 py-1 text-sm bg-primary-100 text-primary-700 rounded-lg" use:motionHover>
+          <button on:click={() => period = 'monthly'} class="px-3 py-1 text-sm rounded-lg transition-colors duration-200 {period === 'monthly' ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" use:motionHover>
             Monthly
           </button>
-          <button class="px-3 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200" use:motionHover>
+          <button on:click={() => period = 'yearly'} class="px-3 py-1 text-sm rounded-lg transition-colors duration-200 {period === 'yearly' ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}" use:motionHover>
             Yearly
           </button>
         </div>
       </div>
-      <RevenueChart />
+      <RevenueChart data={revenueOverviewData} />
     </div>
     
     <!-- Recent Activity -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInRight' }}>
       <h2 class="text-lg font-semibold text-gray-900 mb-6">Recent Activity</h2>
-      <div class="space-y-4">
-        {#each users.recentActivity as activity, index}
-          <div 
+      <div class="max-h-80 overflow-y-auto divide-y divide-gray-200">
+        {#each users.recent as activity, index}
+          <div
             bind:this={activityElements[index]}
-            class="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
             use:motionHover
+            class="flex items-start justify-between p-4 mx-2 transition-colors duration-200 hover:bg-gray-50"
           >
-            <img 
-              class="w-8 h-8 rounded-full object-cover bg-gray-100" 
-              src={generateUserAvatar(activity, 'default')}
-              alt={activity.user}
-              on:error={(e) => {
-                const target = e.target;
-                if (target instanceof HTMLImageElement) {
-                  target.src = generateFallbackAvatar(activity);
-                }
-              }}
-            >
-            <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-gray-900">{activity.user}</p>
-              <p class="text-sm text-gray-500">{activity.action}</p>
-              <p class="text-xs text-gray-400">{activity.time}</p>
+            <div class="flex items-start space-x-3">
+              <img
+                class="w-8 h-8 rounded-full object-cover bg-gray-100"
+                src={generateUserAvatar(activity, 'default')}
+                alt={activity.name}
+                on:error={(e) => {
+                  const target = e.target;
+                  if (target instanceof HTMLImageElement) {
+                    target.src = generateFallbackAvatar(activity);
+                  }
+                }}
+              />
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">{activity.name}</p>
+                <p class="text-sm text-gray-500">
+                  {activity.action} <span class="font-semibold text-gray-900">{activity.item}</span>
+                </p>
+              </div>
             </div>
+            <p class="text-xs text-gray-400 whitespace-nowrap">{activity.time}</p>
           </div>
         {/each}
       </div>
@@ -148,4 +164,4 @@
       {/each}
     </div>
   </div>
-</div> 
+</div>  

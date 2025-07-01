@@ -12,12 +12,22 @@
     "home": "Inicio",
     "users": "Usuarios",
     "products": "Productos",
-    "analytics": "Analíticas",
+    "analytics": "Análisis",
     "settings": "Configuración",
     "projects": "Proyectos",
     "maps": "Mapas",
-    "schedule": "Horario",
-    "profile": "Perfil"
+    "schedule": "Calendario",
+    "profile": "Perfil",
+    "account": "Cuenta",
+    "authentication": "Autenticación",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "login_v1": "Iniciar sesión V1",
+    "login_v2": "Iniciar sesión V2",
+    "login_v3": "Iniciar sesión V3",
+    "register_v1": "Registrarse V1",
+    "register_v2": "Registrarse V2",
+    "register_v3": "Registrarse V3"
   },
   "users": {
     "title": "Usuarios",
@@ -280,7 +290,9 @@
     "view": "Ver",
     "add": "Agregar",
     "update": "Actualizar",
-    "no_data": "No hay datos disponibles"
+    "no_data": "No hay datos disponibles",
+    "logout": "Cerrar sesión",
+    "clear_filters": "Limpiar filtros"
   },
   "notifications": {
     "title": "Notificaciones",

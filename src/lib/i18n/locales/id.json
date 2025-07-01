@@ -13,11 +13,18 @@
     "users": "Pengguna",
     "products": "Produk",
     "analytics": "Analitik",
-    "settings": "Pengaturan",
     "projects": "Proyek",
     "maps": "Peta",
     "schedule": "Jadwal",
-    "profile": "Profil"
+    "profile": "Profil",
+    "settings": "Pengaturan",
+    "account": "Akun",
+    "authentication": "Autentikasi",
+    "login": "Masuk",
+    "register": "Daftar",
+    "login_v1": "Masuk V1",
+    "login_v2": "Masuk V2",
+    "login_v3": "Masuk V3"
   },
   "users": {
     "title": "Pengguna",
@@ -280,7 +287,9 @@
     "view": "Lihat",
     "add": "Tambah",
     "update": "Perbarui",
-    "no_data": "Tidak ada data tersedia"
+    "no_data": "Tidak ada data tersedia",
+    "logout": "Keluar",
+    "clear_filters": "Hapus filter"
   },
   "notifications": {
     "title": "Notifikasi",
