@@ -195,7 +195,10 @@
     "basic_plan": "기본 플랜",
     "enterprise": "엔터프라이즈",
     "conversions": "전환",
-    "engagement": "참여"
+    "engagement": "참여",
+    "view_all": "전체 보기",
+    "last_updated": "마지막 업데이트",
+    "ago": "전"
   },
   "settings": {
     "title": "설정",

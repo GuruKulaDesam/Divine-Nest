@@ -195,7 +195,10 @@
     "basic_plan": "Basic Plan",
     "enterprise": "Enterprise",
     "conversions": "Conversions",
-    "engagement": "Engagement"
+    "engagement": "Engagement",
+    "view_all": "View All",
+    "last_updated": "Last updated",
+    "ago": "ago"
   },
   "settings": {
     "title": "Settings",

@@ -195,7 +195,10 @@
     "basic_plan": "Plan Básico",
     "enterprise": "Empresa",
     "conversions": "Conversiones",
-    "engagement": "Compromiso"
+    "engagement": "Compromiso",
+    "view_all": "Ver Todo",
+    "last_updated": "Última actualización",
+    "ago": "atrás"
   },
   "settings": {
     "title": "Configuración",

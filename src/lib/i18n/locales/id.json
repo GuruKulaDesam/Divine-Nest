@@ -192,7 +192,10 @@
     "basic_plan": "Paket Dasar",
     "enterprise": "Enterprise",
     "conversions": "Konversi",
-    "engagement": "Keterlibatan"
+    "engagement": "Keterlibatan",
+    "view_all": "Lihat Semua",
+    "last_updated": "Terakhir diperbarui",
+    "ago": "yang lalu"
   },
   "settings": {
     "title": "Pengaturan",

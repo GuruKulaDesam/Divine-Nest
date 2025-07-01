@@ -407,14 +407,45 @@
     <div class="space-y-6">
       <!-- Recent Activity -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInRight' }}>
-        <h2 class="text-lg font-semibold text-gray-900 mb-6">{$_("analytics.recent_activity")}</h2>
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-lg font-semibold text-gray-900">{$_("analytics.recent_activity")}</h2>
+          <button class="text-sm text-gray-500 hover:text-gray-700 transition-colors" use:motionHover>
+            {$_("analytics.view_all")} →
+          </button>
+        </div>
         <div class="space-y-4">
           {#each analyticsData.recentActivity as activity}
-            <div class="flex items-start space-x-3" use:motionHover>
-              <div class="w-2 h-2 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
+            <div class="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors" use:motionHover>
+              <div class="flex-shrink-0">
+                {#if activity.type === 'user'}
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <Icon icon="heroicons:user" class="w-5 h-5 text-blue-600" />
+                  </div>
+                {:else if activity.type === 'payment'}
+                  <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                    <Icon icon="heroicons:credit-card" class="w-5 h-5 text-green-600" />
+                  </div>
+                {:else if activity.type === 'purchase'}
+                  <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                    <Icon icon="heroicons:shopping-cart" class="w-5 h-5 text-purple-600" />
+                  </div>
+                {:else if activity.type === 'support'}
+                  <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+                    <Icon icon="heroicons:chat-bubble-left-right" class="w-5 h-5 text-orange-600" />
+                  </div>
+                {/if}
+              </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900">{activity.action}</p>
-                <p class="text-xs text-gray-500">{activity.time}</p>
+                <p class="text-sm font-medium text-gray-900 mb-0.5">{activity.action}</p>
+                <div class="flex items-center space-x-2">
+                  <Icon icon="heroicons:clock" class="w-4 h-4 text-gray-400" />
+                  <p class="text-xs text-gray-500">{activity.time}</p>
+                </div>
+              </div>
+              <div class="flex-shrink-0">
+                <button class="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors">
+                  <Icon icon="heroicons:ellipsis-horizontal" class="w-5 h-5" />
+                </button>
               </div>
             </div>
           {/each}
@@ -423,23 +454,108 @@
       
       <!-- Quick Stats -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInRight' }}>
-        <h2 class="text-lg font-semibold text-gray-900 mb-6">{$_("analytics.quick_stats")}</h2>
-        <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">{$_("analytics.page_views")}</span>
-            <span class="text-sm font-medium text-gray-900">45.2K</span>
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-lg font-semibold text-gray-900">{$_("analytics.quick_stats")}</h2>
+          <div class="flex items-center space-x-2 text-sm text-gray-500">
+            <Icon icon="heroicons:arrow-path" class="w-4 h-4" />
+            <span>{$_("analytics.last_updated")} 5m {$_("analytics.ago")}</span>
           </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">{$_("analytics.bounce_rate")}</span>
-            <span class="text-sm font-medium text-gray-900">32.1%</span>
+        </div>
+        <div class="grid grid-cols-1 gap-4">
+          <!-- Page Views -->
+          <div class="p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors" use:motionHover>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
+                  <Icon icon="heroicons:eye" class="w-5 h-5 text-indigo-600" />
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">{$_("analytics.page_views")}</p>
+                  <div class="flex items-center space-x-2">
+                    <p class="text-lg font-semibold text-gray-900">45.2K</p>
+                    <span class="flex items-center text-xs font-medium text-green-600">
+                      <Icon icon="heroicons:arrow-trending-up" class="w-3 h-3 mr-1" />
+                      +5.2%
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-white transition-colors">
+                <Icon icon="heroicons:chart-bar" class="w-5 h-5" />
+              </button>
+            </div>
           </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">{$_("analytics.avg_order_value")}</span>
-            <span class="text-sm font-medium text-gray-900">$89.50</span>
+
+          <!-- Bounce Rate -->
+          <div class="p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors" use:motionHover>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center">
+                  <Icon icon="heroicons:arrow-uturn-left" class="w-5 h-5 text-red-600" />
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">{$_("analytics.bounce_rate")}</p>
+                  <div class="flex items-center space-x-2">
+                    <p class="text-lg font-semibold text-gray-900">32.1%</p>
+                    <span class="flex items-center text-xs font-medium text-red-600">
+                      <Icon icon="heroicons:arrow-trending-down" class="w-3 h-3 mr-1" />
+                      -2.3%
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-white transition-colors">
+                <Icon icon="heroicons:chart-bar" class="w-5 h-5" />
+              </button>
+            </div>
           </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">{$_("analytics.customer_lifetime_value")}</span>
-            <span class="text-sm font-medium text-gray-900">$1,245</span>
+
+          <!-- Average Order Value -->
+          <div class="p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors" use:motionHover>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                  <Icon icon="heroicons:banknotes" class="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">{$_("analytics.avg_order_value")}</p>
+                  <div class="flex items-center space-x-2">
+                    <p class="text-lg font-semibold text-gray-900">$89.50</p>
+                    <span class="flex items-center text-xs font-medium text-green-600">
+                      <Icon icon="heroicons:arrow-trending-up" class="w-3 h-3 mr-1" />
+                      +8.1%
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-white transition-colors">
+                <Icon icon="heroicons:chart-bar" class="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          <!-- Customer Lifetime Value -->
+          <div class="p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors" use:motionHover>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                  <Icon icon="heroicons:user-circle" class="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600">{$_("analytics.customer_lifetime_value")}</p>
+                  <div class="flex items-center space-x-2">
+                    <p class="text-lg font-semibold text-gray-900">$1,245</p>
+                    <span class="flex items-center text-xs font-medium text-green-600">
+                      <Icon icon="heroicons:arrow-trending-up" class="w-3 h-3 mr-1" />
+                      +12.3%
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-white transition-colors">
+                <Icon icon="heroicons:chart-bar" class="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
