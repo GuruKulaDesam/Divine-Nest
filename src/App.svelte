@@ -17,6 +17,7 @@
   import RegisterPage from './lib/pages/RegisterPage.svelte';
   import RegisterV2 from './lib/pages/RegisterV2.svelte';
   import RegisterV3 from './lib/pages/RegisterV3.svelte';
+  import ChartsPage from './lib/pages/ChartsPage.svelte';
   import { currentRoute } from './lib/router.js';
   import { pageTransitions } from './lib/utils/motion.js';
   import { themeActions } from './lib/stores/theme.js';
@@ -40,6 +41,7 @@
       : $currentRoute === '/products' ? ProductsPage
       : $currentRoute === '/settings' ? SettingsPage
       : $currentRoute === '/analytics' ? AnalyticsPage
+      : $currentRoute === '/charts' ? ChartsPage
       : $currentRoute === '/projects' ? ProjectManagementPage
       : $currentRoute === '/profile' ? ProfilePage
       : $currentRoute === '/maps' ? MapsPage

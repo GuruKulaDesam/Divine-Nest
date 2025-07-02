@@ -1096,13 +1096,13 @@
   <!-- Add Job Modal -->
   {#if showAddJobModal}
     <div class="modal modal-open">
-      <div class="modal-box w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto" use:motionInView={{ animation: 'scaleIn' }}>
+      <div class="modal-box w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto" use:motionInView={{ animation: "scaleIn" }}>
         <!-- Modal Header -->
         <div class="border-b border-base-300 pb-4 mb-6">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="text-2xl font-bold text-base-content">{$_("maps.add_new_job")}</h3>
-              <p class="text-sm text-base-content/60 mt-1">Fill in the details to post a new job opportunity</p>
+              <p class="text-sm text-base-content/60 mt-1">{$_("maps.job_form_description")}</p>
             </div>
             <button class="btn btn-sm btn-circle btn-ghost" on:click={closeAddJobModal}>✕</button>
           </div>
@@ -1114,8 +1114,10 @@
           <div class="card bg-base-100 border border-base-300">
             <div class="card-body">
               <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
-                <Icon icon="heroicons:briefcase" class="w-5 h-5 text-primary" />
-                Basic Information
+                <div class="p-1 rounded bg-primary/10">
+                  <Icon icon="heroicons:briefcase" class="w-5 h-5 text-primary" />
+                </div>
+                {$_("maps.basic_information")}
               </h4>
               
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1184,7 +1186,7 @@
                   <label class="label">
                     <span class="label-text-alt text-base-content/50">
                       <Icon icon="heroicons:information-circle" class="w-3 h-3 inline mr-1" />
-                      Include city, state/province, and country for better map placement
+                      {$_("maps.address_hint")}
                     </span>
                   </label>
                 </div>
@@ -1196,8 +1198,10 @@
           <div class="card bg-base-100 border border-base-300">
             <div class="card-body">
               <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
-                <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5 text-primary" />
-                Job Details
+                <div class="p-1 rounded bg-primary/10">
+                  <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5 text-primary" />
+                </div>
+                {$_("maps.job_details")}
               </h4>
               
               <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -1241,11 +1245,11 @@
 
                 <div class="form-control lg:col-span-3">
                   <label class="label">
-                    <span class="label-text font-medium text-base-content">{$_("maps.job_description")}</span>
+                    <span class="label-text font-medium text-base-content">{$_("common.description")}</span>
                   </label>
                   <textarea 
                     bind:value={newJob.description}
-                    placeholder="Describe the role, responsibilities, requirements, and what makes this opportunity exciting..."
+                    placeholder={$_("maps.job_description_placeholder")}
                     class="textarea textarea-bordered h-32 focus:textarea-primary"
                   ></textarea>
                 </div>
@@ -1257,8 +1261,10 @@
           <div class="card bg-base-100 border border-base-300">
             <div class="card-body">
               <h4 class="text-lg font-semibold text-base-content mb-4 flex items-center gap-2">
-                <Icon icon="heroicons:star" class="w-5 h-5 text-primary" />
-                Job Highlights
+                <div class="p-1 rounded bg-primary/10">
+                  <Icon icon="heroicons:star" class="w-5 h-5 text-primary" />
+                </div>
+                {$_("maps.job_highlights")}
               </h4>
               
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1270,7 +1276,7 @@
                         <Icon icon="heroicons:star-solid" class="w-4 h-4 text-warning" />
                         {$_("maps.featured")}
                       </span>
-                      <p class="text-xs text-base-content/60">Highlight this job to attract more candidates</p>
+                      <p class="text-xs text-base-content/60">{$_("maps.featured_description")}</p>
                     </div>
                   </label>
                 </div>
@@ -1283,7 +1289,7 @@
                         <Icon icon="heroicons:exclamation-triangle-solid" class="w-4 h-4 text-error" />
                         {$_("maps.urgent")}
                       </span>
-                      <p class="text-xs text-base-content/60">Mark as urgent hiring priority</p>
+                      <p class="text-xs text-base-content/60">{$_("maps.urgent_description")}</p>
                     </div>
                   </label>
                 </div>
@@ -1297,16 +1303,20 @@
           <div class="flex justify-between items-center">
             <div class="text-sm text-base-content/60">
               <Icon icon="heroicons:information-circle" class="w-4 h-4 inline mr-1" />
-              Fields marked with * are required
+              {$_("maps.required_fields_notice")}
             </div>
             <div class="flex gap-3">
-              <button class="btn btn-ghost" on:click={closeAddJobModal}>
-                <Icon icon="heroicons:x-mark" class="w-4 h-4 mr-2" />
+              <button class="btn btn-ghost group" on:click={closeAddJobModal}>
+                <div class="p-1 rounded bg-base-200 group-hover:bg-base-300">
+                  <Icon icon="heroicons:x-mark" class="w-4 h-4 mr-2" />
+                </div>
                 {$_("maps.cancel")}
               </button>
-              <button class="btn btn-primary" on:click={saveJob}>
-                <Icon icon="heroicons:plus" class="w-4 h-4 mr-2" />
-                Post Job
+              <button class="btn btn-primary group" on:click={saveJob}>
+                <div class="p-1 rounded bg-primary-content/10 group-hover:bg-primary-content/20">
+                  <Icon icon="heroicons:plus" class="w-4 h-4 mr-2" />
+                </div>
+                {$_("maps.post_job")}
               </button>
             </div>
           </div>
@@ -1318,7 +1328,7 @@
   <!-- Job Details Modal -->
   {#if selectedJob}
     <div class="modal modal-open">
-      <div class="modal-box w-11/12 max-w-2xl" use:motionInView={{ animation: 'scaleIn' }}>
+      <div class="modal-box w-11/12 max-w-2xl" use:motionInView={{ animation: "scaleIn" }}>
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" on:click={closeJobDetails}>✕</button>
         
         <div class="space-y-6">
@@ -1377,19 +1387,23 @@
           <!-- Description -->
           {#if selectedJob.description}
             <div>
-              <h4 class="font-semibold mb-2">{$_("maps.description")}</h4>
+              <h4 class="font-semibold mb-2">{$_("common.description")}</h4>
               <p class="text-base-content/70">{selectedJob.description}</p>
             </div>
           {/if}
 
           <!-- Actions -->
           <div class="flex justify-between">
-            <button class="btn btn-error btn-outline" on:click={() => deleteJob(selectedJob.id)}>
-              <Icon icon="heroicons:trash" class="w-4 h-4 mr-2" />
+            <button class="btn btn-error btn-outline group" on:click={() => deleteJob(selectedJob.id)}>
+              <div class="p-1 rounded bg-error/10 group-hover:bg-error/20">
+                <Icon icon="heroicons:trash" class="w-4 h-4 mr-2 text-error" />
+              </div>
               {$_("maps.delete_job")}
             </button>
-            <button class="btn btn-primary">
-              <Icon icon="heroicons:paper-airplane" class="w-4 h-4 mr-2" />
+            <button class="btn btn-primary group">
+              <div class="p-1 rounded bg-primary-content/10 group-hover:bg-primary-content/20">
+                <Icon icon="heroicons:paper-airplane" class="w-4 h-4 mr-2" />
+              </div>
               {$_("maps.apply_now")}
             </button>
           </div>

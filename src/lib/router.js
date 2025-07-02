@@ -15,6 +15,7 @@ import RegisterPage from './pages/RegisterPage.svelte';
 import RegisterV2 from './pages/RegisterV2.svelte';
 import RegisterV3 from './pages/RegisterV3.svelte';
 import NotFoundPage from './pages/NotFoundPage.svelte';
+import ChartsPage from './pages/ChartsPage.svelte';
 
 // Create stores for routing
 const currentRoute = writable(window.location.pathname);
@@ -37,6 +38,7 @@ const routes = {
   '/auth/register': RegisterPage,
   '/auth/register-v2': RegisterV2,
   '/auth/register-v3': RegisterV3,
+  '/charts': ChartsPage,
   '*': NotFoundPage
 };
 

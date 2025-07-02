@@ -1,4 +1,21 @@
 {
+  "common": {
+    "status": "Status",
+    "description": "Description",
+    "edit": "Edit",
+    "delete": "Delete",
+    "active": "Active",
+    "inactive": "Inactive",
+    "save": "Save",
+    "cancel": "Cancel",
+    "of": "of",
+    "actions": "Actions",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "delete_confirmation_text": "Are you sure you want to delete",
+    "delete_warning": "This action cannot be undone. This will permanently delete the item from our servers."
+  },
   "dashboard": {
     "title": "Dashboard",
     "overview": "Overview",
@@ -13,6 +30,7 @@
     "users": "Users",
     "products": "Products",
     "analytics": "Analytics",
+    "charts": "Charts",
     "projects": "Projects",
     "maps": "Maps",
     "schedule": "Schedule",
@@ -70,7 +88,7 @@
   },
   "products": {
     "title": "Products",
-    "description": "Manage your product catalog and inventory.",
+    "description": "Explore and manage your product inventory, track stock levels, and organize your catalog efficiently.",
     "add_product": "Add Product",
     "edit_product": "Edit Product",
     "add_new_product": "Add New Product",
@@ -134,7 +152,7 @@
     "company_logo_url": "Company Logo URL",
     "address": "Address",
     "salary_range": "Salary Range",
-    "job_description": "Job Description",
+    "job_description_placeholder": "Describe the role, responsibilities, requirements, and what makes this opportunity exciting...",
     "featured": "Featured",
     "urgent": "Urgent",
     "cancel": "Cancel",
@@ -142,14 +160,22 @@
     "apply_now": "Apply Now",
     "delete_job": "Delete Job",
     "location": "Location",
-    "description": "Description",
     "required_skills": "Required Skills",
     "benefits": "Benefits",
     "salary": "Salary",
     "applicants": "Applicants",
     "experience": "Experience",
     "posted": "Posted",
-    "see_job": "See Job"
+    "see_job": "See Job",
+    "job_form_description": "Fill in the details to post a new job opportunity",
+    "basic_information": "Basic Information",
+    "job_details": "Job Details",
+    "job_highlights": "Job Highlights",
+    "featured_description": "Highlight this job to attract more candidates",
+    "urgent_description": "Mark as urgent hiring priority",
+    "required_fields_notice": "Fields marked with * are required",
+    "post_job": "Post Job",
+    "address_hint": "Include city, state/province, and country for better map placement"
   },
   "analytics": {
     "title": "Analytics",
@@ -268,7 +294,6 @@
     "warning": "Warning",
     "info": "Information",
     "all": "All",
-    "of": "of",
     "yes": "Yes",
     "no": "No",
     "confirm": "Confirm",
@@ -438,5 +463,21 @@
     "continue_with_google": "Sign up with Google",
     "continue_with_github": "Sign up with GitHub",
     "continue_with_facebook": "Sign up with Facebook"
+  },
+  "menu": {
+    "charts": "Charts"
+  },
+  "charts": {
+    "title": "Chart.js Examples",
+    "description": "A collection of interactive Chart.js examples with theme support",
+    "select_type": "Select Chart Type",
+    "line": "Line Chart",
+    "bar": "Bar Chart",
+    "pie": "Pie Chart",
+    "doughnut": "Doughnut Chart",
+    "radar": "Radar Chart",
+    "polar": "Polar Area Chart",
+    "bubble": "Bubble Chart",
+    "scatter": "Scatter Chart"
   }
 } 

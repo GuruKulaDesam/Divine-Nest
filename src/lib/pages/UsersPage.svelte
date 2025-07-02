@@ -37,18 +37,18 @@
   
   // Create translated user roles
   $: translatedUserRoles = [
-    { id: 'admin', name: $_('users.admin'), color: 'bg-red-100 text-red-800' },
-    { id: 'manager', name: $_('users.manager'), color: 'bg-blue-100 text-blue-800' },
-    { id: 'editor', name: $_('users.editor'), color: 'bg-green-100 text-green-800' },
-    { id: 'viewer', name: $_('users.viewer'), color: 'bg-gray-100 text-gray-800' }
+    { id: 'admin', name: $_('users.admin'), color: 'bg-error/20 text-error' },
+    { id: 'manager', name: $_('users.manager'), color: 'bg-primary/20 text-primary' },
+    { id: 'editor', name: $_('users.editor'), color: 'bg-success/20 text-success' },
+    { id: 'viewer', name: $_('users.viewer'), color: 'bg-base-content/20 text-base-content' }
   ];
   
   // Create translated user statuses
   $: translatedUserStatuses = [
-    { id: 'active', name: $_('users.active'), color: 'bg-green-100 text-green-800' },
-    { id: 'inactive', name: $_('users.inactive'), color: 'bg-gray-100 text-gray-800' },
-    { id: 'suspended', name: $_('users.suspended'), color: 'bg-red-100 text-red-800' },
-    { id: 'pending', name: $_('users.pending'), color: 'bg-yellow-100 text-yellow-800' }
+    { id: 'active', name: $_('users.active'), color: 'bg-success/20 text-success' },
+    { id: 'inactive', name: $_('users.inactive'), color: 'bg-base-content/20 text-base-content' },
+    { id: 'suspended', name: $_('users.suspended'), color: 'bg-error/20 text-error' },
+    { id: 'pending', name: $_('users.pending'), color: 'bg-warning/20 text-warning' }
   ];
   
   // Create translated user stats
@@ -197,18 +197,20 @@
 
 <div class="space-y-8">
   <!-- Page header -->
-  <div class="border-b border-gray-200 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
+  <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-gray-900">{$_('users.title')}</h1>
-        <p class="mt-2 text-sm text-gray-600">{$_('users.description')}</p>
+        <h1 class="text-3xl font-bold text-base-content">{$_('users.title')}</h1>
+        <p class="mt-2 text-sm text-base-content/60">{$_('users.description')}</p>
       </div>
       <button 
-        class="btn btn-primary"
+        class="btn btn-primary shadow-lg hover:text-primary-content group"
         on:click={() => showAddUserModal = true}
         use:motionHover
       >
-        <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+        <div class="p-1 rounded bg-primary-content/10 group-hover:bg-primary-content/20">
+          <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+        </div>
         {$_('users.add_user')}
       </button>
     </div>
@@ -219,45 +221,45 @@
     {#each translatedUserStats as stat, index}
       <div 
         bind:this={statsElements[index]}
-        class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200"
+        class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6 hover:shadow-md transition-shadow duration-200"
         use:motionHover
       >
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-              <Icon icon={stat.icon} class="w-6 h-6 text-primary-600" />
+            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+              <Icon icon={stat.icon} class="w-6 h-6 text-primary" />
             </div>
           </div>
           <div class="ml-4 flex-1">
-            <p class="text-sm font-medium text-gray-500 truncate">{stat.name}</p>
-            <p class="text-2xl font-bold text-gray-900">{stat.value}</p>
+            <p class="text-sm font-medium text-base-content/60 truncate">{stat.name}</p>
+            <p class="text-2xl font-bold text-base-content">{stat.value}</p>
           </div>
         </div>
         <div class="mt-4">
-          <span class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium {stat.changeType === 'positive' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-            <Icon icon="heroicons:arrow-trending-up" class="-ml-1 mr-0.5 flex-shrink-0 self-center h-4 w-4 {stat.changeType === 'positive' ? 'text-green-500' : 'text-red-500'}" />
+          <span class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium {stat.changeType === 'positive' ? 'bg-success/20 text-success' : 'bg-error/20 text-error'}">
+            <Icon icon="heroicons:arrow-trending-up" class="-ml-1 mr-0.5 flex-shrink-0 self-center h-4 w-4 {stat.changeType === 'positive' ? 'text-success' : 'text-error'}" />
             {stat.change}
           </span>
-          <span class="ml-2 text-sm text-gray-500">{$_('analytics.from_last_month')}</span>
+          <span class="ml-2 text-sm text-base-content/60">{$_('analytics.from_last_month')}</span>
         </div>
       </div>
     {/each}
   </div>
   
   <!-- Filters and search -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6" use:motionInView={{ animation: 'fadeInUp' }}>
+  <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInUp' }}>
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
       <!-- Search -->
       <div class="flex-1">
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Icon icon="heroicons:magnifying-glass" class="h-5 w-5 text-gray-400" />
+            <Icon icon="heroicons:magnifying-glass" class="h-5 w-5 text-base-content/40" />
           </div>
           <input
             type="text"
             bind:value={searchTerm}
             placeholder={$_('users.search_placeholder')}
-            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
+            class="block w-full pl-10 pr-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm bg-base-100 text-base-content placeholder-base-content/40"
           />
         </div>
       </div>
@@ -266,7 +268,7 @@
       <div class="flex flex-wrap gap-4">
         <select
           bind:value={selectedRole}
-          class="block w-full sm:w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-lg"
+          class="select select-bordered w-full sm:w-auto"
         >
           <option value="">{$_('users.all_roles')}</option>
           {#each translatedUserRoles as role}
@@ -276,7 +278,7 @@
         
         <select
           bind:value={selectedStatus}
-          class="block w-full sm:w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-lg"
+          class="select select-bordered w-full sm:w-auto"
         >
           <option value="">{$_('users.all_statuses')}</option>
           {#each translatedUserStatuses as status}
@@ -286,7 +288,7 @@
         
         <select
           bind:value={selectedDepartment}
-          class="block w-full sm:w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-lg"
+          class="select select-bordered w-full sm:w-auto"
         >
           <option value="">{$_('users.all_departments')}</option>
           {#each departments as department}
@@ -295,10 +297,12 @@
         </select>
         
         <button
-          class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          class="btn btn-ghost group"
           on:click={clearFilters}
         >
-          <Icon icon="heroicons:x-mark" class="h-5 w-5 mr-2" />
+          <div class="p-1 rounded bg-base-200 group-hover:bg-base-300">
+            <Icon icon="heroicons:x-mark" class="w-4 h-4 mr-2" />
+          </div>
           {$_('common.clear_filters')}
         </button>
       </div>
@@ -306,15 +310,15 @@
   </div>
   
   <!-- Users table -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden" use:motionInView={{ animation: 'fadeInUp', delay: 0.2 }}>
+  <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 overflow-hidden" use:motionInView={{ animation: 'fadeInUp', delay: 0.2 }}>
     <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+      <table class="min-w-full divide-y divide-base-300">
+        <thead class="bg-base-200">
           <tr>
             {#each translatedUserColumns as column}
               <th 
                 scope="col" 
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                class="px-6 py-3 text-left text-xs font-medium text-base-content/60 uppercase tracking-wider cursor-pointer"
                 class:cursor-pointer={column.sortable}
                 on:click={() => column.sortable && handleSort(column.key)}
               >
@@ -331,11 +335,11 @@
             {/each}
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="bg-base-100 divide-y divide-base-300">
           {#each filteredUsers as user, index}
             <tr 
               bind:this={userRowElements[index]}
-              class="hover:bg-gray-50 transition-colors"
+              class="hover:bg-base-200 transition-colors"
             >
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
@@ -348,12 +352,12 @@
                     />
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{user.name}</div>
+                    <div class="text-sm font-medium text-base-content">{user.name}</div>
                   </div>
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{user.email}</div>
+                <div class="text-sm text-base-content">{user.email}</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 {#if getRoleInfo(user.role)}
@@ -362,7 +366,7 @@
                   </span>
                 {/if}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-base-content/60">
                 {user.department}
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -372,25 +376,29 @@
                   </span>
                 {/if}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-base-content/60">
                 {formatLastActive(user.lastActive)}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-base-content/60">
                 {formatDate(user.joinDate)}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <div class="flex items-center space-x-3 justify-end">
                   <button
-                    class="text-primary-600 hover:text-primary-900"
+                    class="text-primary hover:text-primary-focus group"
                     on:click={() => handleEditUser(user)}
                   >
-                    <Icon icon="heroicons:pencil-square" class="h-5 w-5" />
+                    <div class="p-1 rounded bg-primary/10 group-hover:bg-primary/20">
+                      <Icon icon="heroicons:pencil-square" class="h-5 w-5" />
+                    </div>
                   </button>
                   <button
-                    class="text-red-600 hover:text-red-900"
+                    class="text-error hover:text-error-focus group"
                     on:click={() => handleDeleteUser(user)}
                   >
-                    <Icon icon="heroicons:trash" class="h-5 w-5" />
+                    <div class="p-1 rounded bg-error/10 group-hover:bg-error/20">
+                      <Icon icon="heroicons:trash" class="h-5 w-5" />
+                    </div>
                   </button>
                 </div>
               </td>

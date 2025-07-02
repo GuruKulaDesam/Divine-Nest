@@ -21,7 +21,9 @@
   let selectedStatus = "all";
   let selectedSortBy = "name";
   let showAddProductModal = false;
+  let showDeleteConfirmModal = false;
   let selectedProduct = null;
+  let productToDelete = null;
 
   // Computed filtered and sorted products
   $: filteredProducts = products.filter((product) => {
@@ -44,13 +46,17 @@
       case "name-desc":
         return b.name.localeCompare(a.name);
       case "price":
-        return a.price - b.price;
+        return Number(a.price) - Number(b.price);
       case "price-desc":
-        return b.price - a.price;
+        return Number(b.price) - Number(a.price);
       case "stock":
         return Number(a.stock) - Number(b.stock);
+      case "stock-desc":
+        return Number(b.stock) - Number(a.stock);
       case "created":
-        return new Date(b.createdAt) - new Date(a.createdAt);
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case "created-desc":
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       default:
         return 0;
     }
@@ -71,9 +77,20 @@
     showAddProductModal = true;
   }
 
-  function deleteProduct(productId) {
-    if (confirm($_("products.confirm_delete_product"))) {
-      products = products.filter((p) => p.id !== productId);
+  function openDeleteConfirmation(product) {
+    productToDelete = product;
+    showDeleteConfirmModal = true;
+  }
+
+  function closeDeleteConfirmation() {
+    showDeleteConfirmModal = false;
+    productToDelete = null;
+  }
+
+  function confirmDelete() {
+    if (productToDelete) {
+      products = products.filter((p) => p.id !== productToDelete.id);
+      closeDeleteConfirmation();
     }
   }
 </script>
@@ -92,11 +109,13 @@
         </p>
       </div>
       <button
-        class="btn btn-primary shadow-lg hover:text-primary-content"
+        class="btn btn-primary shadow-lg hover:text-primary-content group"
         on:click={openAddProductModal}
         use:motionHover
       >
-        <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+        <div class="p-1 rounded bg-primary-content/10 group-hover:bg-primary-content/20">
+          <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+        </div>
         {$_("products.add_product")}
       </button>
     </div>
@@ -124,7 +143,9 @@
               />
             </div>
             <button class="btn join-item hover:text-base-content">
-              <Icon icon="heroicons:magnifying-glass" class="w-4 h-4" />
+              <div class="p-1 rounded bg-base-200">
+                <Icon icon="heroicons:magnifying-glass" class="w-4 h-4" />
+              </div>
             </button>
           </div>
         </div>
@@ -162,22 +183,36 @@
 
       <!-- Sort and Results -->
       <div
-        class="flex items-center justify-between mt-6 pt-6 border-t border-base-300"
+        class="flex flex-col sm:flex-row sm:items-center justify-between mt-6 pt-6 border-t border-base-300 gap-4"
       >
-        <div class="flex items-center space-x-4">
-          <span class="text-sm text-base-content/60">{$_("products.sort_by")}</span>
-          <select
-            bind:value={selectedSortBy}
-            class="select select-bordered select-sm"
-          >
+        <!-- Sort Options -->
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-sm font-medium text-base-content/70">{$_("products.sort_by")}</span>
+          <div class="flex flex-wrap gap-2">
             {#each sortOptions as option}
-              <option value={option.value}>{option.label}</option>
+              <button
+                class="btn btn-sm {selectedSortBy === option.value ? 'btn-primary' : 'btn-ghost'} gap-2 group"
+                on:click={() => selectedSortBy = option.value}
+              >
+                <div class="p-1 rounded {selectedSortBy === option.value ? 'bg-primary-content/10 group-hover:bg-primary-content/20' : 'bg-base-200 group-hover:bg-base-300'}">
+                  {#if option.value.includes('desc')}
+                    <Icon icon="heroicons:arrow-down" class="w-4 h-4" />
+                  {:else}
+                    <Icon icon="heroicons:arrow-up" class="w-4 h-4" />
+                  {/if}
+                </div>
+                {option.label}
+              </button>
             {/each}
-          </select>
+          </div>
         </div>
 
-        <div class="text-sm text-base-content/60">
-          {sortedProducts.length} {$_("common.of")} {products.length} {$_("products.products_found")}
+        <!-- Results Count -->
+        <div class="text-sm text-base-content/60 flex items-center gap-2">
+          <div class="p-1 rounded bg-base-200">
+            <Icon icon="heroicons:document-text" class="w-4 h-4" />
+          </div>
+          <span>{sortedProducts.length} {$_("common.of")} {products.length} {$_("products.products_found")}</span>
         </div>
       </div>
     </div>
@@ -249,17 +284,21 @@
           <!-- Action Buttons -->
           <div class="card-actions justify-end mt-3">
             <button
-              class="btn btn-outline btn-primary btn-sm hover:text-primary-content"
+              class="btn btn-outline btn-primary btn-sm hover:text-primary-content group"
               on:click={() => editProduct(product)}
             >
-              <Icon icon="heroicons:pencil-square" class="w-4 h-4 mr-1" />
+              <div class="p-1 rounded bg-primary/10 group-hover:bg-primary/20">
+                <Icon icon="heroicons:pencil-square" class="w-4 h-4 mr-1 text-primary" />
+              </div>
               {$_("products.edit")}
             </button>
             <button
-              class="btn btn-outline btn-error btn-sm hover:text-white"
-              on:click={() => deleteProduct(product.id)}
+              class="btn btn-outline btn-error btn-sm hover:text-white group"
+              on:click={() => openDeleteConfirmation(product)}
             >
-              <Icon icon="heroicons:trash" class="w-4 h-4 mr-1" />
+              <div class="p-1 rounded bg-error/10 group-hover:bg-error/20">
+                <Icon icon="heroicons:trash" class="w-4 h-4 mr-1 text-error" />
+              </div>
               {$_("products.delete")}
             </button>
           </div>
@@ -411,6 +450,50 @@
           on:click={closeAddProductModal}
         >
           {selectedProduct ? $_("products.update_product") : $_("products.add_product")}
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+<!-- Add the Delete Confirmation Modal -->
+{#if showDeleteConfirmModal && productToDelete}
+  <div class="modal modal-open">
+    <div class="modal-box max-w-md" use:motionInView={{ animation: "scaleIn" }}>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 bg-error/10 rounded-full">
+          <Icon icon="heroicons:exclamation-triangle" class="w-6 h-6 text-error" />
+        </div>
+        <h3 class="font-bold text-lg text-base-content">
+          {$_("products.confirm_delete_product")}
+        </h3>
+      </div>
+
+      <p class="text-base-content/70 mb-2">
+        {$_("common.delete_confirmation_text")} <span class="font-semibold">"{productToDelete.name}"</span>?
+      </p>
+      <p class="text-sm text-base-content/60 mb-6">
+        {$_("common.delete_warning")}
+      </p>
+
+      <div class="modal-action gap-2">
+        <button 
+          class="btn btn-ghost group" 
+          on:click={closeDeleteConfirmation}
+        >
+          <div class="p-1 rounded bg-base-200 group-hover:bg-base-300">
+            <Icon icon="heroicons:x-mark" class="w-4 h-4 mr-2" />
+          </div>
+          {$_("common.cancel")}
+        </button>
+        <button 
+          class="btn btn-error group" 
+          on:click={confirmDelete}
+        >
+          <div class="p-1 rounded bg-error-content/10 group-hover:bg-error-content/20">
+            <Icon icon="heroicons:trash" class="w-4 h-4 mr-2 text-error-content" />
+          </div>
+          {$_("common.delete")}
         </button>
       </div>
     </div>
