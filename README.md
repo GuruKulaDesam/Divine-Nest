@@ -1,5 +1,7 @@
 # Takeka - Open Source Modern Svelte Admin Dashboard Template
 
+![Cover](./Cover.jpg)
+
 Free & open source modern, mobile responsive admin dashboard template built with Svelte, Vite, and Tailwind CSS. Features a clean design, dark/light mode support, and comprehensive i18n internationalization.
 
 ## Features
