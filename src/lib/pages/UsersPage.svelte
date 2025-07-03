@@ -409,7 +409,7 @@
           <input
             type="text"
             bind:value={searchTerm}
-            placeholder={$_("users.search_placeholder")}
+            placeholder={$_("users.search_users")}
             class="block w-full pl-10 pr-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm bg-base-100 text-base-content placeholder-base-content/40"
           />
         </div>
@@ -511,8 +511,12 @@
                       src={generateUserAvatar(user.name)}
                       alt={user.name}
                       class="h-10 w-10 rounded-full shadow-sm group-hover:shadow-md transition-shadow duration-200"
-                      on:error={(e) =>
-                        (e.target.src = generateFallbackAvatar(user.name))}
+                      on:error={(e) => {
+                        const target = e.target;
+                        if (target instanceof HTMLImageElement) {
+                          target.src = generateFallbackAvatar(user.name);
+                        }
+                      }}
                     />
                     <!-- Online indicator -->
                     <div
@@ -609,7 +613,7 @@
     message={$_("users.delete_user_confirm", {
       values: { name: userToDelete?.name },
     })}
-    onConfirm={handleDeleteConfirm}
-    onCancel={handleDeleteCancel}
+    on:confirm={handleDeleteConfirm}
+    on:cancel={handleDeleteCancel}
   />
 {/if}

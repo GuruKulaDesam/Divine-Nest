@@ -123,7 +123,7 @@ export const quickActions = [
   },
   {
     name: 'Add Product',
-    icon: 'heroicons:cube',
+    icon: 'mdi:cube-outline',
     action: 'secondary'
   },
   {
@@ -133,7 +133,7 @@ export const quickActions = [
   },
   {
     name: 'Settings',
-    icon: 'heroicons:cog-6-tooth',
+    icon: 'heroicons:cog',
     action: 'secondary'
   }
 ]; 

@@ -40,6 +40,8 @@
     "heroicons:calendar": "from-red-500 to-pink-600",
     "heroicons:user-group": "from-indigo-500 to-purple-600",
     "heroicons:chart-pie": "from-teal-500 to-cyan-600",
+    "heroicons:bolt": "from-yellow-400 to-orange-500",
+    "mdi:cube-outline": "from-purple-500 to-pink-600",
   };
 
   // Build data for RevenueChart based on selected period
@@ -214,7 +216,7 @@
             on:click={() => (period = "weekly")}
             class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period ===
             'weekly'
-              ? 'bg-primary text-primary-content shadow-lg'
+              ? 'bg-blue-500 text-white shadow-lg'
               : 'text-base-content/70 hover:bg-base-300'}"
             use:motionHover
           >
@@ -224,7 +226,7 @@
             on:click={() => (period = "monthly")}
             class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period ===
             'monthly'
-              ? 'bg-primary text-primary-content shadow-lg'
+              ? 'bg-green-500 text-white shadow-lg'
               : 'text-base-content/70 hover:bg-base-300'}"
             use:motionHover
           >
@@ -234,7 +236,7 @@
             on:click={() => (period = "yearly")}
             class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period ===
             'yearly'
-              ? 'bg-primary text-primary-content shadow-lg'
+              ? 'bg-purple-500 text-white shadow-lg'
               : 'text-base-content/70 hover:bg-base-300'}"
             use:motionHover
           >
