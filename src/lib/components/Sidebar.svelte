@@ -25,6 +25,7 @@
     { path: '/analytics', icon: 'heroicons:chart-bar', name: $isLoading ? 'Analytics' : $_('navigation.analytics') },
     { path: '/charts', icon: 'heroicons:presentation-chart-line', name: $isLoading ? 'Charts' : $_('navigation.charts') },
     { path: '/projects', icon: 'heroicons:view-columns', name: $isLoading ? 'Projects' : $_('navigation.projects') },
+    { path: '/gantt', icon: 'heroicons:calendar', name: $isLoading ? 'Gantt' : 'Gantt' },
     { path: '/maps', icon: 'heroicons:map', name: $isLoading ? 'Maps' : $_('navigation.maps') },
     { path: '/schedule', icon: 'heroicons:calendar-days', name: $isLoading ? 'Schedule' : $_('navigation.schedule') },
     { path: '/profile', icon: 'heroicons:user-circle', name: $isLoading ? 'Profile' : $_('navigation.profile') },

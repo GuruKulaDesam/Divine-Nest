@@ -18,6 +18,7 @@
   import RegisterV2 from './lib/pages/RegisterV2.svelte';
   import RegisterV3 from './lib/pages/RegisterV3.svelte';
   import ChartsPage from './lib/pages/ChartsPage.svelte';
+  import GanttPage from './lib/pages/GanttPage.svelte';
   import { currentRoute } from './lib/router.js';
   import { pageTransitions } from './lib/utils/motion.js';
   import { themeActions } from './lib/stores/theme.js';
@@ -52,6 +53,7 @@
       : $currentRoute === '/auth/register' ? RegisterPage
       : $currentRoute === '/auth/register-v2' ? RegisterV2
       : $currentRoute === '/auth/register-v3' ? RegisterV3
+      : $currentRoute === '/gantt' ? GanttPage
       : NotFoundPage;
   }
 
