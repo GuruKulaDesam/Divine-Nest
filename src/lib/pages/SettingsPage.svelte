@@ -84,28 +84,58 @@
 </script>
 
 <div class="space-y-8">
-  <!-- Page header -->
-  <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
-    <div class="flex items-center justify-between">
+  <!-- Page header with enhanced styling -->
+  <div
+    class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50"
+    use:motionInView={{ animation: "fadeInDown" }}
+  >
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+      <Icon icon="heroicons:cog-6-tooth" class="w-full h-full text-primary" />
+    </div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+      <Icon icon="heroicons:adjustments-horizontal" class="w-full h-full text-secondary" />
+    </div>
+
+    <div class="relative flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">{$_("settings.title")}</h1>
-        <p class="mt-2 text-sm text-base-content/60">{$_("settings.description")}</p>
+        <h1 class="text-3xl font-bold text-primary">{$_("settings.title")}</h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">{$_("settings.description")}</p>
       </div>
       <div class="flex space-x-3">
         <button 
-          class="px-4 py-2 text-sm font-medium text-base-content bg-base-100 border border-base-300 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="btn btn-outline shadow-md hover:shadow-lg group relative overflow-hidden"
           on:click={handleReset}
           use:motionHover
         >
-          {$_("settings.reset")}
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-error to-error/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          ></div>
+          <div class="relative flex items-center">
+            <div
+              class="p-1.5 rounded-lg bg-error-content/20 group-hover:bg-error-content/30 transition-colors duration-300"
+            >
+              <Icon icon="heroicons:arrow-path" class="w-5 h-5 mr-2" />
+            </div>
+            {$_("settings.reset")}
+          </div>
         </button>
         <button 
-          class="btn btn-primary"
+          class="btn btn-primary shadow-md hover:shadow-lg group relative overflow-hidden"
           on:click={handleSave}
           use:motionHover
         >
-          <Icon icon="heroicons:check" class="w-4 h-4 mr-2" />
-          {$_("settings.save_changes")}
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          ></div>
+          <div class="relative flex items-center">
+            <div
+              class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300"
+            >
+              <Icon icon="heroicons:check" class="w-4 h-4 mr-2" />
+            </div>
+            {$_("settings.save_changes")}
+          </div>
         </button>
       </div>
     </div>
@@ -116,9 +146,11 @@
     <!-- Profile Settings -->
     <div class="lg:col-span-2 space-y-6">
       <!-- Profile Information -->
-      <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInLeft' }}>
+      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInLeft' }}>
         <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <Icon icon="heroicons:user-circle" class="w-5 h-5 mr-2 text-primary" />
+          <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center mr-3">
+            <Icon icon="heroicons:user-circle" class="w-4 h-4 text-primary" />
+          </div>
           {$_("settings.profile_information")}
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -127,7 +159,7 @@
             <input
               type="text"
               bind:value={profileSettings.name}
-              class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content"
+              class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
             >
           </div>
           <div>
@@ -135,7 +167,7 @@
             <input
               type="email"
               bind:value={profileSettings.email}
-              class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content"
+              class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
             >
           </div>
           <div>
@@ -151,7 +183,7 @@
             <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.timezone")}</label>
             <div class="relative">
               <button 
-                class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left bg-base-100 text-base-content"
+                class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
                 on:click={toggleTimezoneSelect}
               >
                 {timezoneOptions.find(opt => opt.value === profileSettings.timezone)?.label || $_("settings.select_timezone")}
@@ -175,9 +207,11 @@
       </div>
       
       <!-- Notification Settings -->
-      <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInLeft' }}>
+      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInLeft' }}>
         <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <Icon icon="heroicons:bell" class="w-5 h-5 mr-2 text-primary" />
+          <div class="w-8 h-8 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3">
+            <Icon icon="heroicons:bell" class="w-4 h-4 text-secondary" />
+          </div>
           {$_("settings.notification_preferences")}
         </h2>
         <div class="space-y-4">
@@ -228,9 +262,11 @@
       </div>
       
       <!-- Security Settings -->
-      <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInLeft' }}>
+      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInLeft' }}>
         <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <Icon icon="heroicons:shield-check" class="w-5 h-5 mr-2 text-primary" />
+          <div class="w-8 h-8 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center mr-3">
+            <Icon icon="heroicons:shield-check" class="w-4 h-4 text-accent" />
+          </div>
           {$_("settings.security_settings")}
         </h2>
         <div class="space-y-6">
@@ -249,7 +285,7 @@
             <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.session_timeout")}</label>
             <select
               bind:value={securitySettings.sessionTimeout}
-              class="w-full md:w-48 px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content"
+              class="w-full md:w-48 px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
             >
               <option value={15}>15 {$_("settings.minutes")}</option>
               <option value={30}>30 {$_("settings.minutes")}</option>
@@ -263,7 +299,7 @@
             <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.password_expiry")}</label>
             <select
               bind:value={securitySettings.passwordExpiry}
-              class="w-full md:w-48 px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content"
+              class="w-full md:w-48 px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
             >
               <option value={30}>30 {$_("settings.days")}</option>
               <option value={60}>60 {$_("settings.days")}</option>
@@ -278,9 +314,11 @@
     
     <!-- Display Settings -->
     <div class="space-y-6">
-      <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInRight' }}>
+      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInRight' }}>
         <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <Icon icon="heroicons:computer-desktop" class="w-5 h-5 mr-2 text-primary" />
+          <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3">
+            <Icon icon="heroicons:computer-desktop" class="w-4 h-4 text-primary" />
+          </div>
           {$_("settings.display_settings")}
         </h2>
         <div class="space-y-4">
@@ -288,7 +326,7 @@
             <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.theme")}</label>
             <div class="relative">
               <button 
-                class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left bg-base-100 text-base-content"
+                class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
                 on:click={toggleThemeSelect}
               >
                 {themeOptions.find(opt => opt.value === displaySettings.theme)?.label || $_("settings.select_theme")}
@@ -334,26 +372,36 @@
       </div>
       
       <!-- Quick Actions -->
-      <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInRight' }}>
+      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInRight' }}>
         <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <Icon icon="heroicons:bolt" class="w-5 h-5 mr-2 text-primary" />
+          <div class="w-8 h-8 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3">
+            <Icon icon="heroicons:bolt" class="w-4 h-4 text-secondary" />
+          </div>
           {$_("settings.quick_actions")}
         </h2>
         <div class="space-y-3">
-          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-base-200 rounded-lg transition-colors duration-200" use:motionHover>
-            <Icon icon="heroicons:key" class="w-4 h-4 mr-3 text-base-content/60" />
+          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-primary hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
+            <div class="w-6 h-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
+              <Icon icon="heroicons:key" class="w-3 h-3 text-primary group-hover:text-white" />
+            </div>
             {$_("settings.change_password")}
           </button>
-          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-base-200 rounded-lg transition-colors duration-200" use:motionHover>
-            <Icon icon="heroicons:device-phone-mobile" class="w-4 h-4 mr-3 text-base-content/60" />
+          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-secondary hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
+            <div class="w-6 h-6 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
+              <Icon icon="heroicons:device-phone-mobile" class="w-3 h-3 text-secondary group-hover:text-white" />
+            </div>
             {$_("settings.manage_devices")}
           </button>
-          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-base-200 rounded-lg transition-colors duration-200" use:motionHover>
-            <Icon icon="heroicons:document-text" class="w-4 h-4 mr-3 text-base-content/60" />
+          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-accent hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
+            <div class="w-6 h-6 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
+              <Icon icon="heroicons:document-text" class="w-3 h-3 text-accent group-hover:text-white" />
+            </div>
             {$_("settings.export_data")}
           </button>
-          <button class="w-full flex items-center p-3 text-sm text-error hover:bg-error/10 rounded-lg transition-colors duration-200" use:motionHover>
-            <Icon icon="heroicons:trash" class="w-4 h-4 mr-3" />
+          <button class="w-full flex items-center p-3 text-sm text-error hover:bg-error hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
+            <div class="w-6 h-6 bg-gradient-to-br from-error/20 to-error/30 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
+              <Icon icon="heroicons:trash" class="w-3 h-3 text-error group-hover:text-white" />
+            </div>
             {$_("settings.delete_account")}
           </button>
         </div>

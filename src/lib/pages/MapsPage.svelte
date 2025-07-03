@@ -922,31 +922,51 @@
 </script>
 
 <div class="space-y-8">
-  <!-- Page header -->
-  <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
-    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+  <!-- Page header with enhanced styling -->
+  <div
+    class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50"
+    use:motionInView={{ animation: "fadeInDown" }}
+  >
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+      <Icon icon="heroicons:map" class="w-full h-full text-primary" />
+    </div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+      <Icon icon="heroicons:location-marker" class="w-full h-full text-secondary" />
+    </div>
+
+    <div class="relative flex items-center justify-between">
       <div>
-        <h1 class="text-2xl lg:text-3xl font-bold text-base-content">{$_("maps.title")}</h1>
-        <p class="mt-2 text-sm text-base-content/60">
+        <h1 class="text-3xl font-bold text-primary">
+          {$_("maps.title")}
+        </h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">
           {$_("maps.description")}
         </p>
       </div>
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <button
-          class="btn btn-primary shadow-lg hover:text-primary-content w-full sm:w-auto"
-          on:click={openAddJobModal}
-          use:motionHover
-        >
-          <Icon icon="heroicons:plus" class="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+      <button
+        class="btn btn-primary shadow-md hover:shadow-lg group relative overflow-hidden"
+        on:click={openAddJobModal}
+        use:motionHover
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        ></div>
+        <div class="relative flex items-center">
+          <div
+            class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300"
+          >
+            <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+          </div>
           {$_("maps.add_job")}
-        </button>
-      </div>
+        </div>
+      </button>
     </div>
   </div>
 
   <!-- Filters and Search -->
-  <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
-    <div class="card-body">
+  <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
+    <div class="card-body p-4">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Search -->
         <div class="lg:col-span-2">
@@ -959,10 +979,10 @@
                 type="text"
                 bind:value={searchQuery}
                 placeholder={$_("maps.search_placeholder")}
-                class="input input-bordered w-full"
+                class="input input-bordered w-full focus:input-primary"
               />
             </div>
-            <button class="btn join-item hover:text-base-content">
+            <button class="btn join-item hover:text-base-content hover:bg-primary/10 transition-colors duration-200">
               <Icon icon="heroicons:magnifying-glass" class="w-4 h-4" />
             </button>
           </div>
@@ -972,7 +992,7 @@
           <label class="block text-sm font-medium text-base-content mb-2">
             {$_("maps.job_type")}
           </label>
-          <select bind:value={selectedType} class="select select-bordered w-full">
+          <select bind:value={selectedType} class="select select-bordered w-full focus:select-primary">
             {#each typeOptions as option}
               <option value={option.value}>{option.label}</option>
             {/each}
@@ -983,7 +1003,7 @@
           <label class="block text-sm font-medium text-base-content mb-2">
             {$_("maps.experience_level")}
           </label>
-          <select bind:value={selectedExperience} class="select select-bordered w-full">
+          <select bind:value={selectedExperience} class="select select-bordered w-full focus:select-primary">
             {#each experienceOptions as option}
               <option value={option.value}>{option.label}</option>
             {/each}
@@ -991,7 +1011,7 @@
         </div>
       </div>
       <!-- Results -->
-      <div class="flex items-center justify-between mt-6 pt-6 border-t border-base-300">
+      <div class="flex items-center justify-between mt-4 pt-4 border-t border-base-300">
         <div class="text-sm text-base-content/60">
           {allFilteredJobs.length} {$_("common.of")} {jobs.length} {$_("maps.jobs_found")}
         </div>
@@ -1010,14 +1030,14 @@
               <Icon icon="heroicons:exclamation-triangle" class="w-16 h-16 text-error mx-auto mb-4" />
               <h3 class="text-lg font-semibold text-base-content mb-2">{$_("maps.map_error")}</h3>
               <p class="text-base-content/70 mb-4">{mapError}</p>
-              <button class="btn btn-primary" on:click={() => window.location.reload()}>
+              <button class="btn btn-primary hover:shadow-md transition-shadow duration-200" on:click={() => window.location.reload()}>
                 <Icon icon="heroicons:arrow-path" class="w-4 h-4 mr-2" />
                 {$_("maps.reload_page")}
               </button>
             </div>
           </div>
         {:else}
-          <div bind:this={mapContainer} class="h-full w-full rounded-lg map-container">
+          <div bind:this={mapContainer} class="h-full w-full rounded-lg map-container shadow-md">
             {#if !mapLoaded || mapInitializing}
               <div class="absolute inset-0 flex items-center justify-center bg-base-200 rounded-lg z-10">
                 <div class="text-center">
@@ -1036,16 +1056,16 @@
     <div class="lg:w-2/5 w-full max-h-[700px] overflow-y-auto overflow-x-hidden max-w-full space-y-4">
       {#each filteredJobs as job (job.id)}
         <div 
-          class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200 cursor-pointer"
+          class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200 cursor-pointer"
           on:click={() => selectJob(job)}
           use:motionHover
         >
-          <div class="card-body">
+          <div class="card-body p-4">
             <div class="flex items-start gap-3 mb-4">
               <img 
                 src={job.companyLogo} 
                 alt={job.company}
-                class="w-12 h-12 rounded-lg object-cover bg-base-200"
+                class="w-12 h-12 rounded-lg object-cover bg-base-200 shadow-sm"
                 on:error={() => {}}
               />
               <div class="flex-1 min-w-0">
@@ -1053,25 +1073,31 @@
                 <p class="text-sm text-base-content/70">{job.company}</p>
                 <div class="flex items-center gap-2 mt-1">
                   {#if job.featured}
-                    <span class="badge badge-warning badge-xs">Featured</span>
+                    <span class="badge badge-warning badge-xs shadow-sm">Featured</span>
                   {/if}
                   {#if job.urgent}
-                    <span class="badge badge-error badge-xs">Urgent</span>
+                    <span class="badge badge-error badge-xs shadow-sm">Urgent</span>
                   {/if}
                 </div>
               </div>
             </div>
             <div class="space-y-2">
               <div class="flex items-center gap-2 text-sm text-base-content/70">
-                <Icon icon="heroicons:map-pin" class="w-4 h-4" />
+                <div class="w-6 h-6 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                  <Icon icon="heroicons:map-pin" class="w-3 h-3 text-blue-500" />
+                </div>
                 <span>{job.address}</span>
               </div>
               <div class="flex items-center gap-2 text-sm text-base-content/70">
-                <Icon icon="heroicons:briefcase" class="w-4 h-4" />
+                <div class="w-6 h-6 bg-green-500/10 rounded-lg flex items-center justify-center">
+                  <Icon icon="heroicons:briefcase" class="w-3 h-3 text-green-500" />
+                </div>
                 <span>{job.type}</span>
               </div>
               <div class="flex items-center gap-2 text-sm text-success">
-                <Icon icon="heroicons:banknotes" class="w-4 h-4" />
+                <div class="w-6 h-6 bg-success/10 rounded-lg flex items-center justify-center">
+                  <Icon icon="heroicons:banknotes" class="w-3 h-3 text-success" />
+                </div>
                 <span>{job.salary}</span>
               </div>
             </div>
@@ -1081,7 +1107,7 @@
                 <span>{job.applicants} applicants</span>
               </div>
               <button 
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary btn-sm hover:shadow-md transition-shadow duration-200"
                 on:click|stopPropagation={() => openJobDetails(job)}
               >
                 <Icon icon="heroicons:eye" class="w-4 h-4 mr-1" />

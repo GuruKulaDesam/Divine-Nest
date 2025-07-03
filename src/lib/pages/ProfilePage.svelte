@@ -211,31 +211,60 @@
 </script>
 
 <div class="space-y-6">
-  <!-- Page header -->
-  <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
-    <div class="flex items-center justify-between">
+  <!-- Page header with enhanced styling -->
+  <div
+    class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50"
+    use:motionInView={{ animation: "fadeInDown" }}
+  >
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+      <Icon icon="heroicons:user-circle" class="w-full h-full text-primary" />
+    </div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+      <Icon icon="heroicons:identification" class="w-full h-full text-secondary" />
+    </div>
+
+    <div class="relative flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">{$_('profile.title')}</h1>
-        <p class="mt-2 text-sm text-base-content/60">
+        <h1 class="text-3xl font-bold text-primary">{$_('profile.title')}</h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">
           {$_('profile.description')}
         </p>
       </div>
       <div class="flex items-center space-x-3">
         <button
-          class="btn btn-outline"
+          class="btn btn-outline shadow-md hover:shadow-lg group relative overflow-hidden"
           on:click={() => showNotificationModal = true}
           use:motionHover
         >
-          <Icon icon="heroicons:bell" class="w-5 h-5 mr-2" />
-          {$_('profile.notifications')}
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          ></div>
+          <div class="relative flex items-center">
+            <div
+              class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300"
+            >
+              <Icon icon="heroicons:bell" class="w-5 h-5 mr-2" />
+            </div>
+            {$_('profile.notifications')}
+          </div>
         </button>
         <button
-          class="btn btn-primary"
+          class="btn btn-primary shadow-md hover:shadow-lg group relative overflow-hidden"
           on:click={isEditing ? saveProfile : startEditing}
           use:motionHover
         >
-          <Icon icon={isEditing ? "heroicons:check" : "heroicons:pencil-square"} class="w-5 h-5 mr-2" />
-          {isEditing ? $_('profile.save') : $_('profile.edit')}
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          ></div>
+          <div class="relative flex items-center">
+            <div
+              class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300"
+            >
+              <Icon icon={isEditing ? "heroicons:check" : "heroicons:pencil-square"} class="w-5 h-5 mr-2" />
+            </div>
+            {isEditing ? $_('profile.save') : $_('profile.edit')}
+          </div>
         </button>
       </div>
     </div>
@@ -243,39 +272,87 @@
 
   <!-- Profile Stats -->
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" use:motionInView={{ animation: 'fadeInUp' }}>
-    {#each profileStats as stat, index}
-      <div 
-        class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200"
-        use:motionHover
-      >
-        <div class="card-body">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <div class="w-12 h-12 bg-base-200 rounded-lg flex items-center justify-center">
-                <Icon icon={stat.icon} class="w-6 h-6 {stat.color}" />
-              </div>
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:calendar-days" class="w-6 h-6 text-white" />
             </div>
-            <div class="ml-4 flex-1">
-              <p class="text-sm font-medium text-base-content/60 truncate">{stat.name}</p>
-              <p class="text-2xl font-bold text-base-content">{stat.value}</p>
-            </div>
+          </div>
+          <div class="ml-4 flex-1">
+            <p class="text-sm font-medium text-base-content/60">{profileStats[0].name}</p>
+            <p class="text-2xl font-bold text-base-content">{profileStats[0].value}</p>
           </div>
         </div>
       </div>
-    {/each}
+    </div>
+
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:check-circle" class="w-6 h-6 text-white" />
+            </div>
+          </div>
+          <div class="ml-4 flex-1">
+            <p class="text-sm font-medium text-base-content/60">{profileStats[1].name}</p>
+            <p class="text-2xl font-bold text-base-content">{profileStats[1].value}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:clipboard-document-check" class="w-6 h-6 text-white" />
+            </div>
+          </div>
+          <div class="ml-4 flex-1">
+            <p class="text-sm font-medium text-base-content/60">{profileStats[2].name}</p>
+            <p class="text-2xl font-bold text-base-content">{profileStats[2].value}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:users" class="w-6 h-6 text-white" />
+            </div>
+          </div>
+          <div class="ml-4 flex-1">
+            <p class="text-sm font-medium text-base-content/60">{profileStats[3].name}</p>
+            <p class="text-2xl font-bold text-base-content">{profileStats[3].value}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <!-- Profile Information -->
     <div class="lg:col-span-2 space-y-6">
       <!-- Basic Information -->
-      <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
+      <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
         <div class="card-body">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="card-title text-xl">{$_('profile.basic_information')}</h2>
+            <h2 class="card-title text-xl flex items-center">
+              <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center mr-3">
+                <Icon icon="heroicons:user" class="w-4 h-4 text-primary" />
+              </div>
+              {$_('profile.basic_information')}
+            </h2>
             {#if isEditing}
               <button
-                class="btn btn-sm btn-outline"
+                class="btn btn-sm btn-outline hover:bg-error hover:text-white transition-all duration-200"
                 on:click={cancelEditing}
               >
                 {$_('common.cancel')}
@@ -368,9 +445,14 @@
       </div>
 
       <!-- Skills and Languages -->
-      <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
+      <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
         <div class="card-body">
-          <h2 class="card-title text-xl mb-6">{$_('profile.skills_languages')}</h2>
+          <h2 class="card-title text-xl mb-6 flex items-center">
+            <div class="w-8 h-8 bg-gradient-to-br from-accent/20 to-secondary/20 rounded-lg flex items-center justify-center mr-3">
+              <Icon icon="heroicons:academic-cap" class="w-4 h-4 text-accent" />
+            </div>
+            {$_('profile.skills_languages')}
+          </h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -456,17 +538,17 @@
     <!-- Sidebar -->
     <div class="space-y-6">
       <!-- Avatar Section -->
-      <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
+      <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
         <div class="card-body text-center">
           <div class="relative inline-block">
             <div class="avatar">
-              <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              <div class="w-24 rounded-full ring-4 ring-primary/20 ring-offset-base-100 ring-offset-2 shadow-lg">
                 <img src={avatarPreview || profile.avatar} alt={profile.name} />
               </div>
             </div>
             {#if isEditing}
               <button
-                class="btn btn-circle btn-primary absolute bottom-0 right-0 shadow-lg"
+                class="btn btn-circle btn-primary absolute bottom-0 right-0 shadow-lg hover:scale-110 transition-transform duration-200"
                 on:click={() => showAvatarModal = true}
               >
                 <Icon icon="heroicons:camera" class="w-4 h-4" />
@@ -481,14 +563,18 @@
 
           <div class="space-y-3">
             <div class="flex items-center space-x-3">
-              <Icon icon="heroicons:calendar-days" class="w-5 h-5 text-base-content/40" />
+              <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                <Icon icon="heroicons:calendar-days" class="w-4 h-4 text-primary" />
+              </div>
               <div class="text-left">
                 <p class="text-sm font-medium text-base-content">{$_('profile.member_since')}</p>
                 <p class="text-sm text-base-content/60">{formatDate(profile.joinDate)}</p>
               </div>
             </div>
             <div class="flex items-center space-x-3">
-              <Icon icon="heroicons:clock" class="w-5 h-5 text-base-content/40" />
+              <div class="w-8 h-8 bg-gradient-to-br from-accent/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                <Icon icon="heroicons:clock" class="w-4 h-4 text-accent" />
+              </div>
               <div class="text-left">
                 <p class="text-sm font-medium text-base-content">{$_('profile.last_active')}</p>
                 <p class="text-sm text-base-content/60">{formatTime(profile.lastActive)}</p>
@@ -499,33 +585,38 @@
       </div>
 
       <!-- Quick Actions -->
-      <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
+      <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
         <div class="card-body">
-          <h3 class="card-title text-lg mb-4">{$_('profile.quick_actions')}</h3>
+          <h3 class="card-title text-lg mb-4 flex items-center">
+            <div class="w-6 h-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center mr-2">
+              <Icon icon="heroicons:bolt" class="w-3 h-3 text-primary" />
+            </div>
+            {$_('profile.quick_actions')}
+          </h3>
           <div class="space-y-3">
             <button
-              class="btn btn-outline w-full justify-start"
+              class="btn btn-outline w-full justify-start hover:bg-primary hover:text-white transition-all duration-200"
               on:click={() => showPasswordModal = true}
             >
               <Icon icon="heroicons:key" class="w-5 h-5 mr-2" />
               {$_('profile.change_password')}
             </button>
             <button
-              class="btn btn-outline w-full justify-start"
+              class="btn btn-outline w-full justify-start hover:bg-secondary hover:text-white transition-all duration-200"
               on:click={() => showNotificationModal = true}
             >
               <Icon icon="heroicons:bell" class="w-5 h-5 mr-2" />
               {$_('profile.notification_settings')}
             </button>
             <button
-              class="btn btn-outline w-full justify-start"
+              class="btn btn-outline w-full justify-start hover:bg-accent hover:text-white transition-all duration-200"
               on:click={() => showAvatarModal = true}
             >
               <Icon icon="heroicons:camera" class="w-5 h-5 mr-2" />
               {$_('profile.change_avatar')}
             </button>
             <button
-              class="btn btn-error text-white w-full justify-start"
+              class="btn btn-error text-white w-full justify-start hover:shadow-lg transition-all duration-200"
               on:click={deleteAccount}
             >
               <Icon icon="heroicons:trash" class="w-5 h-5 mr-2" />
@@ -536,15 +627,20 @@
       </div>
 
       <!-- Recent Activity -->
-      <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
+      <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
         <div class="card-body">
-          <h3 class="card-title text-lg mb-4">{$_('profile.recent_activity')}</h3>
+          <h3 class="card-title text-lg mb-4 flex items-center">
+            <div class="w-6 h-6 bg-gradient-to-br from-accent/20 to-secondary/20 rounded-lg flex items-center justify-center mr-2">
+              <Icon icon="heroicons:clock" class="w-3 h-3 text-accent" />
+            </div>
+            {$_('profile.recent_activity')}
+          </h3>
           <div class="space-y-4">
             {#each recentActivity as activity}
               <div class="flex items-start space-x-3">
                 <div class="flex-shrink-0">
                   <div class="avatar placeholder">
-                    <div class="w-8 h-8 rounded-full bg-base-200">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                       <Icon icon={getActivityIcon(activity)} class="w-4 h-4 {getActivityColor(activity)}" />
                     </div>
                   </div>

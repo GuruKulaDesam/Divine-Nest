@@ -25,6 +25,21 @@
   let selectedProduct = null;
   let productToDelete = null;
 
+  // Icon background colors for different stat types
+  const iconColors = {
+    'heroicons:plus': 'from-blue-500 to-indigo-600',
+    'heroicons:magnifying-glass': 'from-gray-500 to-slate-600',
+    'heroicons:funnel': 'from-purple-500 to-pink-600',
+    'heroicons:document-text': 'from-teal-500 to-cyan-600',
+    'heroicons:arrow-up': 'from-green-500 to-emerald-600',
+    'heroicons:arrow-down': 'from-red-500 to-pink-600',
+    'heroicons:pencil-square': 'from-blue-500 to-indigo-600',
+    'heroicons:trash': 'from-red-500 to-pink-600',
+    'heroicons:cube': 'from-orange-500 to-red-600',
+    'heroicons:exclamation-triangle': 'from-yellow-500 to-orange-600',
+    'heroicons:x-mark': 'from-gray-500 to-slate-600'
+  };
+
   // Computed filtered and sorted products
   $: filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -96,138 +111,160 @@
 </script>
 
 <div class="space-y-8">
-  <!-- Page header -->
+  <!-- Page header with enhanced styling -->
   <div
-    class="border-b border-base-300 pb-6"
+    class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50"
     use:motionInView={{ animation: "fadeInDown" }}
   >
-    <div class="flex items-center justify-between">
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+      <Icon icon="heroicons:cube" class="w-full h-full text-primary" />
+    </div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+      <Icon icon="heroicons:shopping-cart" class="w-full h-full text-secondary" />
+    </div>
+    
+    <div class="relative flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">{$_("products.title")}</h1>
-        <p class="mt-2 text-sm text-base-content/60">
+        <h1 class="text-3xl font-bold text-primary">{$_("products.title")}</h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">
           {$_("products.description")}
         </p>
       </div>
       <button
-        class="btn btn-primary shadow-lg hover:text-primary-content group"
+        class="btn btn-primary shadow-xl hover:shadow-2xl group relative overflow-hidden"
         on:click={openAddProductModal}
         use:motionHover
       >
-        <div class="p-1 rounded bg-primary-content/10 group-hover:bg-primary-content/20">
-          <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+        <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative flex items-center">
+          <div class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300">
+            <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+          </div>
+          {$_("products.add_product")}
         </div>
-        {$_("products.add_product")}
       </button>
     </div>
   </div>
 
-  <!-- Filters and Search -->
+  <!-- Enhanced Filters and Search -->
   <div
-    class="card bg-base-100 shadow-sm border border-base-300"
+          class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm"
     use:motionInView={{ animation: "fadeInUp" }}
   >
-    <div class="card-body">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Search -->
-        <div class="lg:col-span-2">
-          <label class="block text-sm font-medium text-base-content mb-2"
-            >{$_("products.search_products")}</label
-          >
-          <div class="join w-full">
-            <div class="join-item flex-1">
-              <input
-                type="text"
-                bind:value={searchQuery}
-                placeholder={$_("products.search_placeholder")}
-                class="input input-bordered w-full"
-              />
-            </div>
-            <button class="btn join-item hover:text-base-content">
-              <div class="p-1 rounded bg-base-200">
-                <Icon icon="heroicons:magnifying-glass" class="w-4 h-4" />
-              </div>
-            </button>
+    <!-- Background decoration -->
+    <div class="absolute top-0 right-0 w-20 h-20 opacity-5">
+      <Icon icon="heroicons:funnel" class="w-full h-full text-primary" />
+    </div>
+    
+    <div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Search -->
+      <div class="lg:col-span-2">
+        <label class="block text-sm font-medium text-base-content mb-2"
+          >{$_("products.search_products")}</label
+        >
+        <div class="join w-full">
+          <div class="join-item flex-1">
+            <input
+              type="text"
+              bind:value={searchQuery}
+              placeholder={$_("products.search_placeholder")}
+              class="input input-bordered w-full bg-base-100 border-base-300 focus:border-primary focus:ring-2 focus:ring-primary"
+            />
           </div>
-        </div>
-
-        <!-- Category Filter -->
-        <div>
-          <label class="block text-sm font-medium text-base-content mb-2"
-            >{$_("products.category")}</label
-          >
-          <select
-            bind:value={selectedCategory}
-            class="select select-bordered w-full"
-          >
-            {#each categoryOptions as option}
-              <option value={option.value}>{option.label}</option>
-            {/each}
-          </select>
-        </div>
-
-        <!-- Status Filter -->
-        <div>
-          <label class="block text-sm font-medium text-base-content mb-2"
-            >{$_("products.status")}</label
-          >
-          <select
-            bind:value={selectedStatus}
-            class="select select-bordered w-full"
-          >
-            {#each statusOptions as option}
-              <option value={option.value}>{option.label}</option>
-            {/each}
-          </select>
+          <button class="btn join-item hover:text-base-content">
+            <div class="p-1 rounded bg-base-200 group-hover:bg-base-300 transition-colors duration-200">
+              <Icon icon="heroicons:magnifying-glass" class="w-4 h-4" />
+            </div>
+          </button>
         </div>
       </div>
 
-      <!-- Sort and Results -->
-      <div
-        class="flex flex-col sm:flex-row sm:items-center justify-between mt-6 pt-6 border-t border-base-300 gap-4"
-      >
-        <!-- Sort Options -->
-        <div class="flex flex-wrap items-center gap-3">
-          <span class="text-sm font-medium text-base-content/70">{$_("products.sort_by")}</span>
-          <div class="flex flex-wrap gap-2">
-            {#each sortOptions as option}
-              <button
-                class="btn btn-sm {selectedSortBy === option.value ? 'btn-primary' : 'btn-ghost'} gap-2 group"
-                on:click={() => selectedSortBy = option.value}
-              >
-                <div class="p-1 rounded {selectedSortBy === option.value ? 'bg-primary-content/10 group-hover:bg-primary-content/20' : 'bg-base-200 group-hover:bg-base-300'}">
-                  {#if option.value.includes('desc')}
-                    <Icon icon="heroicons:arrow-down" class="w-4 h-4" />
-                  {:else}
-                    <Icon icon="heroicons:arrow-up" class="w-4 h-4" />
-                  {/if}
-                </div>
-                {option.label}
-              </button>
-            {/each}
-          </div>
-        </div>
+      <!-- Category Filter -->
+      <div>
+        <label class="block text-sm font-medium text-base-content mb-2"
+          >{$_("products.category")}</label
+        >
+        <select
+          bind:value={selectedCategory}
+          class="select select-bordered w-full bg-base-100 border-base-300 focus:border-primary focus:ring-2 focus:ring-primary"
+        >
+          {#each categoryOptions as option}
+            <option value={option.value}>{option.label}</option>
+          {/each}
+        </select>
+      </div>
 
-        <!-- Results Count -->
-        <div class="text-sm text-base-content/60 flex items-center gap-2">
-          <div class="p-1 rounded bg-base-200">
-            <Icon icon="heroicons:document-text" class="w-4 h-4" />
-          </div>
-          <span>{sortedProducts.length} {$_("common.of")} {products.length} {$_("products.products_found")}</span>
+      <!-- Status Filter -->
+      <div>
+        <label class="block text-sm font-medium text-base-content mb-2"
+          >{$_("products.status")}</label
+        >
+        <select
+          bind:value={selectedStatus}
+          class="select select-bordered w-full bg-base-100 border-base-300 focus:border-primary focus:ring-2 focus:ring-primary"
+        >
+          {#each statusOptions as option}
+            <option value={option.value}>{option.label}</option>
+          {/each}
+        </select>
+      </div>
+    </div>
+
+    <!-- Sort and Results -->
+    <div
+      class="relative flex flex-col sm:flex-row sm:items-center justify-between mt-6 pt-6 border-t border-base-300/50 gap-4"
+    >
+      <!-- Sort Options -->
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="text-sm font-medium text-base-content/70">{$_("products.sort_by")}</span>
+        <div class="flex flex-wrap gap-2">
+          {#each sortOptions as option}
+            <button
+              class="btn btn-sm {selectedSortBy === option.value ? 'btn-primary' : 'btn-ghost'} gap-2 group hover:shadow-md transition-all duration-200"
+              on:click={() => selectedSortBy = option.value}
+            >
+              <div class="p-1 rounded {selectedSortBy === option.value ? 'bg-primary-content/10 group-hover:bg-primary-content/20' : 'bg-base-200 group-hover:bg-base-300'} transition-colors duration-200">
+                {#if option.value.includes('desc')}
+                  <Icon icon="heroicons:arrow-down" class="w-4 h-4" />
+                {:else}
+                  <Icon icon="heroicons:arrow-up" class="w-4 h-4" />
+                {/if}
+              </div>
+              {option.label}
+            </button>
+          {/each}
         </div>
+      </div>
+
+      <!-- Results Count -->
+      <div class="text-sm text-base-content/60 flex items-center gap-2">
+        <div class="p-1 rounded bg-base-200">
+          <Icon icon="heroicons:document-text" class="w-4 h-4" />
+        </div>
+        <span>{sortedProducts.length} {$_("common.of")} {products.length} {$_("products.products_found")}</span>
       </div>
     </div>
   </div>
 
-  <!-- Products Grid -->
+  <!-- Enhanced Products Grid -->
   <div
     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
     use:motionInView={{ animation: "fadeInUp" }}
   >
     {#each sortedProducts as product (product.id)}
       <div
-        class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200"
+        class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm"
         use:motionHover
       >
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+          <Icon icon="heroicons:cube" class="w-full h-full text-primary" />
+        </div>
+        
+        <!-- Glow effect -->
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+        
         <!-- Product Image -->
         <figure class="relative h-48 bg-base-200">
           <img
@@ -243,30 +280,32 @@
             }}  
           />
           <div class="absolute top-2 right-2">
-            <div class="badge {getStatusColor(product.status)}">
+                          <div class="badge {getStatusColor(product.status)} shadow-md">
               {getStatusDisplayText(product.status)}
             </div>
           </div>
         </figure>
 
         <!-- Product Info -->
-        <div class="card-body p-4">
-          <div class="flex items-start justify-between mb-2">
-            <h3 class="card-title text-sm line-clamp-2">{product.name}</h3>
+        <div class="relative p-5">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="card-title text-sm line-clamp-2 group-hover:text-primary transition-colors duration-200">{product.name}</h3>
             <button
-              class="btn btn-ghost btn-xs hover:text-base-content"
+              class="btn btn-ghost btn-xs hover:text-base-content group"
               on:click={() => editProduct(product)}
             >
-              <Icon icon="heroicons:pencil-square" class="w-4 h-4" />
+              <div class="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                <Icon icon="heroicons:pencil-square" class="w-4 h-4" />
+              </div>
             </button>
           </div>
 
-          <p class="text-xs text-base-content/60 mb-3 line-clamp-2">
+          <p class="text-xs text-base-content/60 mb-4 line-clamp-2">
             {product.description}
           </p>
 
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-lg font-bold text-base-content"
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-lg font-bold text-base-content group-hover:text-primary transition-colors duration-200"
               >${product.price}</span
             >
             <span class="text-sm font-medium {getStockColor(product.stock)}">
@@ -275,19 +314,19 @@
           </div>
 
           <div
-            class="flex items-center justify-between text-xs text-base-content/60"
+            class="flex items-center justify-between text-xs text-base-content/60 mb-4"
           >
             <span>{$_("products.sku")}: {product.sku}</span>
             <span>{product.category}</span>
           </div>
 
           <!-- Action Buttons -->
-          <div class="card-actions justify-end mt-3">
+          <div class="card-actions justify-end">
             <button
               class="btn btn-outline btn-primary btn-sm hover:text-primary-content group"
               on:click={() => editProduct(product)}
             >
-              <div class="p-1 rounded bg-primary/10 group-hover:bg-primary/20">
+              <div class="p-1 rounded bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                 <Icon icon="heroicons:pencil-square" class="w-4 h-4 mr-1 text-primary" />
               </div>
               {$_("products.edit")}
@@ -296,7 +335,7 @@
               class="btn btn-outline btn-error btn-sm hover:text-white group"
               on:click={() => openDeleteConfirmation(product)}
             >
-              <div class="p-1 rounded bg-error/10 group-hover:bg-error/20">
+              <div class="p-1 rounded bg-error/10 group-hover:bg-error/20 transition-colors duration-200">
                 <Icon icon="heroicons:trash" class="w-4 h-4 mr-1 text-error" />
               </div>
               {$_("products.delete")}
@@ -307,13 +346,18 @@
     {/each}
   </div>
 
-  <!-- Empty State -->
+  <!-- Enhanced Empty State -->
   {#if sortedProducts.length === 0}
     <div
-      class="card bg-base-100 shadow-sm border border-base-300"
+      class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 backdrop-blur-sm"
       use:motionInView={{ animation: "fadeInUp" }}
     >
-      <div class="card-body text-center py-12">
+      <!-- Background decoration -->
+      <div class="absolute top-0 right-0 w-24 h-24 opacity-5">
+        <Icon icon="heroicons:cube" class="w-full h-full text-primary" />
+      </div>
+      
+      <div class="relative card-body text-center py-12">
         <Icon
           icon="heroicons:cube"
           class="w-16 h-16 text-base-content/40 mx-auto mb-4"
@@ -325,11 +369,16 @@
           {$_("users.try_adjusting_search")}
         </p>
         <button
-          class="btn btn-primary shadow-lg hover:text-primary-content"
+          class="btn btn-primary shadow-md hover:text-primary-content group relative overflow-hidden"
           on:click={openAddProductModal}
         >
-          <Icon icon="heroicons:plus" class="w-4 h-4 mr-2" />
-          {$_("products.add_first_product")}
+          <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative flex items-center">
+            <div class="p-1 rounded bg-primary-content/10 group-hover:bg-primary-content/20 transition-colors duration-300">
+              <Icon icon="heroicons:plus" class="w-4 h-4 mr-2" />
+            </div>
+            {$_("products.add_first_product")}
+          </div>
         </button>
       </div>
     </div>
@@ -446,7 +495,7 @@
           {$_("settings.cancel")}
         </button>
         <button
-          class="btn btn-primary shadow-lg hover:text-primary-content"
+                      class="btn btn-primary shadow-md hover:text-primary-content"
           on:click={closeAddProductModal}
         >
           {selectedProduct ? $_("products.update_product") : $_("products.add_product")}
@@ -481,7 +530,7 @@
           class="btn btn-ghost group" 
           on:click={closeDeleteConfirmation}
         >
-          <div class="p-1 rounded bg-base-200 group-hover:bg-base-300">
+          <div class="p-1 rounded bg-base-200 group-hover:bg-base-300 transition-colors duration-200">
             <Icon icon="heroicons:x-mark" class="w-4 h-4 mr-2" />
           </div>
           {$_("common.cancel")}
@@ -490,7 +539,7 @@
           class="btn btn-error group" 
           on:click={confirmDelete}
         >
-          <div class="p-1 rounded bg-error-content/10 group-hover:bg-error-content/20">
+          <div class="p-1 rounded bg-error-content/10 group-hover:bg-error-content/20 transition-colors duration-200">
             <Icon icon="heroicons:trash" class="w-4 h-4 mr-2 text-error-content" />
           </div>
           {$_("common.delete")}

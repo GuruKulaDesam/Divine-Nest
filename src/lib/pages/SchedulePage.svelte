@@ -115,6 +115,14 @@
     return eventDate >= today && eventDate <= weekFromNow;
   }).length;
   
+  // Icon colors for stats
+  const iconColors = {
+    today: 'bg-blue-500',
+    week: 'bg-green-500', 
+    upcoming: 'bg-purple-500',
+    total: 'bg-orange-500'
+  };
+  
   // Calendar options - will update when selectedViewOption changes
   $: calendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin, multiMonthPlugin],
@@ -386,34 +394,56 @@
 </svelte:head>
 
 <div class="space-y-8">
-  <!-- Page header -->
-  <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
-    <div class="flex items-center justify-between">
+  <!-- Page header with enhanced styling -->
+  <div
+    class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50"
+    use:motionInView={{ animation: "fadeInDown" }}
+  >
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+      <Icon icon="heroicons:calendar-days" class="w-full h-full text-primary" />
+    </div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+      <Icon icon="heroicons:clock" class="w-full h-full text-secondary" />
+    </div>
+
+    <div class="relative flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">{$_('navigation.schedule') || 'Schedule'}</h1>
-        <p class="mt-2 text-sm text-base-content/60">
+        <h1 class="text-3xl font-bold text-primary">
+          {$_('navigation.schedule') || 'Schedule'}
+        </h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">
           Manage your events, appointments, and calendar schedule
         </p>
       </div>
-      <button 
-        class="btn btn-primary shadow-lg hover:text-primary-content"
+      <button
+        class="btn btn-primary shadow-md hover:shadow-lg group relative overflow-hidden"
         on:click={createQuickEvent}
         use:motionHover
       >
-        <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
-        New Event
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        ></div>
+        <div class="relative flex items-center">
+          <div
+            class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300"
+          >
+            <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
+          </div>
+          New Event
+        </div>
       </button>
     </div>
   </div>
 
   <!-- Stats Cards -->
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" use:motionInView={{ animation: 'fadeInUp' }}>
-    <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200" use:motionHover>
-      <div class="card-body p-6">
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-              <Icon icon="heroicons:calendar-days" class="w-6 h-6 text-primary" />
+            <div class="w-12 h-12 {iconColors.today} rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:calendar-days" class="w-6 h-6 text-white" />
             </div>
           </div>
           <div class="ml-4 flex-1">
@@ -424,12 +454,12 @@
       </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200" use:motionHover>
-      <div class="card-body p-6">
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
-              <Icon icon="heroicons:clock" class="w-6 h-6 text-secondary" />
+            <div class="w-12 h-12 {iconColors.week} rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:clock" class="w-6 h-6 text-white" />
             </div>
           </div>
           <div class="ml-4 flex-1">
@@ -440,12 +470,12 @@
       </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200" use:motionHover>
-      <div class="card-body p-6">
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
-              <Icon icon="heroicons:arrow-trending-up" class="w-6 h-6 text-accent" />
+            <div class="w-12 h-12 {iconColors.upcoming} rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:arrow-trending-up" class="w-6 h-6 text-white" />
             </div>
           </div>
           <div class="ml-4 flex-1">
@@ -456,12 +486,12 @@
       </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm border border-base-300 hover:shadow-md transition-shadow duration-200" use:motionHover>
-      <div class="card-body p-6">
+    <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg hover:scale-[1.02] transition-all duration-200" use:motionHover>
+      <div class="card-body p-4">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <div class="w-12 h-12 bg-info/10 rounded-lg flex items-center justify-center">
-              <Icon icon="heroicons:calendar" class="w-6 h-6 text-info" />
+            <div class="w-12 h-12 {iconColors.total} rounded-lg flex items-center justify-center shadow-sm">
+              <Icon icon="heroicons:calendar" class="w-6 h-6 text-white" />
             </div>
           </div>
           <div class="ml-4 flex-1">
@@ -474,8 +504,8 @@
   </div>
 
   <!-- Calendar Controls -->
-  <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
-    <div class="card-body p-6">
+  <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
+    <div class="card-body p-4">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 class="text-lg font-semibold text-base-content">Calendar View</h2>
@@ -486,7 +516,7 @@
           <div class="join">
             {#each viewOptions as option (option.value)}
               <button
-                class="btn join-item btn-sm {selectedViewOption === option.value ? 'btn-primary' : 'btn-outline'}"
+                class="btn join-item btn-sm {selectedViewOption === option.value ? 'btn-primary shadow-md' : 'btn-outline hover:shadow-sm'} transition-all duration-200"
                 on:click={() => changeView(option.value)}
                 use:motionHover
               >
@@ -501,7 +531,7 @@
   </div>
 
   <!-- Calendar Container -->
-  <div class="card bg-base-100 shadow-sm border border-base-300" use:motionInView={{ animation: 'fadeInUp' }}>
+  <div class="card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInUp' }}>
     <div class="card-body p-0">
       {#if isLoading}
         <div class="flex items-center justify-center h-96">
@@ -516,7 +546,7 @@
             <Icon icon="heroicons:exclamation-triangle" class="w-16 h-16 text-error mx-auto mb-4" />
             <h3 class="text-lg font-semibold text-base-content mb-2">Calendar Error</h3>
             <p class="text-base-content/70 mb-4">{calendarError}</p>
-            <button class="btn btn-primary" on:click={() => window.location.reload()}>
+            <button class="btn btn-primary hover:shadow-md transition-shadow duration-200" on:click={() => window.location.reload()}>
               <Icon icon="heroicons:arrow-path" class="w-4 h-4 mr-2" />
               Reload Page
             </button>

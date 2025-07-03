@@ -235,12 +235,20 @@
 </script>
 
 <div class="space-y-6">
-  <!-- Page header -->
-  <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+  <!-- Page header with enhanced styling -->
+  <div class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50" use:motionInView={{ animation: 'fadeInDown' }}>
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+      <Icon icon="heroicons:clipboard-document-list" class="w-full h-full text-primary" />
+    </div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+      <Icon icon="heroicons:check-circle" class="w-full h-full text-secondary" />
+    </div>
+    
+    <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">{$_('projects.title')}</h1>
-        <p class="mt-2 text-sm text-base-content/60">
+        <h1 class="text-3xl font-bold text-primary">{$_('projects.title')}</h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">
           {$_('projects.description')}
         </p>
       </div>
@@ -254,17 +262,22 @@
             type="text"
             bind:value={searchQuery}
             placeholder={$_('projects.search_placeholder')}
-            class="input input-bordered w-full sm:w-[280px] ps-10"
+            class="input input-bordered w-full sm:w-[280px] ps-10 bg-base-100 border-base-300 focus:border-primary focus:ring-2 focus:ring-primary shadow-md hover:shadow-lg transition-all duration-200"
           />
         </div>
         <!-- Add Task Button -->
         <button
-          class="btn btn-primary shadow-lg hover:text-primary-content whitespace-nowrap"
+          class="btn btn-primary shadow-xl hover:shadow-2xl group relative overflow-hidden whitespace-nowrap"
           on:click={openAddTaskModal}
           use:motionHover
         >
-          <Icon icon="ph:plus" class="w-5 h-5 mr-2" />
-          {$_('projects.add_task')}
+          <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative flex items-center">
+            <div class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300">
+              <Icon icon="ph:plus" class="w-5 h-5 mr-2" />
+            </div>
+            {$_('projects.add_task')}
+          </div>
         </button>
       </div>
     </div>
@@ -278,9 +291,9 @@
           <!-- Status Header -->
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-2">
-              <div class="w-3 h-3 rounded-full {status.color}"></div>
+              <div class="w-3 h-3 rounded-full {status.color} shadow-sm"></div>
               <h3 class="font-semibold text-base-content">{status.name}</h3>
-              <span class="bg-base-200 text-base-content/60 text-xs px-2 py-1 rounded-full">
+              <span class="bg-gradient-to-r from-primary/10 to-secondary/10 text-primary text-xs px-3 py-1 rounded-full border border-primary/20 shadow-sm">
                 {filteredProjects[status.id]?.length || 0}
               </span>
             </div>
@@ -288,32 +301,46 @@
 
           <!-- Task Cards -->
           <div
-            class="bg-base-200 rounded-lg p-4 min-h-[500px]"
+            class="group relative overflow-hidden bg-gradient-to-br from-base-200 to-base-300/50 rounded-2xl p-4 min-h-[500px] border border-base-300/50 shadow-md hover:shadow-lg transition-all duration-300 backdrop-blur-sm"
             on:dragover={handleDragOver}
             on:drop={(e) => handleDrop(e, status.id)}
           >
-            <div class="space-y-3">
+            <!-- Background decoration -->
+            <div class="absolute top-0 right-0 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+              <Icon icon="heroicons:clipboard-document-list" class="w-full h-full text-primary" />
+            </div>
+            
+            <!-- Glow effect -->
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+            <div class="relative space-y-3">
               {#each filteredProjects[status.id] || [] as task (task.id)}
                 <div
-                  class="bg-base-100 rounded-lg p-4 shadow-sm border border-base-300 cursor-move hover:shadow-md transition-shadow duration-200"
+                  class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-xl p-4 shadow-md border border-base-300/50 cursor-move hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm"
                   draggable="true"
                   on:dragstart={(e) => handleDragStart(e, task, status.id)}
                   use:motionHover
                 >
+                  <!-- Background decoration -->
+                  <div class="absolute top-0 right-0 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+                    <Icon icon="heroicons:document-text" class="w-full h-full text-primary" />
+                  </div>
+                  
+                  <!-- Glow effect -->
+                  <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
                   <!-- Task Header -->
-                  <div class="flex items-start justify-between mb-2">
-                    <h4 class="font-medium text-base-content text-sm line-clamp-2 flex-1 mr-2">
+                  <div class="relative flex items-start justify-between mb-2">
+                    <h4 class="font-medium text-base-content text-sm line-clamp-2 flex-1 mr-2 group-hover:text-primary transition-colors duration-300">
                       {task.title}
                     </h4>
                     <div class="flex items-center space-x-1">
                       <button
-                        class="p-1 text-base-content/40 hover:text-base-content"
+                        class="p-1.5 text-base-content/40 hover:text-primary rounded-lg bg-base-200/50 hover:bg-primary/10 transition-all duration-200"
                         on:click={() => viewTaskDetails(task)}
                       >
                         <Icon icon="heroicons:eye" class="w-4 h-4" />
                       </button>
                       <button
-                        class="p-1 text-base-content/40 hover:text-red-500"
+                        class="p-1.5 text-base-content/40 hover:text-error rounded-lg bg-base-200/50 hover:bg-error/10 transition-all duration-200"
                         on:click={() => deleteTask(task.id, status.id)}
                       >
                         <Icon icon="heroicons:trash" class="w-4 h-4" />
@@ -322,19 +349,19 @@
                   </div>
 
                   <!-- Task Description -->
-                  <p class="text-xs text-base-content/60 mb-3 line-clamp-2">
+                  <p class="relative text-xs text-base-content/60 mb-3 line-clamp-2 group-hover:text-base-content/80 transition-colors duration-300">
                     {task.description}
                   </p>
 
                   <!-- Task Meta -->
-                  <div class="space-y-2">
+                  <div class="relative space-y-2">
                     <!-- Priority -->
                     <div class="flex items-center justify-between">
-                      <span class="text-xs px-2 py-1 rounded-full {getPriorityColor(task.priority)}">
+                      <span class="text-xs px-3 py-1 rounded-full {getPriorityColor(task.priority)} shadow-sm border border-current/20">
                         {getPriorityText(task.priority)}
                       </span>
                       {#if task.dueDate}
-                        <span class="text-xs text-base-content/60">
+                        <span class="text-xs text-base-content/60 bg-base-200/50 px-2 py-1 rounded-lg">
                           {formatDate(task.dueDate)}
                         </span>
                       {/if}
@@ -343,8 +370,10 @@
                     <!-- Assignee -->
                     {#if task.assignee}
                       <div class="flex items-center space-x-2">
-                        <Icon icon="heroicons:user" class="w-3 h-3 text-base-content/40" />
-                        <span class="text-xs text-base-content/70">{task.assignee}</span>
+                        <div class="w-6 h-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center shadow-sm">
+                          <Icon icon="heroicons:user" class="w-3 h-3 text-primary" />
+                        </div>
+                        <span class="text-xs text-base-content/70 group-hover:text-base-content transition-colors duration-300">{task.assignee}</span>
                       </div>
                     {/if}
 
@@ -352,7 +381,7 @@
                     {#if task.tags && task.tags.length > 0}
                       <div class="flex flex-wrap gap-1">
                         {#each task.tags as tag}
-                          <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
+                          <span class="text-xs bg-gradient-to-r from-primary/10 to-secondary/10 text-primary px-2 py-1 rounded-lg border border-primary/20 shadow-sm group-hover:shadow-md transition-shadow duration-300">
                             {tag}
                           </span>
                         {/each}
@@ -482,7 +511,7 @@
           {$_('common.cancel')}
         </button>
         <button
-          class="btn btn-primary shadow-lg hover:text-primary-content"
+          class="btn btn-primary shadow-md hover:text-primary-content"
           on:click={addNewTask}
         >
           {$_('projects.add_task')}

@@ -730,19 +730,29 @@ const chart = new Chart(ctx, {
   }
 </script>
 
+<svelte:window on:click={handleClickOutside} />
+
 <div class="space-y-8">
-  <!-- Page header -->
-  <div class="border-b border-base-300 pb-6" use:motionInView={{ animation: 'fadeInDown' }}>
-    <div class="flex items-center justify-between">
+  <!-- Page header with enhanced styling -->
+  <div class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50" use:motionInView={{ animation: 'fadeInDown' }}>
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+      <Icon icon="heroicons:chart-bar" class="w-full h-full text-primary" />
+    </div>
+    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+      <Icon icon="heroicons:presentation-chart-line" class="w-full h-full text-secondary" />
+    </div>
+    
+    <div class="relative flex items-center justify-between">
       <div>
-        <h1 class="text-3xl font-bold text-base-content">{$_("charts.title")}</h1>
-        <p class="mt-2 text-sm text-base-content/60">{$_("charts.description")}</p>
+        <h1 class="text-3xl font-bold text-primary">{$_("charts.title")}</h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">{$_("charts.description")}</p>
       </div>
       <div class="flex items-center space-x-4">
         <!-- Chart Type Selector -->
         <div class="relative chart-selector">
           <button 
-            class="px-4 py-2 text-sm font-medium text-base-content/70 bg-base-200 border border-base-300 rounded-lg hover:bg-base-300 focus:outline-none focus:ring-2 focus:ring-primary flex items-center space-x-2"
+            class="px-4 py-2 text-sm font-medium text-base-content/70 bg-base-100 border border-base-300 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary flex items-center space-x-2 shadow-md hover:shadow-lg transition-all duration-200"
             on:click={toggleChartSelect}
           >
             <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-5 h-5" />
@@ -771,9 +781,16 @@ const chart = new Chart(ctx, {
   </div>
 
   <!-- Selected Chart Category Header -->
-  <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInScale' }}>
-    <div class="flex items-center space-x-3">
-      <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-8 h-8 text-primary" />
+        <div class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm" use:motionInView={{ animation: 'fadeInScale' }}>
+    <!-- Background decoration -->
+    <div class="absolute top-0 right-0 w-20 h-20 opacity-5">
+      <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-full h-full text-primary" />
+    </div>
+    
+    <div class="relative flex items-center space-x-3">
+              <div class="w-12 h-12 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center shadow-md">
+        <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-6 h-6 text-primary" />
+      </div>
       <div>
         <h2 class="text-2xl font-semibold text-base-content">
           {chartOptions.find(opt => opt.value === selectedChart)?.label || $_("charts.select_type")} Charts
@@ -787,15 +804,24 @@ const chart = new Chart(ctx, {
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     {#each Array(4) as _, i}
       <div 
-        class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" 
+        class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm hover:shadow-lg hover:scale-105 transition-all duration-300" 
         use:motionInView={{ animation: 'fadeIn', delay: i * 100 }}
+        use:motionHover
         style="height: 350px;"
       >
-        <div class="mb-3">
-          <h3 class="font-medium text-base-content">Demo {i + 1}</h3>
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+          <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-full h-full text-primary" />
+        </div>
+        
+        <!-- Glow effect -->
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+        
+        <div class="relative mb-3">
+          <h3 class="font-medium text-base-content group-hover:text-primary transition-colors duration-300">Demo {i + 1}</h3>
           <p class="text-xs text-base-content/50">Sample variation #{i + 1}</p>
         </div>
-        <div style="height: calc(100% - 60px);">
+        <div class="relative" style="height: calc(100% - 60px);">
           <canvas id="chart-{selectedChart}-{i + 1}"></canvas>
         </div>
       </div>
@@ -803,10 +829,17 @@ const chart = new Chart(ctx, {
   </div>
 
   <!-- Chart Information -->
-  <div class="bg-base-100 rounded-xl shadow-sm border border-base-300 p-6" use:motionInView={{ animation: 'fadeInUp' }}>
-    <div class="mb-6">
+      <div class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm" use:motionInView={{ animation: 'fadeInUp' }}>
+    <!-- Background decoration -->
+    <div class="absolute top-0 right-0 w-24 h-24 opacity-5">
+      <Icon icon="heroicons:information-circle" class="w-full h-full text-secondary" />
+    </div>
+    
+    <div class="relative mb-6">
       <h3 class="text-xl font-semibold text-base-content flex items-center space-x-2">
-        <Icon icon="heroicons:information-circle" class="w-6 h-6 text-primary" />
+        <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center shadow-md">
+          <Icon icon="heroicons:information-circle" class="w-5 h-5 text-primary" />
+        </div>
         <span>Chart Information & Details</span>
       </h3>
       <p class="text-sm text-base-content/60 mt-1">Technical specifications and use cases for {chartOptions.find(opt => opt.value === selectedChart)?.label} charts</p>
@@ -816,11 +849,18 @@ const chart = new Chart(ctx, {
       <!-- Left Column -->
       <div class="space-y-6">
         <!-- Chart Overview -->
-        <div class="bg-base-200 rounded-lg p-4">
-          <div class="flex items-center space-x-3 mb-3">
-            <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-7 h-7 text-primary" />
+        <div class="group relative overflow-hidden bg-gradient-to-br from-base-200 to-base-300/50 rounded-xl p-4 border border-base-300/50 hover:shadow-lg transition-all duration-300" use:motionHover>
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+            <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-full h-full text-primary" />
+          </div>
+          
+          <div class="relative flex items-center space-x-3 mb-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow duration-300">
+              <Icon icon={chartOptions.find(opt => opt.value === selectedChart)?.icon || 'heroicons:chart-bar'} class="w-5 h-5 text-primary group-hover:scale-110 transition-transform duration-300" />
+            </div>
             <div>
-              <h4 class="font-semibold text-base-content">{chartOptions.find(opt => opt.value === selectedChart)?.label} Chart</h4>
+              <h4 class="font-semibold text-base-content group-hover:text-primary transition-colors duration-300">{chartOptions.find(opt => opt.value === selectedChart)?.label} Chart</h4>
               <p class="text-xs text-base-content/60">Chart Type: {selectedChart}</p>
             </div>
           </div>
@@ -846,27 +886,36 @@ const chart = new Chart(ctx, {
         </div>
 
         <!-- Technical Specifications -->
-        <div class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg p-4 border border-primary/10">
-          <h4 class="font-semibold text-base-content mb-3 flex items-center space-x-2">
-            <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5 text-primary" />
-            <span>Technical Specs</span>
-          </h4>
-          <div class="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span class="text-base-content/60">Library:</span>
-              <span class="text-base-content ml-2 font-medium">Chart.js v4</span>
-            </div>
-            <div>
-              <span class="text-base-content/60">Responsive:</span>
-              <span class="text-success ml-2 font-medium">✓ Yes</span>
-            </div>
-            <div>
-              <span class="text-base-content/60">Animation:</span>
-              <span class="text-success ml-2 font-medium">✓ Enabled</span>
-            </div>
-            <div>
-              <span class="text-base-content/60">Interactive:</span>
-              <span class="text-success ml-2 font-medium">✓ Tooltips</span>
+        <div class="group relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl p-4 border border-primary/20 hover:shadow-lg transition-all duration-300" use:motionHover>
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+            <Icon icon="heroicons:cog-6-tooth" class="w-full h-full text-primary" />
+          </div>
+          
+          <div class="relative">
+            <h4 class="font-semibold text-base-content mb-3 flex items-center space-x-2">
+              <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                <Icon icon="heroicons:cog-6-tooth" class="w-4 h-4 text-primary group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <span class="group-hover:text-primary transition-colors duration-300">Technical Specs</span>
+            </h4>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="text-base-content/60">Library:</span>
+                <span class="text-base-content ml-2 font-medium">Chart.js v4</span>
+              </div>
+              <div>
+                <span class="text-base-content/60">Responsive:</span>
+                <span class="text-success ml-2 font-medium">✓ Yes</span>
+              </div>
+              <div>
+                <span class="text-base-content/60">Animation:</span>
+                <span class="text-success ml-2 font-medium">✓ Enabled</span>
+              </div>
+              <div>
+                <span class="text-base-content/60">Interactive:</span>
+                <span class="text-success ml-2 font-medium">✓ Tooltips</span>
+              </div>
             </div>
           </div>
         </div>
@@ -912,118 +961,127 @@ const chart = new Chart(ctx, {
       <!-- Right Column -->
       <div class="space-y-6">
         <!-- Use Cases -->
-        <div class="bg-success/5 rounded-lg p-4 border border-success/20">
-          <h4 class="font-semibold text-base-content mb-3 flex items-center space-x-2">
-            <Icon icon="heroicons:light-bulb" class="w-5 h-5 text-success" />
-            <span>Best Use Cases</span>
-          </h4>
-          <ul class="space-y-2 text-sm">
-            {#if selectedChart === 'line'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Time series analysis and trend visualization</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Stock market data and financial metrics</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Website analytics and performance tracking</span>
-              </li>
-            {:else if selectedChart === 'bar'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Comparing quantities across categories</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Survey results and poll data</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Sales performance by region or product</span>
-              </li>
-            {:else if selectedChart === 'pie'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Market share analysis</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Budget allocation and expense breakdown</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Demographics and population distribution</span>
-              </li>
-            {:else if selectedChart === 'doughnut'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Modern dashboards and KPI displays</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Progress indicators with central metrics</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Resource utilization visualization</span>
-              </li>
-            {:else if selectedChart === 'radar'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Multi-criteria comparison and analysis</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Skills assessment and performance review</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Product feature comparison</span>
-              </li>
-            {:else if selectedChart === 'polarArea'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Cyclical data visualization</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Seasonal trends and patterns</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Directional data with magnitude</span>
-              </li>
-            {:else if selectedChart === 'bubble'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Three-variable correlation analysis</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Portfolio analysis (risk vs return vs size)</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Market positioning analysis</span>
-              </li>
-            {:else if selectedChart === 'scatter'}
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Correlation and regression analysis</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Outlier detection and pattern recognition</span>
-              </li>
-              <li class="flex items-start space-x-2">
-                <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                <span>Scientific data visualization</span>
-              </li>
-            {/if}
-          </ul>
+        <div class="group relative overflow-hidden bg-gradient-to-br from-success/5 to-emerald/5 rounded-xl p-4 border border-success/20 hover:shadow-lg transition-all duration-300" use:motionHover>
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+            <Icon icon="heroicons:light-bulb" class="w-full h-full text-success" />
+          </div>
+          
+          <div class="relative">
+            <h4 class="font-semibold text-base-content mb-3 flex items-center space-x-2">
+              <div class="w-8 h-8 bg-gradient-to-br from-success/20 to-emerald/20 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                <Icon icon="heroicons:light-bulb" class="w-4 h-4 text-success group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <span class="group-hover:text-success transition-colors duration-300">Best Use Cases</span>
+            </h4>
+            <ul class="space-y-2 text-sm">
+              {#if selectedChart === 'line'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Time series analysis and trend visualization</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Stock market data and financial metrics</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Website analytics and performance tracking</span>
+                </li>
+              {:else if selectedChart === 'bar'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Comparing quantities across categories</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Survey results and poll data</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Sales performance by region or product</span>
+                </li>
+              {:else if selectedChart === 'pie'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Market share analysis</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Budget allocation and expense breakdown</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Demographics and population distribution</span>
+                </li>
+              {:else if selectedChart === 'doughnut'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Modern dashboards and KPI displays</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Progress indicators with central metrics</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Resource utilization visualization</span>
+                </li>
+              {:else if selectedChart === 'radar'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Multi-criteria comparison and analysis</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Skills assessment and performance review</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Product feature comparison</span>
+                </li>
+              {:else if selectedChart === 'polarArea'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Cyclical data visualization</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Seasonal trends and patterns</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Directional data with magnitude</span>
+                </li>
+              {:else if selectedChart === 'bubble'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Three-variable correlation analysis</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Portfolio analysis (risk vs return vs size)</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Market positioning analysis</span>
+                </li>
+              {:else if selectedChart === 'scatter'}
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Correlation and regression analysis</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Outlier detection and pattern recognition</span>
+                </li>
+                <li class="flex items-start space-x-2">
+                  <Icon icon="heroicons:check" class="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  <span>Scientific data visualization</span>
+                </li>
+              {/if}
+            </ul>
+          </div>
         </div>
 
         <!-- Interactive Features -->
@@ -1226,6 +1284,4 @@ const chart = new Chart(ctx, {
       </div>
     </div>
   </div>
-{/if}
-
-<svelte:window on:click={handleClickOutside} /> 
+{/if} 
