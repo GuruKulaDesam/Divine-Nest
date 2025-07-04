@@ -24,12 +24,14 @@
   import { themeActions } from './lib/stores/theme.js';
   import { isLoading } from 'svelte-i18n';
   import { i18nReadyPromise } from './lib/i18n/index.js';
+  import LoadingSpinner from './lib/components/LoadingSpinner.svelte';
 
   let current;
   let pageElement;
   let previousRoute = '';
   let appReady = false;
   let showFullPage = false;
+  let loading = true;
 
   $: {
     // Determine if we should show a full page (without dashboard layout)
@@ -74,6 +76,7 @@
     previousRoute = $currentRoute;
   }
   
+  // Async logic for app readiness
   onMount(async () => {
     // Initialize theme system
     themeActions.init();
@@ -91,7 +94,19 @@
       }
     }, 100);
   });
+
+  // Timer for loading spinner (separate, not async)
+  onMount(() => {
+    const timer = setTimeout(() => {
+      loading = false;
+    }, 3000);
+    return () => clearTimeout(timer);
+  });
 </script>
+
+{#if loading}
+  <LoadingSpinner />
+{/if}
 
 {#if !appReady || $isLoading}
   <div class="flex items-center justify-center min-h-screen bg-base-100">
