@@ -616,7 +616,7 @@
                   {/if}
 
                   <div class="flex justify-between items-center text-xs text-white/60">
-                    <span>Created: {new Date(note.createdAt || note.updatedAt).toLocaleDateString()} by {note.user || 'Unknown'}</span>
+                    <span>Created: {new Date(note.createdAt || note.updatedAt).toLocaleDateString()} by {note.user || "Unknown"}</span>
                     {#if note.pinned}
                       <span class="text-yellow-400 drop-shadow-lg">📌</span>
                     {/if}
