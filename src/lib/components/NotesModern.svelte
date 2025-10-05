@@ -9,10 +9,11 @@
   let notes = [];
   let todoLists = [];
   let newNote = "";
+  let newChecklistText = "";
   let newTodoText = "";
   let activeListId = null;
   let noteColor = "#6366f1";
-  let noteType = "note";
+  let checklistColor = "#10b981";
   let attachments = [];
 
   // Voice/text recording state
@@ -27,6 +28,9 @@
   let search = "";
   let activeTab = "notes"; // 'notes', 'checklists'
   let showVoiceModal = false;
+
+  // Voice input mode
+  let voiceInputMode = "notes"; // 'notes' or 'checklists'
 
   // Notification system
   let notifications = [];
@@ -66,11 +70,8 @@
     }
 
     todoLists = await getAll("todo");
-    // Clear all existing todo lists
-    if (todoLists && todoLists.length > 0) {
-      // Remove all todo lists from database
-      todoLists = [];
-    }
+    // Note: Removed the code that was clearing all todo lists on mount
+    // This was causing data persistence issues
 
     // Setup speech recognition if available
     SpeechRecognition = /** @type {any} */ (window).SpeechRecognition || /** @type {any} */ (window).webkitSpeechRecognition;
@@ -124,7 +125,7 @@
     }
   }
 
-  // Add note, create checklist/todo groups automatically if requested
+  // Add note function
   async function addNote() {
     if (!newNote.trim() && attachments.length === 0 && voiceNotes.length === 0) return;
 
@@ -138,38 +139,45 @@
       createdAt: now,
       updatedAt: now,
       user: "John Doe", // You can make this dynamic based on authentication
-      type: noteType,
+      type: "note",
       attachments: [...attachments, ...voiceNotes],
     };
 
-    // If checklist selected or autodetect finds list-like lines, add to todo store
-    const lines = newNote
-      .split("\n")
-      .map((l) => l.trim())
-      .filter(Boolean);
-
-    const looksLikeChecklist = lines.length > 1 && lines.every((l) => /^[-*•\d]/.test(l) || l.length < 60);
-
-    if (noteType === "checklist" || looksLikeChecklist) {
-      const groupId = Date.now();
-      await table("todo").add({ id: groupId, text: title || "Checklist", isGroup: true });
-      for (const l of lines) {
-        const text = l.replace(/^[-*•\s\d\.]+/, "").trim();
-        if (text) await table("todo").add({ text, done: false, groupId });
-      }
-      todoLists = await getAll("todo");
-      showNotification("✅ Checklist created and saved!", "success");
-    } else {
-      await table("notes").add(payload);
-      notes = await getAll("notes");
-      showNotification("✅ Note saved automatically!", "success");
-    }
+    await table("notes").add(payload);
+    notes = await getAll("notes");
+    showNotification("✅ Note saved automatically!", "success");
 
     // reset
     newNote = "";
     attachments = [];
     voiceNotes = [];
-    noteType = "note";
+  }
+
+  // Add checklist function
+  async function addChecklist() {
+    if (!newChecklistText.trim()) return;
+
+    const lines = newChecklistText
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean);
+
+    if (lines.length === 0) return;
+
+    const groupId = Date.now();
+    const title = lines[0].slice(0, 40) || "New Checklist";
+
+    await table("todo").add({ id: groupId, text: title, isGroup: true, color: checklistColor });
+    for (const l of lines) {
+      const text = l.replace(/^[-*•\d]+\.?\s*/, "").trim();
+      if (text) await table("todo").add({ text, done: false, groupId });
+    }
+
+    todoLists = await getAll("todo");
+    showNotification("✅ Checklist created and saved!", "success");
+
+    // reset
+    newChecklistText = "";
   }
 
   async function togglePinNote(id) {
@@ -252,11 +260,9 @@
   async function processVoiceTextToNoteOrTodo(text) {
     if (!text || !text.trim()) return;
     const t = text.trim();
-    const todoKeywords = ["buy", "purchase", "get", "call", "remind", "pay", "todo", "task", "add", "need"];
-    const looksLikeList = t.split(/\n|,|;| then /i).length > 1 || /\b(?:one|two|three|first|second|next)\b/i.test(t);
-    const hasKeyword = todoKeywords.some((k) => new RegExp("\\b" + k + "\\b", "i").test(t));
 
-    if (looksLikeList || hasKeyword) {
+    if (voiceInputMode === "checklists") {
+      // Always create checklist when in checklist mode
       const lines = t
         .split(/\n|,|;| then /i)
         .map((s) => s.trim())
@@ -270,13 +276,14 @@
       todoLists = await getAll("todo");
       showNotification("✅ Voice converted to checklist and saved!", "success");
     } else {
+      // Notes mode - create regular note
       const now = new Date().toISOString();
       const title = t.split(/\n/)[0].slice(0, 60) || "🎤 Voice Note";
       await table("notes").add({
         title,
         body: t,
         pinned: false,
-        color: "#10b981",
+        color: noteColor,
         createdAt: now,
         updatedAt: now,
         user: "John Doe",
@@ -411,6 +418,12 @@
       </div>
 
       <div class="space-y-4">
+        <!-- Voice Input Mode Selector -->
+        <div class="flex justify-center gap-4 mb-4">
+          <button class="btn btn-sm {voiceInputMode === 'notes' ? 'btn-primary' : 'btn-outline'}" on:click={() => (voiceInputMode = "notes")}> 📝 Notes </button>
+          <button class="btn btn-sm {voiceInputMode === 'checklists' ? 'btn-primary' : 'btn-outline'}" on:click={() => (voiceInputMode = "checklists")}> ✅ Checklists </button>
+        </div>
+
         <div class="flex justify-center gap-4">
           <button class="btn btn-circle btn-lg {recognizing ? 'btn-error' : 'btn-success'} shadow-lg" on:click={toggleRecognition} disabled={!recognitionAvailable}>
             {#if recognizing}
@@ -441,7 +454,7 @@
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
-            <span>Listening... Speak now!</span>
+            <span>Listening for {voiceInputMode === "notes" ? "notes" : "checklists"}... Speak now!</span>
           </div>
         {/if}
 
@@ -454,9 +467,84 @@
           </div>
         {/if}
 
-        <div class="text-center text-theme/60 text-sm">Voice input automatically creates notes or checklists!</div>
+        <div class="text-center text-theme/60 text-sm">
+          Voice input automatically creates {voiceInputMode === "notes" ? "notes" : "checklists"}!
+        </div>
       </div>
     </div>
+
+    <!-- Input Areas -->
+    {#if activeTab === "notes"}
+      <!-- Note Input Area -->
+      <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20 mb-8">
+        <div class="text-center mb-6">
+          <div class="text-6xl mb-4">✍️</div>
+          <h2 class="text-2xl font-bold text-theme mb-2">Create Note</h2>
+          <p class="text-theme/80">Write your thoughts or paste content</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center gap-4 justify-center">
+            <label for="note-color-input" class="text-theme font-medium">Color:</label>
+            <input type="color" bind:value={noteColor} class="w-12 h-10 rounded-lg border-2 border-white/30" id="note-color-input" />
+          </div>
+
+          <textarea class="textarea textarea-bordered w-full h-64 resize-none bg-white/20 text-white placeholder-white/50 border-white/30" placeholder="Start writing your note..." bind:value={newNote} on:input={autoSave}></textarea>
+
+          <div class="flex flex-wrap gap-2 justify-center">
+            <label class="btn btn-outline btn-sm text-white border-white/50 hover:bg-white/20">
+              <input type="file" accept="image/*" on:change={handleImageFile} class="hidden" />
+              <span class="text-green-400">📷</span> Add Image
+            </label>
+          </div>
+
+          {#if attachments.length > 0}
+            <div class="flex flex-wrap gap-2 justify-center">
+              {#each attachments as a, i}
+                <button class="relative group" on:click={() => attachments.splice(i, 1)} aria-label="Remove attachment">
+                  <img src={a} alt="attachment" class="w-16 h-16 object-cover rounded-lg border-2 border-white/30" />
+                  <div class="absolute inset-0 bg-red-500/80 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center text-white font-bold">×</div>
+                </button>
+              {/each}
+            </div>
+          {/if}
+
+          <div class="text-center text-theme/60 text-sm">Notes are automatically saved as you type!</div>
+        </div>
+      </div>
+    {:else if activeTab === "checklists"}
+      <!-- Checklist Input Area -->
+      <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20 mb-8">
+        <div class="text-center mb-6">
+          <div class="text-6xl mb-4">📋</div>
+          <h2 class="text-2xl font-bold text-theme mb-2">Create Checklist</h2>
+          <p class="text-theme/80">Add items to your checklist (one per line)</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center gap-4 justify-center">
+            <label for="checklist-color-input" class="text-theme font-medium">Color:</label>
+            <input type="color" bind:value={checklistColor} class="w-12 h-10 rounded-lg border-2 border-white/30" id="checklist-color-input" />
+          </div>
+
+          <textarea
+            class="textarea textarea-bordered w-full h-48 resize-none bg-white/20 text-white placeholder-white/50 border-white/30"
+            placeholder="Enter checklist items (one per line):
+Buy groceries
+Call dentist
+Finish project
+Exercise"
+            bind:value={newChecklistText}
+          ></textarea>
+
+          <div class="text-center">
+            <button class="btn btn-primary" on:click={addChecklist} disabled={!newChecklistText.trim()}> ➕ Create Checklist </button>
+          </div>
+
+          <div class="text-center text-theme/60 text-sm">Checklists are saved when you click "Create Checklist"</div>
+        </div>
+      </div>
+    {/if}
 
     <!-- Create Tab -->
     {#if activeTab === "create"}
@@ -471,9 +559,9 @@
 
           <div class="space-y-4">
             <div class="flex gap-2 justify-center">
-              <input type="radio" name="noteType" value="note" bind:group={noteType} class="radio radio-primary" id="note-radio" />
+              <input type="radio" name="noteType" value="notes" bind:group={activeTab} class="radio radio-primary" id="note-radio" />
               <label for="note-radio" class="text-theme font-medium">Note</label>
-              <input type="radio" name="noteType" value="checklist" bind:group={noteType} class="radio radio-primary ml-4" id="checklist-radio" />
+              <input type="radio" name="noteType" value="checklists" bind:group={activeTab} class="radio radio-primary ml-4" id="checklist-radio" />
               <label for="checklist-radio" class="text-theme font-medium">Checklist</label>
             </div>
 
@@ -634,19 +722,18 @@
       <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-3xl font-bold text-theme">✅ My Checklists</h2>
-          <button class="btn btn-primary" on:click={() => (activeTab = "create")}> ➕ New Checklist </button>
         </div>
 
         {#if groupedTodos().length === 0}
           <div class="text-center py-16">
             <div class="text-8xl mb-6">📋</div>
             <h3 class="text-2xl font-bold text-theme mb-4">No checklists yet!</h3>
-            <p class="text-theme/80 mb-6">Use voice input above to create checklists automatically</p>
+            <p class="text-theme/80 mb-6">Switch to the Checklists tab above to create your first checklist</p>
           </div>
         {:else}
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {#each groupedTodos() as group}
-              <div class="card bg-white/15 backdrop-blur-sm border border-white/30 shadow-xl">
+              <div class="card bg-white/15 backdrop-blur-sm border border-white/30 shadow-xl" style="background-color: {group.group.color || '#10b981'}20; border-color: {group.group.color || '#10b981'}40;">
                 <div class="card-body p-6">
                   <div class="flex justify-between items-start mb-4">
                     <h3 class="card-title text-xl font-bold text-white">{group.group.text}</h3>
@@ -654,13 +741,37 @@
                   </div>
 
                   <div class="space-y-3 mb-4">
-                    {#each group.items as item}
-                      <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" checked={item.done} on:change={() => toggleTodo(item.id)} class="checkbox checkbox-primary checkbox-lg" />
-                        <span class="text-white {item.done ? 'line-through text-white/50' : ''}">
+                    {#each group.items as item, index}
+                      <div class="flex items-center gap-3">
+                        <!-- Different UI elements for checklist items -->
+                        {#if item.done}
+                          <!-- Completed items: green checkmark in box -->
+                          <div class="w-6 h-6 bg-green-500 rounded-md flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                          </div>
+                        {:else}
+                          <!-- Uncompleted items: different styles based on index -->
+                          {#if index % 3 === 0}
+                            <!-- Circle bullet -->
+                            <div class="w-6 h-6 border-2 border-white/60 rounded-full flex items-center justify-center cursor-pointer hover:border-white transition-colors flex-shrink-0" on:click={() => toggleTodo(item.id)}>
+                              <div class="w-2 h-2 bg-white/40 rounded-full"></div>
+                            </div>
+                          {:else if index % 3 === 1}
+                            <!-- Square box -->
+                            <div class="w-6 h-6 border-2 border-white/60 rounded flex items-center justify-center cursor-pointer hover:border-white transition-colors flex-shrink-0" on:click={() => toggleTodo(item.id)}></div>
+                          {:else}
+                            <!-- Diamond -->
+                            <div class="w-6 h-6 flex items-center justify-center cursor-pointer flex-shrink-0" on:click={() => toggleTodo(item.id)}>
+                              <div class="w-3 h-3 border-2 border-white/60 rotate-45 hover:border-white transition-colors"></div>
+                            </div>
+                          {/if}
+                        {/if}
+                        <span class="text-white {item.done ? 'line-through text-white/50' : ''} cursor-pointer" on:click={() => toggleTodo(item.id)}>
                           {item.text}
                         </span>
-                      </label>
+                      </div>
                     {/each}
                   </div>
 
