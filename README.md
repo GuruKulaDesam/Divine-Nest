@@ -1,23 +1,23 @@
-# Takeka - Open Source Modern Svelte Admin Dashboard Template
+# Home Manager - Open Source Modern Svelte Admin Dashboard Template
 
-![Cover](https://raw.githubusercontent.com/ichsanputr/takeka/refs/heads/master/public/Cover.jpg)
+![Cover](https://raw.githubusercontent.com/shishyan/kovaipudur1c/refs/heads/master/public/Cover.jpg)
 
-Free & open source modern, mobile responsive admin dashboard template built with Svelte, Vite, and Tailwind CSS. Features a clean design, dark/light mode support, comprehensive i18n internationalization, and local data management with search capabilities.
+Free & open source modern family dashboard built with Svelte, Vite, and Tailwind CSS. Features calendar management, notes with voice recording, todo lists, notifications, and local data persistence with IndexedDB.
 
 ## 🚀 Features
 
-- 🎨 **Modern Design**: Clean and professional UI with Tailwind CSS & DaisyUI
+- � **Family Dashboard**: Complete home management solution
+- 📅 **Calendar**: Event management with recurrence, Google Calendar sync, and color coding
+- 📝 **Notes**: Google Keep-style notes with voice recording and transcription
+- ✅ **Todo Lists**: Checklist management with auto-detection and grouping
+- 🎤 **Voice Features**: Speech recognition, audio recording, and smart text processing
+- � **Local Storage**: IndexedDB persistence with Dexie for offline functionality
 - 🌙 **Dark/Light Mode**: Toggle between themes with smooth transitions
-- 🌍 **Internationalization**: Full i18n support with svelte-i18n (English, Indonesian, Spanish, Korean)
-- 📊 **Dashboard Analytics**: Interactive charts with Chart.js
-- 👥 **User Management**: Complete user CRUD operations with search & filtering
-- 📦 **Product Management**: Product catalog with inventory tracking
-- 📈 **Analytics Page**: Business performance tracking with visualizations
-- ⚙️ **Settings Page**: Account and application settings
-- 📋 **Project Management**: Gantt charts and Kanban board with drag & drop
-- 🔄 **Drag & Drop**: Interactive task management with wx-svelte-grid
-- 📱 **Responsive**: Mobile-first design with Tailwind CSS
-- ⚡ **Fast**: Built with Vite for optimal performance
+- 🌍 **Internationalization**: Full i18n support (English, Indonesian, Spanish, Korean)
+- � **Analytics**: Interactive charts and family performance tracking
+- � **User Management**: Family member profiles and notifications
+- 📱 **Responsive**: Mobile-first design optimized for all devices
+- ⚡ **Fast**: Built with Vite and Svelte for optimal performance
 - 🗺️ **Maps**: Interactive maps with Leaflet
 - 🎭 **Animations**: Smooth motion animations with Motion library
 - 🎯 **Loading States**: Custom loading spinner with glassmorphism effects
@@ -25,6 +25,7 @@ Free & open source modern, mobile responsive admin dashboard template built with
 ## 🛠️ Technology Stack
 
 ### Frontend
+
 - **[Svelte 5](https://svelte.dev/)** - Progressive JavaScript framework
 - **[Vite](https://vitejs.dev/)** - Next generation frontend tooling
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
@@ -53,23 +54,27 @@ Free & open source modern, mobile responsive admin dashboard template built with
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Frontend Setup
 
 1. **Clone the repository**
+
    ```bash
-   git clone https://github.com/ichsanputr/takeka
-   cd takeka
+   git clone https://github.com/shishyan/kovaipudur1c
+   cd kovaipudur1c
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -82,6 +87,7 @@ Free & open source modern, mobile responsive admin dashboard template built with
 ## 🌍 Internationalization
 
 The dashboard supports multiple languages:
+
 - English (en)
 - Indonesian (id)
 - Spanish (es)
@@ -92,6 +98,7 @@ Language can be switched using the language switcher in the header.
 ## 📱 Pages & Components
 
 ### Main Pages
+
 - **Dashboard** - Overview with statistics and charts
 - **Users** - User management with search and filtering
 - **Products** - Product catalog with inventory tracking
@@ -104,6 +111,7 @@ Language can be switched using the language switcher in the header.
 - **Settings** - Application configuration
 
 ### Authentication Pages
+
 - **Login V1/V2/V3** - Multiple login page designs
 - **Register V1/V2/V3** - Multiple registration page designs
 
@@ -130,6 +138,7 @@ Language can be switched using the language switcher in the header.
 ## 🔧 Data Structure
 
 The app uses local JSON data files for all content:
+
 - `src/lib/data/users.js` - User management data
 - `src/lib/data/products.js` - Product catalog data
 - `src/lib/data/dashboard.js` - Dashboard statistics

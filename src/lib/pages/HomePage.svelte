@@ -1,18 +1,16 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import {
-    generateUserAvatar,
-    generateFallbackAvatar,
-  } from "../utils/avatar.js";
+  import { generateUserAvatar, generateFallbackAvatar } from "../utils/avatar.js";
   import RevenueChart from "../components/RevenueChart.svelte";
   import { stats, users, quickActions } from "../data/dashboard.js";
-  import {
-    motionInView,
-    staggerAnimate,
-    motionHover,
-  } from "../utils/motion.js";
+  import { motionInView, staggerAnimate, motionHover } from "../utils/motion.js";
   import { sampleData } from "../data/charts.js";
+  import FamilyCalendar from "../components/FamilyCalendar.svelte";
+  import FamilyTodo from "../components/FamilyTodo.svelte";
+  import FamilyMap from "../components/FamilyMap.svelte";
+  import FamilyNotes from "../components/FamilyNotes.svelte";
+  import FamilyNotifications from "../components/FamilyNotifications.svelte";
 
   let chart;
   let statsElements = [];
@@ -85,10 +83,7 @@
 
 <div class="space-y-8">
   <!-- Page header with enhanced styling -->
-  <div
-    class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50"
-    use:motionInView={{ animation: "fadeInDown" }}
-  >
+  <div class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50" use:motionInView={{ animation: "fadeInDown" }}>
     <!-- Background decorative elements -->
     <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
       <Icon icon="heroicons:chart-bar" class="w-full h-full text-primary" />
@@ -99,26 +94,13 @@
 
     <div class="relative flex items-center justify-between">
       <div>
-        <h1
-          class="text-3xl font-bold text-primary"
-        >
-          Dashboard
-        </h1>
-        <p class="mt-2 text-sm text-base-content/70 max-w-md">
-          Welcome back! Here's what's happening with your projects today.
-        </p>
+        <h1 class="text-3xl font-bold text-primary">Dashboard</h1>
+        <p class="mt-2 text-sm text-base-content/70 max-w-md">Welcome back! Here's what's happening with your projects today.</p>
       </div>
-      <button
-        class="btn btn-primary shadow-xl hover:shadow-2xl group relative overflow-hidden"
-        use:motionHover
-      >
-        <div
-          class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        ></div>
+      <button class="btn btn-primary shadow-xl hover:shadow-2xl group relative overflow-hidden" use:motionHover>
+        <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <div class="relative flex items-center">
-          <div
-            class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300"
-          >
+          <div class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300">
             <Icon icon="heroicons:plus" class="w-5 h-5 mr-2" />
           </div>
           New Project
@@ -130,60 +112,33 @@
   <!-- Enhanced Stats grid with gradient backgrounds -->
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
     {#each stats as stat, index}
-      <div
-        bind:this={statsElements[index]}
-        class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/50 rounded-2xl shadow-md border border-base-300/50 p-5 hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm"
-        use:motionHover
-      >
+      <div bind:this={statsElements[index]} class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/50 rounded-2xl shadow-md border border-base-300/50 p-5 hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm" use:motionHover>
         <!-- Background icon -->
-        <div
-          class="absolute top-4 right-4 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity duration-300"
-        >
+        <div class="absolute top-4 right-4 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
           <Icon icon={stat.icon} class="w-full h-full text-primary" />
         </div>
 
         <!-- Glow effect -->
-        <div
-          class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
-        ></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
 
         <div class="relative flex items-center">
           <div class="flex-shrink-0">
-            <div
-              class="w-14 h-14 bg-gradient-to-br {iconColors[stat.icon] ||
-                'from-primary/20 to-secondary/20'} rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-            >
-              <Icon
-                icon={stat.icon}
-                class="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300"
-              />
+            <div class="w-14 h-14 bg-gradient-to-br {iconColors[stat.icon] || 'from-primary/20 to-secondary/20'} rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+              <Icon icon={stat.icon} class="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
             </div>
           </div>
           <div class="ml-4 flex-1">
             <p class="text-sm font-medium text-base-content/70 truncate">
               {stat.name}
             </p>
-            <p
-              class="text-3xl font-bold text-base-content group-hover:text-primary transition-colors duration-300"
-            >
+            <p class="text-3xl font-bold text-base-content group-hover:text-primary transition-colors duration-300">
               {stat.value}
             </p>
           </div>
         </div>
         <div class="mt-4 relative">
-          <span
-            class="inline-flex items-baseline px-3 py-1 rounded-full text-sm font-medium shadow-sm {stat.changeType ===
-            'positive'
-              ? 'bg-success/20 text-success border border-success/30'
-              : 'bg-error/20 text-error border border-error/30'}"
-          >
-            <Icon
-              icon="heroicons:arrow-trending-up"
-              class="-ml-1 mr-1 flex-shrink-0 self-center h-4 w-4 {stat.changeType ===
-              'positive'
-                ? 'text-success'
-                : 'text-error'}"
-            />
+          <span class="inline-flex items-baseline px-3 py-1 rounded-full text-sm font-medium shadow-sm {stat.changeType === 'positive' ? 'bg-success/20 text-success border border-success/30' : 'bg-error/20 text-error border border-error/30'}">
+            <Icon icon="heroicons:arrow-trending-up" class="-ml-1 mr-1 flex-shrink-0 self-center h-4 w-4 {stat.changeType === 'positive' ? 'text-success' : 'text-error'}" />
             {stat.change}
           </span>
           <span class="ml-2 text-sm text-base-content/60">from last month</span>
@@ -195,10 +150,7 @@
   <!-- Enhanced Charts and activity section -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <!-- Enhanced Revenue Chart -->
-    <div
-      class="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm"
-      use:motionInView={{ animation: "fadeInLeft" }}
-    >
+    <div class="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm" use:motionInView={{ animation: "fadeInLeft" }}>
       <!-- Background decoration -->
       <div class="absolute top-0 right-0 w-24 h-24 opacity-5">
         <Icon icon="heroicons:chart-pie" class="w-full h-full text-primary" />
@@ -207,51 +159,19 @@
       <div class="relative flex items-center justify-between mb-6">
         <div>
           <h2 class="text-2xl font-bold text-base-content">Revenue Overview</h2>
-          <p class="text-base-content/60 mt-1">
-            Track your financial performance
-          </p>
+          <p class="text-base-content/60 mt-1">Track your financial performance</p>
         </div>
         <div class="flex items-center space-x-1 bg-base-200/50 rounded-xl p-1">
-          <button
-            on:click={() => (period = "weekly")}
-            class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period ===
-            'weekly'
-              ? 'bg-blue-500 text-white shadow-lg'
-              : 'text-base-content/70 hover:bg-base-300'}"
-            use:motionHover
-          >
-            Weekly
-          </button>
-          <button
-            on:click={() => (period = "monthly")}
-            class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period ===
-            'monthly'
-              ? 'bg-green-500 text-white shadow-lg'
-              : 'text-base-content/70 hover:bg-base-300'}"
-            use:motionHover
-          >
-            Monthly
-          </button>
-          <button
-            on:click={() => (period = "yearly")}
-            class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period ===
-            'yearly'
-              ? 'bg-purple-500 text-white shadow-lg'
-              : 'text-base-content/70 hover:bg-base-300'}"
-            use:motionHover
-          >
-            Yearly
-          </button>
+          <button on:click={() => (period = "weekly")} class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period === 'weekly' ? 'bg-blue-500 text-white shadow-lg' : 'text-base-content/70 hover:bg-base-300'}" use:motionHover> Weekly </button>
+          <button on:click={() => (period = "monthly")} class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period === 'monthly' ? 'bg-green-500 text-white shadow-lg' : 'text-base-content/70 hover:bg-base-300'}" use:motionHover> Monthly </button>
+          <button on:click={() => (period = "yearly")} class="px-4 py-2 text-sm rounded-lg transition-all duration-200 {period === 'yearly' ? 'bg-purple-500 text-white shadow-lg' : 'text-base-content/70 hover:bg-base-300'}" use:motionHover> Yearly </button>
         </div>
       </div>
       <RevenueChart data={revenueOverviewData} />
     </div>
 
     <!-- Enhanced Recent Activity -->
-    <div
-      class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm"
-      use:motionInView={{ animation: "fadeInRight" }}
-    >
+    <div class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm" use:motionInView={{ animation: "fadeInRight" }}>
       <!-- Background decoration -->
       <div class="absolute top-0 right-0 w-20 h-20 opacity-5">
         <Icon icon="heroicons:bell" class="w-full h-full text-secondary" />
@@ -262,15 +182,9 @@
         <p class="text-base-content/60 mt-1">Latest updates from your team</p>
       </div>
 
-      <div
-        class="relative max-h-80 overflow-y-auto divide-y divide-base-300/50"
-      >
+      <div class="relative max-h-80 overflow-y-auto divide-y divide-base-300/50">
         {#each users.recent as activity, index}
-          <div
-            bind:this={activityElements[index]}
-            use:motionHover
-            class="flex items-start justify-between p-4 mx-2 transition-all duration-200 hover:bg-base-200/50 hover:rounded-xl group"
-          >
+          <div bind:this={activityElements[index]} use:motionHover class="flex items-start justify-between p-4 mx-2 transition-all duration-200 hover:bg-base-200/50 hover:rounded-xl group">
             <div class="flex items-start space-x-4">
               <div class="relative">
                 <img
@@ -283,21 +197,15 @@
                     }
                   }}
                 />
-                <div
-                  class="absolute -bottom-1 -right-1 w-4 h-4 bg-success rounded-full border-2 border-base-100"
-                ></div>
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-success rounded-full border-2 border-base-100"></div>
               </div>
               <div class="min-w-0 flex-1">
-                <p
-                  class="text-sm font-semibold text-base-content truncate group-hover:text-primary transition-colors duration-200"
-                >
+                <p class="text-sm font-semibold text-base-content truncate group-hover:text-primary transition-colors duration-200">
                   {activity.name}
                 </p>
                 <p class="text-sm text-base-content/70 leading-relaxed">
                   {activity.action}
-                  <span class="font-medium text-base-content"
-                    >{activity.item}</span
-                  >
+                  <span class="font-medium text-base-content">{activity.item}</span>
                 </p>
               </div>
             </div>
@@ -305,9 +213,7 @@
               <p class="text-xs text-base-content/50 whitespace-nowrap">
                 {activity.time}
               </p>
-              <div
-                class="w-2 h-2 bg-primary/30 rounded-full mt-2 group-hover:bg-primary transition-colors duration-200"
-              ></div>
+              <div class="w-2 h-2 bg-primary/30 rounded-full mt-2 group-hover:bg-primary transition-colors duration-200"></div>
             </div>
           </div>
         {/each}
@@ -316,10 +222,7 @@
   </div>
 
   <!-- Enhanced Quick Actions -->
-  <div
-    class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm"
-    use:motionInView={{ animation: "fadeInUp" }}
-  >
+  <div class="relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-2xl shadow-md border border-base-300/50 p-6 backdrop-blur-sm" use:motionInView={{ animation: "fadeInUp" }}>
     <!-- Background decoration -->
     <div class="absolute top-0 right-0 w-28 h-28 opacity-5">
       <Icon icon="heroicons:bolt" class="w-full h-full text-accent" />
@@ -332,50 +235,40 @@
 
     <div class="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {#each quickActions as action, index}
-        <button
-          bind:this={actionElements[index]}
-          class="group relative overflow-hidden flex items-center p-5 bg-gradient-to-br from-base-200/50 to-base-300/30 border border-base-300/50 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm"
-          use:motionHover
-        >
+        <button bind:this={actionElements[index]} class="group relative overflow-hidden flex items-center p-5 bg-gradient-to-br from-base-200/50 to-base-300/30 border border-base-300/50 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm" use:motionHover>
           <!-- Background icon -->
-          <div
-            class="absolute top-2 right-2 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300"
-          >
+          <div class="absolute top-2 right-2 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
             <Icon icon={action.icon} class="w-full h-full text-primary" />
           </div>
 
           <!-- Glow effect -->
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
-          ></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
 
           <div class="relative flex items-center w-full">
-            <div
-              class="w-12 h-12 bg-gradient-to-br {iconColors[action.icon] ||
-                'from-primary/20 to-secondary/20'} rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-            >
-              <Icon
-                icon={action.icon}
-                class="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300"
-              />
+            <div class="w-12 h-12 bg-gradient-to-br {iconColors[action.icon] || 'from-primary/20 to-secondary/20'} rounded-xl flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+              <Icon icon={action.icon} class="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-300" />
             </div>
             <div class="text-left flex-1">
-              <p
-                class="text-sm font-semibold text-base-content group-hover:text-primary transition-colors duration-200"
-              >
+              <p class="text-sm font-semibold text-base-content group-hover:text-primary transition-colors duration-200">
                 {action.name}
               </p>
               <p class="text-xs text-base-content/60 mt-1 leading-relaxed">
                 {action.description}
               </p>
             </div>
-            <Icon
-              icon="heroicons:arrow-right"
-              class="w-4 h-4 text-base-content/40 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300"
-            />
+            <Icon icon="heroicons:arrow-right" class="w-4 h-4 text-base-content/40 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
           </div>
         </button>
       {/each}
     </div>
+  </div>
+
+  <!-- FamilyWall Quick Widgets -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-8">
+    <FamilyCalendar />
+    <FamilyTodo />
+    <FamilyMap />
+    <FamilyNotes />
+    <FamilyNotifications />
   </div>
 </div>
