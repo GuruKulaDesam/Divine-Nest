@@ -14,64 +14,57 @@
   let menuItemsElements = [];
   // Track expanded submenus
   let expandedMenus = {
-    auth: false,
+    home: false,
+    projects: false,
+    settings: false,
   };
 
-  // Create translated menu items with fallbacks
-  $: translatedMenuItems = [
-    { path: "/", icon: "heroicons:home", name: $isLoading ? "Home" : $_("navigation.home"), color: "text-blue-400" },
-    { path: "/users", icon: "heroicons:users", name: $isLoading ? "Users" : $_("navigation.users"), color: "text-green-400" },
-    { path: "/products", icon: "heroicons:cube", name: $isLoading ? "Products" : $_("navigation.products"), color: "text-purple-400" },
-    { path: "/analytics", icon: "heroicons:chart-bar", name: $isLoading ? "Analytics" : $_("navigation.analytics"), color: "text-yellow-400" },
-    { path: "/charts", icon: "heroicons:presentation-chart-line", name: $isLoading ? "Charts" : $_("navigation.charts"), color: "text-pink-400" },
-    { path: "/projects", icon: "heroicons:view-columns", name: $isLoading ? "Projects" : $_("navigation.projects"), color: "text-indigo-400" },
-    { path: "/gantt", icon: "heroicons:calendar", name: $isLoading ? "Gantt" : "Gantt", color: "text-red-400" },
-    { path: "/maps", icon: "heroicons:map", name: $isLoading ? "Maps" : $_("navigation.maps"), color: "text-teal-400" },
-    { path: "/schedule", icon: "heroicons:calendar-days", name: $isLoading ? "Schedule" : $_("navigation.schedule"), color: "text-orange-400" },
-    { path: "/profile", icon: "heroicons:user-circle", name: $isLoading ? "Profile" : $_("navigation.profile"), color: "text-cyan-400" },
-    { path: "/settings", icon: "heroicons:cog-6-tooth", name: $isLoading ? "Settings" : $_("navigation.settings"), color: "text-gray-400" },
-    { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendars", color: "text-violet-400 glow-violet" },
-    { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes", color: "text-sky-400 glow-sky" },
-    { path: "/reminders", icon: "heroicons:bell-alert", name: "Smart Reminders", color: "text-stone-400 glow-stone" },
+  // Create organized menu sections - simplified to three main sections
+  $: menuSections = [
+    {
+      key: "home",
+      title: "Home",
+      icon: "heroicons:home",
+      items: [
+        { path: "/", icon: "heroicons:home", name: "Dashboard", color: "text-blue-400" },
+        { path: "/v1-home", icon: "heroicons:home-modern", name: "Family Home", color: "text-orange-500" },
+        { path: "/v1-education", icon: "heroicons:academic-cap", name: "Education", color: "text-indigo-500" },
+        { path: "/v1-meals", icon: "heroicons:utensils", name: "Meals", color: "text-orange-500" },
+        { path: "/v1-recipes", icon: "heroicons:book-open", name: "Recipes", color: "text-red-500" },
+        { path: "/v1-rituals", icon: "heroicons:sparkles", name: "Rituals", color: "text-orange-600" },
+        { path: "/v1-wellness", icon: "heroicons:heart", name: "Wellness", color: "text-green-600" },
+        { path: "/v1-lifeflow", icon: "heroicons:wave-sine", name: "Life Flow", color: "text-blue-500" },
+        { path: "/v1-directory", icon: "heroicons:building-storefront", name: "Directory", color: "text-gray-600" },
+      ],
+    },
+    {
+      key: "projects",
+      title: "Projects",
+      icon: "heroicons:view-columns",
+      items: [
+        { path: "/users", icon: "heroicons:users", name: $isLoading ? "Users" : $_("navigation.users"), color: "text-green-400" },
+        { path: "/products", icon: "heroicons:cube", name: $isLoading ? "Products" : $_("navigation.products"), color: "text-purple-400" },
+        { path: "/analytics", icon: "heroicons:chart-bar", name: $isLoading ? "Analytics" : $_("navigation.analytics"), color: "text-yellow-400" },
+        { path: "/charts", icon: "heroicons:presentation-chart-line", name: $isLoading ? "Charts" : $_("navigation.charts"), color: "text-pink-400" },
+        { path: "/projects", icon: "heroicons:view-columns", name: $isLoading ? "Projects" : $_("navigation.projects"), color: "text-indigo-400" },
+        { path: "/gantt", icon: "heroicons:calendar", name: "Gantt", color: "text-red-400" },
+        { path: "/maps", icon: "heroicons:map", name: $isLoading ? "Maps" : $_("navigation.maps"), color: "text-teal-400" },
+        { path: "/schedule", icon: "heroicons:calendar-days", name: $isLoading ? "Schedule" : $_("navigation.schedule"), color: "text-orange-400" },
+        { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendars", color: "text-violet-400" },
+        { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes", color: "text-sky-400" },
+        { path: "/reminders", icon: "heroicons:bell-alert", name: "Reminders", color: "text-stone-400" },
+      ],
+    },
+    {
+      key: "settings",
+      title: "Settings",
+      icon: "heroicons:cog-6-tooth",
+      items: [
+        { path: "/profile", icon: "heroicons:user-circle", name: $isLoading ? "Profile" : $_("navigation.profile"), color: "text-cyan-400" },
+        { path: "/settings", icon: "heroicons:cog-6-tooth", name: $isLoading ? "Settings" : $_("navigation.settings"), color: "text-gray-400" },
+      ],
+    },
   ];
-
-  // Create authentication submenu
-  $: authSubmenu = {
-    title: $isLoading ? "Authentication" : $_("navigation.authentication"),
-    icon: "heroicons:lock-closed",
-    items: [
-      {
-        title: $isLoading ? "Login V1" : $_("navigation.login_v1"),
-        path: "/auth/login",
-        icon: "heroicons:arrow-right-on-rectangle",
-      },
-      {
-        title: $isLoading ? "Login V2" : $_("navigation.login_v2"),
-        path: "/auth/login-v2",
-        icon: "heroicons:arrow-right-on-rectangle",
-      },
-      {
-        title: $isLoading ? "Login V3" : $_("navigation.login_v3"),
-        path: "/auth/login-v3",
-        icon: "heroicons:arrow-right-on-rectangle",
-      },
-      {
-        title: $isLoading ? "Register V1" : $_("navigation.register_v1"),
-        path: "/auth/register",
-        icon: "heroicons:user-plus",
-      },
-      {
-        title: $isLoading ? "Register V2" : $_("navigation.register_v2"),
-        path: "/auth/register-v2",
-        icon: "heroicons:user-plus",
-      },
-      {
-        title: $isLoading ? "Register V3" : $_("navigation.register_v3"),
-        path: "/auth/register-v3",
-        icon: "heroicons:user-plus",
-      },
-    ],
-  };
 
   onMount(() => {
     // Animate menu items on mount
@@ -79,10 +72,12 @@
       staggerAnimate(menuItemsElements, "fadeInLeft", { delay: 0.1 });
     }
 
-    // Auto-expand authentication submenu if we're on an auth page
-    if ($currentRoute.startsWith("/auth/")) {
-      expandedMenus.auth = true;
-    }
+    // Auto-expand sections based on current route
+    menuSections.forEach((section) => {
+      if (section.items.some((item) => item.path === $currentRoute)) {
+        expandedMenus[section.key] = true;
+      }
+    });
   });
 
   function closeSidebar() {
@@ -107,27 +102,20 @@
   }
 
   // Check if a submenu is active
-  function isSubmenuActive(submenu) {
-    if (!submenu) return false;
-    return submenu.some((item) => item.path === $currentRoute);
+  function isSubmenuActive(items) {
+    if (!items) return false;
+    return items.some((item) => item.path === $currentRoute);
   }
 
   // Add logout function
   function handleLogout() {
-    // Array of login version paths
-    const loginPaths = ["/auth/login", "/auth/login-v2", "/auth/login-v3"];
-
-    // Get random login path
-    const randomIndex = Math.floor(Math.random() * loginPaths.length);
-    const randomLoginPath = loginPaths[randomIndex];
-
     // Close sidebar first
     closeSidebar();
 
     // Small delay to allow sidebar animation to complete
     setTimeout(() => {
-      // Navigate to random login page
-      navigate(randomLoginPath);
+      // Navigate to login page
+      navigate("/auth/login");
     }, 150);
   }
 </script>
@@ -154,43 +142,50 @@
 
   <!-- Navigation section - takes up remaining space -->
   <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-    {#each translatedMenuItems as item, index}
-      <a bind:this={menuItemsElements[index]} href={item.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === item.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(item.path)} use:motionInView={{ animation: "fadeInLeft", delay: index * 0.1 }}>
-        <Icon icon={item.icon} class="w-5 h-5 mr-3 {item.color}" />
-        {item.name}
-        {#if $currentRoute === item.path}
-          <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
-        {/if}
-      </a>
-    {/each}
-
-    <!-- Authentication submenu -->
-    <div class="mt-6">
-      <div class="text-xs font-medium text-white/50 uppercase px-4 mb-2">
-        {$isLoading ? "Account" : $_("navigation.account")}
-      </div>
-      <div class="submenu">
-        <button class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isSubmenuActive(authSubmenu.items) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click={() => toggleSubmenu("auth")}>
+    {#each menuSections as section, sectionIndex}
+      <div class="menu-section">
+        <button class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isSubmenuActive(section.items) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click={() => toggleSubmenu(section.key)}>
           <div class="flex items-center">
-            <Icon icon={authSubmenu.icon} class="w-5 h-5 mr-3 text-gray-400 glow-gray" />
-            {authSubmenu.title}
+            <Icon icon={section.icon} class="w-5 h-5 mr-3 text-gray-400" />
+            {section.title}
           </div>
-          <Icon icon={expandedMenus.auth ? "heroicons:chevron-down" : "heroicons:chevron-right"} class="w-4 h-4 transition-transform text-sidebar" />
+          <Icon icon={expandedMenus[section.key] ? "heroicons:chevron-down" : "heroicons:chevron-right"} class="w-4 h-4 transition-transform text-sidebar" />
         </button>
 
-        {#if expandedMenus.auth}
+        {#if expandedMenus[section.key]}
           <div class="ml-4 pl-4 border-l border-white/20 mt-1 space-y-1">
-            {#each authSubmenu.items as subitem}
-              <a href={subitem.path} class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === subitem.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(subitem.path)}>
-                <Icon icon={subitem.icon} class="w-4 h-4 mr-3 text-gray-400 glow-gray" />
-                {subitem.title}
-                {#if $currentRoute === subitem.path}
+            {#each section.items as item, itemIndex}
+              <a bind:this={menuItemsElements[sectionIndex * 10 + itemIndex]} href={item.path} class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === item.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(item.path)} use:motionInView={{ animation: "fadeInLeft", delay: (sectionIndex * 10 + itemIndex) * 0.05 }}>
+                <Icon icon={item.icon} class="w-4 h-4 mr-3 {item.color}" />
+                {item.name}
+                {#if $currentRoute === item.path}
                   <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
                 {/if}
               </a>
             {/each}
           </div>
         {/if}
+      </div>
+    {/each}
+
+    <!-- Authentication section -->
+    <div class="mt-6">
+      <div class="text-xs font-medium text-white/50 uppercase px-4 mb-2">Account</div>
+      <div class="space-y-1">
+        <a href="/auth/login" class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === '/auth/login' ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick("/auth/login")}>
+          <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3 text-gray-400" />
+          Login
+          {#if $currentRoute === "/auth/login"}
+            <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          {/if}
+        </a>
+        <a href="/auth/register" class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === '/auth/register' ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick("/auth/register")}>
+          <Icon icon="heroicons:user-plus" class="w-4 h-4 mr-3 text-gray-400" />
+          Register
+          {#if $currentRoute === "/auth/register"}
+            <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          {/if}
+        </a>
       </div>
     </div>
   </nav>
@@ -216,17 +211,6 @@
 </div>
 
 <style>
-  /* Glow effects for colorful icons - only used classes are kept */
-  .glow-violet {
-    filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6));
-  }
-  .glow-sky {
-    filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.6));
-  }
-  .glow-stone {
-    filter: drop-shadow(0 0 6px rgba(120, 113, 108, 0.6));
-  }
-
   /* Dynamic text colors based on theme */
   :global([data-theme="modern"]) .text-sidebar {
     color: rgba(255, 255, 255, 0.9);

@@ -1,7 +1,7 @@
 <script>
-  import { onMount } from 'svelte';
-  import HomeDashboard from '$lib/components/HomeDashboard.svelte';
-  import { initHomeDB } from '$lib/data/home.js';
+  import { onMount } from "svelte";
+  import HomeDashboard from "$lib/components/HomeDashboard.svelte";
+  import { initHomeDB } from "$lib/data/home.js";
 
   onMount(async () => {
     await initHomeDB();

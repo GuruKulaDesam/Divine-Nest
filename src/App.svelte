@@ -9,7 +9,6 @@
   import RemindersPage from "./lib/pages/RemindersPage.svelte";
   import { onMount } from "svelte";
   import DashboardLayout from "./lib/components/DashboardLayout.svelte";
-  import HomePage from "./lib/pages/HomePage.svelte";
   import UsersPage from "./lib/pages/UsersPage.svelte";
   import ProductsPage from "./lib/pages/ProductsPage.svelte";
   import SettingsPage from "./lib/pages/SettingsPage.svelte";
@@ -27,6 +26,15 @@
   import RegisterV3 from "./lib/pages/RegisterV3.svelte";
   import ChartsPage from "./lib/pages/ChartsPage.svelte";
   import GanttPage from "./lib/pages/GanttPage.svelte";
+  import RitualsDashboard from "./lib/components/RitualsDashboard.svelte";
+  import HomePage from "./pages/home/+page.svelte";
+  import EducationPage from "./pages/education/+page.svelte";
+  import MealsPage from "./pages/meals/+page.svelte";
+  import RecipesPage from "./pages/recipes/+page.svelte";
+  import RitualsPage from "./pages/rituals/+page.svelte";
+  import WellnessPage from "./pages/wellness/+page.svelte";
+  import LifeFlowPage from "./pages/lifeflow/+page.svelte";
+  import DirectoryPage from "./pages/directory/+page.svelte";
   import { currentRoute } from "./lib/router.js";
   import { pageTransitions } from "./lib/utils/motion.js";
   import { themeActions } from "./lib/stores/theme.js";
@@ -97,7 +105,78 @@
                                                       ? FamilyNotificationsPage
                                                       : $currentRoute === "/reminders"
                                                         ? RemindersPage
-                                                        : NotFoundPage;
+                                                        : $currentRoute === "/v1-home"
+                                                          ? HomePage
+                                                          : $currentRoute === "/v1-education"
+                                                            ? EducationPage
+                                                            : $currentRoute === "/v1-meals"
+                                                              ? MealsPage
+                                                              : $currentRoute === "/v1-recipes"
+                                                                ? RecipesPage
+                                                                : $currentRoute === "/v1-rituals"
+                                                                  ? RitualsPage
+                                                                  : $currentRoute === "/v1-wellness"
+                                                                    ? WellnessPage
+                                                                    : $currentRoute === "/v1-lifeflow"
+                                                                      ? LifeFlowPage
+                                                                      : $currentRoute === "/v1-directory"
+                                                                        ? DirectoryPage
+                                                                        : NotFoundPage;
+  }
+
+  // Handle page transitions
+  $: if ($currentRoute !== previousRoute && pageElement && appReady) {
+    $currentRoute === "/"
+      ? HomePage
+      : $currentRoute === "/users"
+        ? UsersPage
+        : $currentRoute === "/products"
+          ? ProductsPage
+          : $currentRoute === "/settings"
+            ? SettingsPage
+            : $currentRoute === "/analytics"
+              ? AnalyticsPage
+              : $currentRoute === "/charts"
+                ? ChartsPage
+                : $currentRoute === "/projects"
+                  ? ProjectManagementPage
+                  : $currentRoute === "/profile"
+                    ? ProfilePage
+                    : $currentRoute === "/maps"
+                      ? MapsPage
+                      : $currentRoute === "/schedule"
+                        ? SchedulePage
+                        : $currentRoute === "/auth/login"
+                          ? LoginPage
+                          : $currentRoute === "/auth/login-v2"
+                            ? LoginV2
+                            : $currentRoute === "/auth/login-v3"
+                              ? LoginV3
+                              : $currentRoute === "/auth/register"
+                                ? RegisterPage
+                                : $currentRoute === "/auth/register-v2"
+                                  ? RegisterV2
+                                  : $currentRoute === "/auth/register-v3"
+                                    ? RegisterV3
+                                    : $currentRoute === "/gantt"
+                                      ? GanttPage
+                                      : $currentRoute === "/family-calendar-modern"
+                                        ? FamilyCalendarModernPage
+                                        : $currentRoute === "/family-calendar"
+                                          ? FamilyCalendarPage
+                                          : $currentRoute === "/family-todo"
+                                            ? FamilyTodoPage
+                                            : $currentRoute === "/family-map"
+                                              ? FamilyMapPage
+                                              : $currentRoute === "/family-notes-modern"
+                                                ? FamilyNotesModernPage
+                                                : $currentRoute === "/family-notes"
+                                                  ? FamilyNotesPage
+                                                  : $currentRoute === "/family-notifications"
+                                                    ? FamilyNotificationsPage
+                                                    : $currentRoute === "/reminders"
+                                                      ? RemindersPage
+                                                      : NotFoundPage;
   }
 
   // Handle page transitions
