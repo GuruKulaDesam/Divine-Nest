@@ -17,13 +17,13 @@
   <!-- Sidebar - Fixed on desktop, overlay on mobile -->
   <Sidebar isOpen={sidebarOpen} on:close={handleCloseSidebar} />
 
-  <!-- Main content wrapper -->
+  <!-- Main content area -->
   <div class="flex-1 flex flex-col overflow-hidden">
     <!-- Header -->
     <Header {sidebarOpen} on:toggleSidebar={handleToggleSidebar} />
 
     <!-- Main content area -->
-    <main class="flex-1 scrollable-container bg-base-200">
+    <main class="flex-1 scrollable-container bg-transparent">
       <div class="p-4 sm:p-6 lg:p-8">
         <slot />
       </div>

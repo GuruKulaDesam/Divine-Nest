@@ -817,10 +817,10 @@
     border-width: 2px;
     border-style: solid;
     border-color: var(--day-border, rgba(255, 255, 255, 0.1));
-    border-radius: 12px;
+    border-radius: 20px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
     transition: all 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   }
@@ -828,13 +828,13 @@
   .day-cell:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    background: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
   }
 
   /* Colorful borders for days with events */
   .day-cell[data-has-events="true"] {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    border-image: linear-gradient(45deg, var(--day-border, #6366f1), var(--day-border-alt, #8b5cf6)) 1;
+    border-image: linear-gradient(45deg, var(--day-border, #6366f1), var(--day-border-alt, #8b5cf6), var(--day-border, #ec4899)) 1;
     animation: borderGlow 2s ease-in-out infinite alternate;
   }
 
