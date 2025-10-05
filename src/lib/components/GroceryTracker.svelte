@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getGroceryItems, addGroceryItem, updateGroceryItem, deleteGroceryItem } from "$lib/data/home.js";
+  import { db } from "$lib/data/database.js";
 
   let groceryItems = [];
   let showAddForm = false;
@@ -30,7 +30,7 @@
   });
 
   async function loadGroceryItems() {
-    groceryItems = await getGroceryItems();
+    groceryItems = await db.groceryItems.toArray();
   }
 
   async function handleAddItem() {
@@ -43,7 +43,7 @@
       marketMode,
     };
 
-    await addGroceryItem(item);
+    await db.groceryItems.add(item);
     await loadGroceryItems();
 
     // Reset form
@@ -52,19 +52,19 @@
   }
 
   async function toggleStockStatus(item) {
-    await updateGroceryItem(item.id, { inStock: !item.inStock, lastUpdated: new Date() });
+    await db.groceryItems.update(item.id, { inStock: !item.inStock, lastUpdated: new Date() });
     await loadGroceryItems();
   }
 
   async function updateQuantity(item, newQuantity) {
     if (newQuantity < 0) return;
-    await updateGroceryItem(item.id, { quantity: newQuantity, lastUpdated: new Date() });
+    await db.groceryItems.update(item.id, { quantity: newQuantity, lastUpdated: new Date() });
     await loadGroceryItems();
   }
 
   async function removeItem(item) {
     if (confirm(`Remove ${item.name} from pantry?`)) {
-      await deleteGroceryItem(item.id);
+      await db.groceryItems.delete(item.id);
       await loadGroceryItems();
     }
   }

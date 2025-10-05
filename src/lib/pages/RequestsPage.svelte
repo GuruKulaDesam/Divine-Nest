@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import { requestsDB } from "../data/requests.js";
+  import { db } from "../data/database.js";
 
   // State management
   let activeTab = "dashboard";
@@ -79,7 +79,7 @@
   // Load data on mount
   onMount(async () => {
     try {
-      requests = await requestsDB.getAll();
+      requests = await db.requests.toArray();
       calculateMetrics();
     } catch (error) {
       console.error("Error loading requests:", error);
@@ -96,7 +96,7 @@
         status: "pending",
       };
 
-      await requestsDB.add(request);
+      await db.requests.add(request);
       requests = [...requests, request];
       calculateMetrics();
 
@@ -130,7 +130,7 @@
         if (newStatus === "completed") {
           request.dateCompleted = new Date().toISOString();
         }
-        await requestsDB.update(requestId, request);
+        await db.requests.update(requestId, request);
         requests = [...requests];
         calculateMetrics();
       }

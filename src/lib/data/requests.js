@@ -216,6 +216,3 @@ export async function initializeRequestsDB() {
     console.error('Error initializing requests database:', error);
   }
 }
-
-// Export database instance for direct access
-export { requestsDB };
