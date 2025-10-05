@@ -173,6 +173,8 @@
   let oauthToken = "";
   let isAuthenticated = false;
   let gapiLoaded = false;
+  let isLoading = false;
+  let authError = "";
 
   // Helper function to safely access gapi
   function isGapiAvailable() {
@@ -182,6 +184,10 @@
   // Attempt to fetch events from Google Calendar using OAuth or pasted token.
   async function importFromGoogle() {
     console.log("Starting Google Calendar import...");
+    isLoading = true;
+    authError = "";
+    showSyncModal = true; // Ensure modal stays open
+
     if (!gapiLoaded) {
       console.log("GAPI not loaded, loading script...");
       // Load Google API client only when needed
@@ -204,18 +210,20 @@
                 gapiLoaded = true;
                 isAuthenticated = /** @type {any} */ (window).gapi.auth2.getAuthInstance().isSignedIn.get();
                 console.log("Initial auth state:", isAuthenticated);
-                // Trigger sign-in immediately after initialization
-                proceedWithSync();
+                isLoading = false;
+                // Don't auto-proceed, let user click again
               })
               .catch((error) => {
                 console.error("GAPI initialization failed:", error);
-                alert("Failed to initialize Google API. Please check your API key and client ID configuration.");
+                authError = "Failed to initialize Google API. Please check your API key and client ID configuration.";
+                isLoading = false;
               });
           });
         };
         script.onerror = () => {
           console.error("Failed to load Google API script");
-          alert("Failed to load Google API script. Check your internet connection.");
+          authError = "Failed to load Google API script. Check your internet connection.";
+          isLoading = false;
         };
         document.head.appendChild(script);
       }
@@ -227,30 +235,37 @@
 
   function proceedWithSync() {
     console.log("Proceeding with sync...");
+    isLoading = true;
     if (/** @type {any} */ (window).gapi && /** @type {any} */ (window).gapi.auth2) {
       console.log("GAPI available, checking authentication...");
       const auth = /** @type {any} */ (window).gapi.auth2.getAuthInstance();
       if (!auth.isSignedIn.get()) {
         console.log("User not signed in, initiating sign in...");
         auth
-          .signIn()
+          .signIn({
+            prompt: "select_account", // Force account selection
+          })
           .then(() => {
             console.log("Sign in successful, fetching events...");
+            isAuthenticated = true;
             fetchGoogleEvents();
           })
           .catch((error) => {
             console.error("Sign in failed:", error);
-            alert("Google sign-in failed. Please try again or use an OAuth token instead.");
+            authError = "Google sign-in failed. Please try again or use an OAuth token instead.";
+            isLoading = false;
           });
       } else {
         console.log("User already signed in, fetching events...");
+        isAuthenticated = true;
         fetchGoogleEvents();
       }
     } else {
       console.log("GAPI not available, falling back to OAuth token...");
       // Fallback to pasted token
       if (!oauthToken) {
-        alert("Paste an OAuth access token or set up OAuth.");
+        authError = "Please paste an OAuth access token or set up OAuth.";
+        isLoading = false;
         return;
       }
       fetchGoogleEvents(oauthToken);
@@ -259,6 +274,7 @@
 
   async function fetchGoogleEvents(token) {
     console.log("Fetching Google events...", { tokenProvided: !!token });
+    isLoading = true;
     try {
       let res;
       if (token) {
@@ -285,11 +301,14 @@
       console.log(`Parsed ${items.length} events:`, items);
       if (items.length) await addMany("calendar", items);
       events = await getAll("calendar");
+      isLoading = false;
       showSyncModal = false;
-      alert(`Imported ${items.length} events.`);
+      authError = "";
+      alert(`Imported ${items.length} events from Google Calendar.`);
     } catch (err) {
       console.error("Failed to import from Google Calendar:", err);
-      alert("Failed to import from Google Calendar. See console for details.");
+      authError = `Failed to import from Google Calendar: ${err.message || "Unknown error"}`;
+      isLoading = false;
     }
   }
 
@@ -495,7 +514,13 @@
         </div>
       </div>
       <div class="flex items-center gap-3">
-        <button class="btn btn-primary btn-sm shadow-lg hover:shadow-xl transition-all duration-300" on:click={() => (showSyncModal = true)}>
+        <button
+          class="btn btn-primary btn-sm shadow-lg hover:shadow-xl transition-all duration-300"
+          on:click={() => {
+            showSyncModal = true;
+            importFromGoogle();
+          }}
+        >
           <span class="text-blue-400">🔄</span> Google Sync
         </button>
         <button
@@ -736,8 +761,21 @@
 
   {#if showSyncModal}
     <div class="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-      <div class="bg-base-100 rounded-lg p-6 w-[640px]">
+      <div class="bg-base-100 rounded-lg p-6 w-[640px] max-h-[80vh] overflow-y-auto">
         <h3 class="text-lg font-semibold mb-3">Sync with Google Calendar</h3>
+
+        {#if authError}
+          <div class="alert alert-error mb-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 000 2v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <div>
+              <p class="font-semibold">Error:</p>
+              <p class="text-sm">{authError}</p>
+            </div>
+          </div>
+        {/if}
+
         <div class="alert alert-info mb-4">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
@@ -745,18 +783,30 @@
           <div>
             <p class="font-semibold">How it works:</p>
             <ul class="text-sm mt-1">
-              <li>• Click "Import" to authenticate with Google</li>
-              <li>• Grant calendar access when prompted</li>
-              <li>• Your events will be imported and displayed</li>
+              <li>• Click "Connect to Google" to authenticate</li>
+              <li>• Select your Google account when prompted</li>
+              <li>• Grant calendar access permission</li>
+              <li>• Your events will be imported automatically</li>
             </ul>
           </div>
         </div>
-        {#if isGapiAvailable()}
+
+        {#if !gapiLoaded}
+          <div class="text-sm mb-3 text-center">
+            <div class="loading loading-spinner loading-lg text-primary mb-2"></div>
+            <p>Loading Google API...</p>
+          </div>
+        {:else if isGapiAvailable()}
           <div class="text-sm mb-3">
             {#if isAuthenticated}
-              You are signed in. Click Import to sync events.
+              <div class="alert alert-success mb-3">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 0016 0zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                You are signed in. Click Import to sync events.
+              </div>
             {:else}
-              Click Import to sign in and sync.
+              Click "Connect to Google" to sign in and sync.
             {/if}
           </div>
           <div class="alert alert-warning mb-4">
@@ -794,17 +844,54 @@
           </div>
           <input class="input w-full mb-3" placeholder="Paste OAuth access token here" bind:value={oauthToken} />
         {/if}
+
         <div class="flex gap-2 justify-end">
-          <button class="btn btn-ghost" on:click={() => (showSyncModal = false)}>Cancel</button>
-          <button class="btn btn-primary" on:click={importFromGoogle}>
-            {#if isGapiAvailable() && isAuthenticated}
-              Import Events
-            {:else if isGapiAvailable()}
-              Sign In & Import
-            {:else}
-              Import with Token
-            {/if}
-          </button>
+          <button
+            class="btn btn-ghost"
+            on:click={() => {
+              showSyncModal = false;
+              authError = "";
+              isLoading = false;
+            }}>Cancel</button
+          >
+          {#if isGapiAvailable() && isAuthenticated}
+            <button class="btn btn-primary" on:click={fetchGoogleEvents} disabled={isLoading}>
+              {#if isLoading}
+                <div class="loading loading-spinner loading-sm"></div>
+                Importing...
+              {:else}
+                Import Events
+              {/if}
+            </button>
+          {:else if isGapiAvailable()}
+            <button class="btn btn-primary" on:click={proceedWithSync} disabled={isLoading}>
+              {#if isLoading}
+                <div class="loading loading-spinner loading-sm"></div>
+                Connecting...
+              {:else}
+                Connect to Google
+              {/if}
+            </button>
+          {:else}
+            <button
+              class="btn btn-primary"
+              on:click={() => {
+                if (!oauthToken) {
+                  authError = "Please paste an OAuth access token.";
+                } else {
+                  proceedWithSync();
+                }
+              }}
+              disabled={isLoading}
+            >
+              {#if isLoading}
+                <div class="loading loading-spinner loading-sm"></div>
+                Importing...
+              {:else}
+                Import with Token
+              {/if}
+            </button>
+          {/if}
         </div>
       </div>
     </div>
