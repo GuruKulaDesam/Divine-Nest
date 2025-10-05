@@ -9,6 +9,9 @@
     /** @type {any} */ (window).gapi = /** @type {any} */ (window).gapi || {};
   }
 
+  // Global timeout variable for calendar import
+  let googleCalendarTimeout = null;
+
   const today = new Date();
   let year = today.getFullYear();
   let month = today.getMonth(); // 0-based
@@ -175,10 +178,20 @@
   let gapiLoaded = false;
   let isLoading = false;
   let authError = "";
+  let gapiLoadTimeout;
+  let gapiLoadAttempted = false; // Track if we've attempted to load GAPI
 
   // Helper function to safely access gapi
   function isGapiAvailable() {
     return /** @type {any} */ (window).gapi && /** @type {any} */ (window).gapi.auth2;
+  }
+
+  // Clear any existing timeout
+  function clearGapiTimeout() {
+    if (gapiLoadTimeout) {
+      clearTimeout(gapiLoadTimeout);
+      gapiLoadTimeout = null;
+    }
   }
 
   // Attempt to fetch events from Google Calendar using OAuth or pasted token.
@@ -188,13 +201,25 @@
     authError = "";
     showSyncModal = true; // Ensure modal stays open
 
-    if (!gapiLoaded) {
+    if (!gapiLoaded && !gapiLoadAttempted) {
       console.log("GAPI not loaded, loading script...");
+      gapiLoadAttempted = true; // Mark that we've attempted to load
       // Load Google API client only when needed
       if (!(/** @type {any} */ (window).gapi)) {
         const script = document.createElement("script");
         script.src = "https://apis.google.com/js/api.js";
+
+        // Set a timeout for API loading (15 seconds)
+        gapiLoadTimeout = setTimeout(() => {
+          console.error("Google API loading timeout");
+          authError = "Google API loading timed out. Please check your internet connection and try again.";
+          isLoading = false;
+          gapiLoaded = false; // Explicitly set to false to show fallback UI
+          gapiLoadAttempted = true; // Keep as attempted
+        }, 15000);
+
         script.onload = () => {
+          clearGapiTimeout();
           console.log("GAPI script loaded, initializing...");
           /** @type {any} */ (window).gapi.load("client:auth2", () => {
             // Initialize with your client ID (user needs to replace)
@@ -217,13 +242,18 @@
                 console.error("GAPI initialization failed:", error);
                 authError = "Failed to initialize Google API. Please check your API key and client ID configuration.";
                 isLoading = false;
+                gapiLoaded = false; // Ensure fallback UI is shown
+                gapiLoadAttempted = true; // Mark as attempted
               });
           });
         };
         script.onerror = () => {
+          clearGapiTimeout();
           console.error("Failed to load Google API script");
           authError = "Failed to load Google API script. Check your internet connection.";
           isLoading = false;
+          gapiLoaded = false; // Ensure fallback UI is shown
+          gapiLoadAttempted = true; // Mark as attempted
         };
         document.head.appendChild(script);
       }
@@ -275,6 +305,16 @@
   async function fetchGoogleEvents(token) {
     console.log("Fetching Google events...", { tokenProvided: !!token });
     isLoading = true;
+    authError = "";
+
+    // Set a timeout to prevent infinite loading
+    googleCalendarTimeout = setTimeout(() => {
+      console.error("Google Calendar import timed out");
+      authError = "Import timed out after 30 seconds. Please check your internet connection and try again.";
+      isLoading = false;
+      googleCalendarTimeout = null;
+    }, 30000); // 30 second timeout
+
     try {
       let res;
       if (token) {
@@ -282,30 +322,78 @@
         res = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=250&singleEvents=true&orderBy=startTime", {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log("OAuth token API response status:", res.status);
+
+        // Check for common HTTP errors
+        if (!res.ok) {
+          if (res.status === 401) {
+            throw new Error("Invalid or expired OAuth token. Please get a new token from Google OAuth Playground.");
+          } else if (res.status === 403) {
+            throw new Error("Access denied. Please check that your token has Calendar API permissions.");
+          } else if (res.status === 404) {
+            throw new Error("Calendar not found. Please check your Google account.");
+          } else if (res.status >= 500) {
+            throw new Error("Google Calendar API server error. Please try again later.");
+          } else {
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          }
+        }
       } else {
         console.log("Using GAPI client to fetch events...");
-        res = await /** @type {any} */ (window).gapi.client.calendar.events.list({
-          calendarId: "primary",
-          timeMin: new Date().toISOString(),
-          showDeleted: false,
-          singleEvents: true,
-          maxResults: 250,
-          orderBy: "startTime",
-        });
+        try {
+          res = await /** @type {any} */ (window).gapi.client.calendar.events.list({
+            calendarId: "primary",
+            timeMin: new Date().toISOString(),
+            showDeleted: false,
+            singleEvents: true,
+            maxResults: 250,
+            orderBy: "startTime",
+          });
+          console.log("GAPI client response received");
+        } catch (gapiError) {
+          console.error("GAPI client error:", gapiError);
+          throw new Error(`Google API Error: ${gapiError.result?.error?.message || gapiError.message || "Authentication or API access failed"}`);
+        }
       }
+
+      clearTimeout(googleCalendarTimeout);
+      googleCalendarTimeout = null;
       console.log("API response received:", res);
+
       const data = token ? await res.json() : res.result;
       console.log("Parsed data:", data);
-      if (token && !res.ok) throw new Error(data.error?.message || "Failed");
-      const items = (data.items || []).map((ev) => ({ title: ev.summary || "Event", date: ev.start?.date || ev.start?.dateTime?.split("T")[0] || "", time: ev.start?.dateTime ? ev.start.dateTime.split("T")[1]?.slice(0, 5) : ev.start?.date ? "" : "", color: "#0ea5e9", description: ev.description || "" }));
+
+      if (token && !res.ok) {
+        throw new Error(data.error?.message || `HTTP ${res.status}: ${res.statusText}`);
+      }
+
+      const items = (data.items || []).map((ev) => ({
+        title: ev.summary || "Event",
+        date: ev.start?.date || ev.start?.dateTime?.split("T")[0] || "",
+        time: ev.start?.dateTime ? ev.start.dateTime.split("T")[1]?.slice(0, 5) : ev.start?.date ? "" : "",
+        color: "#0ea5e9",
+        description: ev.description || "",
+      }));
+
       console.log(`Parsed ${items.length} events:`, items);
-      if (items.length) await addMany("calendar", items);
+
+      if (items.length) {
+        console.log("Saving events to database...");
+        await addMany("calendar", items);
+        console.log("Events saved successfully");
+      }
+
       events = await getAll("calendar");
+      console.log(`Total events in database: ${events.length}`);
+
       isLoading = false;
       showSyncModal = false;
       authError = "";
-      alert(`Imported ${items.length} events from Google Calendar.`);
+
+      alert(`✅ Successfully imported ${items.length} events from Google Calendar!`);
     } catch (err) {
+      clearTimeout(googleCalendarTimeout);
+      googleCalendarTimeout = null;
       console.error("Failed to import from Google Calendar:", err);
       authError = `Failed to import from Google Calendar: ${err.message || "Unknown error"}`;
       isLoading = false;
@@ -791,10 +879,33 @@
           </div>
         </div>
 
-        {#if !gapiLoaded}
+        {#if !gapiLoaded && !gapiLoadAttempted}
           <div class="text-sm mb-3 text-center">
             <div class="loading loading-spinner loading-lg text-primary mb-2"></div>
             <p>Loading Google API...</p>
+          </div>
+        {:else if !gapiLoaded && gapiLoadAttempted}
+          <!-- Show error state when loading was attempted but failed -->
+          <div class="text-sm mb-3">
+            <div class="alert alert-error mb-3">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+              </svg>
+              <div>
+                <p class="font-semibold">Google API Loading Failed</p>
+                <p class="text-sm">{authError || "Unable to load Google Calendar API. Try using the OAuth token method instead."}</p>
+                <button
+                  class="btn btn-sm btn-outline mt-2"
+                  on:click={() => {
+                    gapiLoadAttempted = false;
+                    authError = "";
+                    importFromGoogle();
+                  }}
+                >
+                  🔄 Retry Loading API
+                </button>
+              </div>
+            </div>
           </div>
         {:else if isGapiAvailable()}
           <div class="text-sm mb-3">
@@ -852,6 +963,12 @@
               showSyncModal = false;
               authError = "";
               isLoading = false;
+              clearGapiTimeout(); // Clear any pending timeouts
+              // Also clear any fetch timeouts if they exist
+              if (googleCalendarTimeout) {
+                clearTimeout(googleCalendarTimeout);
+                googleCalendarTimeout = null;
+              }
             }}>Cancel</button
           >
           {#if isGapiAvailable() && isAuthenticated}

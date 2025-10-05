@@ -104,6 +104,10 @@
 
     const generatedReminders = [];
 
+    // Get existing saved reminders first
+    const currentReminders = await getAll("reminders");
+    const savedReminders = currentReminders.filter((r) => r.type === "manual");
+
     // Analyze notes for reminders
     notes.forEach((note) => {
       const content = note.body.toLowerCase();
@@ -176,7 +180,9 @@
       return Number(new Date(a.dueDate)) - Number(new Date(b.dueDate));
     });
 
-    reminders.set(generatedReminders);
+    // Combine saved reminders with generated ones
+    const allReminders = [...savedReminders, ...generatedReminders];
+    reminders.set(allReminders);
     isGenerating = false;
   }
 
@@ -388,11 +394,20 @@
           </label>
           <label class="text-white/80">
             Priority
-            <select bind:value={manualReminder.priority} class="select w-full bg-white/10 border-white/20 text-white">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
+            <div class="flex gap-4 mt-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" bind:group={manualReminder.priority} value="low" class="radio radio-primary" />
+                <span class="text-sm">Low</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" bind:group={manualReminder.priority} value="medium" class="radio radio-primary" />
+                <span class="text-sm">Medium</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" bind:group={manualReminder.priority} value="high" class="radio radio-primary" />
+                <span class="text-sm">High</span>
+              </label>
+            </div>
           </label>
           <label class="text-white/80">
             Due Date *
@@ -404,11 +419,20 @@
           </label>
           <label class="text-white/80">
             Notification Type
-            <select bind:value={manualReminder.notificationType} class="select w-full bg-white/10 border-white/20 text-white">
-              <option value="sound">🔊 Sound + Browser Notification</option>
-              <option value="sms">📱 SMS</option>
-              <option value="call">📞 Call</option>
-            </select>
+            <div class="flex flex-col gap-2 mt-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" bind:group={manualReminder.notificationType} value="sound" class="radio radio-primary" />
+                <span class="text-sm">🔊 Sound + Browser Notification</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" bind:group={manualReminder.notificationType} value="sms" class="radio radio-primary" />
+                <span class="text-sm">📱 SMS</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" bind:group={manualReminder.notificationType} value="call" class="radio radio-primary" />
+                <span class="text-sm">📞 Call</span>
+              </label>
+            </div>
           </label>
           {#if manualReminder.notificationType !== "sound"}
             <label class="text-white/80">

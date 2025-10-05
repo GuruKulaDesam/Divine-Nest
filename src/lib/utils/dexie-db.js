@@ -3,9 +3,9 @@ import Dexie from 'dexie';
 export const db = new Dexie('familywall');
 db.version(1).stores({
   calendar: '++id,title,date,description,color,assigned,recurring,reminderMinutes',
-  todo: '++id,text,done,dueDate,assigned,priority',
+  todo: '++id,text,done,dueDate,assigned,priority,isGroup,groupId,color',
   map: '++id,name,address,lat,lng',
-  notes: '++id,text,pinned,updatedAt',
+  notes: '++id,title,body,pinned,color,createdAt,updatedAt,user,type,attachments',
   notifications: '++id,text,read,timestamp'
 });
 
