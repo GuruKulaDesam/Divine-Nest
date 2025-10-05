@@ -1,5 +1,5 @@
 {
-  "name": "Takeka - Open Source Svelte & Tailwind CSS Admin Dashboard Template",
+  "name": "Home Manager - Open Source Svelte & Tailwind CSS Admin Dashboard Template",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -30,8 +30,10 @@
     "@melt-ui/svelte": "^0.86.6",
     "chart.js": "^4.5.0",
     "daisyui": "^5.0.43",
+    "dexie": "^4.2.0",
     "leaflet": "^1.9.4",
     "motion": "^12.18.1",
+    "pkill": "^2.0.0",
     "svelte-fullcalendar": "^3.0.0",
     "svelte-i18n": "^4.0.1",
     "wx-svelte-gantt": "^2.1.1",
