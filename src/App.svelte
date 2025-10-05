@@ -7,6 +7,7 @@
   import FamilyNotesModernPage from "./lib/pages/FamilyNotesModernPage.svelte";
   import FamilyNotificationsPage from "./lib/pages/FamilyNotificationsPage.svelte";
   import RemindersPage from "./lib/pages/RemindersPage.svelte";
+  import RequestsPage from "./lib/pages/RequestsPage.svelte";
   import { onMount } from "svelte";
   import DashboardLayout from "./lib/components/DashboardLayout.svelte";
   import UsersPage from "./lib/pages/UsersPage.svelte";
@@ -41,6 +42,8 @@
   import { isLoading } from "svelte-i18n";
   import { i18nReadyPromise } from "./lib/i18n/index.js";
   import LoadingSpinner from "./lib/components/LoadingSpinner.svelte";
+  import { authActions } from "./lib/stores/auth.js";
+  import { initializeRequestsDB } from "./lib/data/requests.js";
 
   let current;
   let pageElement;
@@ -105,23 +108,25 @@
                                                       ? FamilyNotificationsPage
                                                       : $currentRoute === "/reminders"
                                                         ? RemindersPage
-                                                        : $currentRoute === "/v1-home"
-                                                          ? HomePage
-                                                          : $currentRoute === "/v1-education"
-                                                            ? EducationPage
-                                                            : $currentRoute === "/v1-meals"
-                                                              ? MealsPage
-                                                              : $currentRoute === "/v1-recipes"
-                                                                ? RecipesPage
-                                                                : $currentRoute === "/v1-rituals"
-                                                                  ? RitualsPage
-                                                                  : $currentRoute === "/v1-wellness"
-                                                                    ? WellnessPage
-                                                                    : $currentRoute === "/v1-lifeflow"
-                                                                      ? LifeFlowPage
-                                                                      : $currentRoute === "/v1-directory"
-                                                                        ? DirectoryPage
-                                                                        : NotFoundPage;
+                                                        : $currentRoute === "/requests"
+                                                          ? RequestsPage
+                                                          : $currentRoute === "/v1-home"
+                                                            ? HomePage
+                                                            : $currentRoute === "/v1-education"
+                                                              ? EducationPage
+                                                              : $currentRoute === "/v1-meals"
+                                                                ? MealsPage
+                                                                : $currentRoute === "/v1-recipes"
+                                                                  ? RecipesPage
+                                                                  : $currentRoute === "/v1-rituals"
+                                                                    ? RitualsPage
+                                                                    : $currentRoute === "/v1-wellness"
+                                                                      ? WellnessPage
+                                                                      : $currentRoute === "/v1-lifeflow"
+                                                                        ? LifeFlowPage
+                                                                        : $currentRoute === "/v1-directory"
+                                                                          ? DirectoryPage
+                                                                          : NotFoundPage;
   }
 
   // Handle page transitions
@@ -200,6 +205,12 @@
   onMount(async () => {
     // Initialize theme system
     themeActions.init();
+
+    // Initialize auth system
+    authActions.init();
+
+    // Initialize requests database
+    await initializeRequestsDB();
 
     // Wait for i18n to be ready
     await i18nReadyPromise;

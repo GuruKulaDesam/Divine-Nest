@@ -8,11 +8,11 @@
   });
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+<div class="min-h-screen bg-gradient-to-br from-base-100 to-base-200">
   <div class="container mx-auto px-4 py-8">
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-slate-800 dark:text-slate-200 mb-2">🌊 Life Flow</h1>
-      <p class="text-slate-600 dark:text-slate-400">Emotional Intelligence & Family Governance</p>
+      <h1 class="text-4xl font-bold text-base-content mb-2">🌊 Life Flow</h1>
+      <p class="text-base-content/70">Emotional Intelligence & Family Governance</p>
     </div>
 
     <LifeFlowDashboard />
