@@ -8,6 +8,9 @@
   import FamilyNotificationsPage from "./lib/pages/FamilyNotificationsPage.svelte";
   import RemindersPage from "./lib/pages/RemindersPage.svelte";
   import RequestsPage from "./lib/pages/RequestsPage.svelte";
+  import HouseholdPage from "./lib/pages/HouseholdPage.svelte";
+  import LibraryPage from "./lib/pages/LibraryPage.svelte";
+  import TemplePage from "./lib/pages/TemplePage.svelte";
   import { onMount } from "svelte";
   import DashboardLayout from "./lib/components/DashboardLayout.svelte";
   import UsersPage from "./lib/pages/UsersPage.svelte";
@@ -43,7 +46,12 @@
   import { i18nReadyPromise } from "./lib/i18n/index.js";
   import LoadingSpinner from "./lib/components/LoadingSpinner.svelte";
   import { authActions } from "./lib/stores/auth.js";
-  import { initializeRequestsDB } from "./lib/data/requests.js";
+  import { initializeDatabase } from "./lib/data/database.js";
+  import IssuesEmergencyPage from "./lib/pages/IssuesEmergencyPage.svelte";
+  import IssuesRepairsPage from "./lib/pages/IssuesRepairsPage.svelte";
+  import IssuesMaintenancePage from "./lib/pages/IssuesMaintenancePage.svelte";
+  import IssuesUrgentPage from "./lib/pages/IssuesUrgentPage.svelte";
+  import TravelPage from "./lib/pages/TravelPage.svelte";
 
   let current;
   let pageElement;
@@ -56,77 +64,91 @@
     // Determine if we should show a full page (without dashboard layout)
     showFullPage = $currentRoute.startsWith("/auth/");
 
-    // Update current component based on route
-    current =
-      $currentRoute === "/"
-        ? HomePage
-        : $currentRoute === "/users"
-          ? UsersPage
-          : $currentRoute === "/products"
-            ? ProductsPage
-            : $currentRoute === "/settings"
-              ? SettingsPage
-              : $currentRoute === "/analytics"
-                ? AnalyticsPage
-                : $currentRoute === "/charts"
-                  ? ChartsPage
-                  : $currentRoute === "/projects"
-                    ? ProjectManagementPage
-                    : $currentRoute === "/profile"
-                      ? ProfilePage
-                      : $currentRoute === "/maps"
-                        ? MapsPage
-                        : $currentRoute === "/schedule"
-                          ? SchedulePage
-                          : $currentRoute === "/auth/login"
-                            ? LoginPage
-                            : $currentRoute === "/auth/login-v2"
-                              ? LoginV2
-                              : $currentRoute === "/auth/login-v3"
-                                ? LoginV3
-                                : $currentRoute === "/auth/register"
-                                  ? RegisterPage
-                                  : $currentRoute === "/auth/register-v2"
-                                    ? RegisterV2
-                                    : $currentRoute === "/auth/register-v3"
-                                      ? RegisterV3
-                                      : $currentRoute === "/gantt"
-                                        ? GanttPage
-                                        : $currentRoute === "/family-calendar-modern"
-                                          ? FamilyCalendarModernPage
-                                          : $currentRoute === "/family-calendar"
-                                            ? FamilyCalendarPage
-                                            : $currentRoute === "/family-todo"
-                                              ? FamilyTodoPage
-                                              : $currentRoute === "/family-map"
-                                                ? FamilyMapPage
-                                                : $currentRoute === "/family-notes-modern"
-                                                  ? FamilyNotesModernPage
-                                                  : $currentRoute === "/family-notes"
-                                                    ? FamilyNotesPage
-                                                    : $currentRoute === "/family-notifications"
-                                                      ? FamilyNotificationsPage
-                                                      : $currentRoute === "/reminders"
-                                                        ? RemindersPage
-                                                        : $currentRoute === "/requests"
-                                                          ? RequestsPage
-                                                          : $currentRoute === "/v1-home"
-                                                            ? HomePage
-                                                            : $currentRoute === "/v1-education"
-                                                              ? EducationPage
-                                                              : $currentRoute === "/v1-meals"
-                                                                ? MealsPage
-                                                                : $currentRoute === "/v1-recipes"
-                                                                  ? RecipesPage
-                                                                  : $currentRoute === "/v1-rituals"
-                                                                    ? RitualsPage
-                                                                    : $currentRoute === "/v1-wellness"
-                                                                      ? WellnessPage
-                                                                      : $currentRoute === "/v1-lifeflow"
-                                                                        ? LifeFlowPage
-                                                                        : $currentRoute === "/v1-directory"
-                                                                          ? DirectoryPage
-                                                                          : NotFoundPage;
+    // Route mapping for cleaner organization
+    const routes = {
+      // Home & Household
+      "/": HomePage,
+      "/home": HomePage,
+      "/household": HouseholdPage,
+      "/home-services": HomePage, // Will create later
+      "/requests": RequestsPage,
+
+      // Education & Learning
+      "/education": EducationPage,
+      "/library": LibraryPage,
+
+      // Meals & Kitchen
+      "/meals": MealsPage,
+      "/recipes": RecipesPage,
+
+      // Rituals & Spiritual
+      "/rituals": RitualsPage,
+      "/temple": TemplePage,
+      "/festival-calendar": RitualsPage, // Will create later
+
+      // Health & Wellness
+      "/wellness": WellnessPage,
+      "/health": WellnessPage, // Will create later
+      "/mantras": WellnessPage, // Will create later
+      "/journal": WellnessPage, // Will create later
+
+      // Time & Events
+      "/family-calendar-modern": FamilyCalendarModernPage,
+      "/events": FamilyCalendarModernPage, // Will create later
+      "/time": FamilyCalendarModernPage, // Will create later
+      "/family-notes-modern": FamilyNotesModernPage,
+      "/reminders": RemindersPage,
+
+      // Travel & Leisure
+      "/travel": TravelPage,
+      "/trips": TravelPage,
+      "/leisure": TravelPage,
+      "/community": TravelPage,
+
+      // Life Flow & Memory
+      "/lifeflow": LifeFlowPage,
+      "/legacy": LifeFlowPage, // Will create later
+      "/family-governance": LifeFlowPage, // Will create later
+
+      // Directory & Contacts
+      "/directory": DirectoryPage,
+      "/contacts": DirectoryPage, // Will create later
+      "/vendors": DirectoryPage, // Will create later
+
+      // Issues Management
+      "/emergency": IssuesEmergencyPage,
+      "/urgent": IssuesUrgentPage,
+      "/repairs": IssuesRepairsPage,
+      "/maintenance": IssuesMaintenancePage,
+
+      // Legacy routes (keeping for compatibility)
+      "/users": UsersPage,
+      "/products": ProductsPage,
+      "/settings": SettingsPage,
+      "/analytics": AnalyticsPage,
+      "/charts": ChartsPage,
+      "/projects": ProjectManagementPage,
+      "/profile": ProfilePage,
+      "/maps": MapsPage,
+      "/schedule": SchedulePage,
+      "/gantt": GanttPage,
+      "/family-calendar": FamilyCalendarPage,
+      "/family-todo": FamilyTodoPage,
+      "/family-map": FamilyMapPage,
+      "/family-notes": FamilyNotesPage,
+      "/family-notifications": FamilyNotificationsPage,
+
+      // Auth routes
+      "/auth/login": LoginPage,
+      "/auth/login-v2": LoginV2,
+      "/auth/login-v3": LoginV3,
+      "/auth/register": RegisterPage,
+      "/auth/register-v2": RegisterV2,
+      "/auth/register-v3": RegisterV3,
+    };
+
+    // Set current component
+    current = routes[$currentRoute] || NotFoundPage;
   }
 
   // Handle page transitions
@@ -209,8 +231,8 @@
     // Initialize auth system
     authActions.init();
 
-    // Initialize requests database
-    await initializeRequestsDB();
+    // Initialize unified family database
+    await initializeDatabase();
 
     // Wait for i18n to be ready
     await i18nReadyPromise;

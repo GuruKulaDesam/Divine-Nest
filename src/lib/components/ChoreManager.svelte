@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getChores, addChore, updateChore, deleteChore } from "$lib/data/home.js";
+  import { db } from "$lib/data/database.js";
 
   let chores = [];
   let showAddForm = false;
@@ -34,7 +34,7 @@
   });
 
   async function loadChores() {
-    chores = await getChores();
+    chores = await db.chores.toArray();
   }
 
   async function handleAddChore() {
@@ -49,7 +49,7 @@
       dueDate: new Date(),
     };
 
-    await addChore(chore);
+    await db.chores.add(chore);
     await loadChores();
 
     // Reset form
@@ -68,7 +68,7 @@
       streakCount = Math.max(0, streakCount - 1);
     }
 
-    await updateChore(chore.id, {
+    await db.chores.update(chore.id, {
       completed,
       lastCompleted: completed ? now : chore.lastCompleted,
       streakCount,
@@ -79,7 +79,7 @@
 
   async function removeChore(chore) {
     if (confirm(`Remove "${chore.title}" chore?`)) {
-      await deleteChore(chore.id);
+      await db.chores.delete(chore.id);
       await loadChores();
     }
   }

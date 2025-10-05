@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { directoryDB } from "../data/directory.js";
+  import { db } from "../data/database.js";
 
   let activeTab = "family";
   let familyContacts = [];
@@ -20,10 +20,10 @@
 
   async function loadData() {
     try {
-      familyContacts = await directoryDB.familyContacts.toArray();
-      vendors = await directoryDB.vendors.toArray();
-      doctors = await directoryDB.doctors.toArray();
-      communityCenters = await directoryDB.communityCenters.toArray();
+      familyContacts = await db.familyContacts.toArray();
+      vendors = await db.vendors.toArray();
+      doctors = await db.doctors.toArray();
+      communityCenters = await db.communityCenters.toArray();
     } catch (error) {
       console.error("Failed to load Directory data:", error);
     }
@@ -33,7 +33,7 @@
     if (!newContact.name.trim() || !newContact.relationship.trim()) return;
 
     try {
-      await directoryDB.familyContacts.add({
+      await db.familyContacts.add({
         ...newContact,
         lastContacted: new Date().toISOString(),
       });
@@ -48,7 +48,7 @@
     if (!newVendor.name.trim() || !newVendor.category.trim()) return;
 
     try {
-      await directoryDB.vendors.add({
+      await db.vendors.add({
         ...newVendor,
         lastUsed: new Date().toISOString(),
       });
@@ -63,7 +63,7 @@
     if (!newDoctor.name.trim() || !newDoctor.specialty.trim()) return;
 
     try {
-      await directoryDB.doctors.add(newDoctor);
+      await db.doctors.add(newDoctor);
       newDoctor = { name: "", specialty: "", hospital: "", phone: "", email: "", address: "", experience: 5, rating: 5, emergency: false };
       await loadData();
     } catch (error) {
@@ -75,7 +75,7 @@
     if (!newCommunityCenter.name.trim() || !newCommunityCenter.type.trim()) return;
 
     try {
-      await directoryDB.communityCenters.add({
+      await db.communityCenters.add({
         ...newCommunityCenter,
         services: newCommunityCenter.services.split(",").map((s) => s.trim()),
         programs: newCommunityCenter.programs.split(",").map((p) => p.trim()),
