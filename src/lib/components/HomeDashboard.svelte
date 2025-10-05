@@ -1,17 +1,17 @@
 <script>
-  import GroceryTracker from './GroceryTracker.svelte';
-  import ChoreManager from './ChoreManager.svelte';
-  import RepairTracker from './RepairTracker.svelte';
-  import EmergencyPanel from './EmergencyPanel.svelte';
+  import GroceryTracker from "./GroceryTracker.svelte";
+  import ChoreManager from "./ChoreManager.svelte";
+  import RepairTracker from "./RepairTracker.svelte";
+  import EmergencyPanel from "./EmergencyPanel.svelte";
 
-  let activeTab = 'overview';
+  let activeTab = "overview";
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: '📊' },
-    { id: 'grocery', label: 'Grocery & Pantry', icon: '🛒' },
-    { id: 'chores', label: 'Chores & Flow', icon: '🧹' },
-    { id: 'repairs', label: 'Repairs & Maintenance', icon: '🔧' },
-    { id: 'emergency', label: 'Emergency Services', icon: '🚨' }
+    { id: "overview", label: "Overview", icon: "📊" },
+    { id: "grocery", label: "Grocery & Pantry", icon: "🛒" },
+    { id: "chores", label: "Chores & Flow", icon: "🧹" },
+    { id: "repairs", label: "Repairs & Maintenance", icon: "🔧" },
+    { id: "emergency", label: "Emergency Services", icon: "🚨" },
   ];
 </script>
 
@@ -19,10 +19,7 @@
   <!-- Tab Navigation -->
   <div class="flex flex-wrap gap-2 mb-6 border-b border-orange-200 pb-4">
     {#each tabs as tab}
-      <button
-        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 {activeTab === tab.id ? 'bg-orange-500 text-white shadow-md' : 'bg-orange-50 text-orange-700 hover:bg-orange-100'}"
-        on:click={() => activeTab = tab.id}
-      >
+      <button class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 {activeTab === tab.id ? 'bg-orange-500 text-white shadow-md' : 'bg-orange-50 text-orange-700 hover:bg-orange-100'}" on:click={() => (activeTab = tab.id)}>
         <span class="text-lg">{tab.icon}</span>
         <span class="font-medium">{tab.label}</span>
       </button>
@@ -31,7 +28,7 @@
 
   <!-- Tab Content -->
   <div class="min-h-[600px]">
-    {#if activeTab === 'overview'}
+    {#if activeTab === "overview"}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Quick Stats Cards -->
         <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
@@ -83,10 +80,7 @@
       <div class="mt-8">
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button
-            class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg transition-colors duration-200 flex items-center gap-3"
-            on:click={() => activeTab = 'grocery'}
-          >
+          <button class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg transition-colors duration-200 flex items-center gap-3" on:click={() => (activeTab = "grocery")}>
             <span class="text-2xl">🛒</span>
             <div class="text-left">
               <div class="font-semibold">Add Grocery Item</div>
@@ -94,10 +88,7 @@
             </div>
           </button>
 
-          <button
-            class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg transition-colors duration-200 flex items-center gap-3"
-            on:click={() => activeTab = 'chores'}
-          >
+          <button class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg transition-colors duration-200 flex items-center gap-3" on:click={() => (activeTab = "chores")}>
             <span class="text-2xl">🧹</span>
             <div class="text-left">
               <div class="font-semibold">Assign Chore</div>
@@ -105,10 +96,7 @@
             </div>
           </button>
 
-          <button
-            class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg transition-colors duration-200 flex items-center gap-3"
-            on:click={() => activeTab = 'emergency'}
-          >
+          <button class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg transition-colors duration-200 flex items-center gap-3" on:click={() => (activeTab = "emergency")}>
             <span class="text-2xl">🚨</span>
             <div class="text-left">
               <div class="font-semibold">Emergency Call</div>
@@ -117,14 +105,13 @@
           </button>
         </div>
       </div>
-
-    {:else if activeTab === 'grocery'}
+    {:else if activeTab === "grocery"}
       <GroceryTracker />
-    {:else if activeTab === 'chores'}
+    {:else if activeTab === "chores"}
       <ChoreManager />
-    {:else if activeTab === 'repairs'}
+    {:else if activeTab === "repairs"}
       <RepairTracker />
-    {:else if activeTab === 'emergency'}
+    {:else if activeTab === "emergency"}
       <EmergencyPanel />
     {/if}
   </div>
