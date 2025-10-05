@@ -25,7 +25,7 @@
   let recognition;
   let transcriptBuffer = "";
   let search = "";
-  let activeTab = "create"; // 'create', 'notes', 'checklists'
+  let activeTab = "notes"; // 'notes', 'checklists'
   let showVoiceModal = false;
 
   // Notification system
@@ -54,10 +54,15 @@
   // small initialization: seed notes/todos if empty
   onMount(async () => {
     notes = await getAll("notes");
-    // Clear all existing notes
-    if (notes && notes.length > 0) {
-      // Remove all notes from database
-      notes = [];
+    // Remove empty notes that might have been preloaded
+    const validNotes = notes.filter((note) => note && (note.body?.trim() || (note.attachments && note.attachments.length > 0)));
+    if (validNotes.length !== notes.length) {
+      // Remove invalid notes from database
+      const invalidIds = notes.filter((note) => !note || (!note.body?.trim() && (!note.attachments || note.attachments.length === 0))).map((note) => note.id);
+      for (const id of invalidIds) {
+        await table("notes").delete(id);
+      }
+      notes = validNotes;
     }
 
     todoLists = await getAll("todo");
@@ -123,13 +128,16 @@
   async function addNote() {
     if (!newNote.trim() && attachments.length === 0 && voiceNotes.length === 0) return;
 
+    const now = new Date().toISOString();
     const title = newNote.split("\n")[0].slice(0, 60) || "Untitled Note";
     const payload = {
       title,
       body: newNote,
       pinned: false,
       color: noteColor,
-      updatedAt: new Date().toISOString(),
+      createdAt: now,
+      updatedAt: now,
+      user: "John Doe", // You can make this dynamic based on authentication
       type: noteType,
       attachments: [...attachments, ...voiceNotes],
     };
@@ -207,13 +215,16 @@
         const reader = new FileReader();
         reader.onload = async () => {
           const dataUrl = String(reader.result || "");
+          const now = new Date().toISOString();
           const title = "🎵 Voice Recording " + new Date().toLocaleTimeString();
           const payload = {
             title,
             body: "[Voice recording - tap play to listen]",
             pinned: false,
             color: "#f59e0b",
-            updatedAt: new Date().toISOString(),
+            createdAt: now,
+            updatedAt: now,
+            user: "John Doe",
             type: "note",
             attachments: [dataUrl],
           };
@@ -259,13 +270,16 @@
       todoLists = await getAll("todo");
       showNotification("✅ Voice converted to checklist and saved!", "success");
     } else {
+      const now = new Date().toISOString();
       const title = t.split(/\n/)[0].slice(0, 60) || "🎤 Voice Note";
       await table("notes").add({
         title,
         body: t,
         pinned: false,
         color: "#10b981",
-        updatedAt: new Date().toISOString(),
+        createdAt: now,
+        updatedAt: now,
+        user: "John Doe",
         type: "note",
         attachments: [],
       });
@@ -275,8 +289,22 @@
   }
 
   function playAttachment(dataUrl) {
-    const a = new Audio(dataUrl);
-    a.play();
+    try {
+      const audio = new Audio(dataUrl);
+      audio.oncanplaythrough = () => {
+        audio.play().catch((err) => {
+          console.error("Audio play failed:", err);
+          showNotification("Failed to play audio", "error");
+        });
+      };
+      audio.onerror = () => {
+        console.error("Audio load failed");
+        showNotification("Failed to load audio", "error");
+      };
+    } catch (err) {
+      console.error("Audio creation failed:", err);
+      showNotification("Audio playback not supported", "error");
+    }
   }
 
   // toggle checklist/todo done
@@ -364,7 +392,6 @@
     <div class="flex justify-center mb-8">
       <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-2 shadow-2xl border border-white/30">
         <div class="flex space-x-2">
-          <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'create' ? 'bg-white text-purple-600 shadow-lg' : 'text-theme hover:bg-white/20'}" on:click={() => (activeTab = "create")}> ✨ Create </button>
           <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'notes' ? 'bg-white text-purple-600 shadow-lg' : 'text-theme hover:bg-white/20'}" on:click={() => (activeTab = "notes")}>
             📚 My Notes ({notes.length})
           </button>
@@ -375,65 +402,65 @@
       </div>
     </div>
 
+    <!-- Voice Input Section - Top of Page -->
+    <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20 mb-8">
+      <div class="text-center mb-6">
+        <div class="text-6xl mb-4 text-blue-400 animate-pulse">🎤</div>
+        <h2 class="text-2xl font-bold text-theme mb-2">Voice Input</h2>
+        <p class="text-theme/80">Speak to create notes or checklists automatically</p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex justify-center gap-4">
+          <button class="btn btn-circle btn-lg {recognizing ? 'btn-error' : 'btn-success'} shadow-lg" on:click={toggleRecognition} disabled={!recognitionAvailable}>
+            {#if recognizing}
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"></path>
+              </svg>
+            {:else}
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0 5 5 0 01-10 0 1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"></path>
+              </svg>
+            {/if}
+          </button>
+          <button class="btn btn-circle btn-lg btn-warning shadow-lg" on:click={() => (recording ? stopRecording() : startRecording())}>
+            {#if recording}
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"></path>
+              </svg>
+            {:else}
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 3a1 1 0 00-1 1v8a1 1 0 001 1h1a1 1 0 001-1V4a1 1 0 00-1-1H4zM14 3a1 1 0 00-1 1v8a1 1 0 001 1h1a1 1 0 001-1V4a1 1 0 00-1-1h-1z"></path>
+              </svg>
+            {/if}
+          </button>
+        </div>
+
+        {#if recognizing}
+          <div class="alert alert-success shadow-lg">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Listening... Speak now!</span>
+          </div>
+        {/if}
+
+        {#if recording}
+          <div class="alert alert-warning shadow-lg">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Recording audio...</span>
+          </div>
+        {/if}
+
+        <div class="text-center text-theme/60 text-sm">Voice input automatically creates notes or checklists!</div>
+      </div>
+    </div>
+
     <!-- Create Tab -->
     {#if activeTab === "create"}
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Voice Input Section -->
-        <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
-          <div class="text-center mb-6">
-            <div class="text-6xl mb-4 text-blue-400 animate-pulse">🎤</div>
-            <h2 class="text-2xl font-bold text-theme mb-2">Voice Notes</h2>
-            <p class="text-theme/80">Speak your thoughts or record audio</p>
-          </div>
-
-          <div class="space-y-4">
-            <div class="flex justify-center gap-4">
-              <button class="btn btn-circle btn-lg {recognizing ? 'btn-error' : 'btn-success'} shadow-lg" on:click={toggleRecognition} disabled={!recognitionAvailable}>
-                {#if recognizing}
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"></path>
-                  </svg>
-                {:else}
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0 5 5 0 01-10 0 1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"></path>
-                  </svg>
-                {/if}
-              </button>
-              <button class="btn btn-circle btn-lg btn-warning shadow-lg" on:click={() => (recording ? stopRecording() : startRecording())}>
-                {#if recording}
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"></path>
-                  </svg>
-                {:else}
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M4 3a1 1 0 00-1 1v8a1 1 0 001 1h1a1 1 0 001-1V4a1 1 0 00-1-1H4zM14 3a1 1 0 00-1 1v8a1 1 0 001 1h1a1 1 0 001-1V4a1 1 0 00-1-1h-1z"></path>
-                  </svg>
-                {/if}
-              </button>
-            </div>
-
-            {#if recognizing}
-              <div class="alert alert-success shadow-lg">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Listening... Speak now!</span>
-              </div>
-            {/if}
-
-            {#if recording}
-              <div class="alert alert-warning shadow-lg">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Recording audio...</span>
-              </div>
-            {/if}
-
-            <div class="text-center text-theme/60 text-sm">Voice notes are automatically saved as you speak!</div>
-          </div>
-        </div>
-
         <!-- Note Editor Section -->
         <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
           <div class="text-center mb-6">
@@ -455,7 +482,7 @@
               <input type="color" bind:value={noteColor} class="w-12 h-10 rounded-lg border-2 border-white/30" id="color-input" />
             </div>
 
-            <textarea class="textarea textarea-bordered w-full h-40 resize-none bg-white/20 text-white placeholder-white/50 border-white/30" placeholder="Start writing your note... Use - or numbers for checklists" bind:value={newNote} on:input={autoSave}></textarea>
+            <textarea class="textarea textarea-bordered w-full h-64 resize-none bg-white/20 text-white placeholder-white/50 border-white/30" placeholder="Start writing your note... Use - or numbers for checklists" bind:value={newNote} on:input={autoSave}></textarea>
 
             <div class="flex flex-wrap gap-2 justify-center">
               <label class="btn btn-outline btn-sm text-white border-white/50 hover:bg-white/20">
@@ -478,6 +505,53 @@
             <div class="text-center text-theme/60 text-sm">Notes are automatically saved as you type!</div>
           </div>
         </div>
+
+        <!-- Checklist Editor Section -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
+          <div class="text-center mb-6">
+            <div class="text-6xl mb-4">📋</div>
+            <h2 class="text-2xl font-bold text-theme mb-2">Create Checklist</h2>
+            <p class="text-theme/80">Add items to your checklist</p>
+          </div>
+
+          <div class="space-y-4">
+            {#each groupedTodos() as group}
+              {#if group.group.id === activeListId || activeListId === null}
+                <div class="bg-white/10 rounded-xl p-4">
+                  <h3 class="text-lg font-bold text-theme mb-3">{group.group.text}</h3>
+                  <div class="space-y-2">
+                    {#each group.items as item}
+                      <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" checked={item.done} on:change={() => toggleTodo(item.id)} class="checkbox checkbox-primary" />
+                        <span class="text-theme {item.done ? 'line-through text-theme/50' : ''}">
+                          {item.text}
+                        </span>
+                      </label>
+                    {/each}
+                  </div>
+                  <div class="flex gap-2 mt-4">
+                    <input class="input input-bordered input-sm flex-1 bg-white/20 text-theme placeholder-theme/50 border-white/30" placeholder="Add new item..." bind:value={newTodoText} on:keydown={(e) => e.key === "Enter" && addTodoToActive()} />
+                    <button
+                      class="btn btn-primary btn-sm"
+                      on:click={() => {
+                        activeListId = group.group.id;
+                        addTodoToActive();
+                      }}
+                    >
+                      ➕
+                    </button>
+                  </div>
+                </div>
+              {/if}
+            {/each}
+
+            {#if groupedTodos().length === 0}
+              <div class="text-center py-8">
+                <p class="text-theme/60">No checklists yet. Use voice input above to create one!</p>
+              </div>
+            {/if}
+          </div>
+        </div>
       </div>
     {/if}
 
@@ -495,8 +569,7 @@
           <div class="text-center py-16">
             <div class="text-8xl mb-6">📝</div>
             <h3 class="text-2xl font-bold text-theme mb-4">No notes yet!</h3>
-            <p class="text-theme/80 mb-6">Create your first note using the Create tab above</p>
-            <button class="btn btn-primary btn-lg" on:click={() => (activeTab = "create")}> ✨ Create Your First Note </button>
+            <p class="text-theme/80 mb-6">Use voice input above or type in the note editor to create your first note</p>
           </div>
         {:else}
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -543,7 +616,7 @@
                   {/if}
 
                   <div class="flex justify-between items-center text-xs text-white/60">
-                    <span>{new Date(note.updatedAt).toLocaleDateString()}</span>
+                    <span>Created: {new Date(note.createdAt || note.updatedAt).toLocaleDateString()} by {note.user || 'Unknown'}</span>
                     {#if note.pinned}
                       <span class="text-yellow-400 drop-shadow-lg">📌</span>
                     {/if}
@@ -568,8 +641,7 @@
           <div class="text-center py-16">
             <div class="text-8xl mb-6">📋</div>
             <h3 class="text-2xl font-bold text-theme mb-4">No checklists yet!</h3>
-            <p class="text-theme/80 mb-6">Create checklists by selecting "Checklist" in the Create tab</p>
-            <button class="btn btn-primary btn-lg" on:click={() => (activeTab = "create")}> ✨ Create Your First Checklist </button>
+            <p class="text-theme/80 mb-6">Use voice input above to create checklists automatically</p>
           </div>
         {:else}
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
