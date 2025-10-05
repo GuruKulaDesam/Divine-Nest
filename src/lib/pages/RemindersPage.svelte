@@ -8,11 +8,89 @@
   let reminders = writable([]);
   let isGenerating = false;
 
-  // Load data on mount
+  // Manual reminder form
+  let showManualForm = false;
+  let manualReminder = {
+    title: "",
+    description: "",
+    dueDate: "",
+    dueTime: "",
+    priority: "medium",
+    notificationType: "sound", // sms, sound, call
+    phoneNumber: "",
+    isActive: true,
+  };
+
+  // Notification functions
+  function playSound() {
+    // Create a simple beep sound
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+  }
+
+  function sendSMS(phoneNumber, message) {
+    // In a real app, this would integrate with an SMS service
+    // For demo purposes, we'll show an alert
+    alert(`SMS would be sent to ${phoneNumber}: ${message}`);
+    console.log(`SMS sent to ${phoneNumber}: ${message}`);
+  }
+
+  function makeCall(phoneNumber) {
+    // In a real app, this would integrate with a calling service
+    // For demo purposes, we'll try to open tel: link
+    if (phoneNumber) {
+      window.open(`tel:${phoneNumber}`, "_self");
+    } else {
+      alert("No phone number provided for call");
+    }
+  }
+
+  function triggerNotification(reminder) {
+    const message = `${reminder.title}: ${reminder.description}`;
+
+    switch (reminder.notificationType) {
+      case "sound":
+        playSound();
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification(reminder.title, { body: reminder.description });
+        }
+        break;
+      case "sms":
+        if (reminder.phoneNumber) {
+          sendSMS(reminder.phoneNumber, message);
+        }
+        break;
+      case "call":
+        if (reminder.phoneNumber) {
+          makeCall(reminder.phoneNumber);
+        }
+        break;
+    }
+  }
+
+  // Request notification permission on mount
   onMount(async () => {
     notes = await getAll("notes");
     events = await getAll("calendar");
     generateAutoReminders();
+
+    // Request notification permission
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
   });
 
   // Generate auto-reminders based on notes and calendar events
@@ -136,6 +214,59 @@
     reminders.update((current) => current.filter((r) => r.id !== reminderId));
   }
 
+  function createManualReminder() {
+    if (!manualReminder.title || !manualReminder.dueDate) {
+      alert("Please provide at least a title and due date");
+      return;
+    }
+
+    const newReminder = {
+      id: `manual-${Date.now()}`,
+      type: "manual",
+      title: manualReminder.title,
+      description: manualReminder.description || "Manual reminder",
+      priority: manualReminder.priority,
+      dueDate: manualReminder.dueDate,
+      dueTime: manualReminder.dueTime,
+      source: "Manual Creation",
+      color: getPriorityColor(manualReminder.priority).includes("red") ? "#ef4444" : getPriorityColor(manualReminder.priority).includes("yellow") ? "#f59e0b" : "#10b981",
+      createdAt: new Date().toISOString(),
+      notificationType: manualReminder.notificationType,
+      phoneNumber: manualReminder.phoneNumber,
+      isActive: manualReminder.isActive,
+    };
+
+    reminders.update((current) => [...current, newReminder]);
+
+    // Reset form
+    manualReminder = {
+      title: "",
+      description: "",
+      dueDate: "",
+      dueTime: "",
+      priority: "medium",
+      notificationType: "sound",
+      phoneNumber: "",
+      isActive: true,
+    };
+
+    showManualForm = false;
+    alert("Manual reminder created!");
+  }
+
+  function triggerManualReminder(reminder) {
+    if (!reminder.isActive) return;
+
+    triggerNotification(reminder);
+
+    // Mark as inactive after triggering
+    reminders.update((current) => current.map((r) => (r.id === reminder.id ? { ...r, isActive: false } : r)));
+  }
+
+  function toggleReminderActive(reminderId) {
+    reminders.update((current) => current.map((r) => (r.id === reminderId ? { ...r, isActive: !r.isActive } : r)));
+  }
+
   function getPriorityColor(priority) {
     switch (priority) {
       case "high":
@@ -163,7 +294,7 @@
   }
 </script>
 
-<div class="reminders-page min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
+<div class="reminders-page min-h-screen mountain-background p-6">
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
     <div class="text-center mb-8">
@@ -175,7 +306,7 @@
     </div>
 
     <!-- Controls -->
-    <div class="flex justify-center mb-6">
+    <div class="flex justify-center mb-6 gap-4">
       <button class="btn btn-primary btn-lg shadow-xl hover:shadow-2xl transition-all duration-300 {isGenerating ? 'loading' : ''}" on:click={generateAutoReminders} disabled={isGenerating}>
         {#if isGenerating}
           <span class="text-blue-400">🔄</span> Analyzing...
@@ -183,7 +314,65 @@
           <span class="text-green-400">✨</span> Generate Reminders
         {/if}
       </button>
+      <button class="btn btn-secondary btn-lg shadow-xl hover:shadow-2xl transition-all duration-300" on:click={() => (showManualForm = !showManualForm)}>
+        <span class="text-purple-400">➕</span> Create Manual
+      </button>
     </div>
+
+    <!-- Manual Reminder Form -->
+    {#if showManualForm}
+      <div class="manual-form-card backdrop-blur-lg bg-white/15 border border-white/30 rounded-2xl p-6 mb-6 shadow-2xl">
+        <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+          <span class="text-purple-400">📝</span> Create Manual Reminder
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <label class="text-white/80">
+            Title *
+            <input type="text" bind:value={manualReminder.title} placeholder="Reminder title" class="input w-full bg-white/10 border-white/20 text-white placeholder-white/50" />
+          </label>
+          <label class="text-white/80">
+            Priority
+            <select bind:value={manualReminder.priority} class="select w-full bg-white/10 border-white/20 text-white">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label class="text-white/80">
+            Due Date *
+            <input type="date" bind:value={manualReminder.dueDate} class="input w-full bg-white/10 border-white/20 text-white" />
+          </label>
+          <label class="text-white/80">
+            Due Time
+            <input type="time" bind:value={manualReminder.dueTime} class="input w-full bg-white/10 border-white/20 text-white" />
+          </label>
+          <label class="text-white/80">
+            Notification Type
+            <select bind:value={manualReminder.notificationType} class="select w-full bg-white/10 border-white/20 text-white">
+              <option value="sound">🔊 Sound + Browser Notification</option>
+              <option value="sms">📱 SMS</option>
+              <option value="call">📞 Call</option>
+            </select>
+          </label>
+          {#if manualReminder.notificationType !== "sound"}
+            <label class="text-white/80">
+              Phone Number
+              <input type="tel" bind:value={manualReminder.phoneNumber} placeholder="+1234567890" class="input w-full bg-white/10 border-white/20 text-white placeholder-white/50" />
+            </label>
+          {/if}
+          <label class="md:col-span-2 text-white/80">
+            Description
+            <textarea bind:value={manualReminder.description} placeholder="Additional details..." rows="3" class="textarea w-full bg-white/10 border-white/20 text-white placeholder-white/50"></textarea>
+          </label>
+        </div>
+        <div class="flex gap-3 justify-end mt-6">
+          <button class="btn btn-ghost text-white/80 hover:bg-white/10" on:click={() => (showManualForm = false)}> Cancel </button>
+          <button class="btn btn-primary" on:click={createManualReminder}>
+            <span class="text-green-400">✓</span> Create Reminder
+          </button>
+        </div>
+      </div>
+    {/if}
 
     <!-- Reminders Grid -->
     {#if $reminders.length > 0}
@@ -199,11 +388,39 @@
                   <span class="text-xs text-white/60 uppercase tracking-wide">{reminder.source}</span>
                 </div>
               </div>
-              <button class="btn btn-ghost btn-sm text-white/60 hover:text-red-400" on:click={() => dismissReminder(reminder.id)} aria-label="Dismiss reminder"> ✕ </button>
+              <div class="flex items-center gap-2">
+                {#if reminder.type === "manual"}
+                  <button class="btn btn-ghost btn-sm text-white/60 hover:text-white" on:click={() => toggleReminderActive(reminder.id)} title={reminder.isActive ? "Disable reminder" : "Enable reminder"}>
+                    {reminder.isActive ? "🔊" : "🔇"}
+                  </button>
+                  <button class="btn btn-primary btn-sm" on:click={() => triggerManualReminder(reminder)} disabled={!reminder.isActive} title="Trigger notification">
+                    {reminder.notificationType === "sound" ? "🔊" : reminder.notificationType === "sms" ? "📱" : "📞"}
+                  </button>
+                {/if}
+                <button class="btn btn-ghost btn-sm text-white/60 hover:text-red-400" on:click={() => dismissReminder(reminder.id)} aria-label="Dismiss reminder"> ✕ </button>
+              </div>
             </div>
 
             <!-- Content -->
             <p class="text-white/80 mb-4 leading-relaxed">{reminder.description}</p>
+
+            <!-- Notification Info for Manual Reminders -->
+            {#if reminder.type === "manual"}
+              <div class="mb-4 p-3 bg-white/5 rounded-lg border border-white/10">
+                <div class="flex items-center gap-2 text-sm text-white/70">
+                  <span class="font-medium">Notification:</span>
+                  <span class="px-2 py-1 bg-white/10 rounded text-xs">
+                    {reminder.notificationType === "sound" ? "🔊 Sound + Browser" : reminder.notificationType === "sms" ? "📱 SMS" : "📞 Call"}
+                    {#if reminder.phoneNumber}
+                      ({reminder.phoneNumber})
+                    {/if}
+                  </span>
+                  <span class="ml-auto text-xs {reminder.isActive ? 'text-green-400' : 'text-red-400'}">
+                    {reminder.isActive ? "Active" : "Inactive"}
+                  </span>
+                </div>
+              </div>
+            {/if}
 
             <!-- Footer -->
             <div class="flex items-center justify-between">
@@ -213,6 +430,9 @@
                 </span>
                 <span class="text-white/60 text-sm">
                   Due: {new Date(reminder.dueDate).toLocaleDateString()}
+                  {#if reminder.dueTime}
+                    at {reminder.dueTime}
+                  {/if}
                 </span>
               </div>
               <div class="w-4 h-4 rounded-full shadow-lg" style="background-color: {reminder.color}"></div>
@@ -236,6 +456,49 @@
 
 <style>
   .reminders-page {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mountain-background {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mountain-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at top, rgba(135, 206, 235, 0.3) 0%, transparent 50%), linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+    opacity: 0.5;
+    z-index: -1;
+  }
+
+  /* Mountain silhouettes */
+  .mountain-background::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(45deg, transparent 30%, #2d3748 30%, #2d3748 35%, transparent 35%), linear-gradient(135deg, transparent 20%, #1a202c 20%, #1a202c 25%, transparent 25%), linear-gradient(90deg, transparent 10%, #0f1419 10%, #0f1419 15%, transparent 15%);
+    background-size:
+      100% 100%,
+      80% 80%,
+      60% 60%;
+    background-position:
+      0% 100%,
+      20% 100%,
+      40% 100%;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: -1;
+  }
+  .reminders-page {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
   }
@@ -250,6 +513,35 @@
   .reminder-card:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .manual-form-card {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Input styling for manual form */
+  .input,
+  .select,
+  .textarea {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  .input:focus,
+  .select:focus,
+  .textarea:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+  }
+
+  .input::placeholder,
+  .textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
   }
 
   /* Loading animation */

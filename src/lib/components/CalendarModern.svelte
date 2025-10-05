@@ -203,6 +203,8 @@
                 console.log("GAPI initialized successfully");
                 gapiLoaded = true;
                 isAuthenticated = /** @type {any} */ (window).gapi.auth2.getAuthInstance().isSignedIn.get();
+                console.log("Initial auth state:", isAuthenticated);
+                // Trigger sign-in immediately after initialization
                 proceedWithSync();
               })
               .catch((error) => {
@@ -478,148 +480,26 @@
   }
 </script>
 
-<div class="modern-calendar grid grid-cols-12 gap-6">
-  <aside class="col-span-3 p-4 bg-base-200 rounded-lg shadow-sm">
-    <div class="flex items-center justify-between mb-4">
-      <div class="font-semibold">{new Date(year, month).toLocaleString("default", { month: "long", year: "numeric" })}</div>
-      <div class="flex gap-2">
-        <button class="btn btn-ghost btn-sm" on:click={prev} aria-label="Previous month">◀</button>
-        <button class="btn btn-ghost btn-sm" on:click={next} aria-label="Next month">▶</button>
-      </div>
-    </div>
-    <div class="mini-month grid grid-cols-7 gap-1 text-xs text-center">
-      {#each ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as wd}
-        <div class="text-base-content/60">{wd}</div>
-      {/each}
-      {#each Array(firstWeekday(year, month)).fill(0) as _}
-        <div></div>
-      {/each}
-      {#each Array(daysInMonth(year, month)) as _, i}
-        <div
-          class="py-1 px-1 rounded hover:bg-base-300 cursor-pointer"
-          role="button"
-          tabindex="0"
-          on:click={() => {
-            openAdd(i + 1);
-          }}
-          on:keydown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              openAdd(i + 1);
-            }
-          }}
-        >
-          {i + 1}
+<div class="modern-calendar">
+  <!-- Action Bar -->
+  <div class="action-bar backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-4 mb-6 shadow-xl">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center gap-4">
+        <div class="text-lg font-semibold text-white flex items-center gap-2">
+          <span class="text-blue-400">📅</span>
+          Calendar Actions
         </div>
-      {/each}
-    </div>
-    <div class="mt-4">
-      <h4 class="font-medium mb-2">Upcoming</h4>
-      <div class="space-y-2 text-sm">
-        {#each upcomingInstances() as inst}
-          <div class="flex items-center gap-2">
-            <div class="w-2 h-2 rounded-full" style="background:{inst.event.color}"></div>
-            <div class="truncate">{inst.event.title} <span class="text-xs text-base-content/60">{inst.date}{inst.event.time ? ` • ${inst.event.time}` : ""}</span></div>
-          </div>
-        {/each}
+        <div class="flex items-center gap-2 text-sm text-white/70">
+          <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          {events.length} events loaded
+        </div>
       </div>
-    </div>
-  </aside>
-
-  <main class="col-span-6 p-6 calendar-container">
-    <div class="flex items-center justify-between mb-6">
-      <div class="text-2xl font-bold calendar-header">Calendar</div>
       <div class="flex items-center gap-3">
         <button class="btn btn-primary btn-sm shadow-lg hover:shadow-xl transition-all duration-300" on:click={() => (showSyncModal = true)}>
-          <span class="text-blue-400">🔄</span> Sync with Google Calendar
+          <span class="text-blue-400">🔄</span> Google Sync
         </button>
-        <div class="text-sm text-white/70 font-medium">Month view — modern redesign</div>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-7 gap-4 p-4">
-      {#each ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as wd, idx}
-        <div class="text-xs font-medium" style="color: var(--tw-color-slate-600);">
-          <span class="inline-block px-2 py-1 rounded" style="background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0));">{wd}</span>
-        </div>
-      {/each}
-
-      {#each Array(firstWeekday(year, month)).fill(0) as _}
-        <div></div>
-      {/each}
-
-      {#each Array(daysInMonth(year, month)) as _, i}
-        {@const dayEvents = eventsFor(i + 1)}
-        <!-- Use event color for a colorful border per day; fallback to neutral border -->
-        <div
-          class="p-3 min-h-[100px] day-cell"
-          data-has-events={dayEvents.length > 0}
-          style="
-            --day-border: {dayEvents.length ? hexToRgba(dayEvents[0].color || '#6366f1', 0.6) : 'rgba(255,255,255,0.1)'};
-            --day-border-alt: {dayEvents.length ? hexToRgba(dayEvents[0].color || '#8b5cf6', 0.4) : 'rgba(255,255,255,0.05)'};
-            --event-color: {dayEvents.length ? dayEvents[0].color || '#6366f1' : '#6366f1'};
-            --event-color-alt: {dayEvents.length ? hexToRgba(dayEvents[0].color || '#8b5cf6', 0.8) : '#8b5cf6'};
-          "
-        >
-          <div class="flex items-start justify-between">
-            <div class="font-semibold text-lg calendar-header">{i + 1}</div>
-            <button class="btn btn-ghost btn-xs text-blue-400 hover:text-blue-300 hover:bg-white/10 rounded-full" on:click={() => openAdd(i + 1)} aria-label="Add event">
-              <span class="text-green-400">+</span>
-            </button>
-          </div>
-          <div class="mt-2 space-y-1">
-            {#each dayEvents.slice(0, 3) as ev}
-              <div
-                class="cursor-pointer event-indicator"
-                on:click={() => openEdit(ev)}
-                role="button"
-                tabindex="0"
-                on:keydown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    openEdit(ev);
-                  }
-                }}
-              >
-                <span class="inline-block rounded-full px-2 py-0.5 text-xs text-white font-medium shadow-sm" style={pillStyle(ev)}>{ev.time ? ev.time + " • " : ""}{ev.title}</span>
-              </div>
-            {/each}
-            {#if dayEvents.length > 3}
-              <div class="text-xs text-white/70 font-medium">+{dayEvents.length - 3} more</div>
-            {/if}
-          </div>
-        </div>
-      {/each}
-    </div>
-  </main>
-
-  <aside class="col-span-3 p-4 bg-base-200 rounded-lg shadow-sm">
-    <div class="text-lg font-semibold mb-2">Details</div>
-    <div class="text-sm text-base-content/60">Select an event to see details here, or click a day to add a new event.</div>
-    <div class="mt-4">
-      <h5 class="font-medium mb-2">Legend</h5>
-      <div class="flex gap-2 flex-wrap">
-        {#each categories as c}
-          <button
-            class="px-2 py-1 rounded-full text-xs flex items-center gap-2"
-            style="background: {activeFilters.includes(c.id) ? c.color + '22' : 'transparent'}; border: 1px solid {hexToRgba(c.color, 0.18)};"
-            on:click={() => {
-              if (activeFilters.includes(c.id)) activeFilters = activeFilters.filter((x) => x !== c.id);
-              else activeFilters = [...activeFilters, c.id];
-            }}
-            aria-pressed={activeFilters.includes(c.id)}
-          >
-            <span class="w-2 h-2 rounded-full" style="background:{c.color}"></span>
-            {c.label}
-          </button>
-        {/each}
-      </div>
-    </div>
-    <div class="mt-4">
-      <h5 class="font-medium mb-2">Backup / Import</h5>
-      <div class="flex gap-2">
         <button
-          class="btn btn-sm"
+          class="btn btn-secondary btn-sm shadow-lg hover:shadow-xl transition-all duration-300"
           on:click={async () => {
             const all = await getAll("calendar");
             const data = JSON.stringify(all, null, 2);
@@ -630,51 +510,170 @@
             a.download = `calendar-export-${Date.now()}.json`;
             a.click();
             URL.revokeObjectURL(url);
-          }}>Export JSON</button
+          }}
         >
-
-        <label class="btn btn-sm cursor-pointer">
-          Import JSON
+          <span class="text-green-400">💾</span> Export
+        </button>
+        <label class="btn btn-secondary btn-sm cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
+          <span class="text-purple-400">📁</span> Import
           <input
             type="file"
-            accept="application/json"
+            accept="application/json,.ics"
             class="hidden"
             on:change={async (e) => {
               const input = /** @type {HTMLInputElement} */ (e.target);
               const f = input.files && input.files[0];
               if (!f) return;
-              const text = await f.text();
-              try {
-                const parsed = JSON.parse(text);
-                if (Array.isArray(parsed)) {
-                  await addMany("calendar", parsed);
-                  events = await getAll("calendar");
-                  alert("Imported");
+              if (f.name.endsWith(".ics")) {
+                handleIcsFile(e);
+              } else {
+                const text = await f.text();
+                try {
+                  const parsed = JSON.parse(text);
+                  if (Array.isArray(parsed)) {
+                    await addMany("calendar", parsed);
+                    events = await getAll("calendar");
+                    alert("Imported successfully");
+                  }
+                } catch (err) {
+                  alert("Failed to import JSON");
+                  console.error(err);
                 }
-              } catch (err) {
-                alert("Failed to import JSON");
-                console.error(err);
               }
             }}
           />
         </label>
-
-        <label class="btn btn-sm cursor-pointer">
-          Import ICS
-          <input type="file" accept=".ics" class="hidden" on:change={handleIcsFile} />
-        </label>
         <button
-          class="btn btn-sm"
+          class="btn btn-warning btn-sm shadow-lg hover:shadow-xl transition-all duration-300"
           on:click={async () => {
             const removed = await dedupeEvents();
             events = await getAll("calendar");
             alert(`Removed ${removed} duplicate event(s)`);
-          }}>Remove duplicates</button
+          }}
         >
-        <button class="btn btn-sm" on:click={() => (showSyncModal = true)}>Google Calendar Sync</button>
+          <span class="text-orange-400">🧹</span> Clean
+        </button>
       </div>
     </div>
-  </aside>
+  </div>
+
+  <div class="calendar-layout grid grid-cols-12 gap-6">
+    <!-- Left Sidebar - Mini Calendar & Upcoming -->
+    <aside class="col-span-4 p-4 bg-base-200/80 backdrop-blur-lg rounded-lg shadow-sm border border-white/20">
+      <div class="flex items-center justify-between mb-4">
+        <div class="font-semibold text-white">{new Date(year, month).toLocaleString("default", { month: "long", year: "numeric" })}</div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost btn-sm text-white/80 hover:text-white hover:bg-white/10" on:click={prev} aria-label="Previous month">◀</button>
+          <button class="btn btn-ghost btn-sm text-white/80 hover:text-white hover:bg-white/10" on:click={next} aria-label="Next month">▶</button>
+        </div>
+      </div>
+      <div class="mini-month grid grid-cols-7 gap-1 text-xs text-center text-white/70">
+        {#each ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as wd}
+          <div class="text-white/50">{wd}</div>
+        {/each}
+        {#each Array(firstWeekday(year, month)).fill(0) as _}
+          <div></div>
+        {/each}
+        {#each Array(daysInMonth(year, month)) as _, i}
+          <div
+            class="py-1 px-1 rounded hover:bg-white/10 cursor-pointer text-white/80 hover:text-white transition-colors"
+            role="button"
+            tabindex="0"
+            on:click={() => {
+              openAdd(i + 1);
+            }}
+            on:keydown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openAdd(i + 1);
+              }
+            }}
+          >
+            {i + 1}
+          </div>
+        {/each}
+      </div>
+      <div class="mt-4">
+        <h4 class="font-medium mb-2 text-white">Upcoming</h4>
+        <div class="space-y-2 text-sm">
+          {#each upcomingInstances() as inst}
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-white/5 border border-white/10">
+              <div class="w-2 h-2 rounded-full" style="background:{inst.event.color}"></div>
+              <div class="truncate text-white/80">{inst.event.title} <span class="text-xs text-white/60">{inst.date}{inst.event.time ? ` • ${inst.event.time}` : ""}</span></div>
+            </div>
+          {/each}
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Calendar - Full Width -->
+    <main class="col-span-8 p-6 calendar-container">
+      <div class="flex items-center justify-between mb-6">
+        <div class="text-2xl font-bold calendar-header">Calendar</div>
+        <div class="flex items-center gap-3">
+          <button class="btn btn-primary btn-sm shadow-lg hover:shadow-xl transition-all duration-300" on:click={() => (showModal = true)}>
+            <span class="text-green-400">+</span> Add Event
+          </button>
+          <div class="text-sm text-white/70 font-medium">Month view — modern redesign</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-7 gap-4 p-4">
+        {#each ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as wd, idx}
+          <div class="text-xs font-medium text-white/70" style="color: var(--tw-color-slate-600);">
+            <span class="inline-block px-2 py-1 rounded" style="background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0));">{wd}</span>
+          </div>
+        {/each}
+
+        {#each Array(firstWeekday(year, month)).fill(0) as _}
+          <div></div>
+        {/each}
+
+        {#each Array(daysInMonth(year, month)) as _, i}
+          {@const dayEvents = eventsFor(i + 1)}
+          <!-- Use event color for a colorful border per day; fallback to neutral border -->
+          <div
+            class="p-3 min-h-[100px] day-cell"
+            data-has-events={dayEvents.length > 0}
+            style="
+              --day-border: {dayEvents.length ? hexToRgba(dayEvents[0].color || '#6366f1', 0.6) : 'rgba(255,255,255,0.1)'};
+              --day-border-alt: {dayEvents.length ? hexToRgba(dayEvents[0].color || '#8b5cf6', 0.4) : 'rgba(255,255,255,0.05)'};
+              --event-color: {dayEvents.length ? dayEvents[0].color || '#6366f1' : '#6366f1'};
+              --event-color-alt: {dayEvents.length ? hexToRgba(dayEvents[0].color || '#8b5cf6', 0.8) : '#8b5cf6'};
+            "
+          >
+            <div class="flex items-start justify-between">
+              <div class="font-semibold text-lg calendar-header">{i + 1}</div>
+              <button class="btn btn-ghost btn-xs text-blue-400 hover:text-blue-300 hover:bg-white/10 rounded-full" on:click={() => openAdd(i + 1)} aria-label="Add event">
+                <span class="text-green-400">+</span>
+              </button>
+            </div>
+            <div class="mt-2 space-y-1">
+              {#each dayEvents.slice(0, 3) as ev}
+                <div
+                  class="cursor-pointer event-indicator"
+                  on:click={() => openEdit(ev)}
+                  role="button"
+                  tabindex="0"
+                  on:keydown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openEdit(ev);
+                    }
+                  }}
+                >
+                  <span class="inline-block rounded-full px-2 py-0.5 text-xs text-white font-medium shadow-sm" style={pillStyle(ev)}>{ev.time ? ev.time + " • " : ""}{ev.title}</span>
+                </div>
+              {/each}
+              {#if dayEvents.length > 3}
+                <div class="text-xs text-white/70 font-medium">+{dayEvents.length - 3} more</div>
+              {/if}
+            </div>
+          </div>
+        {/each}
+      </div>
+    </main>
+  </div>
 
   {#if showModal}
     <div class="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
@@ -848,14 +847,24 @@
     }
   }
 
-  /* Glassmorphism calendar container */
+  /* Glassmorphism calendar container with colorful gradient border */
   .calendar-container {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid transparent;
+    border-image: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) 1;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Action bar styling */
+  .action-bar {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   }
 
   /* Modern typography */
