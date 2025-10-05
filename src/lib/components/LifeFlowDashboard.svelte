@@ -2,17 +2,25 @@
   import { onMount } from "svelte";
   import { lifeflowDB } from "../data/lifeflow.js";
 
+  // Form data
+  let newEmotion = { emotion: "", intensity: 5, context: "", notes: "" };
+  let newStory = { title: "", storyteller: "", content: "", category: "", tags: "" };
+  let newValue = { value: "", description: "", examples: "", importance: "Medium" };
+  let newEvent = { eventType: "", person: "", date: "", description: "", impact: "", lessons: "" };
+
   let activeTab = "emotions";
   let emotions = [];
   let familyStories = [];
   let familyValues = [];
   let lifeEvents = [];
 
-  // Form data
-  let newEmotion = { emotion: "", intensity: 5, context: "", notes: "" };
-  let newStory = { title: "", storyteller: "", content: "", category: "", tags: "" };
-  let newValue = { value: "", description: "", examples: "", importance: "Medium" };
-  let newEvent = { eventType: "", person: "", date: "", description: "", impact: "", lessons: "" };
+  // Reactive theme classes
+  $: primaryText = getThemeAwareTextColor("primary");
+  $: secondaryText = getThemeAwareTextColor("secondary");
+  $: mutedText = getThemeAwareTextColor("muted");
+  $: cardBg = getThemeAwareBgColor("card");
+  $: overlayBg = getThemeAwareBgColor("overlay");
+  $: cardClasses = getThemeCardClasses();
 
   onMount(async () => {
     await loadData();
@@ -117,29 +125,29 @@
 <div class="space-y-6">
   <!-- Tab Navigation -->
   <div class="flex flex-wrap gap-2 mb-6">
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'emotions' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "emotions")}> 💭 Emotional Health </button>
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'legacy' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "legacy")}> 📖 Legacy Memory </button>
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'transitions' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "transitions")}> 🌱 Life Transitions </button>
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'governance' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "governance")}> ⚖️ Family Governance </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'emotions' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "emotions")}> 💭 Emotional Health </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'legacy' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "legacy")}> 📖 Legacy Memory </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'transitions' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "transitions")}> 🌱 Life Transitions </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'governance' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "governance")}> ⚖️ Family Governance </button>
   </div>
 
   <!-- Emotional Health Tab -->
   {#if activeTab === "emotions"}
     <div class="space-y-6">
       <!-- Add Emotion Form -->
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-        <h3 class="text-xl font-semibold text-white mb-4">Track Your Emotions</h3>
+      <div class="bg-base-100 backdrop-blur-sm rounded-xl p-6 border border-base-300 shadow-lg">
+        <h3 class="text-xl font-semibold text-base-content mb-4">Track Your Emotions</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input bind:value={newEmotion.emotion} placeholder="Emotion (e.g., Joy, Gratitude, Anxiety)" class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30" />
+          <input bind:value={newEmotion.emotion} placeholder="Emotion (e.g., Joy, Gratitude, Anxiety)" class="input input-bordered w-full text-base-content placeholder-base-content/50" />
           <div class="flex items-center space-x-2">
-            <label class="text-white/80">Intensity:</label>
-            <input type="range" min="1" max="10" bind:value={newEmotion.intensity} class="flex-1" />
-            <span class="text-white w-8">{newEmotion.intensity}</span>
+            <label class="text-base-content/80">Intensity:</label>
+            <input type="range" min="1" max="10" bind:value={newEmotion.intensity} class="range range-primary flex-1" />
+            <span class="text-base-content w-8">{newEmotion.intensity}</span>
           </div>
-          <input bind:value={newEmotion.context} placeholder="Context (e.g., Family gathering, Work stress)" class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30" />
-          <textarea bind:value={newEmotion.notes} placeholder="Additional notes..." rows="2" class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"></textarea>
+          <input bind:value={newEmotion.context} placeholder="Context (e.g., Family gathering, Work stress)" class="input input-bordered w-full text-base-content placeholder-base-content/50" />
+          <textarea bind:value={newEmotion.notes} placeholder="Additional notes..." rows="2" class="textarea textarea-bordered w-full text-base-content placeholder-base-content/50"></textarea>
         </div>
-        <button on:click={addEmotion} class="mt-4 px-6 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg"> Add Emotion </button>
+        <button on:click={addEmotion} class="btn btn-primary mt-4"> Add Emotion </button>
       </div>
 
       <!-- Emotions List -->

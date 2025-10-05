@@ -11,6 +11,7 @@
   import ThemeToggle from "./ThemeToggle.svelte";
   import { getUnreadNotificationsCount, getUnreadMessagesCount } from "../data/notifications.js";
   import { _, isLoading } from "svelte-i18n";
+  import { isAuthenticated, currentUser, authActions } from "../stores/auth.js";
 
   export let sidebarOpen = false;
 
@@ -120,21 +121,25 @@
   }
 
   function handleLogout() {
-    // Array of login version paths
-    const loginPaths = ["/auth/login", "/auth/login-v2", "/auth/login-v3"];
-
-    // Get random login path
-    const randomIndex = Math.floor(Math.random() * loginPaths.length);
-    const randomLoginPath = loginPaths[randomIndex];
-
     // Close user menu first
     closeUserMenu();
 
+    // Log out user
+    authActions.logout();
+
     // Small delay to allow menu animation to complete
     setTimeout(() => {
-      // Navigate to random login page
-      navigate(randomLoginPath);
+      // Navigate to login page
+      navigate("/auth/login");
     }, 150);
+  }
+
+  function handleLogin() {
+    navigate("/auth/login");
+  }
+
+  function handleRegister() {
+    navigate("/auth/register");
   }
 
   function handleProfile() {
@@ -237,33 +242,55 @@
         {/if}
       </div>
 
-      <!-- User menu -->
+      <!-- User menu with Login/Register inside -->
       <div class="relative user-menu">
-        <button class="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200" on:click={toggleUserMenu}>
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User avatar" class="h-8 w-8 rounded-full object-cover bg-base-200" />
-          <div class="hidden md:block text-left">
-            <p class="text-sm font-medium text-base-content">John Doe</p>
-            <p class="text-xs text-base-content/60">Administrator</p>
-          </div>
-          <Icon icon="heroicons:chevron-down" class="w-4 h-4 text-base-content/60" />
-        </button>
+        {#if $isAuthenticated}
+          <!-- Authenticated User menu -->
+          <button class="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200" on:click={toggleUserMenu}>
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User avatar" class="h-8 w-8 rounded-full object-cover bg-base-200" />
+            <div class="hidden md:block text-left">
+              <p class="text-sm font-medium text-base-content">John Doe</p>
+              <p class="text-xs text-base-content/60">Administrator</p>
+            </div>
+            <Icon icon="heroicons:chevron-down" class="w-4 h-4 text-base-content/60" />
+          </button>
+        {:else}
+          <!-- Not authenticated - Profile icon with dropdown -->
+          <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200" on:click={toggleUserMenu}>
+            <Icon icon="heroicons:user-circle" class="w-8 h-8 text-base-content/60" />
+            <Icon icon="heroicons:chevron-down" class="w-4 h-4 text-base-content/60" />
+          </button>
+        {/if}
 
         <!-- Dropdown menu -->
         {#if userMenuOpen}
           <div bind:this={dropdownElement} class="absolute right-0 mt-2 w-48 bg-base-100 rounded-lg shadow-lg border border-base-300 py-1 z-50">
-            <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200" on:click={handleProfile}>
-              <Icon icon="heroicons:user-circle" class="w-4 h-4 mr-3" />
-              Profile
-            </button>
-            <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200" on:click={handleSettings}>
-              <Icon icon="heroicons:cog-6-tooth" class="w-4 h-4 mr-3" />
-              Settings
-            </button>
-            <hr class="border-base-300 my-1" />
-            <button class="w-full flex items-center px-4 py-2 text-sm text-error hover:bg-base-200 transition-colors duration-200" on:click={handleLogout}>
-              <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3" />
-              Sign out
-            </button>
+            {#if $isAuthenticated}
+              <!-- Authenticated menu items -->
+              <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200" on:click={handleProfile}>
+                <Icon icon="heroicons:user-circle" class="w-4 h-4 mr-3" />
+                Profile
+              </button>
+              <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200" on:click={handleSettings}>
+                <Icon icon="heroicons:cog-6-tooth" class="w-4 h-4 mr-3" />
+                Settings
+              </button>
+              <hr class="border-base-300 my-1" />
+              <button class="w-full flex items-center px-4 py-2 text-sm text-error hover:bg-base-200 transition-colors duration-200" on:click={handleLogout}>
+                <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3" />
+                Sign out
+              </button>
+            {:else}
+              <!-- Login/Register menu items -->
+              <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200" on:click={handleLogin}>
+                <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3" />
+                Login
+              </button>
+              <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200 transition-colors duration-200" on:click={handleRegister}>
+                <Icon icon="heroicons:user-plus" class="w-4 h-4 mr-3" />
+                Register
+              </button>
+            {/if}
           </div>
         {/if}
       </div>

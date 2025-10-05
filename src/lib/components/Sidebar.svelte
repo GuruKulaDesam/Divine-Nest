@@ -35,6 +35,10 @@
         { path: "/v1-wellness", icon: "heroicons:heart", name: "Wellness", color: "text-green-600" },
         { path: "/v1-lifeflow", icon: "heroicons:wave-sine", name: "Life Flow", color: "text-blue-500" },
         { path: "/v1-directory", icon: "heroicons:building-storefront", name: "Directory", color: "text-gray-600" },
+        { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendar", color: "text-violet-400" },
+        { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes", color: "text-sky-400" },
+        { path: "/reminders", icon: "heroicons:bell-alert", name: "Reminders", color: "text-stone-400" },
+        { path: "/requests", icon: "heroicons:wrench-screwdriver", name: "Requests", color: "text-amber-500" },
       ],
     },
     {
@@ -50,9 +54,6 @@
         { path: "/gantt", icon: "heroicons:calendar", name: "Gantt", color: "text-red-400" },
         { path: "/maps", icon: "heroicons:map", name: $isLoading ? "Maps" : $_("navigation.maps"), color: "text-teal-400" },
         { path: "/schedule", icon: "heroicons:calendar-days", name: $isLoading ? "Schedule" : $_("navigation.schedule"), color: "text-orange-400" },
-        { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendars", color: "text-violet-400" },
-        { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes", color: "text-sky-400" },
-        { path: "/reminders", icon: "heroicons:bell-alert", name: "Reminders", color: "text-stone-400" },
       ],
     },
     {
@@ -167,27 +168,6 @@
         {/if}
       </div>
     {/each}
-
-    <!-- Authentication section -->
-    <div class="mt-6">
-      <div class="text-xs font-medium text-white/50 uppercase px-4 mb-2">Account</div>
-      <div class="space-y-1">
-        <a href="/auth/login" class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === '/auth/login' ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick("/auth/login")}>
-          <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3 text-gray-400" />
-          Login
-          {#if $currentRoute === "/auth/login"}
-            <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
-          {/if}
-        </a>
-        <a href="/auth/register" class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === '/auth/register' ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick("/auth/register")}>
-          <Icon icon="heroicons:user-plus" class="w-4 h-4 mr-3 text-gray-400" />
-          Register
-          {#if $currentRoute === "/auth/register"}
-            <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
-          {/if}
-        </a>
-      </div>
-    </div>
   </nav>
 
   <!-- User section - always at bottom -->

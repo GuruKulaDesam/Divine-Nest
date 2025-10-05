@@ -5,8 +5,10 @@ const browser = typeof window !== 'undefined';
 
 // Theme options
 export const THEMES = {
-  LIGHT: 'modern',
-  DARK: 'dark'
+  LIGHT: 'light',
+  DARK: 'dark',
+  MINIMAL: 'minimal',
+  NATURE: 'nature'
 };
 
 // Get initial theme from localStorage or default to light
@@ -31,7 +33,12 @@ export const theme = writable(getInitialTheme());
 export const themeActions = {
   toggle: () => {
     theme.update(current => {
-      const newTheme = current === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
+      // Cycle through all themes
+      const themes = Object.values(THEMES);
+      const currentIndex = themes.indexOf(current);
+      const nextIndex = (currentIndex + 1) % themes.length;
+      const newTheme = themes[nextIndex];
+      
       if (browser) {
         localStorage.setItem('theme', newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);

@@ -108,36 +108,36 @@
 <div class="space-y-6">
   <!-- Tab Navigation -->
   <div class="flex flex-wrap gap-2 mb-6">
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'family' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "family")}> 👨‍👩‍👧‍👦 Family Contacts </button>
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'vendors' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "vendors")}> 🛍️ Vendors & Services </button>
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'health' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "health")}> 🏥 Health Services </button>
-    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'community' ? 'bg-white/20 text-white shadow-lg' : 'bg-white/10 text-white/70 hover:bg-white/15'}" on:click={() => (activeTab = "community")}> 🏛️ Community Resources </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'family' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "family")}> 👨‍👩‍👧‍👦 Family Contacts </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'vendors' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "vendors")}> 🛍️ Vendors & Services </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'health' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "health")}> 🏥 Health Services </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'community' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "community")}> 🏛️ Community Resources </button>
   </div>
 
   <!-- Family Contacts Tab -->
   {#if activeTab === "family"}
     <div class="space-y-6">
       <!-- Add Family Contact Form -->
-      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-        <h3 class="text-xl font-semibold text-white mb-4">Add Family Contact</h3>
+      <div class="bg-base-100 backdrop-blur-sm rounded-xl p-6 border border-base-300 shadow-lg">
+        <h3 class="text-xl font-semibold text-base-content mb-4">Add Family Contact</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input bind:value={newContact.name} placeholder="Full Name" class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30" />
-          <input bind:value={newContact.relationship} placeholder="Relationship (e.g., Father, Mother, Brother)" class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30" />
-          <input bind:value={newContact.phone} placeholder="Phone Number" class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30" />
-          <input bind:value={newContact.email} placeholder="Email Address" class="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30" />
-          <input bind:value={newContact.address} placeholder="Address" class="w-full col-span-2 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30" />
+          <input bind:value={newContact.name} placeholder="Full Name" class="input input-bordered w-full text-base-content placeholder-base-content/50" />
+          <input bind:value={newContact.relationship} placeholder="Relationship (e.g., Father, Mother, Brother)" class="input input-bordered w-full text-base-content placeholder-base-content/50" />
+          <input bind:value={newContact.phone} placeholder="Phone Number" class="input input-bordered w-full text-base-content placeholder-base-content/50" />
+          <input bind:value={newContact.email} placeholder="Email Address" class="input input-bordered w-full text-base-content placeholder-base-content/50" />
+          <input bind:value={newContact.address} placeholder="Address" class="input input-bordered w-full col-span-2 text-base-content placeholder-base-content/50" />
           <div class="flex items-center space-x-2 col-span-2">
-            <input type="checkbox" id="emergency" bind:checked={newContact.emergencyContact} class="rounded" />
-            <label for="emergency" class="text-white/80">Emergency Contact</label>
-            <select bind:value={newContact.importance} class="ml-auto px-3 py-1 bg-white/10 border border-white/20 rounded text-white text-sm">
+            <input type="checkbox" id="emergency" bind:checked={newContact.emergencyContact} class="checkbox checkbox-primary" />
+            <label for="emergency" class="text-base-content/80">Emergency Contact</label>
+            <select bind:value={newContact.importance} class="select select-bordered ml-auto text-base-content">
               <option value="High">High Priority</option>
               <option value="Medium">Medium Priority</option>
               <option value="Low">Low Priority</option>
             </select>
           </div>
-          <textarea bind:value={newContact.notes} placeholder="Additional notes..." rows="2" class="w-full col-span-2 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"></textarea>
+          <textarea bind:value={newContact.notes} placeholder="Additional notes..." rows="2" class="textarea textarea-bordered w-full col-span-2 text-base-content placeholder-base-content/50"></textarea>
         </div>
-        <button on:click={addFamilyContact} class="mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 shadow-lg"> Add Family Contact </button>
+        <button on:click={addFamilyContact} class="btn btn-primary mt-4"> Add Family Contact </button>
       </div>
 
       <!-- Family Contacts List -->
