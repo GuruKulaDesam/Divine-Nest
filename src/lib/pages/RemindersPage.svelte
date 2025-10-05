@@ -24,7 +24,7 @@
   // Notification functions
   function playSound() {
     // Create a simple beep sound
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const audioContext = new window.AudioContext();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
@@ -128,7 +128,8 @@
     events.forEach((event) => {
       const eventDate = new Date(event.date + (event.time ? ` ${event.time}` : ""));
       const now = new Date();
-      const daysDiff = Math.ceil((eventDate - now) / (1000 * 60 * 60 * 24));
+      const timeDiff = eventDate.getTime() - now.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
       // Create reminders for upcoming events
       if (daysDiff >= 0 && daysDiff <= 7) {
@@ -167,7 +168,7 @@
       const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
       if (priorityDiff !== 0) return priorityDiff;
 
-      return new Date(a.dueDate) - new Date(b.dueDate);
+      return Number(new Date(a.dueDate)) - Number(new Date(b.dueDate));
     });
 
     reminders.set(generatedReminders);

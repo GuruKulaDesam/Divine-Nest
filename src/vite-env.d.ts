@@ -7,5 +7,6 @@ declare global {
     gapi: any;
     SpeechRecognition: any;
     webkitSpeechRecognition: any;
+    webkitAudioContext: typeof AudioContext;
   }
 }
