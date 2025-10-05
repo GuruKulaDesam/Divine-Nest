@@ -28,6 +28,29 @@
   let activeTab = "create"; // 'create', 'notes', 'checklists'
   let showVoiceModal = false;
 
+  // Notification system
+  let notifications = [];
+  let notificationId = 0;
+  let autoSaveTimeout;
+
+  function showNotification(message, type = "info") {
+    const id = ++notificationId;
+    notifications = [...notifications, { id, message, type }];
+    setTimeout(() => {
+      notifications = notifications.filter((n) => n.id !== id);
+    }, 3000);
+  }
+
+  // Auto-save functionality
+  function autoSave() {
+    clearTimeout(autoSaveTimeout);
+    autoSaveTimeout = setTimeout(() => {
+      if (newNote.trim() || attachments.length > 0 || voiceNotes.length > 0) {
+        addNote();
+      }
+    }, 2000); // Auto-save after 2 seconds of inactivity
+  }
+
   // small initialization: seed notes/todos if empty
   onMount(async () => {
     notes = await getAll("notes");
@@ -127,11 +150,11 @@
         if (text) await table("todo").add({ text, done: false, groupId });
       }
       todoLists = await getAll("todo");
-      alert("✅ Checklist created!");
+      showNotification("✅ Checklist created and saved!", "success");
     } else {
       await table("notes").add(payload);
       notes = await getAll("notes");
-      alert("✅ Note saved!");
+      showNotification("✅ Note saved automatically!", "success");
     }
 
     // reset
@@ -169,7 +192,7 @@
   // Voice recording using MediaRecorder
   async function startRecording() {
     if (!navigator.mediaDevices || !window.MediaRecorder) {
-      alert("Audio recording not supported");
+      showNotification("Audio recording not supported", "error");
       return;
     }
     try {
@@ -197,7 +220,7 @@
           await table("notes").add(payload);
           notes = await getAll("notes");
           recording = false;
-          alert("🎵 Voice recording saved!");
+          showNotification("🎵 Voice recording saved automatically!", "success");
         };
         reader.readAsDataURL(blob);
       };
@@ -205,7 +228,7 @@
       recording = true;
     } catch (err) {
       console.error(err);
-      alert("Microphone access denied");
+      showNotification("Microphone access denied", "error");
     }
   }
 
@@ -234,7 +257,7 @@
         if (textItem) await table("todo").add({ text: textItem, done: false, groupId });
       }
       todoLists = await getAll("todo");
-      alert("✅ Voice converted to checklist!");
+      showNotification("✅ Voice converted to checklist and saved!", "success");
     } else {
       const title = t.split(/\n/)[0].slice(0, 60) || "🎤 Voice Note";
       await table("notes").add({
@@ -247,7 +270,7 @@
         attachments: [],
       });
       notes = await getAll("notes");
-      alert("✅ Voice note saved!");
+      showNotification("✅ Voice note saved automatically!", "success");
     }
   }
 
@@ -300,23 +323,52 @@
   }
 </script>
 
-<div class="notes-app min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 p-6">
+<div class="notes-app min-h-screen p-6">
+  <!-- Modern Notification System -->
+  <div class="fixed bottom-4 right-4 z-50 space-y-2">
+    {#each notifications as notification (notification.id)}
+      <div class="notification-card bg-white/90 backdrop-blur-lg border border-white/20 rounded-lg p-4 shadow-lg animate-slide-in-right max-w-sm" class:bg-green-50={notification.type === "success"} class:bg-red-50={notification.type === "error"} class:bg-blue-50={notification.type === "info"}>
+        <div class="flex items-center gap-3">
+          {#if notification.type === "success"}
+            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          {:else if notification.type === "error"}
+            <div class="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          {:else}
+            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          {/if}
+          <p class="text-sm font-medium text-gray-800">{notification.message}</p>
+        </div>
+      </div>
+    {/each}
+  </div>
   <div class="max-w-7xl mx-auto">
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-5xl font-bold text-white mb-2 drop-shadow-lg">📝 My Notes</h1>
-      <p class="text-white/80 text-lg">Create, organize, and remember everything important</p>
+      <h1 class="text-5xl font-bold text-theme mb-2 drop-shadow-lg">📝 My Notes</h1>
+      <p class="text-theme/80 text-lg">Create, organize, and remember everything important</p>
     </div>
 
     <!-- Tab Navigation -->
     <div class="flex justify-center mb-8">
       <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-2 shadow-2xl border border-white/30">
         <div class="flex space-x-2">
-          <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'create' ? 'bg-white text-purple-600 shadow-lg' : 'text-white hover:bg-white/20'}" on:click={() => (activeTab = "create")}> ✨ Create </button>
-          <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'notes' ? 'bg-white text-purple-600 shadow-lg' : 'text-white hover:bg-white/20'}" on:click={() => (activeTab = "notes")}>
+          <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'create' ? 'bg-white text-purple-600 shadow-lg' : 'text-theme hover:bg-white/20'}" on:click={() => (activeTab = "create")}> ✨ Create </button>
+          <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'notes' ? 'bg-white text-purple-600 shadow-lg' : 'text-theme hover:bg-white/20'}" on:click={() => (activeTab = "notes")}>
             📚 My Notes ({notes.length})
           </button>
-          <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'checklists' ? 'bg-white text-purple-600 shadow-lg' : 'text-white hover:bg-white/20'}" on:click={() => (activeTab = "checklists")}>
+          <button class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 {activeTab === 'checklists' ? 'bg-white text-purple-600 shadow-lg' : 'text-theme hover:bg-white/20'}" on:click={() => (activeTab = "checklists")}>
             ✅ Checklists ({groupedTodos().length})
           </button>
         </div>
@@ -330,8 +382,8 @@
         <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
           <div class="text-center mb-6">
             <div class="text-6xl mb-4 text-blue-400 animate-pulse">🎤</div>
-            <h2 class="text-2xl font-bold text-white mb-2">Voice Notes</h2>
-            <p class="text-white/80">Speak your thoughts or record audio</p>
+            <h2 class="text-2xl font-bold text-theme mb-2">Voice Notes</h2>
+            <p class="text-theme/80">Speak your thoughts or record audio</p>
           </div>
 
           <div class="space-y-4">
@@ -378,7 +430,7 @@
               </div>
             {/if}
 
-            <div class="text-center text-white/60 text-sm">Voice notes are automatically saved as you speak!</div>
+            <div class="text-center text-theme/60 text-sm">Voice notes are automatically saved as you speak!</div>
           </div>
         </div>
 
@@ -386,24 +438,24 @@
         <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
           <div class="text-center mb-6">
             <div class="text-6xl mb-4">✍️</div>
-            <h2 class="text-2xl font-bold text-white mb-2">Write a Note</h2>
-            <p class="text-white/80">Type your thoughts or paste content</p>
+            <h2 class="text-2xl font-bold text-theme mb-2">Write a Note</h2>
+            <p class="text-theme/80">Type your thoughts or paste content</p>
           </div>
 
           <div class="space-y-4">
             <div class="flex gap-2 justify-center">
               <input type="radio" name="noteType" value="note" bind:group={noteType} class="radio radio-primary" id="note-radio" />
-              <label for="note-radio" class="text-white font-medium">Note</label>
+              <label for="note-radio" class="text-theme font-medium">Note</label>
               <input type="radio" name="noteType" value="checklist" bind:group={noteType} class="radio radio-primary ml-4" id="checklist-radio" />
-              <label for="checklist-radio" class="text-white font-medium">Checklist</label>
+              <label for="checklist-radio" class="text-theme font-medium">Checklist</label>
             </div>
 
             <div class="flex items-center gap-4">
-              <label for="color-input" class="text-white font-medium">Color:</label>
+              <label for="color-input" class="text-theme font-medium">Color:</label>
               <input type="color" bind:value={noteColor} class="w-12 h-10 rounded-lg border-2 border-white/30" id="color-input" />
             </div>
 
-            <textarea class="textarea textarea-bordered w-full h-40 resize-none bg-white/20 text-white placeholder-white/50 border-white/30" placeholder="Start writing your note... Use - or numbers for checklists" bind:value={newNote}></textarea>
+            <textarea class="textarea textarea-bordered w-full h-40 resize-none bg-white/20 text-white placeholder-white/50 border-white/30" placeholder="Start writing your note... Use - or numbers for checklists" bind:value={newNote} on:input={autoSave}></textarea>
 
             <div class="flex flex-wrap gap-2 justify-center">
               <label class="btn btn-outline btn-sm text-white border-white/50 hover:bg-white/20">
@@ -423,9 +475,7 @@
               </div>
             {/if}
 
-            <div class="text-center">
-              <button class="btn btn-primary btn-lg px-8 shadow-lg" on:click={addNote} disabled={!newNote.trim() && attachments.length === 0}> ✨ Save Note </button>
-            </div>
+            <div class="text-center text-theme/60 text-sm">Notes are automatically saved as you type!</div>
           </div>
         </div>
       </div>
@@ -435,17 +485,17 @@
     {#if activeTab === "notes"}
       <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-3xl font-bold text-white">📚 My Notes</h2>
+          <h2 class="text-3xl font-bold text-theme">📚 My Notes</h2>
           <div class="flex items-center gap-4">
-            <input class="input input-bordered bg-white/20 text-white placeholder-white/50 border-white/30" placeholder="🔍 Search notes..." bind:value={search} />
+            <input class="input input-bordered bg-white/20 text-theme placeholder-theme/50 border-white/30" placeholder="🔍 Search notes..." bind:value={search} />
           </div>
         </div>
 
         {#if filteredNotes().length === 0}
           <div class="text-center py-16">
             <div class="text-8xl mb-6">📝</div>
-            <h3 class="text-2xl font-bold text-white mb-4">No notes yet!</h3>
-            <p class="text-white/80 mb-6">Create your first note using the Create tab above</p>
+            <h3 class="text-2xl font-bold text-theme mb-4">No notes yet!</h3>
+            <p class="text-theme/80 mb-6">Create your first note using the Create tab above</p>
             <button class="btn btn-primary btn-lg" on:click={() => (activeTab = "create")}> ✨ Create Your First Note </button>
           </div>
         {:else}
@@ -510,15 +560,15 @@
     {#if activeTab === "checklists"}
       <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-3xl font-bold text-white">✅ My Checklists</h2>
+          <h2 class="text-3xl font-bold text-theme">✅ My Checklists</h2>
           <button class="btn btn-primary" on:click={() => (activeTab = "create")}> ➕ New Checklist </button>
         </div>
 
         {#if groupedTodos().length === 0}
           <div class="text-center py-16">
             <div class="text-8xl mb-6">📋</div>
-            <h3 class="text-2xl font-bold text-white mb-4">No checklists yet!</h3>
-            <p class="text-white/80 mb-6">Create checklists by selecting "Checklist" in the Create tab</p>
+            <h3 class="text-2xl font-bold text-theme mb-4">No checklists yet!</h3>
+            <p class="text-theme/80 mb-6">Create checklists by selecting "Checklist" in the Create tab</p>
             <button class="btn btn-primary btn-lg" on:click={() => (activeTab = "create")}> ✨ Create Your First Checklist </button>
           </div>
         {:else}
@@ -573,7 +623,7 @@
 
 <style>
   .notes-app {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Transparent background */
     min-height: 100vh;
   }
 
@@ -621,5 +671,54 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Notification animation */
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s ease-out;
+  }
+
+  /* Theme-aware text colors */
+  :global([data-theme="modern"]) .text-theme {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  :global([data-theme="modern"]) .text-theme\/80 {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  :global([data-theme="modern"]) .text-theme\/60 {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  :global([data-theme="modern"]) .text-theme\/50 {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  :global([data-theme="dark"]) .text-theme {
+    color: rgba(248, 250, 252, 0.9);
+  }
+
+  :global([data-theme="dark"]) .text-theme\/80 {
+    color: rgba(248, 250, 252, 0.8);
+  }
+
+  :global([data-theme="dark"]) .text-theme\/60 {
+    color: rgba(248, 250, 252, 0.6);
+  }
+
+  :global([data-theme="dark"]) .text-theme\/50 {
+    color: rgba(248, 250, 252, 0.5);
   }
 </style>

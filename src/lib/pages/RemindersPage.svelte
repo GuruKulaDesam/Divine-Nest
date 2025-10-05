@@ -85,6 +85,11 @@
   onMount(async () => {
     notes = await getAll("notes");
     events = await getAll("calendar");
+
+    // Load existing reminders from database
+    const savedReminders = await getAll("reminders");
+    reminders.set(savedReminders);
+
     generateAutoReminders();
 
     // Request notification permission
@@ -211,11 +216,39 @@
     return new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
   }
 
-  function dismissReminder(reminderId) {
+  async function dismissReminder(reminderId) {
+    // Delete from database
+    await deleteReminderFromDB(reminderId);
+
+    // Update store
     reminders.update((current) => current.filter((r) => r.id !== reminderId));
   }
 
-  function createManualReminder() {
+  async function updateReminderInDB(reminderId, updates) {
+    try {
+      await table("reminders").update(reminderId, updates);
+    } catch (error) {
+      console.error("Error updating reminder in database:", error);
+    }
+  }
+
+  async function deleteReminderFromDB(reminderId) {
+    try {
+      await table("reminders").delete(reminderId);
+    } catch (error) {
+      console.error("Error deleting reminder from database:", error);
+    }
+  }
+
+  async function saveReminderToDB(reminder) {
+    try {
+      await table("reminders").add(reminder);
+    } catch (error) {
+      console.error("Error saving reminder to database:", error);
+    }
+  }
+
+  async function createManualReminder() {
     if (!manualReminder.title || !manualReminder.dueDate) {
       alert("Please provide at least a title and due date");
       return;
@@ -237,6 +270,10 @@
       isActive: manualReminder.isActive,
     };
 
+    // Save to database first
+    await saveReminderToDB(newReminder);
+
+    // Then update the store
     reminders.update((current) => [...current, newReminder]);
 
     // Reset form
@@ -255,19 +292,37 @@
     alert("Manual reminder created!");
   }
 
-  function triggerManualReminder(reminder) {
+  async function triggerManualReminder(reminder) {
     if (!reminder.isActive) return;
 
     triggerNotification(reminder);
 
-    // Mark as inactive after triggering
-    reminders.update((current) => current.map((r) => (r.id === reminder.id ? { ...r, isActive: false } : r)));
+    // Mark as inactive after triggering and save to database
+    const updatedReminder = { ...reminder, isActive: false };
+    await updateReminderInDB(reminder.id, { isActive: false });
+
+    // Update store
+    reminders.update((current) => current.map((r) => (r.id === reminder.id ? updatedReminder : r)));
   }
 
-  function toggleReminderActive(reminderId) {
-    reminders.update((current) => current.map((r) => (r.id === reminderId ? { ...r, isActive: !r.isActive } : r)));
-  }
+  async function toggleReminderActive(reminderId) {
+    // Get current reminders
+    let currentReminders = [];
+    reminders.subscribe((current) => {
+      currentReminders = current;
+    })();
 
+    const currentReminder = currentReminders.find((r) => r.id === reminderId);
+    if (!currentReminder) return;
+
+    const newActiveState = !currentReminder.isActive;
+
+    // Update database
+    await updateReminderInDB(reminderId, { isActive: newActiveState });
+
+    // Update store
+    reminders.update((current) => current.map((r) => (r.id === reminderId ? { ...r, isActive: newActiveState } : r)));
+  }
   function getPriorityColor(priority) {
     switch (priority) {
       case "high":
@@ -500,8 +555,23 @@
     z-index: -1;
   }
   .reminders-page {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Transparent background with gradient border */
     min-height: 100vh;
+    position: relative;
+  }
+
+  .reminders-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid transparent;
+    border-image: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) 1;
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: -1;
   }
 
   .reminder-card {

@@ -17,13 +17,8 @@ import RegisterV3 from './pages/RegisterV3.svelte';
 import NotFoundPage from './pages/NotFoundPage.svelte';
 import ChartsPage from './pages/ChartsPage.svelte';
 import GanttPage from './pages/GanttPage.svelte';
-import FamilyCalendarPage from './pages/FamilyCalendarPage.svelte';
 import FamilyCalendarModernPage from './pages/FamilyCalendarModernPage.svelte';
-import FamilyTodoPage from './pages/FamilyTodoPage.svelte';
-import FamilyMapPage from './pages/FamilyMapPage.svelte';
-import FamilyNotesPage from './pages/FamilyNotesPage.svelte';
 import FamilyNotesModernPage from './pages/FamilyNotesModernPage.svelte';
-import FamilyNotificationsPage from './pages/FamilyNotificationsPage.svelte';
 import RemindersPage from './pages/RemindersPage.svelte';
 
 // Create stores for routing
@@ -49,13 +44,8 @@ const routes = {
   '/auth/register-v2': RegisterV2,
   '/auth/register-v3': RegisterV3,
   '/charts': ChartsPage,
-  '/family-calendar': FamilyCalendarPage,
   '/family-calendar-modern': FamilyCalendarModernPage,
-  '/family-todo': FamilyTodoPage,
-  '/family-map': FamilyMapPage,
-  '/family-notes': FamilyNotesPage,
   '/family-notes-modern': FamilyNotesModernPage,
-  '/family-notifications': FamilyNotificationsPage,
   '/reminders': RemindersPage,
   '*': NotFoundPage
 };

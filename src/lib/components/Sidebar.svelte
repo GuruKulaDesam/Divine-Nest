@@ -6,6 +6,7 @@
   import { users, menuItems } from "../data/dashboard.js";
   import { navigate, currentRoute } from "../router.js";
   import { motionInView, staggerAnimate } from "../utils/motion.js";
+  import { theme } from "../stores/theme.js";
 
   export let isOpen = false;
 
@@ -18,24 +19,19 @@
 
   // Create translated menu items with fallbacks
   $: translatedMenuItems = [
-    { path: "/", icon: "heroicons:home", name: $isLoading ? "Home" : $_("navigation.home"), color: "text-blue-400 glow-blue" },
-    { path: "/users", icon: "heroicons:users", name: $isLoading ? "Users" : $_("navigation.users"), color: "text-green-400 glow-green" },
-    { path: "/products", icon: "heroicons:cube", name: $isLoading ? "Products" : $_("navigation.products"), color: "text-purple-400 glow-purple" },
-    { path: "/analytics", icon: "heroicons:chart-bar", name: $isLoading ? "Analytics" : $_("navigation.analytics"), color: "text-yellow-400 glow-yellow" },
-    { path: "/charts", icon: "heroicons:presentation-chart-line", name: $isLoading ? "Charts" : $_("navigation.charts"), color: "text-pink-400 glow-pink" },
-    { path: "/projects", icon: "heroicons:view-columns", name: $isLoading ? "Projects" : $_("navigation.projects"), color: "text-indigo-400 glow-indigo" },
-    { path: "/gantt", icon: "heroicons:calendar", name: $isLoading ? "Gantt" : "Gantt", color: "text-red-400 glow-red" },
-    { path: "/maps", icon: "heroicons:map", name: $isLoading ? "Maps" : $_("navigation.maps"), color: "text-teal-400 glow-teal" },
-    { path: "/schedule", icon: "heroicons:calendar-days", name: $isLoading ? "Schedule" : $_("navigation.schedule"), color: "text-orange-400 glow-orange" },
-    { path: "/profile", icon: "heroicons:user-circle", name: $isLoading ? "Profile" : $_("navigation.profile"), color: "text-cyan-400 glow-cyan" },
-    { path: "/settings", icon: "heroicons:cog-6-tooth", name: $isLoading ? "Settings" : $_("navigation.settings"), color: "text-gray-400 glow-gray" },
-    { path: "/family-calendar", icon: "heroicons:calendar-days", name: "Family Calendar", color: "text-emerald-400 glow-emerald" },
-    { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendar (Modern)", color: "text-violet-400 glow-violet" },
-    { path: "/family-todo", icon: "heroicons:check-circle", name: "Family To-Do", color: "text-lime-400 glow-lime" },
-    { path: "/family-map", icon: "heroicons:map-pin", name: "Family Map", color: "text-rose-400 glow-rose" },
-    { path: "/family-notes", icon: "heroicons:document-text", name: "Family Notes", color: "text-amber-400 glow-amber" },
-    { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes (Modern)", color: "text-sky-400 glow-sky" },
-    { path: "/family-notifications", icon: "heroicons:bell", name: "Family Notifications", color: "text-fuchsia-400 glow-fuchsia" },
+    { path: "/", icon: "heroicons:home", name: $isLoading ? "Home" : $_("navigation.home"), color: "text-blue-400" },
+    { path: "/users", icon: "heroicons:users", name: $isLoading ? "Users" : $_("navigation.users"), color: "text-green-400" },
+    { path: "/products", icon: "heroicons:cube", name: $isLoading ? "Products" : $_("navigation.products"), color: "text-purple-400" },
+    { path: "/analytics", icon: "heroicons:chart-bar", name: $isLoading ? "Analytics" : $_("navigation.analytics"), color: "text-yellow-400" },
+    { path: "/charts", icon: "heroicons:presentation-chart-line", name: $isLoading ? "Charts" : $_("navigation.charts"), color: "text-pink-400" },
+    { path: "/projects", icon: "heroicons:view-columns", name: $isLoading ? "Projects" : $_("navigation.projects"), color: "text-indigo-400" },
+    { path: "/gantt", icon: "heroicons:calendar", name: $isLoading ? "Gantt" : "Gantt", color: "text-red-400" },
+    { path: "/maps", icon: "heroicons:map", name: $isLoading ? "Maps" : $_("navigation.maps"), color: "text-teal-400" },
+    { path: "/schedule", icon: "heroicons:calendar-days", name: $isLoading ? "Schedule" : $_("navigation.schedule"), color: "text-orange-400" },
+    { path: "/profile", icon: "heroicons:user-circle", name: $isLoading ? "Profile" : $_("navigation.profile"), color: "text-cyan-400" },
+    { path: "/settings", icon: "heroicons:cog-6-tooth", name: $isLoading ? "Settings" : $_("navigation.settings"), color: "text-gray-400" },
+    { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendars", color: "text-violet-400 glow-violet" },
+    { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes", color: "text-sky-400 glow-sky" },
     { path: "/reminders", icon: "heroicons:bell-alert", name: "Smart Reminders", color: "text-stone-400 glow-stone" },
   ];
 
@@ -159,7 +155,7 @@
   <!-- Navigation section - takes up remaining space -->
   <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
     {#each translatedMenuItems as item, index}
-      <a bind:this={menuItemsElements[index]} href={item.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === item.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-white/70 hover:bg-white/10 hover:text-white hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(item.path)} use:motionInView={{ animation: "fadeInLeft", delay: index * 0.1 }}>
+      <a bind:this={menuItemsElements[index]} href={item.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === item.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(item.path)} use:motionInView={{ animation: "fadeInLeft", delay: index * 0.1 }}>
         <Icon icon={item.icon} class="w-5 h-5 mr-3 {item.color}" />
         {item.name}
         {#if $currentRoute === item.path}
@@ -174,18 +170,18 @@
         {$isLoading ? "Account" : $_("navigation.account")}
       </div>
       <div class="submenu">
-        <button class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isSubmenuActive(authSubmenu.items) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-white/70 hover:bg-white/10 hover:text-white hover:backdrop-blur-sm'}" on:click={() => toggleSubmenu("auth")}>
+        <button class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isSubmenuActive(authSubmenu.items) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click={() => toggleSubmenu("auth")}>
           <div class="flex items-center">
             <Icon icon={authSubmenu.icon} class="w-5 h-5 mr-3 text-gray-400 glow-gray" />
             {authSubmenu.title}
           </div>
-          <Icon icon={expandedMenus.auth ? "heroicons:chevron-down" : "heroicons:chevron-right"} class="w-4 h-4 transition-transform text-white/70" />
+          <Icon icon={expandedMenus.auth ? "heroicons:chevron-down" : "heroicons:chevron-right"} class="w-4 h-4 transition-transform text-sidebar" />
         </button>
 
         {#if expandedMenus.auth}
           <div class="ml-4 pl-4 border-l border-white/20 mt-1 space-y-1">
             {#each authSubmenu.items as subitem}
-              <a href={subitem.path} class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === subitem.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-white/70 hover:bg-white/10 hover:text-white hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(subitem.path)}>
+              <a href={subitem.path} class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === subitem.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(subitem.path)}>
                 <Icon icon={subitem.icon} class="w-4 h-4 mr-3 text-gray-400 glow-gray" />
                 {subitem.title}
                 {#if $currentRoute === subitem.path}
@@ -204,14 +200,14 @@
     <div class="flex items-center">
       <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User avatar" class="w-10 h-10 rounded-full object-cover bg-white/10 backdrop-blur-sm" />
       <div class="ml-3 flex-1 min-w-0">
-        <p class="text-sm font-medium text-white truncate">John Doe</p>
-        <p class="text-xs text-white/60 truncate">john.doe@example.com</p>
+        <p class="text-sm font-medium text-sidebar truncate">John Doe</p>
+        <p class="text-xs text-sidebar/60 truncate">john.doe@example.com</p>
       </div>
       <div class="flex items-center gap-2">
-        <button class="p-1.5 rounded-md text-white/60 hover:text-red-400 hover:bg-red-400/20 transition-all duration-300 backdrop-blur-sm" on:click={handleLogout} title={$_("common.logout")}>
+        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-red-400 hover:bg-red-400/20 transition-all duration-300 backdrop-blur-sm" on:click={handleLogout} title={$_("common.logout")}>
           <Icon icon="heroicons:arrow-right-on-rectangle" class="w-5 h-5" />
         </button>
-        <button class="p-1.5 rounded-md text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-sidebar hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
           <Icon icon="heroicons:ellipsis-vertical" class="w-5 h-5" />
         </button>
       </div>
@@ -220,62 +216,39 @@
 </div>
 
 <style>
-  /* Glow effects for colorful icons */
-  .glow-blue {
-    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.6));
-  }
-  .glow-green {
-    filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.6));
-  }
-  .glow-purple {
-    filter: drop-shadow(0 0 6px rgba(147, 51, 234, 0.6));
-  }
-  .glow-yellow {
-    filter: drop-shadow(0 0 6px rgba(234, 179, 8, 0.6));
-  }
-  .glow-pink {
-    filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.6));
-  }
-  .glow-indigo {
-    filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.6));
-  }
-  .glow-red {
-    filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6));
-  }
-  .glow-teal {
-    filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.6));
-  }
-  .glow-orange {
-    filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.6));
-  }
-  .glow-cyan {
-    filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.6));
-  }
-  .glow-gray {
-    filter: drop-shadow(0 0 6px rgba(156, 163, 175, 0.6));
-  }
-  .glow-emerald {
-    filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
-  }
+  /* Glow effects for colorful icons - only used classes are kept */
   .glow-violet {
     filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6));
-  }
-  .glow-lime {
-    filter: drop-shadow(0 0 6px rgba(132, 204, 22, 0.6));
-  }
-  .glow-rose {
-    filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.6));
-  }
-  .glow-amber {
-    filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.6));
   }
   .glow-sky {
     filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.6));
   }
-  .glow-fuchsia {
-    filter: drop-shadow(0 0 6px rgba(217, 70, 239, 0.6));
-  }
   .glow-stone {
     filter: drop-shadow(0 0 6px rgba(120, 113, 108, 0.6));
+  }
+
+  /* Dynamic text colors based on theme */
+  :global([data-theme="modern"]) .text-sidebar {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  :global([data-theme="modern"]) .text-sidebar-hover {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  :global([data-theme="modern"]) .text-sidebar\/60 {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  :global([data-theme="dark"]) .text-sidebar {
+    color: rgba(248, 250, 252, 0.9);
+  }
+
+  :global([data-theme="dark"]) .text-sidebar-hover {
+    color: rgba(248, 250, 252, 1);
+  }
+
+  :global([data-theme="dark"]) .text-sidebar\/60 {
+    color: rgba(248, 250, 252, 0.6);
   }
 </style>

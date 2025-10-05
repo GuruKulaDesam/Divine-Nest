@@ -14,6 +14,11 @@ db.version(2).stores({
   members: '++id,name,color,isDefault'
 });
 
+// Add reminders store in version 3
+db.version(3).stores({
+  reminders: '++id,title,description,dueDate,dueTime,priority,type,source,color,createdAt,notificationType,phoneNumber,isActive'
+});
+
 // Use db.table(...) to avoid TypeScript/Dexie property access issues and be explicit.
 export async function getAll(store) {
   return db.table(store).toArray();
