@@ -1,6 +1,5 @@
 <script>
   import Sidebar from "./Sidebar.svelte";
-  import Header from "./Header.svelte";
   import TopNavigation from "./TopNavigation.svelte";
 
   let sidebarOpen = false;
@@ -20,16 +19,15 @@
 
   <!-- Main content area -->
   <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header -->
-    <Header {sidebarOpen} on:toggleSidebar={handleToggleSidebar} />
-
-    <!-- Top Navigation Tabs -->
-    <TopNavigation />
+    <!-- Enhanced Header with integrated breadcrumb and navigation -->
+    <TopNavigation {sidebarOpen} on:toggleSidebar={handleToggleSidebar} />
 
     <!-- Main content area -->
     <main class="flex-1 scrollable-container bg-transparent">
       <div class="p-4 sm:p-6 lg:p-8">
-        <slot />
+        <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-sm shadow-xl border border-white/20 p-6 sm:p-8">
+          <slot />
+        </div>
       </div>
     </main>
   </div>
@@ -51,6 +49,30 @@
     background: radial-gradient(ellipse at top, rgba(135, 206, 235, 0.3) 0%, transparent 50%), linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
     opacity: 0.5;
     z-index: -1;
+  }
+
+  .content-container {
+    min-height: calc(100vh - 200px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .content-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 1.5rem;
+    z-index: -1;
+  }
+
+  .content-container:hover {
+    transform: translateY(-2px);
+    shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   }
 
   /* Mountain silhouettes */

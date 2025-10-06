@@ -358,28 +358,30 @@
       </div>
 
       <!-- Quick Stats -->
-      {@const property = getCurrentProperty()}
-      {@const maintenanceStatus = getMaintenanceStatus()}
-      {@const taxStatus = getTaxStatus()}
+      {#if true}
+        {@const property = getCurrentProperty()}
+        {@const maintenanceStatus = getMaintenanceStatus()}
+        {@const taxStatus = getTaxStatus()}
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-amber-600">{property.valuation.currentMarketValue}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Current Value</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-amber-600">{property.valuation.currentMarketValue}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Current Value</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-red-600">{taxStatus.pending}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Taxes Due</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-orange-600">{maintenanceStatus.dueSoon}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Maintenance Due</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-green-600">{Object.keys(property.documents).length}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Documents</div>
+          </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-red-600">{taxStatus.pending}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Taxes Due</div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-orange-600">{maintenanceStatus.dueSoon}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Maintenance Due</div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-green-600">{Object.keys(property.documents).length}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Documents</div>
-        </div>
-      </div>
+      {/if}
     </div>
 
     <!-- Tabs -->

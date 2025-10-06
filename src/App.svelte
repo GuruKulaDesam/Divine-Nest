@@ -42,6 +42,7 @@
   import MembersPage from "./pages/members/+page.svelte";
   import InventoryPage from "./pages/inventory/+page.svelte";
   import VehiclesPage from "./pages/vehicles/+page.svelte";
+  import FinancesPageEnhanced from "./lib/pages/FinancesPageEnhanced.svelte";
   import { currentRoute } from "./lib/router.js";
   import { pageTransitions } from "./lib/utils/motion.js";
   import { themeActions } from "./lib/stores/theme.js";
@@ -118,8 +119,27 @@
       "/wellness": WellnessPage,
       "/health": WellnessPage, // Health tracking component within wellness
       "/yoga": YogaExercisePage,
-      "/mantras": MantrasPage,
       "/journal": WellnessPage, // Journal component within wellness
+
+      // Finances & Money Management
+      "/finances": FinancesPageEnhanced,
+      "/recharges": FinancesPageEnhanced,
+      "/expenses": FinancesPageEnhanced,
+      "/budget": FinancesPageEnhanced,
+      "/insurance": FinancesPageEnhanced,
+      "/family-members": FinancesPageEnhanced,
+      "/finance/expenses": FinancesPageEnhanced,
+      "/finance/budget": FinancesPageEnhanced,
+      "/finance/savings": FinancesPageEnhanced,
+      "/finance/wealth": FinancesPageEnhanced,
+      "/finance/recharges": FinancesPageEnhanced,
+      "/finance/insurance": FinancesPageEnhanced,
+      "/finance/property": FinancesPageEnhanced,
+      "/finance/milestones": FinancesPageEnhanced,
+      "/finance/festivals": FinancesPageEnhanced,
+      "/finance/gifts": FinancesPageEnhanced,
+      "/finance/vendors": FinancesPageEnhanced,
+      "/finance/documents": FinancesPageEnhanced,
 
       // Time & Events
       "/family-calendar-modern": FamilyCalendarModernPage,
@@ -145,7 +165,6 @@
       "/directory": DirectoryPage,
       "/contacts": ContactsPage,
       "/vendors": DirectoryPage, // Vendors component within directory
-      "/emergency": IssuesEmergencyPage, // Emergency should be in Issues section
 
       // Issues Management
       "/emergency": IssuesEmergencyPage,

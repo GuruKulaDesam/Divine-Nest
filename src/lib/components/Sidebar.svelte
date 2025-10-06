@@ -12,6 +12,8 @@
 
   let sidebarElement;
   let menuItemsElements = [];
+  let expandedMenus = {};
+
   // Main menu items without sub-menus
   $: mainMenuItems = [
     {
@@ -28,7 +30,7 @@
       icon: "heroicons:sparkles",
       path: "/rituals",
       color: "text-orange-600",
-      routes: ["/rituals", "/temple", "/festival-calendar", "/mantras"],
+      routes: ["/rituals", "/temple", "/festival-calendar", "/mantras", "/tamil-panchangam"],
     },
     {
       key: "contacts",
@@ -44,7 +46,7 @@
       icon: "heroicons:utensils",
       path: "/meals",
       color: "text-orange-500",
-      routes: ["/meals", "/recipes", "/grocery", "/pantry", "/kitchen"],
+      routes: ["/meals", "/recipes", "/grocery", "/pantry", "/kitchen", "/kitchen/dashboard", "/kitchen/pantry", "/kitchen/fresh", "/kitchen/meals", "/kitchen/kids", "/kitchen/recipes", "/kitchen/cleaning", "/kitchen/vendors", "/kitchen/wellness", "/kitchen/festivals"],
     },
     {
       key: "education",
@@ -52,7 +54,7 @@
       icon: "heroicons:academic-cap",
       path: "/education",
       color: "text-indigo-500",
-      routes: ["/education", "/library", "/studies", "/learning-goals", "/study-plans"],
+      routes: ["/education", "/education/dashboard", "/education/students", "/education/curriculum", "/education/planner", "/education/quiz", "/education/assessment", "/education/courses", "/education/mentors", "/education/achievements", "/education/archive", "/library", "/studies", "/learning-goals", "/study-plans"],
     },
     {
       key: "health",
@@ -60,7 +62,15 @@
       icon: "heroicons:heart",
       path: "/wellness",
       color: "text-green-600",
-      routes: ["/wellness", "/health", "/yoga", "/journal"],
+      routes: ["/wellness", "/health", "/yoga", "/journal", "/hobbies-activities"],
+    },
+    {
+      key: "finances",
+      title: "💰 Finances",
+      icon: "heroicons:currency-rupee",
+      path: "/finances",
+      color: "text-emerald-600",
+      routes: ["/finances", "/recharges", "/expenses", "/budget", "/insurance", "/investments"],
     },
     {
       key: "issues",
@@ -119,6 +129,7 @@
         { path: "/temple", icon: "heroicons:building-storefront", name: "Temple Visits", color: "text-yellow-600" },
         { path: "/festival-calendar", icon: "heroicons:calendar", name: "Festival Calendar", color: "text-pink-600" },
         { path: "/mantras", icon: "heroicons:musical-note", name: "Mantras", color: "text-purple-600" },
+        { path: "/tamil-panchangam", icon: "heroicons:sun", name: "Tamil Panchangam", color: "text-red-600" },
       ],
     },
     {
@@ -140,7 +151,11 @@
         { path: "/meals", icon: "heroicons:calendar-days", name: "Meals & Planning", color: "text-orange-500" },
         { path: "/recipes", icon: "heroicons:book-open", name: "Recipes", color: "text-red-500" },
         { path: "/grocery", icon: "heroicons:shopping-cart", name: "Grocery & Pantry", color: "text-green-500" },
-        { path: "/kitchen", icon: "heroicons:home", name: "Kitchen Management", color: "text-amber-500" },
+        { path: "/kitchen", icon: "heroicons:home", name: "Kitchen Dashboard", color: "text-amber-500" },
+        { path: "/kitchen/pantry", icon: "heroicons:archive-box", name: "Pantry Tracker", color: "text-blue-500" },
+        { path: "/kitchen/fresh", icon: "heroicons:leaf", name: "Fresh Produce", color: "text-green-600" },
+        { path: "/kitchen/kids", icon: "heroicons:academic-cap", name: "Kids Menu", color: "text-purple-500" },
+        { path: "/kitchen/vendors", icon: "heroicons:user-group", name: "Vendors", color: "text-gray-600" },
       ],
     },
     {
@@ -149,20 +164,38 @@
       icon: "heroicons:academic-cap",
       items: [
         { path: "/education", icon: "heroicons:academic-cap", name: "Education Dashboard", color: "text-indigo-500" },
-        { path: "/library", icon: "heroicons:book-open", name: "Family Library", color: "text-purple-500" },
-        { path: "/studies", icon: "heroicons:pencil", name: "Studies & Exams", color: "text-blue-500" },
-        { path: "/learning", icon: "heroicons:light-bulb", name: "Learning Goals", color: "text-yellow-500" },
+        { path: "/education/students", icon: "heroicons:user-group", name: "Student Profiles", color: "text-green-500" },
+        { path: "/education/curriculum", icon: "heroicons:book-open", name: "Curriculum Tracker", color: "text-purple-500" },
+        { path: "/education/planner", icon: "heroicons:calendar-days", name: "Study Planner", color: "text-orange-500" },
+        { path: "/education/quiz", icon: "heroicons:puzzle-piece", name: "Quiz Generator", color: "text-pink-500" },
+        { path: "/education/assessment", icon: "heroicons:chart-bar", name: "Assessment", color: "text-blue-500" },
+        { path: "/education/mentors", icon: "heroicons:chat-bubble-left-right", name: "Mentorship", color: "text-teal-500" },
+        { path: "/education/achievements", icon: "heroicons:trophy", name: "Achievements", color: "text-yellow-500" },
       ],
     },
     {
       key: "health",
-      title: "� Health",
+      title: "💚 Health",
       icon: "heroicons:heart",
       items: [
         { path: "/wellness", icon: "heroicons:heart", name: "Wellness Dashboard", color: "text-green-600" },
         { path: "/health", icon: "heroicons:shield-check", name: "Health Tracking", color: "text-blue-600" },
         { path: "/yoga", icon: "heroicons:user", name: "Yoga & Exercise", color: "text-orange-600" },
         { path: "/journal", icon: "heroicons:pencil-square", name: "Health Journal", color: "text-teal-600" },
+        { path: "/hobbies-activities", icon: "heroicons:puzzle-piece", name: "Hobbies & Activities", color: "text-purple-600" },
+      ],
+    },
+    {
+      key: "finances",
+      title: "💰 Finances",
+      icon: "heroicons:currency-rupee",
+      items: [
+        { path: "/finances", icon: "heroicons:currency-rupee", name: "Finance Dashboard", color: "text-emerald-600" },
+        { path: "/recharges", icon: "heroicons:device-phone-mobile", name: "Monthly Recharges", color: "text-blue-600" },
+        { path: "/expenses", icon: "heroicons:receipt-percent", name: "Expense Tracker", color: "text-orange-600" },
+        { path: "/budget", icon: "heroicons:chart-pie", name: "Budget & Analytics", color: "text-purple-600" },
+        { path: "/insurance", icon: "heroicons:shield-check", name: "Insurance & Renewals", color: "text-teal-600" },
+        { path: "/family-members", icon: "heroicons:users", name: "Family Members", color: "text-pink-600" },
       ],
     },
     {

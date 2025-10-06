@@ -369,25 +369,27 @@
       </div>
 
       <!-- Vehicle Stats -->
-      {@const stats = getVehicleStats()}
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-blue-600">{stats.total}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Total Vehicles</div>
+      {#if true}
+        {@const stats = getVehicleStats()}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-blue-600">{stats.total}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Total Vehicles</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-green-600">{stats.motorized}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Motorized</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-orange-600">{stats.needsService}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Service Due</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-red-600">{stats.hasIssues}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Has Issues</div>
+          </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-green-600">{stats.motorized}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Motorized</div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-orange-600">{stats.needsService}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Service Due</div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-red-600">{stats.hasIssues}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Has Issues</div>
-        </div>
-      </div>
+      {/if}
 
       <!-- Vehicle Selector -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -420,424 +422,426 @@
     </div>
 
     <!-- Content -->
-    {@const vehicle = getCurrentVehicle()}
+    {#if getCurrentVehicle()}
+      {@const vehicle = getCurrentVehicle()}
 
-    {#if currentTab === "overview"}
-      <!-- Vehicle Overview -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Basic Info Card -->
-        <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <div class="flex items-center space-x-4 mb-6">
-            <div class="w-16 h-16 rounded-full bg-gradient-to-br {getVehicleTypeColor(vehicle.type)} flex items-center justify-center text-white">
-              <Icon icon={getVehicleTypeIcon(vehicle.type)} class="w-8 h-8" />
-            </div>
-            <div>
-              <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{vehicle.name}</h2>
-              <p class="text-lg text-gray-600 dark:text-gray-400">{vehicle.registration}</p>
-              <p class="text-sm text-blue-600 capitalize">{vehicle.type} • {vehicle.year} • {vehicle.color}</p>
-            </div>
-          </div>
-
-          <!-- Vehicle Details -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Vehicle Information</h4>
-              <div class="space-y-2 text-sm">
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-400">Make & Model:</span>
-                  <span class="font-medium">{vehicle.make} {vehicle.model}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-400">Year:</span>
-                  <span class="font-medium">{vehicle.year}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-400">Color:</span>
-                  <span class="font-medium">{vehicle.color}</span>
-                </div>
-                {#if vehicle.engineCapacity !== "N/A"}
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Engine:</span>
-                    <span class="font-medium">{vehicle.engineCapacity}</span>
-                  </div>
-                {/if}
-                {#if vehicle.mileage !== "N/A"}
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Mileage:</span>
-                    <span class="font-medium">{vehicle.mileage}</span>
-                  </div>
-                {/if}
+      {#if currentTab === "overview"}
+        <!-- Vehicle Overview -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Basic Info Card -->
+          <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <div class="flex items-center space-x-4 mb-6">
+              <div class="w-16 h-16 rounded-full bg-gradient-to-br {getVehicleTypeColor(vehicle.type)} flex items-center justify-center text-white">
+                <Icon icon={getVehicleTypeIcon(vehicle.type)} class="w-8 h-8" />
+              </div>
+              <div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{vehicle.name}</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400">{vehicle.registration}</p>
+                <p class="text-sm text-blue-600 capitalize">{vehicle.type} • {vehicle.year} • {vehicle.color}</p>
               </div>
             </div>
 
-            <div>
-              <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Usage & Value</h4>
-              <div class="space-y-2 text-sm">
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-400">Primary User:</span>
-                  <span class="font-medium">{vehicle.primaryUser}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-400">Purchase Price:</span>
-                  <span class="font-medium">{vehicle.purchasePrice}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-400">Current Value:</span>
-                  <span class="font-medium text-green-600">{vehicle.currentValue}</span>
-                </div>
-                {#if vehicle.currentOdometer !== "N/A"}
+            <!-- Vehicle Details -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Vehicle Information</h4>
+                <div class="space-y-2 text-sm">
                   <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Odometer:</span>
-                    <span class="font-medium">{vehicle.currentOdometer}</span>
+                    <span class="text-gray-600 dark:text-gray-400">Make & Model:</span>
+                    <span class="font-medium">{vehicle.make} {vehicle.model}</span>
                   </div>
-                {/if}
-                <div class="flex justify-between">
-                  <span class="text-gray-600 dark:text-gray-400">Purchase Date:</span>
-                  <span class="font-medium">{new Date(vehicle.purchaseDate).toLocaleDateString()}</span>
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Year:</span>
+                    <span class="font-medium">{vehicle.year}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Color:</span>
+                    <span class="font-medium">{vehicle.color}</span>
+                  </div>
+                  {#if vehicle.engineCapacity !== "N/A"}
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Engine:</span>
+                      <span class="font-medium">{vehicle.engineCapacity}</span>
+                    </div>
+                  {/if}
+                  {#if vehicle.mileage !== "N/A"}
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Mileage:</span>
+                      <span class="font-medium">{vehicle.mileage}</span>
+                    </div>
+                  {/if}
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Usage & Value</h4>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Primary User:</span>
+                    <span class="font-medium">{vehicle.primaryUser}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Purchase Price:</span>
+                    <span class="font-medium">{vehicle.purchasePrice}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Current Value:</span>
+                    <span class="font-medium text-green-600">{vehicle.currentValue}</span>
+                  </div>
+                  {#if vehicle.currentOdometer !== "N/A"}
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Odometer:</span>
+                      <span class="font-medium">{vehicle.currentOdometer}</span>
+                    </div>
+                  {/if}
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Purchase Date:</span>
+                    <span class="font-medium">{new Date(vehicle.purchaseDate).toLocaleDateString()}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Assigned Users -->
-          <div class="mb-6">
-            <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Assigned Users</h4>
-            <div class="flex flex-wrap gap-2">
-              {#each vehicle.assignedTo as user}
-                <span class="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 rounded-full">
-                  {user}
-                </span>
-              {/each}
+            <!-- Assigned Users -->
+            <div class="mb-6">
+              <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Assigned Users</h4>
+              <div class="flex flex-wrap gap-2">
+                {#each vehicle.assignedTo as user}
+                  <span class="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 rounded-full">
+                    {user}
+                  </span>
+                {/each}
+              </div>
+            </div>
+
+            <!-- Cultural Note -->
+            <div class="p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 rounded-lg">
+              <h4 class="font-semibold text-orange-900 dark:text-orange-100 mb-2 flex items-center">
+                <Icon icon="heroicons:star" class="w-4 h-4 mr-2" />
+                Cultural Note
+              </h4>
+              <p class="text-sm text-orange-800 dark:text-orange-200">{vehicle.culturalNote}</p>
             </div>
           </div>
 
-          <!-- Cultural Note -->
-          <div class="p-4 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 rounded-lg">
-            <h4 class="font-semibold text-orange-900 dark:text-orange-100 mb-2 flex items-center">
-              <Icon icon="heroicons:star" class="w-4 h-4 mr-2" />
-              Cultural Note
-            </h4>
-            <p class="text-sm text-orange-800 dark:text-orange-200">{vehicle.culturalNote}</p>
+          <!-- Quick Status Cards -->
+          <div class="space-y-4">
+            <!-- Service Status -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                <Icon icon="heroicons:wrench-screwdriver" class="w-5 h-5 mr-2 text-blue-500" />
+                Service Status
+              </h3>
+              <div class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-sm text-gray-600 dark:text-gray-400">Last Service:</span>
+                  <span class="text-sm font-medium">{new Date(vehicle.lastService.date).toLocaleDateString()}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-sm text-gray-600 dark:text-gray-400">Next Due:</span>
+                  <span class="text-sm font-medium text-orange-600">{new Date(vehicle.lastService.nextDue).toLocaleDateString()}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-sm text-gray-600 dark:text-gray-400">Cost:</span>
+                  <span class="text-sm font-medium">{vehicle.lastService.cost}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Insurance Status -->
+            {#if vehicle.insurance.status !== "Not Required"}
+              <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                  <Icon icon="heroicons:shield-check" class="w-5 h-5 mr-2 text-green-500" />
+                  Insurance Status
+                </h3>
+                <div class="space-y-3">
+                  <div class="flex justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Provider:</span>
+                    <span class="text-sm font-medium">{vehicle.insurance.provider}</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Expires:</span>
+                    <span class="text-sm font-medium {isDocumentExpiringSoon(vehicle.insurance.endDate) ? 'text-red-600' : 'text-green-600'}">
+                      {new Date(vehicle.insurance.endDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Premium:</span>
+                    <span class="text-sm font-medium">{vehicle.insurance.premium}</span>
+                  </div>
+                </div>
+              </div>
+            {/if}
+
+            <!-- Recent Issues -->
+            {#if vehicle.issues && vehicle.issues.length > 0}
+              <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                  <Icon icon="heroicons:exclamation-triangle" class="w-5 h-5 mr-2 text-red-500" />
+                  Recent Issues
+                </h3>
+                <div class="space-y-3">
+                  {#each vehicle.issues as issue}
+                    <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="text-sm font-medium text-red-800 dark:text-red-200">{issue.issue}</span>
+                        <span class="px-2 py-1 text-xs rounded-full {getPriorityColor(issue.priority)}">
+                          {issue.priority}
+                        </span>
+                      </div>
+                      <div class="flex justify-between text-xs text-red-600 dark:text-red-400">
+                        <span>{new Date(issue.date).toLocaleDateString()}</span>
+                        <span class="font-medium">{issue.status}</span>
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+              </div>
+            {/if}
           </div>
         </div>
-
-        <!-- Quick Status Cards -->
-        <div class="space-y-4">
-          <!-- Service Status -->
+      {:else if currentTab === "maintenance"}
+        <!-- Maintenance & Service -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Service History -->
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <Icon icon="heroicons:wrench-screwdriver" class="w-5 h-5 mr-2 text-blue-500" />
-              Service Status
-            </h3>
-            <div class="space-y-3">
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600 dark:text-gray-400">Last Service:</span>
-                <span class="text-sm font-medium">{new Date(vehicle.lastService.date).toLocaleDateString()}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600 dark:text-gray-400">Next Due:</span>
-                <span class="text-sm font-medium text-orange-600">{new Date(vehicle.lastService.nextDue).toLocaleDateString()}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600 dark:text-gray-400">Cost:</span>
-                <span class="text-sm font-medium">{vehicle.lastService.cost}</span>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Service History</h3>
+            <div class="space-y-4">
+              <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <div class="flex items-center justify-between mb-2">
+                  <h4 class="font-semibold text-blue-800 dark:text-blue-200">{vehicle.lastService.type}</h4>
+                  <span class="text-sm text-blue-600">{vehicle.lastService.cost}</span>
+                </div>
+                <div class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                  <div>Date: {new Date(vehicle.lastService.date).toLocaleDateString()}</div>
+                  <div>Vendor: {vehicle.lastService.vendor}</div>
+                  <div>Next Due: {new Date(vehicle.lastService.nextDue).toLocaleDateString()}</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Insurance Status -->
-          {#if vehicle.insurance.status !== "Not Required"}
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                <Icon icon="heroicons:shield-check" class="w-5 h-5 mr-2 text-green-500" />
-                Insurance Status
-              </h3>
-              <div class="space-y-3">
-                <div class="flex justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Provider:</span>
-                  <span class="text-sm font-medium">{vehicle.insurance.provider}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Expires:</span>
-                  <span class="text-sm font-medium {isDocumentExpiringSoon(vehicle.insurance.endDate) ? 'text-red-600' : 'text-green-600'}">
-                    {new Date(vehicle.insurance.endDate).toLocaleDateString()}
-                  </span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Premium:</span>
-                  <span class="text-sm font-medium">{vehicle.insurance.premium}</span>
-                </div>
+          <!-- Preferred Vendors -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Preferred Service Vendors</h3>
+            <div class="space-y-4">
+              <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                <h4 class="font-medium text-green-800 dark:text-green-200 mb-1">Service Center</h4>
+                <p class="text-sm text-green-700 dark:text-green-300">{vehicle.preferences.serviceCenter}</p>
               </div>
+              {#if vehicle.preferences.mechanic}
+                <div class="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                  <h4 class="font-medium text-orange-800 dark:text-orange-200 mb-1">Trusted Mechanic</h4>
+                  <p class="text-sm text-orange-700 dark:text-orange-300">{vehicle.preferences.mechanic}</p>
+                </div>
+              {/if}
+              {#if vehicle.preferences.spareShop}
+                <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                  <h4 class="font-medium text-purple-800 dark:text-purple-200 mb-1">Spare Parts Shop</h4>
+                  <p class="text-sm text-purple-700 dark:text-purple-300">{vehicle.preferences.spareShop}</p>
+                </div>
+              {/if}
             </div>
-          {/if}
-
-          <!-- Recent Issues -->
-          {#if vehicle.issues && vehicle.issues.length > 0}
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                <Icon icon="heroicons:exclamation-triangle" class="w-5 h-5 mr-2 text-red-500" />
-                Recent Issues
-              </h3>
+          </div>
+        </div>
+      {:else if currentTab === "fuel"}
+        <!-- Fuel & Usage -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Recent Fuel Entries -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white">Recent Fuel Entries</h3>
+              {#if vehicle.type !== "cycle"}
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm" on:click={() => (showFuelEntry = true)}> Add Entry </button>
+              {/if}
+            </div>
+            {#if vehicle.recentFuelEntries && vehicle.recentFuelEntries.length > 0}
               <div class="space-y-3">
-                {#each vehicle.issues as issue}
-                  <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                    <div class="flex items-center justify-between mb-1">
-                      <span class="text-sm font-medium text-red-800 dark:text-red-200">{issue.issue}</span>
-                      <span class="px-2 py-1 text-xs rounded-full {getPriorityColor(issue.priority)}">
-                        {issue.priority}
-                      </span>
+                {#each vehicle.recentFuelEntries as entry}
+                  <div class="p-3 border border-gray-200 dark:border-gray-600 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="font-medium text-gray-900 dark:text-white">{entry.amount}</span>
+                      <span class="text-sm text-gray-500">{new Date(entry.date).toLocaleDateString()}</span>
                     </div>
-                    <div class="flex justify-between text-xs text-red-600 dark:text-red-400">
-                      <span>{new Date(issue.date).toLocaleDateString()}</span>
-                      <span class="font-medium">{issue.status}</span>
+                    <div class="grid grid-cols-3 gap-4 text-sm text-gray-600 dark:text-gray-400">
+                      <div>Liters: {entry.liters}</div>
+                      <div>Mileage: {entry.mileage}</div>
+                      <div>ODO: {entry.odometer}</div>
                     </div>
                   </div>
                 {/each}
               </div>
+            {:else}
+              <p class="text-gray-500 dark:text-gray-400 text-center py-4">No fuel entries for this vehicle</p>
+            {/if}
+          </div>
+
+          <!-- Fuel Analytics -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Fuel Analytics</h3>
+            {#if vehicle.type !== "cycle"}
+              <div class="space-y-4">
+                <div class="p-4 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg">
+                  <h4 class="font-medium text-green-800 dark:text-green-200 mb-2">Average Mileage</h4>
+                  <p class="text-2xl font-bold text-green-600">{calculateAverageMileage(vehicle)}</p>
+                </div>
+                <div class="p-4 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
+                  <h4 class="font-medium text-purple-800 dark:text-purple-200 mb-2">Preferred Fuel Station</h4>
+                  <p class="text-sm text-purple-700 dark:text-purple-300">{vehicle.preferences.fuelStation}</p>
+                </div>
+              </div>
+            {:else}
+              <div class="text-center py-8">
+                <Icon icon="heroicons:heart" class="w-16 h-16 mx-auto text-green-500 mb-4" />
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Eco-Friendly Transport</h4>
+                <p class="text-gray-600 dark:text-gray-400">This vehicle runs on human power - zero emissions!</p>
+              </div>
+            {/if}
+          </div>
+        </div>
+      {:else if currentTab === "documents"}
+        <!-- Documents & Insurance -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Document Status -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Document Status</h3>
+            <div class="space-y-4">
+              {#each Object.entries(vehicle.documents) as [docType, docInfo]}
+                <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                  <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-medium text-gray-900 dark:text-white uppercase">{docType}</h4>
+                    <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(docInfo.status)}">
+                      {docInfo.status}
+                    </span>
+                  </div>
+                  {#if docInfo.expiry}
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                      Expires: <span class={isDocumentExpiringSoon(docInfo.expiry) ? "text-red-600 font-medium" : ""}>{new Date(docInfo.expiry).toLocaleDateString()}</span>
+                    </div>
+                  {/if}
+                  {#if docInfo.holder}
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                      Holder: {docInfo.holder}
+                    </div>
+                  {/if}
+                  {#if docInfo.note}
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                      Note: {docInfo.note}
+                    </div>
+                  {/if}
+                </div>
+              {/each}
+            </div>
+          </div>
+
+          <!-- Insurance Details -->
+          {#if vehicle.insurance.status !== "Not Required"}
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Insurance Details</h3>
+              <div class="space-y-4">
+                <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                  <h4 class="font-medium text-green-800 dark:text-green-200 mb-3">Current Policy</h4>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Provider:</span>
+                      <span class="font-medium">{vehicle.insurance.provider}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Policy Number:</span>
+                      <span class="font-medium">{vehicle.insurance.policyNumber}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Coverage:</span>
+                      <span class="font-medium">{vehicle.insurance.coverage}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Premium:</span>
+                      <span class="font-medium text-green-600">{vehicle.insurance.premium}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-600 dark:text-gray-400">Valid Till:</span>
+                      <span class="font-medium {isDocumentExpiringSoon(vehicle.insurance.endDate) ? 'text-red-600' : 'text-green-600'}">
+                        {new Date(vehicle.insurance.endDate).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {:else}
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Insurance</h3>
+              <div class="text-center py-8">
+                <Icon icon="heroicons:information-circle" class="w-16 h-16 mx-auto text-blue-500 mb-4" />
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Insurance Required</h4>
+                <p class="text-gray-600 dark:text-gray-400">This vehicle doesn't require insurance coverage.</p>
+              </div>
             </div>
           {/if}
         </div>
-      </div>
-    {:else if currentTab === "maintenance"}
-      <!-- Maintenance & Service -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Service History -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Service History</h3>
-          <div class="space-y-4">
-            <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <div class="flex items-center justify-between mb-2">
-                <h4 class="font-semibold text-blue-800 dark:text-blue-200">{vehicle.lastService.type}</h4>
-                <span class="text-sm text-blue-600">{vehicle.lastService.cost}</span>
-              </div>
-              <div class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-                <div>Date: {new Date(vehicle.lastService.date).toLocaleDateString()}</div>
-                <div>Vendor: {vehicle.lastService.vendor}</div>
-                <div>Next Due: {new Date(vehicle.lastService.nextDue).toLocaleDateString()}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Preferred Vendors -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Preferred Service Vendors</h3>
-          <div class="space-y-4">
-            <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <h4 class="font-medium text-green-800 dark:text-green-200 mb-1">Service Center</h4>
-              <p class="text-sm text-green-700 dark:text-green-300">{vehicle.preferences.serviceCenter}</p>
-            </div>
-            {#if vehicle.preferences.mechanic}
-              <div class="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                <h4 class="font-medium text-orange-800 dark:text-orange-200 mb-1">Trusted Mechanic</h4>
-                <p class="text-sm text-orange-700 dark:text-orange-300">{vehicle.preferences.mechanic}</p>
-              </div>
-            {/if}
-            {#if vehicle.preferences.spareShop}
-              <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                <h4 class="font-medium text-purple-800 dark:text-purple-200 mb-1">Spare Parts Shop</h4>
-                <p class="text-sm text-purple-700 dark:text-purple-300">{vehicle.preferences.spareShop}</p>
-              </div>
-            {/if}
-          </div>
-        </div>
-      </div>
-    {:else if currentTab === "fuel"}
-      <!-- Fuel & Usage -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Recent Fuel Entries -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Recent Fuel Entries</h3>
-            {#if vehicle.type !== "cycle"}
-              <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm" on:click={() => (showFuelEntry = true)}> Add Entry </button>
-            {/if}
-          </div>
-          {#if vehicle.recentFuelEntries && vehicle.recentFuelEntries.length > 0}
-            <div class="space-y-3">
-              {#each vehicle.recentFuelEntries as entry}
-                <div class="p-3 border border-gray-200 dark:border-gray-600 rounded-lg">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="font-medium text-gray-900 dark:text-white">{entry.amount}</span>
-                    <span class="text-sm text-gray-500">{new Date(entry.date).toLocaleDateString()}</span>
-                  </div>
-                  <div class="grid grid-cols-3 gap-4 text-sm text-gray-600 dark:text-gray-400">
-                    <div>Liters: {entry.liters}</div>
-                    <div>Mileage: {entry.mileage}</div>
-                    <div>ODO: {entry.odometer}</div>
+      {:else if currentTab === "expenses"}
+        <!-- Expenses & Analytics -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Monthly Expenses -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Monthly Expenses</h3>
+            <div class="space-y-4">
+              {#each vehicle.monthlyExpenses as expense}
+                <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-3">{expense.month}</h4>
+                  <div class="space-y-2 text-sm">
+                    {#if expense.fuel}
+                      <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-400">Fuel:</span>
+                        <span class="font-medium">{expense.fuel}</span>
+                      </div>
+                    {/if}
+                    {#if expense.service}
+                      <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-400">Service:</span>
+                        <span class="font-medium">{expense.service}</span>
+                      </div>
+                    {/if}
+                    {#if expense.insurance}
+                      <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-400">Insurance:</span>
+                        <span class="font-medium">{expense.insurance}</span>
+                      </div>
+                    {/if}
+                    {#if expense.maintenance}
+                      <div class="flex justify-between">
+                        <span class="text-gray-600 dark:text-gray-400">Maintenance:</span>
+                        <span class="font-medium">{expense.maintenance}</span>
+                      </div>
+                    {/if}
+                    <div class="flex justify-between border-t pt-2">
+                      <span class="text-gray-900 dark:text-white font-medium">Total:</span>
+                      <span class="font-bold text-blue-600">{expense.total}</span>
+                    </div>
                   </div>
                 </div>
               {/each}
             </div>
-          {:else}
-            <p class="text-gray-500 dark:text-gray-400 text-center py-4">No fuel entries for this vehicle</p>
-          {/if}
-        </div>
-
-        <!-- Fuel Analytics -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Fuel Analytics</h3>
-          {#if vehicle.type !== "cycle"}
-            <div class="space-y-4">
-              <div class="p-4 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg">
-                <h4 class="font-medium text-green-800 dark:text-green-200 mb-2">Average Mileage</h4>
-                <p class="text-2xl font-bold text-green-600">{calculateAverageMileage(vehicle)}</p>
-              </div>
-              <div class="p-4 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
-                <h4 class="font-medium text-purple-800 dark:text-purple-200 mb-2">Preferred Fuel Station</h4>
-                <p class="text-sm text-purple-700 dark:text-purple-300">{vehicle.preferences.fuelStation}</p>
-              </div>
-            </div>
-          {:else}
-            <div class="text-center py-8">
-              <Icon icon="heroicons:heart" class="w-16 h-16 mx-auto text-green-500 mb-4" />
-              <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Eco-Friendly Transport</h4>
-              <p class="text-gray-600 dark:text-gray-400">This vehicle runs on human power - zero emissions!</p>
-            </div>
-          {/if}
-        </div>
-      </div>
-    {:else if currentTab === "documents"}
-      <!-- Documents & Insurance -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Document Status -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Document Status</h3>
-          <div class="space-y-4">
-            {#each Object.entries(vehicle.documents) as [docType, docInfo]}
-              <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
-                <div class="flex items-center justify-between mb-2">
-                  <h4 class="font-medium text-gray-900 dark:text-white uppercase">{docType}</h4>
-                  <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(docInfo.status)}">
-                    {docInfo.status}
-                  </span>
-                </div>
-                {#if docInfo.expiry}
-                  <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Expires: <span class={isDocumentExpiringSoon(docInfo.expiry) ? "text-red-600 font-medium" : ""}>{new Date(docInfo.expiry).toLocaleDateString()}</span>
-                  </div>
-                {/if}
-                {#if docInfo.holder}
-                  <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Holder: {docInfo.holder}
-                  </div>
-                {/if}
-                {#if docInfo.note}
-                  <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Note: {docInfo.note}
-                  </div>
-                {/if}
-              </div>
-            {/each}
           </div>
-        </div>
 
-        <!-- Insurance Details -->
-        {#if vehicle.insurance.status !== "Not Required"}
+          <!-- Cost Analytics -->
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Insurance Details</h3>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Cost Analytics</h3>
             <div class="space-y-4">
-              <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                <h4 class="font-medium text-green-800 dark:text-green-200 mb-3">Current Policy</h4>
-                <div class="space-y-2 text-sm">
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Provider:</span>
-                    <span class="font-medium">{vehicle.insurance.provider}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Policy Number:</span>
-                    <span class="font-medium">{vehicle.insurance.policyNumber}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Coverage:</span>
-                    <span class="font-medium">{vehicle.insurance.coverage}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Premium:</span>
-                    <span class="font-medium text-green-600">{vehicle.insurance.premium}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Valid Till:</span>
-                    <span class="font-medium {isDocumentExpiringSoon(vehicle.insurance.endDate) ? 'text-red-600' : 'text-green-600'}">
-                      {new Date(vehicle.insurance.endDate).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
+              <div class="p-4 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
+                <h4 class="font-medium text-blue-800 dark:text-blue-200 mb-2">Average Monthly Cost</h4>
+                <p class="text-2xl font-bold text-blue-600">₹{Math.round(vehicle.monthlyExpenses.reduce((sum, exp) => sum + parseInt(exp.total.replace(/[₹,]/g, "")), 0) / vehicle.monthlyExpenses.length).toLocaleString()}</p>
+              </div>
+              <div class="p-4 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
+                <h4 class="font-medium text-green-800 dark:text-green-200 mb-2">Total Investment</h4>
+                <p class="text-lg font-bold text-green-600">{vehicle.purchasePrice}</p>
+                <p class="text-sm text-green-700 dark:text-green-300">Current Value: {vehicle.currentValue}</p>
               </div>
             </div>
           </div>
-        {:else}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Insurance</h3>
-            <div class="text-center py-8">
-              <Icon icon="heroicons:information-circle" class="w-16 h-16 mx-auto text-blue-500 mb-4" />
-              <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Insurance Required</h4>
-              <p class="text-gray-600 dark:text-gray-400">This vehicle doesn't require insurance coverage.</p>
-            </div>
-          </div>
-        {/if}
-      </div>
-    {:else if currentTab === "expenses"}
-      <!-- Expenses & Analytics -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Monthly Expenses -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Monthly Expenses</h3>
-          <div class="space-y-4">
-            {#each vehicle.monthlyExpenses as expense}
-              <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
-                <h4 class="font-medium text-gray-900 dark:text-white mb-3">{expense.month}</h4>
-                <div class="space-y-2 text-sm">
-                  {#if expense.fuel}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Fuel:</span>
-                      <span class="font-medium">{expense.fuel}</span>
-                    </div>
-                  {/if}
-                  {#if expense.service}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Service:</span>
-                      <span class="font-medium">{expense.service}</span>
-                    </div>
-                  {/if}
-                  {#if expense.insurance}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Insurance:</span>
-                      <span class="font-medium">{expense.insurance}</span>
-                    </div>
-                  {/if}
-                  {#if expense.maintenance}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Maintenance:</span>
-                      <span class="font-medium">{expense.maintenance}</span>
-                    </div>
-                  {/if}
-                  <div class="flex justify-between border-t pt-2">
-                    <span class="text-gray-900 dark:text-white font-medium">Total:</span>
-                    <span class="font-bold text-blue-600">{expense.total}</span>
-                  </div>
-                </div>
-              </div>
-            {/each}
-          </div>
         </div>
-
-        <!-- Cost Analytics -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Cost Analytics</h3>
-          <div class="space-y-4">
-            <div class="p-4 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg">
-              <h4 class="font-medium text-blue-800 dark:text-blue-200 mb-2">Average Monthly Cost</h4>
-              <p class="text-2xl font-bold text-blue-600">₹{Math.round(vehicle.monthlyExpenses.reduce((sum, exp) => sum + parseInt(exp.total.replace(/[₹,]/g, "")), 0) / vehicle.monthlyExpenses.length).toLocaleString()}</p>
-            </div>
-            <div class="p-4 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
-              <h4 class="font-medium text-green-800 dark:text-green-200 mb-2">Total Investment</h4>
-              <p class="text-lg font-bold text-green-600">{vehicle.purchasePrice}</p>
-              <p class="text-sm text-green-700 dark:text-green-300">Current Value: {vehicle.currentValue}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/if}
     {/if}
 
     <!-- Vehicle Management Tips -->

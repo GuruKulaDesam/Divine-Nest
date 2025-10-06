@@ -17,6 +17,24 @@ class FamilyDatabase extends Dexie {
       // Personal Contacts
       contacts: '++id, name, phone, email, address, category, relationship, avatar, notes, createdAt',
       
+      // Wellness & Health
+      moodEntries: '++id, date, mood, intensity, notes, familyMember',
+      workouts: '++id, date, type, duration, familyMember, notes',
+      
+      // Vehicles & Maintenance
+      vehicles: '++id, make, model, year, registrationNumber, maintenanceSchedule',
+      
+      // Learning & Skills
+      learningGoals: '++id, title, subject, targetDate, progress, familyMember',
+      skills: '++id, name, category, level, familyMember',
+      
+      // Legacy & Memories
+      legacyItems: '++id, title, category, description, location, condition',
+      
+      // Leisure & Activities
+      leisureActivities: '++id, title, category, date, participants, notes',
+      communityEvents: '++id, title, date, location, participants, type',
+      
       // Education & Learning
       studyPlans: '++id, title, subject, studentName, dueDate, completed',
       books: '++id, title, author, category, shelf, progress, rating',
@@ -45,6 +63,10 @@ class FamilyDatabase extends Dexie {
       restaurants: '++id, name, cuisine, phone, address, rating, delivery',
       shops: '++id, name, category, phone, address, hours, speciality',
       transportation: '++id, type, name, phone, routes, schedule',
+      
+      // Travel & Trips
+      trips: '++id, destination, startDate, endDate, type, budget, participants, notes',
+      pilgrimages: '++id, temple, location, date, participants, significance, notes',
       
       // Life Flow & Memory
       emotions: '++id, date, emotion, intensity, trigger, familyMember',

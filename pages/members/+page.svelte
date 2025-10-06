@@ -326,9 +326,9 @@
     </div>
 
     <!-- Content -->
-    {@const member = getCurrentMember()}
-
     {#if currentTab === "profiles"}
+      {@const member = getCurrentMember()}
+
       <!-- Member Profile Overview -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Basic Info Card -->

@@ -566,9 +566,10 @@
         </div>
       </div>
     {:else if currentTab === "resources"}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Study Resources Cards -->
+      {#if true}
         {@const child = getCurrentChild()}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Study Resources Cards -->
         {#each child.subjects as subject}
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
             <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">{subject}</h3>
