@@ -90,9 +90,9 @@
       key: "issues",
       title: "🚨 Issues",
       icon: "heroicons:exclamation-triangle",
-      path: "/emergency",
+      path: "/issues-emergency",
       color: "text-red-600",
-      routes: ["/emergency", "/urgent", "/repairs", "/maintenance", "/requests"],
+      routes: ["/issues-emergency", "/urgent", "/repairs", "/maintenance", "/upgrades", "/requests"],
     },
     {
       key: "memories",
