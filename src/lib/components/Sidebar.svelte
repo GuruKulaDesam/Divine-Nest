@@ -26,9 +26,9 @@
       key: "divinity",
       title: "🕉️ Divinity",
       icon: "heroicons:sparkles",
-      path: "/rituals",
+      path: "/tamil-panchangam",
       color: "text-orange-600",
-      routes: ["/rituals", "/temple", "/festival-calendar", "/mantras", "/tamil-panchangam"],
+      routes: ["/tamil-panchangam", "/rituals", "/temple", "/festival-calendar", "/mantras"],
     },
     {
       key: "contacts",
