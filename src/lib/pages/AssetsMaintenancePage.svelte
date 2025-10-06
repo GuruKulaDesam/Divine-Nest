@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import DashboardLayout from "../components/DashboardLayout.svelte";
 
   let currentView = "schedule";
   let searchTerm = "";
@@ -257,245 +256,243 @@
   }
 </script>
 
-<DashboardLayout>
-  <div class="space-y-6">
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl text-white shadow-lg">
-          <Icon icon="heroicons:wrench-screwdriver" class="w-8 h-8" />
-        </div>
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl text-white shadow-lg">
+        <Icon icon="heroicons:wrench-screwdriver" class="w-8 h-8" />
+      </div>
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Maintenance & Service</h1>
+        <p class="text-gray-600 dark:text-gray-300">Schedule, track, and manage asset maintenance</p>
+      </div>
+    </div>
+    <button class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-xl hover:from-orange-600 hover:to-red-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
+      <Icon icon="heroicons:plus" class="w-5 h-5" />
+      <span>Schedule Service</span>
+    </button>
+  </div>
+
+  <!-- View Tabs -->
+  <div class="flex space-x-2">
+    {#each views as view}
+      <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-orange-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-orange-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-orange-900/20'}" on:click={() => (currentView = view.id)}>
+        <Icon icon={view.icon} class="w-4 h-4" />
+        <span class="font-medium">{view.label}</span>
+      </button>
+    {/each}
+  </div>
+
+  <!-- Service Schedule View -->
+  {#if currentView === "schedule"}
+    <!-- Filters -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Maintenance & Service</h1>
-          <p class="text-gray-600 dark:text-gray-300">Schedule, track, and manage asset maintenance</p>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Services</label>
+          <div class="relative">
+            <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input type="text" bind:value={searchTerm} placeholder="Search by asset, service type, or vendor..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:text-white" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+          <select bind:value={selectedStatus} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:text-white">
+            <option value="all">All Status</option>
+            <option value="overdue">Overdue</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="completed">Completed</option>
+          </select>
         </div>
       </div>
-      <button class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-xl hover:from-orange-600 hover:to-red-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
-        <Icon icon="heroicons:plus" class="w-5 h-5" />
-        <span>Schedule Service</span>
-      </button>
     </div>
 
-    <!-- View Tabs -->
-    <div class="flex space-x-2">
-      {#each views as view}
-        <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-orange-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-orange-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-orange-900/20'}" on:click={() => (currentView = view.id)}>
-          <Icon icon={view.icon} class="w-4 h-4" />
-          <span class="font-medium">{view.label}</span>
-        </button>
+    <!-- Maintenance Items -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {#each filteredItems as item}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+          <div class="p-6">
+            <!-- Item Header -->
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{item.assetName}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{item.tamilName}</p>
+                <p class="text-sm font-medium text-orange-600 dark:text-orange-400 mt-1">{item.serviceType}</p>
+                <div class="flex items-center space-x-2 mt-2">
+                  <span class="px-2 py-1 text-xs font-medium border rounded-full {getPriorityColor(item.priority)}">
+                    {item.priority} priority
+                  </span>
+                  <span class="px-2 py-1 text-xs font-medium border rounded-full {getStatusColor(item.status)}">
+                    {item.status}
+                  </span>
+                </div>
+              </div>
+
+              <div class="text-right">
+                <p class="text-sm text-gray-600 dark:text-gray-400">Due in</p>
+                <p class="text-2xl font-bold {getDaysUntilDue(item.dueDate) < 0 ? 'text-red-600' : getDaysUntilDue(item.dueDate) <= 7 ? 'text-orange-600' : 'text-green-600'}">
+                  {Math.abs(getDaysUntilDue(item.dueDate))}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  {getDaysUntilDue(item.dueDate) < 0 ? "days ago" : "days"}
+                </p>
+              </div>
+            </div>
+
+            <!-- Item Details -->
+            <div class="space-y-3">
+              <div>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Service Description:</p>
+                <p class="text-sm text-gray-900 dark:text-white">{item.description}</p>
+              </div>
+
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600 dark:text-gray-400">Vendor:</span>
+                <span class="font-medium text-gray-900 dark:text-white">{item.vendor}</span>
+              </div>
+
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600 dark:text-gray-400">Estimated Cost:</span>
+                <span class="font-medium text-gray-900 dark:text-white">{formatCurrency(item.estimatedCost)}</span>
+              </div>
+
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600 dark:text-gray-400">Due Date:</span>
+                <span class="font-medium text-gray-900 dark:text-white">{formatDate(item.dueDate)}</span>
+              </div>
+
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600 dark:text-gray-400">Frequency:</span>
+                <span class="font-medium text-gray-900 dark:text-white">{item.frequency}</span>
+              </div>
+
+              {#if item.notes}
+                <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{item.notes}</p>
+                </div>
+              {/if}
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex space-x-2 mt-6">
+              <button class="flex-1 bg-orange-50 text-orange-600 px-4 py-2 rounded-lg hover:bg-orange-100 transition-colors text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400 dark:hover:bg-orange-900/50"> Schedule </button>
+              <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> Contact Vendor </button>
+            </div>
+          </div>
+        </div>
       {/each}
     </div>
 
-    <!-- Service Schedule View -->
-    {#if currentView === "schedule"}
-      <!-- Filters -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Services</label>
-            <div class="relative">
-              <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input type="text" bind:value={searchTerm} placeholder="Search by asset, service type, or vendor..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:text-white" />
+    <!-- Service History View -->
+  {:else if currentView === "history"}
+    <div class="space-y-6">
+      {#each serviceHistory as service}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white">{service.assetName}</h3>
+              <p class="text-sm font-medium text-green-600 dark:text-green-400">{service.serviceType}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Serviced on {formatDate(service.serviceDate)}</p>
+            </div>
+            <div class="text-right">
+              <div class="text-yellow-500 text-lg mb-1">{getRatingStars(service.rating)}</div>
+              <p class="text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(service.cost)}</p>
             </div>
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
-            <select bind:value={selectedStatus} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:text-white">
-              <option value="all">All Status</option>
-              <option value="overdue">Overdue</option>
-              <option value="upcoming">Upcoming</option>
-              <option value="scheduled">Scheduled</option>
-              <option value="completed">Completed</option>
-            </select>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <p class="text-gray-600 dark:text-gray-400 mb-1">Vendor:</p>
+              <p class="font-medium text-gray-900 dark:text-white">{service.vendor}</p>
+            </div>
+            <div>
+              <p class="text-gray-600 dark:text-gray-400 mb-1">Technician:</p>
+              <p class="font-medium text-gray-900 dark:text-white">{service.technician}</p>
+            </div>
+            <div>
+              <p class="text-gray-600 dark:text-gray-400 mb-1">Invoice Number:</p>
+              <p class="font-mono text-gray-900 dark:text-white">{service.invoiceNumber}</p>
+            </div>
+            <div>
+              <p class="text-gray-600 dark:text-gray-400 mb-1">Next Service Due:</p>
+              <p class="font-medium text-gray-900 dark:text-white">{formatDate(service.nextDue)}</p>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <p class="text-gray-600 dark:text-gray-400 mb-1">Work Done:</p>
+            <p class="text-sm text-gray-900 dark:text-white">{service.workDone}</p>
           </div>
         </div>
-      </div>
+      {/each}
+    </div>
 
-      <!-- Maintenance Items -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {#each filteredItems as item}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
-            <div class="p-6">
-              <!-- Item Header -->
-              <div class="flex items-start justify-between mb-4">
-                <div class="flex-1">
-                  <h3 class="text-lg font-bold text-gray-900 dark:text-white">{item.assetName}</h3>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{item.tamilName}</p>
-                  <p class="text-sm font-medium text-orange-600 dark:text-orange-400 mt-1">{item.serviceType}</p>
-                  <div class="flex items-center space-x-2 mt-2">
-                    <span class="px-2 py-1 text-xs font-medium border rounded-full {getPriorityColor(item.priority)}">
-                      {item.priority} priority
-                    </span>
-                    <span class="px-2 py-1 text-xs font-medium border rounded-full {getStatusColor(item.status)}">
-                      {item.status}
-                    </span>
-                  </div>
-                </div>
-
-                <div class="text-right">
-                  <p class="text-sm text-gray-600 dark:text-gray-400">Due in</p>
-                  <p class="text-2xl font-bold {getDaysUntilDue(item.dueDate) < 0 ? 'text-red-600' : getDaysUntilDue(item.dueDate) <= 7 ? 'text-orange-600' : 'text-green-600'}">
-                    {Math.abs(getDaysUntilDue(item.dueDate))}
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    {getDaysUntilDue(item.dueDate) < 0 ? "days ago" : "days"}
-                  </p>
-                </div>
+    <!-- Vendors Directory View -->
+  {:else if currentView === "vendors"}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {#each vendors as vendor}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white">{vendor.name}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{vendor.specialization}</p>
+              <div class="flex items-center space-x-2 mt-2">
+                <div class="text-yellow-500">{getRatingStars(vendor.rating)}</div>
+                <span class="text-sm text-gray-600 dark:text-gray-400">({vendor.rating})</span>
               </div>
-
-              <!-- Item Details -->
-              <div class="space-y-3">
-                <div>
-                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Service Description:</p>
-                  <p class="text-sm text-gray-900 dark:text-white">{item.description}</p>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-gray-600 dark:text-gray-400">Vendor:</span>
-                  <span class="font-medium text-gray-900 dark:text-white">{item.vendor}</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-gray-600 dark:text-gray-400">Estimated Cost:</span>
-                  <span class="font-medium text-gray-900 dark:text-white">{formatCurrency(item.estimatedCost)}</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-gray-600 dark:text-gray-400">Due Date:</span>
-                  <span class="font-medium text-gray-900 dark:text-white">{formatDate(item.dueDate)}</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-gray-600 dark:text-gray-400">Frequency:</span>
-                  <span class="font-medium text-gray-900 dark:text-white">{item.frequency}</span>
-                </div>
-
-                {#if item.notes}
-                  <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{item.notes}</p>
-                  </div>
-                {/if}
-              </div>
-
-              <!-- Action Buttons -->
-              <div class="flex space-x-2 mt-6">
-                <button class="flex-1 bg-orange-50 text-orange-600 px-4 py-2 rounded-lg hover:bg-orange-100 transition-colors text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400 dark:hover:bg-orange-900/50"> Schedule </button>
-                <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> Contact Vendor </button>
-              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-gray-900 dark:text-white">{vendor.pricing}</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">{vendor.experience}</p>
             </div>
           </div>
-        {/each}
-      </div>
 
-      <!-- Service History View -->
-    {:else if currentView === "history"}
-      <div class="space-y-6">
-        {#each serviceHistory as service}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex-1">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{service.assetName}</h3>
-                <p class="text-sm font-medium text-green-600 dark:text-green-400">{service.serviceType}</p>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Serviced on {formatDate(service.serviceDate)}</p>
-              </div>
-              <div class="text-right">
-                <div class="text-yellow-500 text-lg mb-1">{getRatingStars(service.rating)}</div>
-                <p class="text-sm font-bold text-gray-900 dark:text-white">{formatCurrency(service.cost)}</p>
-              </div>
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center space-x-2">
+              <Icon icon="heroicons:phone" class="w-4 h-4 text-gray-400" />
+              <span class="text-gray-900 dark:text-white">{vendor.phone}</span>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <p class="text-gray-600 dark:text-gray-400 mb-1">Vendor:</p>
-                <p class="font-medium text-gray-900 dark:text-white">{service.vendor}</p>
-              </div>
-              <div>
-                <p class="text-gray-600 dark:text-gray-400 mb-1">Technician:</p>
-                <p class="font-medium text-gray-900 dark:text-white">{service.technician}</p>
-              </div>
-              <div>
-                <p class="text-gray-600 dark:text-gray-400 mb-1">Invoice Number:</p>
-                <p class="font-mono text-gray-900 dark:text-white">{service.invoiceNumber}</p>
-              </div>
-              <div>
-                <p class="text-gray-600 dark:text-gray-400 mb-1">Next Service Due:</p>
-                <p class="font-medium text-gray-900 dark:text-white">{formatDate(service.nextDue)}</p>
-              </div>
+            <div class="flex items-start space-x-2">
+              <Icon icon="heroicons:map-pin" class="w-4 h-4 text-gray-400 mt-0.5" />
+              <span class="text-gray-900 dark:text-white flex-1">{vendor.address}</span>
             </div>
 
-            <div class="mt-4">
-              <p class="text-gray-600 dark:text-gray-400 mb-1">Work Done:</p>
-              <p class="text-sm text-gray-900 dark:text-white">{service.workDone}</p>
+            <div class="flex items-center space-x-2">
+              <Icon icon="heroicons:clock" class="w-4 h-4 text-gray-400" />
+              <span class="text-gray-900 dark:text-white">{vendor.availability}</span>
             </div>
+
+            {#if vendor.certifications.length > 0}
+              <div>
+                <p class="text-gray-600 dark:text-gray-400 mb-1">Certifications:</p>
+                <div class="flex flex-wrap gap-1">
+                  {#each vendor.certifications as cert}
+                    <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full dark:bg-blue-900/30 dark:text-blue-400">{cert}</span>
+                  {/each}
+                </div>
+              </div>
+            {/if}
+
+            {#if vendor.notes}
+              <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                <p class="text-gray-600 dark:text-gray-400">{vendor.notes}</p>
+              </div>
+            {/if}
           </div>
-        {/each}
-      </div>
 
-      <!-- Vendors Directory View -->
-    {:else if currentView === "vendors"}
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {#each vendors as vendor}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex-1">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{vendor.name}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">{vendor.specialization}</p>
-                <div class="flex items-center space-x-2 mt-2">
-                  <div class="text-yellow-500">{getRatingStars(vendor.rating)}</div>
-                  <span class="text-sm text-gray-600 dark:text-gray-400">({vendor.rating})</span>
-                </div>
-              </div>
-              <div class="text-right">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">{vendor.pricing}</p>
-                <p class="text-xs text-gray-600 dark:text-gray-400">{vendor.experience}</p>
-              </div>
-            </div>
-
-            <div class="space-y-3 text-sm">
-              <div class="flex items-center space-x-2">
-                <Icon icon="heroicons:phone" class="w-4 h-4 text-gray-400" />
-                <span class="text-gray-900 dark:text-white">{vendor.phone}</span>
-              </div>
-
-              <div class="flex items-start space-x-2">
-                <Icon icon="heroicons:map-pin" class="w-4 h-4 text-gray-400 mt-0.5" />
-                <span class="text-gray-900 dark:text-white flex-1">{vendor.address}</span>
-              </div>
-
-              <div class="flex items-center space-x-2">
-                <Icon icon="heroicons:clock" class="w-4 h-4 text-gray-400" />
-                <span class="text-gray-900 dark:text-white">{vendor.availability}</span>
-              </div>
-
-              {#if vendor.certifications.length > 0}
-                <div>
-                  <p class="text-gray-600 dark:text-gray-400 mb-1">Certifications:</p>
-                  <div class="flex flex-wrap gap-1">
-                    {#each vendor.certifications as cert}
-                      <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full dark:bg-blue-900/30 dark:text-blue-400">{cert}</span>
-                    {/each}
-                  </div>
-                </div>
-              {/if}
-
-              {#if vendor.notes}
-                <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
-                  <p class="text-gray-600 dark:text-gray-400">{vendor.notes}</p>
-                </div>
-              {/if}
-            </div>
-
-            <div class="flex space-x-2 mt-6">
-              <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Call Now </button>
-              <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> Schedule Service </button>
-            </div>
+          <div class="flex space-x-2 mt-6">
+            <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Call Now </button>
+            <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> Schedule Service </button>
           </div>
-        {/each}
-      </div>
-    {/if}
-  </div>
-</DashboardLayout>
+        </div>
+      {/each}
+    </div>
+  {/if}
+</div>
 
 <!-- Add Maintenance Item Modal -->
 {#if showAddModal}

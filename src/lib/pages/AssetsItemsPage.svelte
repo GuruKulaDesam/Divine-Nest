@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import DashboardLayout from "../components/DashboardLayout.svelte";
 
   let searchTerm = "";
   let selectedCategory = "all";
@@ -177,149 +176,147 @@
   }
 </script>
 
-<DashboardLayout>
-  <div class="space-y-6">
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl text-white shadow-lg">
-          <Icon icon="heroicons:cube" class="w-8 h-8" />
-        </div>
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Physical Assets</h1>
-          <p class="text-gray-600 dark:text-gray-300">Complete inventory of all household items</p>
-        </div>
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="p-3 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl text-white shadow-lg">
+        <Icon icon="heroicons:cube" class="w-8 h-8" />
       </div>
-      <button class="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-blue-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
-        <Icon icon="heroicons:plus" class="w-5 h-5" />
-        <span>Add Asset</span>
-      </button>
-    </div>
-
-    <!-- Filters -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label>
-          <div class="relative">
-            <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input type="text" bind:value={searchTerm} placeholder="Search by name, brand, or Tamil name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-          <select bind:value={selectedCategory} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-            <option value="all">All Categories</option>
-            {#each categories as category}
-              <option value={category.id}>{category.name}</option>
-            {/each}
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
-          <select bind:value={selectedLocation} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-            <option value="all">All Locations</option>
-            {#each locations as location}
-              <option value={location}>{location}</option>
-            {/each}
-          </select>
-        </div>
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Physical Assets</h1>
+        <p class="text-gray-600 dark:text-gray-300">Complete inventory of all household items</p>
       </div>
     </div>
-
-    <!-- Assets Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each filteredAssets as asset}
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
-          <!-- Asset Image Placeholder -->
-          <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-t-xl flex items-center justify-center">
-            <div class="text-center">
-              <Icon icon={getCategoryInfo(asset.category).icon} class="w-16 h-16 {getCategoryInfo(asset.category).color} mx-auto mb-2" />
-              <p class="text-sm text-gray-600 dark:text-gray-400">Photo coming soon</p>
-            </div>
-          </div>
-
-          <div class="p-6">
-            <!-- Asset Header -->
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex-1">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{asset.name}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">{asset.tamilName}</p>
-                <div class="flex items-center space-x-2 mt-2">
-                  <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-900/30 dark:text-blue-400">
-                    {getCategoryInfo(asset.category).name}
-                  </span>
-                  <span class="px-2 py-1 text-xs font-medium border rounded-full {getConditionColor(asset.condition)}">
-                    {asset.condition}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Asset Details -->
-            <div class="space-y-3">
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-gray-600 dark:text-gray-400">Brand:</span>
-                <span class="font-medium text-gray-900 dark:text-white">{asset.brand}</span>
-              </div>
-
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-gray-600 dark:text-gray-400">Location:</span>
-                <span class="font-medium text-gray-900 dark:text-white">{asset.location}</span>
-              </div>
-
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-gray-600 dark:text-gray-400">Purchase:</span>
-                <span class="font-medium text-gray-900 dark:text-white">{formatCurrency(asset.purchasePrice)}</span>
-              </div>
-
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-gray-600 dark:text-gray-400">Current Value:</span>
-                <span class="font-medium text-gray-900 dark:text-white">{formatCurrency(asset.currentValue)}</span>
-              </div>
-
-              {#if asset.warranty}
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-gray-600 dark:text-gray-400">Warranty:</span>
-                  <span class="font-medium {isWarrantyExpiringSoon(asset.warranty) ? 'text-orange-600' : 'text-gray-900 dark:text-white'}">
-                    {new Date(asset.warranty).toLocaleDateString()}
-                    {#if isWarrantyExpiringSoon(asset.warranty)}
-                      <Icon icon="heroicons:exclamation-triangle" class="w-4 h-4 inline ml-1 text-orange-500" />
-                    {/if}
-                  </span>
-                </div>
-              {/if}
-
-              {#if asset.notes}
-                <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{asset.notes}</p>
-                </div>
-              {/if}
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex space-x-2 mt-6">
-              <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> View Details </button>
-              <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Service Log </button>
-            </div>
-          </div>
-        </div>
-      {/each}
-    </div>
-
-    {#if filteredAssets.length === 0}
-      <div class="text-center py-12">
-        <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-full w-16 h-16 mx-auto mb-4">
-          <Icon icon="heroicons:magnifying-glass" class="w-8 h-8 text-gray-400" />
-        </div>
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No assets found</h3>
-        <p class="text-gray-600 dark:text-gray-400">Try adjusting your search or filter criteria.</p>
-      </div>
-    {/if}
+    <button class="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-blue-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
+      <Icon icon="heroicons:plus" class="w-5 h-5" />
+      <span>Add Asset</span>
+    </button>
   </div>
-</DashboardLayout>
+
+  <!-- Filters -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label>
+        <div class="relative">
+          <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <input type="text" bind:value={searchTerm} placeholder="Search by name, brand, or Tamil name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+        <select bind:value={selectedCategory} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          <option value="all">All Categories</option>
+          {#each categories as category}
+            <option value={category.id}>{category.name}</option>
+          {/each}
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+        <select bind:value={selectedLocation} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          <option value="all">All Locations</option>
+          {#each locations as location}
+            <option value={location}>{location}</option>
+          {/each}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assets Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {#each filteredAssets as asset}
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+        <!-- Asset Image Placeholder -->
+        <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-t-xl flex items-center justify-center">
+          <div class="text-center">
+            <Icon icon={getCategoryInfo(asset.category).icon} class="w-16 h-16 {getCategoryInfo(asset.category).color} mx-auto mb-2" />
+            <p class="text-sm text-gray-600 dark:text-gray-400">Photo coming soon</p>
+          </div>
+        </div>
+
+        <div class="p-6">
+          <!-- Asset Header -->
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white">{asset.name}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{asset.tamilName}</p>
+              <div class="flex items-center space-x-2 mt-2">
+                <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-900/30 dark:text-blue-400">
+                  {getCategoryInfo(asset.category).name}
+                </span>
+                <span class="px-2 py-1 text-xs font-medium border rounded-full {getConditionColor(asset.condition)}">
+                  {asset.condition}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Asset Details -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600 dark:text-gray-400">Brand:</span>
+              <span class="font-medium text-gray-900 dark:text-white">{asset.brand}</span>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600 dark:text-gray-400">Location:</span>
+              <span class="font-medium text-gray-900 dark:text-white">{asset.location}</span>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600 dark:text-gray-400">Purchase:</span>
+              <span class="font-medium text-gray-900 dark:text-white">{formatCurrency(asset.purchasePrice)}</span>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600 dark:text-gray-400">Current Value:</span>
+              <span class="font-medium text-gray-900 dark:text-white">{formatCurrency(asset.currentValue)}</span>
+            </div>
+
+            {#if asset.warranty}
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600 dark:text-gray-400">Warranty:</span>
+                <span class="font-medium {isWarrantyExpiringSoon(asset.warranty) ? 'text-orange-600' : 'text-gray-900 dark:text-white'}">
+                  {new Date(asset.warranty).toLocaleDateString()}
+                  {#if isWarrantyExpiringSoon(asset.warranty)}
+                    <Icon icon="heroicons:exclamation-triangle" class="w-4 h-4 inline ml-1 text-orange-500" />
+                  {/if}
+                </span>
+              </div>
+            {/if}
+
+            {#if asset.notes}
+              <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                <p class="text-sm text-gray-600 dark:text-gray-400">{asset.notes}</p>
+              </div>
+            {/if}
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex space-x-2 mt-6">
+            <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> View Details </button>
+            <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Service Log </button>
+          </div>
+        </div>
+      </div>
+    {/each}
+  </div>
+
+  {#if filteredAssets.length === 0}
+    <div class="text-center py-12">
+      <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-full w-16 h-16 mx-auto mb-4">
+        <Icon icon="heroicons:magnifying-glass" class="w-8 h-8 text-gray-400" />
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No assets found</h3>
+      <p class="text-gray-600 dark:text-gray-400">Try adjusting your search or filter criteria.</p>
+    </div>
+  {/if}
+</div>
 
 <!-- Add Asset Modal -->
 {#if showAddModal}

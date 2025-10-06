@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import DashboardLayout from "../components/DashboardLayout.svelte";
 
   let currentView = "overview";
   let searchTerm = "";
@@ -246,331 +245,329 @@
   }
 </script>
 
-<DashboardLayout>
-  <div class="space-y-6">
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl text-white shadow-lg">
-          <Icon icon="heroicons:chart-pie" class="w-8 h-8" />
-        </div>
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Asset Value Tracking</h1>
-          <p class="text-gray-600 dark:text-gray-300">Monitor and track your asset portfolio value</p>
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl text-white shadow-lg">
+        <Icon icon="heroicons:chart-pie" class="w-8 h-8" />
+      </div>
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Asset Value Tracking</h1>
+        <p class="text-gray-600 dark:text-gray-300">Monitor and track your asset portfolio value</p>
+      </div>
+    </div>
+    <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
+      <Icon icon="heroicons:plus" class="w-5 h-5" />
+      <span>Add Valuation</span>
+    </button>
+  </div>
+
+  <!-- View Tabs -->
+  <div class="flex space-x-2">
+    {#each views as view}
+      <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-green-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-green-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-green-900/20'}" on:click={() => (currentView = view.id)}>
+        <Icon icon={view.icon} class="w-4 h-4" />
+        <span class="font-medium">{view.label}</span>
+      </button>
+    {/each}
+  </div>
+
+  <!-- Portfolio Overview -->
+  {#if currentView === "overview"}
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Total Portfolio Value</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(portfolioSummary.totalValue)}</p>
+          </div>
+          <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+            <Icon icon="heroicons:currency-rupee" class="w-6 h-6 text-green-600 dark:text-green-400" />
+          </div>
         </div>
       </div>
-      <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
-        <Icon icon="heroicons:plus" class="w-5 h-5" />
-        <span>Add Valuation</span>
-      </button>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Total Investment</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(portfolioSummary.purchaseValue)}</p>
+          </div>
+          <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+            <Icon icon="heroicons:shopping-cart" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Net Appreciation</p>
+            <p class="text-2xl font-bold text-green-600">{formatCurrency(portfolioSummary.appreciation)}</p>
+            <p class="text-sm text-green-600">+{portfolioSummary.appreciationPercent}%</p>
+          </div>
+          <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+            <Icon icon="heroicons:arrow-trending-up" class="w-6 h-6 text-green-600 dark:text-green-400" />
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Appreciating Assets</p>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">{portfolioSummary.appreciatingAssets}/{portfolioSummary.appreciatingAssets + portfolioSummary.depreciatingAssets}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{Math.round((portfolioSummary.appreciatingAssets / (portfolioSummary.appreciatingAssets + portfolioSummary.depreciatingAssets)) * 100)}% of portfolio</p>
+          </div>
+          <div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+            <Icon icon="heroicons:chart-bar" class="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- View Tabs -->
-    <div class="flex space-x-2">
-      {#each views as view}
-        <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-green-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-green-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-green-900/20'}" on:click={() => (currentView = view.id)}>
-          <Icon icon={view.icon} class="w-4 h-4" />
-          <span class="font-medium">{view.label}</span>
-        </button>
+    <!-- Category Breakdown -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Category Breakdown</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {#each categoryStats as category}
+          <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <div class="p-2 bg-gradient-to-r {getCategoryColor(category.category)} rounded-lg text-white">
+                  <Icon icon={getCategoryIcon(category.category)} class="w-4 h-4" />
+                </div>
+                <span class="font-medium text-gray-900 dark:text-white capitalize">{category.category}</span>
+              </div>
+              <span class="text-sm text-gray-600 dark:text-gray-400">{category.count} items</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(category.totalValue)}</span>
+              <span class="text-sm font-medium {category.change > 0 ? 'text-green-600' : 'text-red-600'}">
+                {category.change > 0 ? "+" : ""}{category.change.toFixed(1)}%
+              </span>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+
+    <!-- Asset Valuations View -->
+  {:else if currentView === "valuations"}
+    <!-- Filters -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label>
+          <div class="relative">
+            <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input type="text" bind:value={searchTerm} placeholder="Search by asset name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+          <select bind:value={selectedCategory} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white">
+            <option value="all">All Categories</option>
+            <option value="jewelry">Jewelry</option>
+            <option value="vehicles">Vehicles</option>
+            <option value="electronics">Electronics</option>
+            <option value="furniture">Furniture</option>
+            <option value="appliances">Appliances</option>
+            <option value="collectibles">Collectibles</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Asset Valuations -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {#each filteredAssets as asset}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+          <div class="p-6">
+            <!-- Asset Header -->
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-start space-x-3">
+                <div class="p-3 bg-gradient-to-r {getCategoryColor(asset.category)} rounded-lg text-white">
+                  <Icon icon={getCategoryIcon(asset.category)} class="w-6 h-6" />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-bold text-gray-900 dark:text-white">{asset.name}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{asset.tamilName}</p>
+                  <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full mt-1 dark:bg-gray-700 dark:text-gray-300 capitalize">
+                    {asset.category}
+                  </span>
+                </div>
+              </div>
+
+              <div class="text-right">
+                <div class="flex items-center space-x-1 {getTrendColor(asset.trend)}">
+                  <Icon icon={getTrendIcon(asset.trend)} class="w-4 h-4" />
+                  <span class="text-sm font-medium">
+                    {asset.changePercent > 0 ? "+" : ""}{asset.changePercent.toFixed(1)}%
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Value Information -->
+            <div class="space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Purchase Value</p>
+                  <p class="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(asset.purchaseValue)}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{formatDate(asset.purchaseDate)}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Current Value</p>
+                  <p class="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(asset.currentValue)}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">{formatDate(asset.lastValuation)}</p>
+                </div>
+              </div>
+
+              <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm text-gray-600 dark:text-gray-400">Value Change</span>
+                  <span class="font-medium {asset.valueChange > 0 ? 'text-green-600' : 'text-red-600'}">
+                    {asset.valueChange > 0 ? "+" : ""}{formatCurrency(asset.valueChange)}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Asset Details -->
+              <div class="space-y-2 text-sm">
+                {#if asset.weight}
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Weight:</span>
+                    <span class="text-gray-900 dark:text-white">{asset.weight}</span>
+                  </div>
+                {/if}
+                {#if asset.purity}
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Purity:</span>
+                    <span class="text-gray-900 dark:text-white">{asset.purity}</span>
+                  </div>
+                {/if}
+                {#if asset.model}
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Model:</span>
+                    <span class="text-gray-900 dark:text-white">{asset.model}</span>
+                  </div>
+                {/if}
+                {#if asset.condition}
+                  <div class="flex justify-between">
+                    <span class="text-gray-600 dark:text-gray-400">Condition:</span>
+                    <span class="text-gray-900 dark:text-white">{asset.condition}</span>
+                  </div>
+                {/if}
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-400">Appraised by:</span>
+                  <span class="text-gray-900 dark:text-white">{asset.appraisedBy}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600 dark:text-gray-400">Next valuation:</span>
+                  <span class="text-gray-900 dark:text-white">{getTimeUntilNextValuation(asset.nextValuation)}</span>
+                </div>
+              </div>
+
+              {#if asset.notes}
+                <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{asset.notes}</p>
+                </div>
+              {/if}
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex space-x-2 mt-6">
+              <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Update Value </button>
+              <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> View History </button>
+            </div>
+          </div>
+        </div>
       {/each}
     </div>
 
-    <!-- Portfolio Overview -->
-    {#if currentView === "overview"}
-      <!-- Summary Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Total Portfolio Value</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(portfolioSummary.totalValue)}</p>
-            </div>
-            <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <Icon icon="heroicons:currency-rupee" class="w-6 h-6 text-green-600 dark:text-green-400" />
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Total Investment</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(portfolioSummary.purchaseValue)}</p>
-            </div>
-            <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-              <Icon icon="heroicons:shopping-cart" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Net Appreciation</p>
-              <p class="text-2xl font-bold text-green-600">{formatCurrency(portfolioSummary.appreciation)}</p>
-              <p class="text-sm text-green-600">+{portfolioSummary.appreciationPercent}%</p>
-            </div>
-            <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <Icon icon="heroicons:arrow-trending-up" class="w-6 h-6 text-green-600 dark:text-green-400" />
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Appreciating Assets</p>
-              <p class="text-2xl font-bold text-gray-900 dark:text-white">{portfolioSummary.appreciatingAssets}/{portfolioSummary.appreciatingAssets + portfolioSummary.depreciatingAssets}</p>
-              <p class="text-sm text-gray-600 dark:text-gray-400">{Math.round((portfolioSummary.appreciatingAssets / (portfolioSummary.appreciatingAssets + portfolioSummary.depreciatingAssets)) * 100)}% of portfolio</p>
-            </div>
-            <div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
-              <Icon icon="heroicons:chart-bar" class="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
-            </div>
-          </div>
+    <!-- Value Trends View -->
+  {:else if currentView === "trends"}
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Portfolio Value Trends</h3>
+        <div class="flex space-x-2">
+          {#each [{ id: "1m", label: "1M" }, { id: "3m", label: "3M" }, { id: "6m", label: "6M" }, { id: "1y", label: "1Y" }, { id: "all", label: "All" }] as timeframe}
+            <button class="px-3 py-1 text-sm rounded-lg transition-colors duration-200 {selectedTimeframe === timeframe.id ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'}" on:click={() => (selectedTimeframe = timeframe.id)}>
+              {timeframe.label}
+            </button>
+          {/each}
         </div>
       </div>
 
-      <!-- Category Breakdown -->
+      <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
+        <div class="text-center">
+          <Icon icon="heroicons:chart-bar" class="w-12 h-12 text-gray-400 mx-auto mb-3" />
+          <p class="text-gray-600 dark:text-gray-400">Value trend chart would be displayed here</p>
+          <p class="text-sm text-gray-500 dark:text-gray-500">Integration with charting library required</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Performers -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Category Breakdown</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {#each categoryStats as category}
-            <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center space-x-2">
-                  <div class="p-2 bg-gradient-to-r {getCategoryColor(category.category)} rounded-lg text-white">
-                    <Icon icon={getCategoryIcon(category.category)} class="w-4 h-4" />
-                  </div>
-                  <span class="font-medium text-gray-900 dark:text-white capitalize">{category.category}</span>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Top Performers</h3>
+        <div class="space-y-3">
+          {#each assetValueData
+            .filter((a) => a.changePercent > 0)
+            .sort((a, b) => b.changePercent - a.changePercent)
+            .slice(0, 3) as asset}
+            <div class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <div class="flex items-center space-x-3">
+                <div class="p-2 bg-gradient-to-r {getCategoryColor(asset.category)} rounded-lg text-white">
+                  <Icon icon={getCategoryIcon(asset.category)} class="w-4 h-4" />
                 </div>
-                <span class="text-sm text-gray-600 dark:text-gray-400">{category.count} items</span>
+                <div>
+                  <p class="font-medium text-gray-900 dark:text-white">{asset.name}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{formatCurrency(asset.currentValue)}</p>
+                </div>
               </div>
-              <div class="flex items-center justify-between">
-                <span class="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(category.totalValue)}</span>
-                <span class="text-sm font-medium {category.change > 0 ? 'text-green-600' : 'text-red-600'}">
-                  {category.change > 0 ? "+" : ""}{category.change.toFixed(1)}%
-                </span>
+              <div class="text-right">
+                <p class="font-bold text-green-600">+{asset.changePercent.toFixed(1)}%</p>
+                <p class="text-sm text-green-600">{formatCurrency(asset.valueChange)}</p>
               </div>
             </div>
           {/each}
         </div>
       </div>
 
-      <!-- Asset Valuations View -->
-    {:else if currentView === "valuations"}
-      <!-- Filters -->
       <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label>
-            <div class="relative">
-              <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input type="text" bind:value={searchTerm} placeholder="Search by asset name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white" />
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-            <select bind:value={selectedCategory} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white">
-              <option value="all">All Categories</option>
-              <option value="jewelry">Jewelry</option>
-              <option value="vehicles">Vehicles</option>
-              <option value="electronics">Electronics</option>
-              <option value="furniture">Furniture</option>
-              <option value="appliances">Appliances</option>
-              <option value="collectibles">Collectibles</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Asset Valuations -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {#each filteredAssets as asset}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
-            <div class="p-6">
-              <!-- Asset Header -->
-              <div class="flex items-start justify-between mb-4">
-                <div class="flex items-start space-x-3">
-                  <div class="p-3 bg-gradient-to-r {getCategoryColor(asset.category)} rounded-lg text-white">
-                    <Icon icon={getCategoryIcon(asset.category)} class="w-6 h-6" />
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">{asset.name}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{asset.tamilName}</p>
-                    <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full mt-1 dark:bg-gray-700 dark:text-gray-300 capitalize">
-                      {asset.category}
-                    </span>
-                  </div>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Underperformers</h3>
+        <div class="space-y-3">
+          {#each assetValueData
+            .filter((a) => a.changePercent < 0)
+            .sort((a, b) => a.changePercent - b.changePercent)
+            .slice(0, 3) as asset}
+            <div class="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+              <div class="flex items-center space-x-3">
+                <div class="p-2 bg-gradient-to-r {getCategoryColor(asset.category)} rounded-lg text-white">
+                  <Icon icon={getCategoryIcon(asset.category)} class="w-4 h-4" />
                 </div>
-
-                <div class="text-right">
-                  <div class="flex items-center space-x-1 {getTrendColor(asset.trend)}">
-                    <Icon icon={getTrendIcon(asset.trend)} class="w-4 h-4" />
-                    <span class="text-sm font-medium">
-                      {asset.changePercent > 0 ? "+" : ""}{asset.changePercent.toFixed(1)}%
-                    </span>
-                  </div>
+                <div>
+                  <p class="font-medium text-gray-900 dark:text-white">{asset.name}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{formatCurrency(asset.currentValue)}</p>
                 </div>
               </div>
-
-              <!-- Value Information -->
-              <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                  <div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Purchase Value</p>
-                    <p class="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(asset.purchaseValue)}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">{formatDate(asset.purchaseDate)}</p>
-                  </div>
-                  <div>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Current Value</p>
-                    <p class="text-lg font-bold text-gray-900 dark:text-white">{formatCurrency(asset.currentValue)}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">{formatDate(asset.lastValuation)}</p>
-                  </div>
-                </div>
-
-                <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600 dark:text-gray-400">Value Change</span>
-                    <span class="font-medium {asset.valueChange > 0 ? 'text-green-600' : 'text-red-600'}">
-                      {asset.valueChange > 0 ? "+" : ""}{formatCurrency(asset.valueChange)}
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Asset Details -->
-                <div class="space-y-2 text-sm">
-                  {#if asset.weight}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Weight:</span>
-                      <span class="text-gray-900 dark:text-white">{asset.weight}</span>
-                    </div>
-                  {/if}
-                  {#if asset.purity}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Purity:</span>
-                      <span class="text-gray-900 dark:text-white">{asset.purity}</span>
-                    </div>
-                  {/if}
-                  {#if asset.model}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Model:</span>
-                      <span class="text-gray-900 dark:text-white">{asset.model}</span>
-                    </div>
-                  {/if}
-                  {#if asset.condition}
-                    <div class="flex justify-between">
-                      <span class="text-gray-600 dark:text-gray-400">Condition:</span>
-                      <span class="text-gray-900 dark:text-white">{asset.condition}</span>
-                    </div>
-                  {/if}
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Appraised by:</span>
-                    <span class="text-gray-900 dark:text-white">{asset.appraisedBy}</span>
-                  </div>
-                  <div class="flex justify-between">
-                    <span class="text-gray-600 dark:text-gray-400">Next valuation:</span>
-                    <span class="text-gray-900 dark:text-white">{getTimeUntilNextValuation(asset.nextValuation)}</span>
-                  </div>
-                </div>
-
-                {#if asset.notes}
-                  <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{asset.notes}</p>
-                  </div>
-                {/if}
-              </div>
-
-              <!-- Action Buttons -->
-              <div class="flex space-x-2 mt-6">
-                <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Update Value </button>
-                <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> View History </button>
+              <div class="text-right">
+                <p class="font-bold text-red-600">{asset.changePercent.toFixed(1)}%</p>
+                <p class="text-sm text-red-600">{formatCurrency(asset.valueChange)}</p>
               </div>
             </div>
-          </div>
-        {/each}
-      </div>
-
-      <!-- Value Trends View -->
-    {:else if currentView === "trends"}
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white">Portfolio Value Trends</h3>
-          <div class="flex space-x-2">
-            {#each [{ id: "1m", label: "1M" }, { id: "3m", label: "3M" }, { id: "6m", label: "6M" }, { id: "1y", label: "1Y" }, { id: "all", label: "All" }] as timeframe}
-              <button class="px-3 py-1 text-sm rounded-lg transition-colors duration-200 {selectedTimeframe === timeframe.id ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'}" on:click={() => (selectedTimeframe = timeframe.id)}>
-                {timeframe.label}
-              </button>
-            {/each}
-          </div>
-        </div>
-
-        <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
-          <div class="text-center">
-            <Icon icon="heroicons:chart-bar" class="w-12 h-12 text-gray-400 mx-auto mb-3" />
-            <p class="text-gray-600 dark:text-gray-400">Value trend chart would be displayed here</p>
-            <p class="text-sm text-gray-500 dark:text-gray-500">Integration with charting library required</p>
-          </div>
+          {/each}
         </div>
       </div>
-
-      <!-- Top Performers -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Top Performers</h3>
-          <div class="space-y-3">
-            {#each assetValueData
-              .filter((a) => a.changePercent > 0)
-              .sort((a, b) => b.changePercent - a.changePercent)
-              .slice(0, 3) as asset}
-              <div class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                <div class="flex items-center space-x-3">
-                  <div class="p-2 bg-gradient-to-r {getCategoryColor(asset.category)} rounded-lg text-white">
-                    <Icon icon={getCategoryIcon(asset.category)} class="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p class="font-medium text-gray-900 dark:text-white">{asset.name}</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{formatCurrency(asset.currentValue)}</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <p class="font-bold text-green-600">+{asset.changePercent.toFixed(1)}%</p>
-                  <p class="text-sm text-green-600">{formatCurrency(asset.valueChange)}</p>
-                </div>
-              </div>
-            {/each}
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Underperformers</h3>
-          <div class="space-y-3">
-            {#each assetValueData
-              .filter((a) => a.changePercent < 0)
-              .sort((a, b) => a.changePercent - b.changePercent)
-              .slice(0, 3) as asset}
-              <div class="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                <div class="flex items-center space-x-3">
-                  <div class="p-2 bg-gradient-to-r {getCategoryColor(asset.category)} rounded-lg text-white">
-                    <Icon icon={getCategoryIcon(asset.category)} class="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p class="font-medium text-gray-900 dark:text-white">{asset.name}</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{formatCurrency(asset.currentValue)}</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <p class="font-bold text-red-600">{asset.changePercent.toFixed(1)}%</p>
-                  <p class="text-sm text-red-600">{formatCurrency(asset.valueChange)}</p>
-                </div>
-              </div>
-            {/each}
-          </div>
-        </div>
-      </div>
-    {/if}
-  </div>
-</DashboardLayout>
+    </div>
+  {/if}
+</div>
 
 <!-- Add Valuation Modal -->
 {#if showAddModal}
