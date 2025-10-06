@@ -11,8 +11,6 @@
   export let isOpen = false;
 
   let sidebarElement;
-  let menuItemsElements = [];
-  let expandedMenus = {};
 
   // Main menu items without sub-menus
   $: mainMenuItems = [
@@ -103,150 +101,8 @@
     return menuItem.routes.includes($currentRoute);
   }
 
-  // Create simplified 9-item menu structure
-  $: menuSections = [
-    {
-      key: "dashboard",
-      title: "🏠 Home",
-      icon: "heroicons:home",
-      items: [
-        { path: "/", icon: "heroicons:home", name: "Dashboard", color: "text-blue-400" },
-        { path: "/household", icon: "heroicons:squares-2x2", name: "Household", color: "text-green-500" },
-        { path: "/members", icon: "heroicons:users", name: "Family Members", color: "text-purple-500" },
-        { path: "/inventory", icon: "heroicons:archive-box", name: "Home Inventory", color: "text-amber-500" },
-        { path: "/vehicles", icon: "heroicons:truck", name: "Vehicle Management", color: "text-cyan-500" },
-        { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendar", color: "text-violet-400" },
-        { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes", color: "text-sky-400" },
-        { path: "/reminders", icon: "heroicons:bell-alert", name: "Reminders", color: "text-stone-400" },
-      ],
-    },
-    {
-      key: "divinity",
-      title: "🕉️ Divinity",
-      icon: "heroicons:sparkles",
-      items: [
-        { path: "/rituals", icon: "heroicons:sparkles", name: "Rituals", color: "text-orange-600" },
-        { path: "/temple", icon: "heroicons:building-storefront", name: "Temple Visits", color: "text-yellow-600" },
-        { path: "/festival-calendar", icon: "heroicons:calendar", name: "Festival Calendar", color: "text-pink-600" },
-        { path: "/mantras", icon: "heroicons:musical-note", name: "Mantras", color: "text-purple-600" },
-        { path: "/tamil-panchangam", icon: "heroicons:sun", name: "Tamil Panchangam", color: "text-red-600" },
-      ],
-    },
-    {
-      key: "contacts",
-      title: "📇 Contacts",
-      icon: "heroicons:phone",
-      items: [
-        { path: "/contacts", icon: "heroicons:phone", name: "Personal Contacts", color: "text-green-600" },
-        { path: "/emergency", icon: "heroicons:exclamation-triangle", name: "Emergency Contacts", color: "text-red-600" },
-        { path: "/vendors", icon: "heroicons:wrench", name: "Vendors & Services", color: "text-orange-600" },
-        { path: "/directory", icon: "heroicons:building-storefront", name: "Service Directory", color: "text-gray-600" },
-      ],
-    },
-    {
-      key: "food",
-      title: "🍛 Food",
-      icon: "heroicons:utensils",
-      items: [
-        { path: "/meals", icon: "heroicons:calendar-days", name: "Meals & Planning", color: "text-orange-500" },
-        { path: "/recipes", icon: "heroicons:book-open", name: "Recipes", color: "text-red-500" },
-        { path: "/grocery", icon: "heroicons:shopping-cart", name: "Grocery & Pantry", color: "text-green-500" },
-        { path: "/kitchen", icon: "heroicons:home", name: "Kitchen Dashboard", color: "text-amber-500" },
-        { path: "/kitchen/pantry", icon: "heroicons:archive-box", name: "Pantry Tracker", color: "text-blue-500" },
-        { path: "/kitchen/fresh", icon: "heroicons:leaf", name: "Fresh Produce", color: "text-green-600" },
-        { path: "/kitchen/kids", icon: "heroicons:academic-cap", name: "Kids Menu", color: "text-purple-500" },
-        { path: "/kitchen/vendors", icon: "heroicons:user-group", name: "Vendors", color: "text-gray-600" },
-      ],
-    },
-    {
-      key: "education",
-      title: "📚 Education",
-      icon: "heroicons:academic-cap",
-      items: [
-        { path: "/education", icon: "heroicons:academic-cap", name: "Education Dashboard", color: "text-indigo-500" },
-        { path: "/education/students", icon: "heroicons:user-group", name: "Student Profiles", color: "text-green-500" },
-        { path: "/education/curriculum", icon: "heroicons:book-open", name: "Curriculum Tracker", color: "text-purple-500" },
-        { path: "/education/planner", icon: "heroicons:calendar-days", name: "Study Planner", color: "text-orange-500" },
-        { path: "/education/quiz", icon: "heroicons:puzzle-piece", name: "Quiz Generator", color: "text-pink-500" },
-        { path: "/education/assessment", icon: "heroicons:chart-bar", name: "Assessment", color: "text-blue-500" },
-        { path: "/education/mentors", icon: "heroicons:chat-bubble-left-right", name: "Mentorship", color: "text-teal-500" },
-        { path: "/education/achievements", icon: "heroicons:trophy", name: "Achievements", color: "text-yellow-500" },
-      ],
-    },
-    {
-      key: "health",
-      title: "💚 Health",
-      icon: "heroicons:heart",
-      items: [
-        { path: "/wellness", icon: "heroicons:heart", name: "Wellness Dashboard", color: "text-green-600" },
-        { path: "/health", icon: "heroicons:shield-check", name: "Health Tracking", color: "text-blue-600" },
-        { path: "/yoga", icon: "heroicons:user", name: "Yoga & Exercise", color: "text-orange-600" },
-        { path: "/journal", icon: "heroicons:pencil-square", name: "Health Journal", color: "text-teal-600" },
-        { path: "/hobbies-activities", icon: "heroicons:puzzle-piece", name: "Hobbies & Activities", color: "text-purple-600" },
-      ],
-    },
-    {
-      key: "finances",
-      title: "💰 Finances",
-      icon: "heroicons:currency-rupee",
-      items: [
-        { path: "/finances", icon: "heroicons:currency-rupee", name: "Finance Dashboard", color: "text-emerald-600" },
-        { path: "/recharges", icon: "heroicons:device-phone-mobile", name: "Monthly Recharges", color: "text-blue-600" },
-        { path: "/expenses", icon: "heroicons:receipt-percent", name: "Expense Tracker", color: "text-orange-600" },
-        { path: "/budget", icon: "heroicons:chart-pie", name: "Budget & Analytics", color: "text-purple-600" },
-        { path: "/insurance", icon: "heroicons:shield-check", name: "Insurance & Renewals", color: "text-teal-600" },
-        { path: "/family-members", icon: "heroicons:users", name: "Family Members", color: "text-pink-600" },
-      ],
-    },
-    {
-      key: "issues",
-      title: "🚨 Issues",
-      icon: "heroicons:exclamation-triangle",
-      items: [
-        { path: "/emergency", icon: "heroicons:shield-exclamation", name: "Emergency", color: "text-red-600" },
-        { path: "/urgent", icon: "heroicons:clock", name: "Urgent Tasks", color: "text-orange-600" },
-        { path: "/repairs", icon: "heroicons:wrench-screwdriver", name: "Repairs", color: "text-yellow-600" },
-        { path: "/maintenance", icon: "heroicons:cog", name: "Maintenance", color: "text-blue-600" },
-        { path: "/requests", icon: "heroicons:clipboard-document-list", name: "Service Requests", color: "text-purple-600" },
-      ],
-    },
-    {
-      key: "memories",
-      title: "💭 Memories",
-      icon: "heroicons:photo",
-      items: [
-        { path: "/lifeflow", icon: "heroicons:heart", name: "Life Flow", color: "text-blue-500" },
-        { path: "/family-stories", icon: "heroicons:book-open", name: "Family Stories", color: "text-purple-500" },
-        { path: "/legacy", icon: "heroicons:archive-box", name: "Legacy & Memory", color: "text-amber-600" },
-        { path: "/emotions", icon: "heroicons:face-smile", name: "Emotions & Feelings", color: "text-pink-500" },
-        { path: "/family-governance", icon: "heroicons:scale", name: "Family Governance", color: "text-indigo-600" },
-      ],
-    },
-    {
-      key: "travel",
-      title: "✈️ Travel",
-      icon: "heroicons:map",
-      items: [
-        { path: "/travel", icon: "heroicons:map-pin", name: "Travel Planning", color: "text-emerald-500" },
-        { path: "/trips", icon: "heroicons:globe-alt", name: "Trip History", color: "text-blue-500" },
-        { path: "/leisure", icon: "heroicons:film", name: "Leisure & Outings", color: "text-rose-500" },
-        { path: "/community", icon: "heroicons:users", name: "Community Events", color: "text-cyan-500" },
-      ],
-    },
-  ];
-
   onMount(() => {
-    // Animate menu items on mount
-    if (menuItemsElements.length > 0) {
-      staggerAnimate(menuItemsElements, "fadeInLeft", { delay: 0.1 });
-    }
-
-    // Auto-expand sections based on current route
-    menuSections.forEach((section) => {
-      if (section.items.some((item) => item.path === $currentRoute)) {
-        expandedMenus[section.key] = true;
-      }
-    });
+    // Component mounted successfully
   });
 
   function closeSidebar() {
@@ -297,7 +153,7 @@
   <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
     {#each mainMenuItems as menuItem, index}
       <div class="menu-item">
-        <a bind:this={menuItemsElements[index]} href={menuItem.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isMenuActive(menuItem) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(menuItem.path)} use:motionInView={{ animation: "fadeInLeft", delay: index * 0.05 }}>
+        <a href={menuItem.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isMenuActive(menuItem) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(menuItem.path)} use:motionInView={{ animation: "fadeInLeft", delay: index * 0.05 }}>
           <Icon icon={menuItem.icon} class="w-5 h-5 mr-3 {menuItem.color}" />
           {menuItem.title}
           {#if isMenuActive(menuItem)}
