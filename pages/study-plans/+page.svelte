@@ -599,34 +599,5 @@
         </div>
       </div>
     {/if}
-
-    <!-- Educational Philosophy -->
-    <div class="mt-12 p-6 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-xl">
-      <h4 class="font-bold text-purple-800 dark:text-purple-200 mb-4 flex items-center">
-        <Icon icon="heroicons:heart" class="w-5 h-5 mr-2" />
-        शिक्षा दर्शन | Educational Philosophy
-      </h4>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <h5 class="font-semibold text-purple-700 dark:text-purple-300 mb-2">Holistic Development:</h5>
-          <ul class="text-sm text-purple-700 dark:text-purple-300 space-y-1">
-            <li>• Academic excellence with cultural grounding</li>
-            <li>• Balance between study and play</li>
-            <li>• Character building through values</li>
-            <li>• Development of critical thinking</li>
-          </ul>
-        </div>
-        <div>
-          <h5 class="font-semibold text-purple-700 dark:text-purple-300 mb-2">Learning Principles:</h5>
-          <ul class="text-sm text-purple-700 dark:text-purple-300 space-y-1">
-            <li>• Concept clarity over rote learning</li>
-            <li>• Regular practice and revision</li>
-            <li>• Emotional support and encouragement</li>
-            <li>• Individual pace and style recognition</li>
-          </ul>
-        </div>
-      </div>
-      <blockquote class="mt-4 p-3 bg-purple-200 dark:bg-purple-800 rounded-lg italic text-purple-800 dark:text-purple-200">"आचार्यात् पादमादत्ते पादं शिष्य: स्वमेधया | पादं सब्रह्मचारिभ्य: पादं कालक्रमेण च || One quarter from the teacher, one quarter from one's own intelligence, one quarter from classmates, and one quarter with time."</blockquote>
-    </div>
   </div>
 </div>
