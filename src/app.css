@@ -14,8 +14,7 @@
 
   /* Custom scrollbar styling for all scrollable elements */
   * {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--bc) / 0.3) transparent;
+    /* scrollbar-width and scrollbar-color removed for better browser compatibility */
   }
 
   /* Webkit scrollbar styling */
@@ -42,10 +41,6 @@
   }
 
   /* Custom scrollbar for specific elements */
-  .custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--bc) / 0.3) transparent;
-  }
 
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;

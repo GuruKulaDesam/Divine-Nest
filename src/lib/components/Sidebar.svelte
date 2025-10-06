@@ -317,10 +317,10 @@
         <p class="text-xs text-sidebar/60 truncate">john.doe@example.com</p>
       </div>
       <div class="flex items-center gap-2">
-        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-red-400 hover:bg-red-400/20 transition-all duration-300 backdrop-blur-sm" on:click={handleLogout} title={$_("common.logout")}>
+        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-red-400 hover:bg-red-400/20 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-red-400" on:click={handleLogout} aria-label="Logout">
           <Icon icon="heroicons:arrow-right-on-rectangle" class="w-5 h-5" />
         </button>
-        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-sidebar hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-sidebar hover:bg-white/10 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary" aria-label="More options">
           <Icon icon="heroicons:ellipsis-vertical" class="w-5 h-5" />
         </button>
       </div>
