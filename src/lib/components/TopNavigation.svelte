@@ -109,10 +109,11 @@
 
     // Issues section
     issues: [
-      { id: "emergency", label: "Emergency", icon: "heroicons:shield-exclamation", path: "/emergency" },
+      { id: "issues-emergency", label: "Emergency Situations", icon: "heroicons:shield-exclamation", path: "/issues-emergency" },
       { id: "urgent", label: "Urgent Tasks", icon: "heroicons:clock", path: "/urgent" },
       { id: "repairs", label: "Repairs", icon: "heroicons:wrench-screwdriver", path: "/repairs" },
       { id: "maintenance", label: "Maintenance", icon: "heroicons:cog", path: "/maintenance" },
+      { id: "upgrades", label: "Upgrades", icon: "heroicons:arrow-trending-up", path: "/upgrades" },
       { id: "requests", label: "Service Requests", icon: "heroicons:clipboard-document-list", path: "/requests" },
     ],
 
@@ -165,7 +166,7 @@
       health: ["/wellness", "/health", "/yoga", "/journal", "/hobbies-activities"],
       assets: ["/assets", "/assets/items", "/assets/value", "/assets/maintenance", "/assets/documents", "/inventory", "/vehicles"],
       projects: ["/projects", "/gantt", "/schedule", "/analytics", "/charts", "/maps"],
-      issues: ["/emergency", "/urgent", "/repairs", "/maintenance", "/requests"],
+      issues: ["/issues-emergency", "/urgent", "/repairs", "/maintenance", "/upgrades", "/requests"],
       memories: ["/lifeflow", "/family-stories", "/legacy", "/emotions", "/family-governance"],
       travel: ["/travel", "/trips", "/leisure", "/community"],
     };

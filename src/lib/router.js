@@ -31,10 +31,11 @@ import HobbiesActivitiesPage from './pages/HobbiesActivitiesPage.svelte';
 import HouseholdPage from './pages/HouseholdPage.svelte';
 import ContactsPage from './pages/ContactsPage.svelte';
 import EmergencyContactsPage from './pages/EmergencyContactsPage.svelte';
-import IssuesEmergencyPage from './pages/IssuesEmergencyPage.svelte';
+import IssuesEmergencySituationsPage from './pages/IssuesEmergencySituationsPage.svelte';
 import IssuesUrgentPage from './pages/IssuesUrgentPage.svelte';
 import IssuesRepairsPage from './pages/IssuesRepairsPage.svelte';
 import IssuesMaintenancePage from './pages/IssuesMaintenancePage.svelte';
+import IssuesUpgradesPage from './pages/IssuesUpgradesPage.svelte';
 import RequestsPage from './pages/RequestsPage.svelte';
 import HealthPage from './pages/HealthPage.svelte';
 import YogaExercisePage from './pages/YogaExercisePage.svelte';
@@ -181,9 +182,11 @@ const routes = {
   '/assets/documents': AssetsDocumentsPage,
 
   // Issues routes
+  '/issues-emergency': IssuesEmergencySituationsPage,
   '/urgent': IssuesUrgentPage,
   '/repairs': IssuesRepairsPage,
   '/maintenance': IssuesMaintenancePage,
+  '/upgrades': IssuesUpgradesPage,
   '/requests': RequestsPage,
 
   // Memories routes
