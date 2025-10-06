@@ -4,6 +4,7 @@
   import ResponsiveHeader from "./ResponsiveHeader.svelte";
   import BottomNavigation from "./BottomNavigation.svelte";
   import MobileSidebar from "./MobileSidebar.svelte";
+  import DesktopSidebar from "./DesktopSidebar.svelte";
   import Icon from "@iconify/svelte";
   import TestPage from "../pages/TestPage.svelte";
   import HomePage from "../pages/HomePage.svelte";
@@ -256,7 +257,7 @@
       <div class="flex pt-16">
         <!-- Desktop Sidebar -->
         <aside class="fixed left-0 top-16 h-[calc(100vh-4rem)] w-80 bg-white dark:bg-gray-800 shadow-lg border-r border-gray-200 dark:border-gray-700 transition-transform duration-300 {sidebarOpen ? 'translate-x-0' : '-translate-x-full'}">
-          <MobileSidebar isOpen={true} {activeGroup} on:navigate={handleNavigate} on:close={closeSidebar} />
+          <DesktopSidebar isOpen={true} on:navigate={handleNavigate} on:close={closeSidebar} />
         </aside>
 
         <!-- Desktop Main Content -->
