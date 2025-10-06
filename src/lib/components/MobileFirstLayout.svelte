@@ -4,7 +4,8 @@
   import ResponsiveHeader from "./ResponsiveHeader.svelte";
   import BottomNavigation from "./BottomNavigation.svelte";
   import MobileSidebar from "./MobileSidebar.svelte";
-  import DesktopSidebar from "./DesktopSidebar.svelte";
+  import Sidebar from "./Sidebar.svelte";
+  import TopNavigation from "./TopNavigation.svelte";
   import Icon from "@iconify/svelte";
   import TestPage from "../pages/TestPage.svelte";
   import HomePage from "../pages/HomePage.svelte";
@@ -237,35 +238,27 @@
   {:else}
     <!-- DESKTOP LAYOUT -->
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <!-- Desktop Header -->
-      <header class="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-between px-6 py-4">
-          <div class="flex items-center gap-4">
-            <button on:click={toggleSidebar} class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-              <Icon icon="heroicons:bars-3" class="w-6 h-6 text-gray-600 dark:text-gray-400" />
-            </button>
-            <h1 class="text-xl font-bold text-gray-900 dark:text-white">South Indian Family Life App</h1>
-          </div>
-          <div class="flex items-center gap-4">
-            <!-- Desktop header actions can go here -->
-            <div class="text-sm text-gray-500 dark:text-gray-400">Desktop View</div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Desktop Layout with Sidebar -->
-      <div class="flex pt-16">
+      <!-- Desktop Layout with Sidebar and Top Navigation -->
+      <div class="flex h-screen bg-base-200 mountain-background" data-theme="modern">
         <!-- Desktop Sidebar -->
-        <aside class="fixed left-0 top-16 h-[calc(100vh-4rem)] w-80 bg-white dark:bg-gray-800 shadow-lg border-r border-gray-200 dark:border-gray-700 transition-transform duration-300 {sidebarOpen ? 'translate-x-0' : '-translate-x-full'}">
-          <DesktopSidebar isOpen={true} on:navigate={handleNavigate} on:close={closeSidebar} />
-        </aside>
+        <Sidebar isOpen={sidebarOpen} on:close={closeSidebar} />
 
-        <!-- Desktop Main Content -->
-        <main class="flex-1 transition-all duration-300 {sidebarOpen ? 'ml-80' : 'ml-0'} p-6">
-          <div bind:this={pageElement} class="transition-opacity duration-200 ease-in-out" style="opacity: 1;">
-            <svelte:component this={componentToRender} />
-          </div>
-        </main>
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+          <!-- Enhanced Header with integrated breadcrumb and navigation -->
+          <TopNavigation {sidebarOpen} on:toggleSidebar={toggleSidebar} />
+
+          <!-- Desktop Main Content -->
+          <main class="flex-1 scrollable-container bg-transparent">
+            <div class="p-4 sm:p-6 lg:p-8">
+              <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-sm shadow-xl border border-white/20 p-6 sm:p-8">
+                <div bind:this={pageElement} class="transition-opacity duration-200 ease-in-out" style="opacity: 1;">
+                  <svelte:component this={componentToRender} />
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   {/if}

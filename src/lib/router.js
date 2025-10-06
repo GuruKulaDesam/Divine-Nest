@@ -26,6 +26,34 @@ import KitchenPage from './pages/KitchenPage.svelte';
 import TamilPanchangamPage from './pages/TamilPanchangamPage.svelte';
 import HobbiesActivitiesPage from './pages/HobbiesActivitiesPage.svelte';
 
+// Additional page imports
+import HouseholdPage from './pages/HouseholdPage.svelte';
+import ContactsPage from './pages/ContactsPage.svelte';
+import IssuesEmergencyPage from './pages/IssuesEmergencyPage.svelte';
+import IssuesUrgentPage from './pages/IssuesUrgentPage.svelte';
+import IssuesRepairsPage from './pages/IssuesRepairsPage.svelte';
+import IssuesMaintenancePage from './pages/IssuesMaintenancePage.svelte';
+import RequestsPage from './pages/RequestsPage.svelte';
+import HealthPage from './pages/HealthPage.svelte';
+import YogaExercisePage from './pages/YogaExercisePage.svelte';
+import HealthJournalPage from './pages/HealthJournalPage.svelte';
+import TravelPage from './pages/TravelPage.svelte';
+import TripHistoryPage from './pages/TripHistoryPage.svelte';
+import LeisureCommunityPage from './pages/LeisureCommunityPage.svelte';
+import FamilyStoriesPage from './pages/FamilyStoriesPage.svelte';
+import LegacyMemoryPage from './pages/LegacyMemoryPage.svelte';
+import EmotionsFeelingsPage from './pages/EmotionsFeelingsPage.svelte';
+import FamilyGovernancePage from './pages/FamilyGovernancePage.svelte';
+import TemplePage from './pages/TemplePage.svelte';
+import FestivalCalendarPage from './pages/FestivalCalendarPage.svelte';
+import MantrasPage from './pages/MantrasPage.svelte';
+import GroceryPage from './pages/GroceryPage.svelte';
+import LibraryPage from './pages/LibraryPage.svelte';
+import StudiesPage from './pages/StudiesPage.svelte';
+import LearningGoalsPage from './pages/LearningGoalsPage.svelte';
+import WeatherPage from './pages/WeatherPage.svelte';
+import AssetsPage from './pages/AssetsPage.svelte';
+
 // Create stores for routing
 const currentRoute = writable(window.location.pathname);
 const navigationHistory = writable([]);
@@ -98,6 +126,68 @@ const routes = {
   '/kitchen/festivals': KitchenPage,
   '/tamil-panchangam': TamilPanchangamPage,
   '/hobbies-activities': HobbiesActivitiesPage,
+
+  // Dashboard/Home routes
+  '/household': HouseholdPage,
+  '/members': UsersPage,
+  '/inventory': ProductsPage,
+  '/vehicles': AssetsPage,
+
+  // Divinity routes
+  '/rituals': TemplePage,
+  '/temple': TemplePage,
+  '/festival-calendar': FestivalCalendarPage,
+  '/mantras': MantrasPage,
+
+  // Contacts routes
+  '/contacts': ContactsPage,
+  '/emergency': IssuesEmergencyPage,
+  '/vendors': ContactsPage,
+  '/directory': ContactsPage,
+
+  // Food routes
+  '/meals': KitchenPage,
+  '/recipes': KitchenPage,
+  '/grocery': GroceryPage,
+  '/pantry': KitchenPage,
+
+  // Education routes
+  '/library': LibraryPage,
+  '/studies': StudiesPage,
+  '/learning-goals': LearningGoalsPage,
+  '/study-plans': EducationPage,
+
+  // Health routes
+  '/wellness': HealthPage,
+  '/health': HealthPage,
+  '/yoga': YogaExercisePage,
+  '/journal': HealthJournalPage,
+
+  // Finances routes
+  '/investments': FinancesPageEnhanced,
+
+  // Issues routes
+  '/urgent': IssuesUrgentPage,
+  '/repairs': IssuesRepairsPage,
+  '/maintenance': IssuesMaintenancePage,
+  '/requests': RequestsPage,
+
+  // Memories routes
+  '/lifeflow': FamilyStoriesPage,
+  '/family-stories': FamilyStoriesPage,
+  '/legacy': LegacyMemoryPage,
+  '/emotions': EmotionsFeelingsPage,
+  '/family-governance': FamilyGovernancePage,
+
+  // Travel routes
+  '/travel': TravelPage,
+  '/trips': TripHistoryPage,
+  '/leisure': LeisureCommunityPage,
+  '/community': LeisureCommunityPage,
+
+  // Weather route
+  '/weather': WeatherPage,
+
   '*': NotFoundPage
 };
 
