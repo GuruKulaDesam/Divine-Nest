@@ -46,11 +46,11 @@
 
     // Divinity section
     divinity: [
+      { id: "tamil-panchangam", label: "Tamil Panchangam", icon: "heroicons:sun", path: "/tamil-panchangam" },
       { id: "rituals", label: "Rituals", icon: "heroicons:sparkles", path: "/rituals" },
       { id: "temple", label: "Temple Visits", icon: "heroicons:building-storefront", path: "/temple" },
       { id: "festivals", label: "Festival Calendar", icon: "heroicons:calendar", path: "/festival-calendar" },
       { id: "mantras", label: "Mantras", icon: "heroicons:musical-note", path: "/mantras" },
-      { id: "tamil-panchangam", label: "Tamil Panchangam", icon: "heroicons:sun", path: "/tamil-panchangam" },
     ],
 
     // Contacts section

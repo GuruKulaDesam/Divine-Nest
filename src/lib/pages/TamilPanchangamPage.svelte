@@ -10,6 +10,7 @@
 
   const views = [
     { id: "daily", label: "Daily Panchangam", icon: "heroicons:sun" },
+    { id: "horoscope", label: "Daily Horoscope", icon: "heroicons:star" },
     { id: "monthly", label: "Monthly View", icon: "heroicons:calendar-days" },
     { id: "yearly", label: "Yearly Almanac", icon: "heroicons:calendar" },
     { id: "muhurtham", label: "Muhurtham Finder", icon: "heroicons:clock" },
@@ -42,6 +43,29 @@
     festivals: ["விநாயகர் சதுர்த்தி நோன்பு"],
     specialNotes: "இன்று கிருஷ்ண அஷ்டமி. பூஜைக்கு நன்மை தரும்.",
   };
+
+  // Daily Horoscope data
+  const dailyHoroscope = {
+    date: "2025-10-06",
+    zodiacSigns: [
+      { sign: "மேஷம் (Aries)", prediction: "நல்ல நாள். புதிய திட்டங்களை தொடங்கலாம். வியாபாரத்தில் முன்னேற்றம் கிடைக்கும்.", rating: 4 },
+      { sign: "ரிஷபம் (Taurus)", prediction: "குடும்பத்தில் மகிழ்ச்சி. நிதி நிலை சீராக இருக்கும். காதல் வாழ்க்கையில் இன்பம்.", rating: 5 },
+      { sign: "மிதுனம் (Gemini)", prediction: "பயணம் சாத்தியம். நண்பர்களிடம் உதவி கிடைக்கும். ஆரோக்கியம் கவலை இல்லை.", rating: 4 },
+      { sign: "கடகம் (Cancer)", prediction: "வேலை இடத்தில் மரியாதை கிடைக்கும். கல்வியில் முன்னேற்றம். குடும்பத்தில் ஒற்றுமை.", rating: 4 },
+      { sign: "சிம்மம் (Leo)", prediction: "தைரியமாக செயல்படலாம். எதிரிகள் தோற்பார்கள். நல்ல செய்திகள் வரும்.", rating: 5 },
+      { sign: "கன்னி (Virgo)", prediction: "உழைப்புக்கு பலன் கிடைக்கும். நிதி நிலை சீராக இருக்கும். ஆரோக்கியம் நல்லது.", rating: 4 },
+      { sign: "துலாம் (Libra)", prediction: "காதல் வாழ்க்கையில் மகிழ்ச்சி. புதிய நண்பர்கள் கிடைக்கலாம். வியாபாரத்தில் லாபம்.", rating: 5 },
+      { sign: "விருச்சிகம் (Scorpio)", prediction: "எதிர்பாராத வருமானம். குடும்பத்தில் ஒற்றுமை. ஆன்மீகத்தில் ஆர்வம் அதிகரிக்கும்.", rating: 4 },
+      { sign: "தனுசு (Sagittarius)", prediction: "பயணம் சாத்தியம். வேலை இடத்தில் முன்னேற்றம். நண்பர்களிடம் உதவி.", rating: 4 },
+      { sign: "மகரம் (Capricorn)", prediction: "கடின உழைப்புக்கு பலன். நிதி நிலை சீராக இருக்கும். குடும்பத்தில் மகிழ்ச்சி.", rating: 5 },
+      { sign: "கும்பம் (Aquarius)", prediction: "புதிய வாய்ப்புகள் வரும். கல்வியில் முன்னேற்றம். ஆரோக்கியம் நல்லது.", rating: 4 },
+      { sign: "மீனம் (Pisces)", prediction: "ஆன்மீகத்தில் ஆர்வம். காதல் வாழ்க்கையில் இன்பம். நிதி நிலை சீராக இருக்கும்.", rating: 5 },
+    ],
+  };
+
+  // Current panchangam data (reactive)
+  let currentPanchangam = { ...dailyPanchangam };
+  let currentHoroscope = { ...dailyHoroscope };
 
   const monthlyHighlights = [
     { date: 1, type: "amavasya", name: "அமாவாசை", color: "bg-gray-800" },
@@ -141,6 +165,50 @@
     console.log("Searching muhurtham for:", muhurthamSearch);
   }
 
+  // Search panchangam for selected date
+  function searchPanchangam() {
+    // For demo purposes, we'll simulate different data based on date
+    // In a real app, this would fetch from an API
+    const date = new Date(selectedDate);
+    const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
+
+    // Generate mock data based on selected date
+    const mockData = {
+      tamilDate: `${Math.floor(Math.random() * 30) + 1} ${["சித்திரை", "வைகாசி", "ஆனி", "ஆடி", "ஆவணி", "புரட்டாசி", "ஐப்பசி", "கார்த்திகை", "மார்கழி", "தை", "மாசி", "பங்குனி"][date.getMonth()]} ${2046 + Math.floor(date.getFullYear() / 100)}`,
+      englishDate: `${dayOfWeek}, ${date.toLocaleDateString("en-US", { day: "2-digit", month: "long", year: "numeric" })}`,
+      sunrise: "06:06",
+      sunset: "18:02",
+      moonrise: "18:45",
+      moonset: "06:12",
+      tithi: ["சுக்ல பிரதமை", "சுக்ல த்விதியை", "சுக்ல திருதியை", "சுக்ல சதுர்த்தி", "சுக்ல பஞ்சமி", "சுக்ல ஷஷ்டி", "சுக்ல சப்தமி", "சுக்ல அஷ்டமி", "சுக்ல நவமி", "சுக்ல தசமி", "சுக்ல ஏகாதசி", "சுக்ல த்வாதசி", "சுக்ல திரயோதசி", "சுக்ல சதுர்தசி", "பௌர்ணமி", "கிருஷ்ண பிரதமை", "கிருஷ்ண த்விதியை", "கிருஷ்ண திருதியை", "கிருஷ்ண சதுர்த்தி", "கிருஷ்ண பஞ்சமி", "கிருஷ்ண ஷஷ்டி", "கிருஷ்ண சப்தமி", "கிருஷ்ண அஷ்டமி", "கிருஷ்ண நவமி", "கிருஷ்ண தசமி", "கிருஷ்ண ஏகாதசி", "கிருஷ்ண த்வாதசி", "கிருஷ்ண திரயோதசி", "கிருஷ்ண சதுர்தசி", "அமாவாசை"][Math.floor(Math.random() * 30)],
+      nakshatra: ["அசுவினி", "பரணி", "கேட்டை", "ரோஹிணி", "மிருகசீரிடம்", "திருவாதிரை", "புனர்பூசம்", "பூசம்", "ஆயில்யம்", "மகம்", "பூரம்", "உத்திரம்", "ஹஸ்தம்", "சித்திரை", "சுவாதி", "விசாகம்", "அனுஷம்", "கேட்டை", "மூலம்", "பூராடம்", "உத்திராடம்", "திருவோணம்", "அவிட்டம்", "சதயம்", "பூரட்டாதி", "உத்திரட்டாதி", "ரேவதி"][Math.floor(Math.random() * 27)],
+      yoga: ["விஷ்கம்பம்", "பிரீதி", "ஆயுஷ்மான்", "சௌபாக்யம்", "சோபனம்", "அதிகந்தம்", "சுகர்மா", "திரிவிக்ரமம்", "ஜ்னானம்", "வைராக்யம்", "முத்ரா", "பரி஘ா", "சித்தா", "ஆதித்யா", "சுக்மன்", "பிரதி", "விஷ்டி", "கிள்ப்தி", "வதுகம்", "அனந்தம்", "கௌஸ்துபம்", "முர்த்தி", "ராஜன்", "ராம்பம்", "விராமம்", "விருதி", "தருணம்"][Math.floor(Math.random() * 27)],
+      karana: ["பவம்", "பாலவம்", "கௌலவம்", "தைதிலம்", "கர்த்திகை", "நாகவம்", "வனிஜம்", "விஷ்டி", "பவம்", "பாலவம்", "கௌலவம்", "தைதிலம்"][Math.floor(Math.random() * 12)],
+      rahuKalam: "07:30 - 09:00",
+      yamagandam: "10:30 - 12:00",
+      gulikaiKalam: "13:30 - 15:00",
+      abhijitMuhurat: "11:45 - 12:30",
+      nallaNeram: ["06:15 - 07:00", "16:30 - 17:15"],
+      chandrashtama: ["பரணி", "கேட்டை"],
+      auspiciousActivities: ["திருமணம் (Marriage)", "கிருஹப்பிரவேசம் (Gruhapravesam)", "நாமகரணம் (Naming Ceremony)", "கோவில் வழிபாடு (Temple Worship)"],
+      inauspiciousActivities: ["கிழக்கு திசை பயணம் தவிர்க்க (Avoid travel East)", "புதிய வாங்குதல் தவிர்க்க (No new purchases)"],
+      festivals: date.getDate() === 6 ? ["விநாயகர் சதுர்த்தி நோன்பு"] : [],
+      specialNotes: "பஞ்சாங்க தகவல்கள் கணக்கீடு செய்யப்பட்டவை.",
+    };
+
+    currentPanchangam = mockData;
+
+    // Update horoscope for the selected date
+    currentHoroscope = {
+      ...dailyHoroscope,
+      date: selectedDate,
+      zodiacSigns: dailyHoroscope.zodiacSigns.map((sign) => ({
+        ...sign,
+        prediction: sign.prediction + " (தேர்ந்தெடுக்கப்பட்ட தேதிக்கான கணிப்பு)",
+      })),
+    };
+  }
+
   function getDayColor(date, highlights) {
     const highlight = highlights.find((h) => h.date === date);
     return highlight ? highlight.color : "";
@@ -166,7 +234,7 @@
     </div>
     <div class="flex items-center space-x-2">
       <input type="date" bind:value={selectedDate} class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:text-white" />
-      <button class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-lg hover:from-orange-600 hover:to-red-600 transition-all shadow-lg">
+      <button class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-lg hover:from-orange-600 hover:to-red-600 transition-all shadow-lg" on:click={searchPanchangam}>
         <Icon icon="heroicons:magnifying-glass" class="w-5 h-5" />
       </button>
     </div>
@@ -190,20 +258,20 @@
         <!-- Date Information -->
         <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{dailyPanchangam.tamilDate}</h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300">{dailyPanchangam.englishDate}</p>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{currentPanchangam.tamilDate}</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300">{currentPanchangam.englishDate}</p>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="text-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
               <Icon icon="heroicons:sun" class="w-8 h-8 text-orange-600 mx-auto mb-2" />
               <p class="text-sm text-gray-600 dark:text-gray-400">சூரிய உதயம் / அஸ்தமனம்</p>
-              <p class="font-bold text-gray-900 dark:text-white">{formatTime(dailyPanchangam.sunrise)} / {formatTime(dailyPanchangam.sunset)}</p>
+              <p class="font-bold text-gray-900 dark:text-white">{formatTime(currentPanchangam.sunrise)} / {formatTime(currentPanchangam.sunset)}</p>
             </div>
             <div class="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
               <Icon icon="heroicons:moon" class="w-8 h-8 text-blue-600 mx-auto mb-2" />
               <p class="text-sm text-gray-600 dark:text-gray-400">சந்திர உதயம் / அஸ்தமனம்</p>
-              <p class="font-bold text-gray-900 dark:text-white">{formatTime(dailyPanchangam.moonrise)} / {formatTime(dailyPanchangam.moonset)}</p>
+              <p class="font-bold text-gray-900 dark:text-white">{formatTime(currentPanchangam.moonrise)} / {formatTime(currentPanchangam.moonset)}</p>
             </div>
           </div>
         </div>
@@ -215,25 +283,25 @@
             <div class="space-y-3">
               <div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">திதி (Tithi)</p>
-                <p class="font-medium text-gray-900 dark:text-white">{dailyPanchangam.tithi}</p>
+                <p class="font-medium text-gray-900 dark:text-white">{currentPanchangam.tithi}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">நக்ஷத்திரம் (Nakshatra)</p>
-                <p class="font-medium text-gray-900 dark:text-white">{dailyPanchangam.nakshatra}</p>
+                <p class="font-medium text-gray-900 dark:text-white">{currentPanchangam.nakshatra}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">யோகம் (Yoga)</p>
-                <p class="font-medium text-gray-900 dark:text-white">{dailyPanchangam.yoga}</p>
+                <p class="font-medium text-gray-900 dark:text-white">{currentPanchangam.yoga}</p>
               </div>
             </div>
             <div class="space-y-3">
               <div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">கரணம் (Karana)</p>
-                <p class="font-medium text-gray-900 dark:text-white">{dailyPanchangam.karana}</p>
+                <p class="font-medium text-gray-900 dark:text-white">{currentPanchangam.karana}</p>
               </div>
               <div>
                 <p class="text-sm text-gray-600 dark:text-gray-400">சந்திராஷ்டமம்</p>
-                <p class="font-medium text-gray-900 dark:text-white">{dailyPanchangam.chandrashtama.join(", ")}</p>
+                <p class="font-medium text-gray-900 dark:text-white">{currentPanchangam.chandrashtama.join(", ")}</p>
               </div>
             </div>
           </div>
@@ -246,25 +314,25 @@
             <div class="space-y-3">
               <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
                 <p class="text-sm font-medium text-red-800 dark:text-red-300">ராகு காலம்</p>
-                <p class="text-red-600 dark:text-red-400">{dailyPanchangam.rahuKalam}</p>
+                <p class="text-red-600 dark:text-red-400">{currentPanchangam.rahuKalam}</p>
               </div>
               <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                 <p class="text-sm font-medium text-yellow-800 dark:text-yellow-300">யமகண்டம்</p>
-                <p class="text-yellow-600 dark:text-yellow-400">{dailyPanchangam.yamagandam}</p>
+                <p class="text-yellow-600 dark:text-yellow-400">{currentPanchangam.yamaKandam}</p>
               </div>
               <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                 <p class="text-sm font-medium text-purple-800 dark:text-purple-300">குளிகை காலம்</p>
-                <p class="text-purple-600 dark:text-purple-400">{dailyPanchangam.gulikaiKalam}</p>
+                <p class="text-purple-600 dark:text-purple-400">{currentPanchangam.gulikai}</p>
               </div>
             </div>
             <div class="space-y-3">
               <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                 <p class="text-sm font-medium text-green-800 dark:text-green-300">அபிஜித் முஹூர்த்தம்</p>
-                <p class="text-green-600 dark:text-green-400">{dailyPanchangam.abhijitMuhurat}</p>
+                <p class="text-green-600 dark:text-green-400">{currentPanchangam.abhijitMuhurta}</p>
               </div>
               <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                 <p class="text-sm font-medium text-blue-800 dark:text-blue-300">நல்ல நேரம்</p>
-                {#each dailyPanchangam.nallaNeram as time}
+                {#each currentPanchangam.nallaNeram as time}
                   <p class="text-blue-600 dark:text-blue-400">{time}</p>
                 {/each}
               </div>
@@ -332,6 +400,111 @@
             <button class="w-full bg-orange-50 text-orange-600 px-4 py-2 rounded-lg hover:bg-orange-100 transition-colors text-sm font-medium dark:bg-orange-900/30 dark:text-orange-400 dark:hover:bg-orange-900/50"> முஹூர்த்தம் தேடு </button>
             <button class="w-full bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> பண்டிகை நாட்காட்டி </button>
             <button class="w-full bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> SMS அறிவிப்பு </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horoscope View -->
+  {:else if currentView === "horoscope"}
+    <div class="space-y-6">
+      <!-- Horoscope Header -->
+      <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold">தினசரி ராசி பலன்</h2>
+            <p class="text-purple-100">Daily Horoscope & Predictions</p>
+          </div>
+          <div class="text-right">
+            <p class="text-lg font-medium">{currentHoroscope.date}</p>
+            <p class="text-purple-100">{currentHoroscope.day}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zodiac Signs Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {#each currentHoroscope.zodiacSigns as sign}
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <div class="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg text-white">
+                  <Icon icon={sign.icon} class="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-gray-900 dark:text-white">{sign.name}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{sign.englishName}</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-2xl">{sign.symbol}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">{sign.element}</div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <p class="text-sm font-medium text-blue-800 dark:text-blue-300 mb-1">பொதுப் பலன்</p>
+                <p class="text-sm text-blue-700 dark:text-blue-400">{sign.general}</p>
+              </div>
+
+              <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                <p class="text-sm font-medium text-green-800 dark:text-green-300 mb-1">நிதி</p>
+                <p class="text-sm text-green-700 dark:text-green-400">{sign.finance}</p>
+              </div>
+
+              <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                <p class="text-sm font-medium text-red-800 dark:text-red-300 mb-1">உடல் நலம்</p>
+                <p class="text-sm text-red-700 dark:text-red-400">{sign.health}</p>
+              </div>
+
+              <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                <p class="text-sm font-medium text-purple-800 dark:text-purple-300 mb-1">காதல் & உறவுகள்</p>
+                <p class="text-sm text-purple-700 dark:text-purple-400">{sign.love}</p>
+              </div>
+
+              <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                <p class="text-sm font-medium text-yellow-800 dark:text-yellow-300 mb-1">வேலை & கல்வி</p>
+                <p class="text-sm text-yellow-700 dark:text-yellow-400">{sign.career}</p>
+              </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg border border-orange-200 dark:border-orange-700">
+              <p class="text-sm font-medium text-orange-800 dark:text-orange-300 mb-1">சிறப்பு அறிவுரை</p>
+              <p class="text-sm text-orange-700 dark:text-orange-400">{sign.advice}</p>
+            </div>
+          </div>
+        {/each}
+      </div>
+
+      <!-- Lucky Numbers & Colors -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+            <Icon icon="heroicons:sparkles" class="w-5 h-5 mr-2 text-yellow-600" />
+            அதிர்ஷ்ட எண்கள்
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {#each currentHoroscope.luckyNumbers as number}
+              <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                {number}
+              </div>
+            {/each}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+            <Icon icon="heroicons:swatch" class="w-5 h-5 mr-2 text-pink-600" />
+            அதிர்ஷ்ட நிறங்கள்
+          </h3>
+          <div class="flex flex-wrap gap-3">
+            {#each currentHoroscope.luckyColors as color}
+              <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-600" style="background-color: {color.hex}"></div>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{color.name}</span>
+              </div>
+            {/each}
           </div>
         </div>
       </div>
