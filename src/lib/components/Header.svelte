@@ -9,6 +9,9 @@
   import MessageDropdown from "./MessageDropdown.svelte";
   import LanguageSwitcher from "./LanguageSwitcher.svelte";
   import ThemeToggle from "./ThemeToggle.svelte";
+  import CalendarDropdown from "./CalendarDropdown.svelte";
+  import NotesDropdown from "./NotesDropdown.svelte";
+  import RemindersDropdown from "./RemindersDropdown.svelte";
   import { getUnreadNotificationsCount, getUnreadMessagesCount } from "../data/notifications.js";
   import { _, isLoading } from "svelte-i18n";
   import { isAuthenticated, currentUser, authActions } from "../stores/auth.js";
@@ -23,6 +26,9 @@
   let userMenuOpen = false;
   let notificationMenuOpen = false;
   let messageMenuOpen = false;
+  let calendarMenuOpen = false;
+  let notesMenuOpen = false;
+  let remindersMenuOpen = false;
   let dropdownElement;
 
   // Reactive statements for unread counts
@@ -103,6 +109,36 @@
     messageMenuOpen = !messageMenuOpen;
     userMenuOpen = false;
     notificationMenuOpen = false;
+    calendarMenuOpen = false;
+    notesMenuOpen = false;
+    remindersMenuOpen = false;
+  }
+
+  function toggleCalendarMenu() {
+    calendarMenuOpen = !calendarMenuOpen;
+    userMenuOpen = false;
+    notificationMenuOpen = false;
+    messageMenuOpen = false;
+    notesMenuOpen = false;
+    remindersMenuOpen = false;
+  }
+
+  function toggleNotesMenu() {
+    notesMenuOpen = !notesMenuOpen;
+    userMenuOpen = false;
+    notificationMenuOpen = false;
+    messageMenuOpen = false;
+    calendarMenuOpen = false;
+    remindersMenuOpen = false;
+  }
+
+  function toggleRemindersMenu() {
+    remindersMenuOpen = !remindersMenuOpen;
+    userMenuOpen = false;
+    notificationMenuOpen = false;
+    messageMenuOpen = false;
+    calendarMenuOpen = false;
+    notesMenuOpen = false;
   }
 
   function closeUserMenu() {
@@ -118,6 +154,18 @@
 
   function closeMessageMenu() {
     messageMenuOpen = false;
+  }
+
+  function closeCalendarMenu() {
+    calendarMenuOpen = false;
+  }
+
+  function closeNotesMenu() {
+    notesMenuOpen = false;
+  }
+
+  function closeRemindersMenu() {
+    remindersMenuOpen = false;
   }
 
   function handleLogout() {
@@ -165,6 +213,15 @@
     if (messageMenuOpen && !event.target.closest(".message-menu")) {
       closeMessageMenu();
     }
+    if (calendarMenuOpen && !event.target.closest(".calendar-menu")) {
+      closeCalendarMenu();
+    }
+    if (notesMenuOpen && !event.target.closest(".notes-menu")) {
+      closeNotesMenu();
+    }
+    if (remindersMenuOpen && !event.target.closest(".reminders-menu")) {
+      closeRemindersMenu();
+    }
   }
 </script>
 
@@ -210,6 +267,39 @@
 
       <!-- Theme Toggle -->
       <ThemeToggle />
+
+      <!-- Calendar -->
+      <div class="relative calendar-menu">
+        <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary" on:click={toggleCalendarMenu} use:motionHover aria-label="Calendar">
+          <Icon icon="heroicons:calendar-days" class="w-5 h-5" />
+        </button>
+
+        {#if calendarMenuOpen}
+          <CalendarDropdown isOpen={calendarMenuOpen} onClose={closeCalendarMenu} />
+        {/if}
+      </div>
+
+      <!-- Notes -->
+      <div class="relative notes-menu">
+        <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary" on:click={toggleNotesMenu} use:motionHover aria-label="Notes">
+          <Icon icon="heroicons:document-text" class="w-5 h-5" />
+        </button>
+
+        {#if notesMenuOpen}
+          <NotesDropdown isOpen={notesMenuOpen} onClose={closeNotesMenu} />
+        {/if}
+      </div>
+
+      <!-- Reminders -->
+      <div class="relative reminders-menu">
+        <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary" on:click={toggleRemindersMenu} use:motionHover aria-label="Reminders">
+          <Icon icon="heroicons:clock" class="w-5 h-5" />
+        </button>
+
+        {#if remindersMenuOpen}
+          <RemindersDropdown isOpen={remindersMenuOpen} onClose={closeRemindersMenu} />
+        {/if}
+      </div>
 
       <!-- Notifications -->
       <div class="relative notification-menu">
