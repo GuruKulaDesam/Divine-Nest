@@ -669,31 +669,35 @@
                 <div class="text-sm text-green-700 dark:text-green-300">3-Month Average</div>
               </div>
 
-              {@const maxMonth = expenseHistory.reduce((max, month) => (month.total > max.total ? month : max))}
-              {@const minMonth = expenseHistory.reduce((min, month) => (month.total < min.total ? month : min))}
+              {#if expenseHistory && expenseHistory.length > 0}
+                {@const maxMonth = expenseHistory.reduce((max, month) => (month.total > max.total ? month : max))}
+                {@const minMonth = expenseHistory.reduce((min, month) => (month.total < min.total ? month : min))}
 
-              <div class="grid grid-cols-2 gap-3">
-                <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg text-center">
-                  <div class="font-bold text-red-600">{formatCurrency(maxMonth.total)}</div>
-                  <div class="text-xs text-red-700 dark:text-red-300">Highest: {maxMonth.month}</div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg text-center">
+                    <div class="font-bold text-red-600">{formatCurrency(maxMonth.total)}</div>
+                    <div class="text-xs text-red-700 dark:text-red-300">Highest: {maxMonth.month}</div>
+                  </div>
+                  <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
+                    <div class="font-bold text-green-600">{formatCurrency(minMonth.total)}</div>
+                    <div class="text-xs text-green-700 dark:text-green-300">Lowest: {minMonth.month}</div>
+                  </div>
                 </div>
-                <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
-                  <div class="font-bold text-green-600">{formatCurrency(minMonth.total)}</div>
-                  <div class="text-xs text-green-700 dark:text-green-300">Lowest: {minMonth.month}</div>
-                </div>
-              </div>
+              {/if}
 
               <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                 <div class="text-sm font-medium text-purple-800 dark:text-purple-200 mb-1">Budget Variance (Oct)</div>
-                {@const octPlanned = getMonthlyTotal(monthlyBudget.october2024)}
-                {@const octActual = Object.values(monthlyBudget.october2024.actual).reduce((sum, amount) => sum + amount, 0)}
-                {@const variance = calculateBudgetVariance(octPlanned, octActual)}
-                <div class="text-lg font-bold {variance > 0 ? 'text-red-600' : 'text-green-600'}">
-                  {variance > 0 ? "+" : ""}{variance}%
-                </div>
-                <div class="text-xs text-purple-700 dark:text-purple-300">
-                  {variance > 0 ? "Over budget" : "Under budget"} by {formatCurrency(Math.abs(octActual - octPlanned))}
-                </div>
+                {#if monthlyBudget && monthlyBudget.october2024}
+                  {@const octPlanned = getMonthlyTotal(monthlyBudget.october2024)}
+                  {@const octActual = Object.values(monthlyBudget.october2024.actual).reduce((sum, amount) => sum + amount, 0)}
+                  {@const variance = calculateBudgetVariance(octPlanned, octActual)}
+                  <div class="text-lg font-bold {variance > 0 ? 'text-red-600' : 'text-green-600'}">
+                    {variance > 0 ? "+" : ""}{variance}%
+                  </div>
+                  <div class="text-xs text-purple-700 dark:text-purple-300">
+                    {variance > 0 ? "Over budget" : "Under budget"} by {formatCurrency(Math.abs(octActual - octPlanned))}
+                  </div>
+                {/if}
               </div>
             </div>
           </div>
