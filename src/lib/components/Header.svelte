@@ -175,7 +175,7 @@
   <div class="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
     <!-- Left side -->
     <div class="flex items-center">
-      <button class="lg:hidden p-2 rounded-md text-base-content/60 hover:text-base-content hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" on:click={toggleSidebar}>
+      <button class="lg:hidden p-2 rounded-md text-base-content/60 hover:text-base-content hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary" on:click={toggleSidebar} aria-label="Toggle sidebar">
         <Icon icon="heroicons:bars-3" class="w-6 h-6" />
       </button>
 
@@ -197,10 +197,11 @@
       <!-- Search -->
       <div class="hidden md:block">
         <div class="relative">
+          <label for="header-search" class="sr-only">Search</label>
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Icon icon="heroicons:magnifying-glass" class="w-4 h-4 text-base-content/40" />
           </div>
-          <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 text-sm bg-base-200 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-base-content placeholder-base-content/40" />
+          <input id="header-search" type="text" placeholder="Search..." class="pl-10 pr-4 py-2 text-sm bg-base-200 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-base-content placeholder-base-content/40" />
         </div>
       </div>
 
@@ -212,7 +213,7 @@
 
       <!-- Notifications -->
       <div class="relative notification-menu">
-        <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg relative transition-colors duration-200" on:click={toggleNotificationMenu} use:motionHover>
+        <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg relative transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary" on:click={toggleNotificationMenu} use:motionHover aria-label="Notifications">
           <Icon icon="heroicons:bell" class="w-5 h-5" />
           {#if unreadNotificationsCount > 0}
             <span class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-xs rounded-full flex items-center justify-center font-medium">
@@ -228,7 +229,7 @@
 
       <!-- Messages -->
       <div class="relative message-menu">
-        <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg relative transition-colors duration-200" on:click={toggleMessageMenu} use:motionHover>
+        <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200 rounded-lg relative transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary" on:click={toggleMessageMenu} use:motionHover aria-label="Messages">
           <Icon icon="heroicons:envelope" class="w-5 h-5" />
           {#if unreadMessagesCount > 0}
             <span class="absolute -top-1 -right-1 w-5 h-5 bg-warning text-white text-xs rounded-full flex items-center justify-center font-medium">
@@ -246,7 +247,7 @@
       <div class="relative user-menu">
         {#if $isAuthenticated}
           <!-- Authenticated User menu -->
-          <button class="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200" on:click={toggleUserMenu}>
+          <button class="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200" on:click={toggleUserMenu} aria-label="User menu" aria-expanded={userMenuOpen}>
             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User avatar" class="h-8 w-8 rounded-full object-cover bg-base-200" />
             <div class="hidden md:block text-left">
               <p class="text-sm font-medium text-base-content">John Doe</p>
@@ -256,7 +257,7 @@
           </button>
         {:else}
           <!-- Not authenticated - Profile icon with dropdown -->
-          <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200" on:click={toggleUserMenu}>
+          <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200" on:click={toggleUserMenu} aria-label="User menu" aria-expanded={userMenuOpen}>
             <Icon icon="heroicons:user-circle" class="w-8 h-8 text-base-content/60" />
             <Icon icon="heroicons:chevron-down" class="w-4 h-4 text-base-content/60" />
           </button>

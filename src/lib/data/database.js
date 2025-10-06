@@ -83,6 +83,16 @@ class FamilyDatabase extends Dexie {
       // Requests & Services
       requests: '++id, title, type, priority, status, dateCreated, dateCompleted, location, estimatedCost, actualCost'
     });
+
+    // Declare table properties for TypeScript support
+    this.groceryItems = this.table('groceryItems');
+    this.chores = this.table('chores');
+    this.books = this.table('books');
+    this.recipes = this.table('recipes');
+    this.familyContacts = this.table('familyContacts');
+    this.familyStories = this.table('familyStories');
+    this.requests = this.table('requests');
+    this.moodEntries = this.table('moodEntries');
   }
 }
 

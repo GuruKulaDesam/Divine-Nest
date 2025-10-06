@@ -29,6 +29,7 @@ import HobbiesActivitiesPage from './pages/HobbiesActivitiesPage.svelte';
 // Create stores for routing
 const currentRoute = writable(window.location.pathname);
 const navigationHistory = writable([]);
+const currentComponent = writable(HomePage);
 
 // Define routes
 const routes = {
@@ -128,7 +129,6 @@ window.addEventListener('load', () => {
 class Router {
   constructor() {
     this.routes = new Map();
-    this.currentComponent = null;
     
     // Initialize all routes
     Object.entries(routes).forEach(([path, component]) => {
@@ -165,12 +165,7 @@ class Router {
       component = this.routes.get('*');
     }
     
-    this.currentComponent = component;
-  }
-  
-  // Get current component
-  getCurrentComponent() {
-    return this.currentComponent;
+    currentComponent.set(component);
   }
 }
 
@@ -183,5 +178,6 @@ export {
   routes,
   currentRoute,
   navigationHistory,
+  currentComponent,
   navigate
 };

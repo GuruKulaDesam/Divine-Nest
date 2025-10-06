@@ -570,26 +570,27 @@
         {@const child = getCurrentChild()}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Study Resources Cards -->
-        {#each child.subjects as subject}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">{subject}</h3>
-            <div class="space-y-3">
-              <div>
-                <h4 class="font-semibold text-gray-700 dark:text-gray-300 text-sm">Textbooks</h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">NCERT, Reference guides</p>
-              </div>
-              <div>
-                <h4 class="font-semibold text-gray-700 dark:text-gray-300 text-sm">Online Resources</h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Khan Academy, Byjus</p>
-              </div>
-              <div>
-                <h4 class="font-semibold text-gray-700 dark:text-gray-300 text-sm">Practice Materials</h4>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Sample papers, Previous years</p>
+          {#each child.subjects as subject}
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">{subject}</h3>
+              <div class="space-y-3">
+                <div>
+                  <h4 class="font-semibold text-gray-700 dark:text-gray-300 text-sm">Textbooks</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">NCERT, Reference guides</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-700 dark:text-gray-300 text-sm">Online Resources</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Khan Academy, Byjus</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-700 dark:text-gray-300 text-sm">Practice Materials</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Sample papers, Previous years</p>
+                </div>
               </div>
             </div>
-          </div>
-        {/each}
-      </div>
+          {/each}
+        </div>
+      {/if}
     {:else if currentTab === "progress"}
       <div class="space-y-6">
         <!-- Progress Charts placeholder -->
