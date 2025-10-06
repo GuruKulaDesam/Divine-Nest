@@ -8,9 +8,14 @@ class FamilyDatabase extends Dexie {
     this.version(1).stores({
       // Home & Household
       groceryItems: 'id, name, category, inStock, marketMode',
+      pantryItems: '++id, name, category, quantity, unit, expiryDate, location, status, createdAt',
+      shoppingList: '++id, name, category, quantity, unit, priority, completed, createdAt',
       chores: 'id, title, assignedTo, frequency, completed, dueDate',
       repairTasks: 'id, issue, location, assignedTo, status, priority, createdDate',
       emergencyContacts: 'id, name, type, phone, isPrimary',
+      
+      // Personal Contacts
+      contacts: '++id, name, phone, email, address, category, relationship, avatar, notes, createdAt',
       
       // Education & Learning
       studyPlans: '++id, title, subject, studentName, dueDate, completed',
