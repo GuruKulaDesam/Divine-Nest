@@ -1,6 +1,7 @@
 <script>
   import Sidebar from "./Sidebar.svelte";
   import Header from "./Header.svelte";
+  import TopNavigation from "./TopNavigation.svelte";
 
   let sidebarOpen = false;
 
@@ -21,6 +22,9 @@
   <div class="flex-1 flex flex-col overflow-hidden">
     <!-- Header -->
     <Header {sidebarOpen} on:toggleSidebar={handleToggleSidebar} />
+
+    <!-- Top Navigation Tabs -->
+    <TopNavigation />
 
     <!-- Main content area -->
     <main class="flex-1 scrollable-container bg-transparent">

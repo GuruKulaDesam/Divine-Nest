@@ -39,6 +39,9 @@
   import WellnessPage from "./pages/wellness/+page.svelte";
   import LifeFlowPage from "./pages/lifeflow/+page.svelte";
   import DirectoryPage from "./pages/directory/+page.svelte";
+  import MembersPage from "./pages/members/+page.svelte";
+  import InventoryPage from "./pages/inventory/+page.svelte";
+  import VehiclesPage from "./pages/vehicles/+page.svelte";
   import { currentRoute } from "./lib/router.js";
   import { pageTransitions } from "./lib/utils/motion.js";
   import { themeActions } from "./lib/stores/theme.js";
@@ -52,6 +55,21 @@
   import IssuesMaintenancePage from "./lib/pages/IssuesMaintenancePage.svelte";
   import IssuesUrgentPage from "./lib/pages/IssuesUrgentPage.svelte";
   import TravelPage from "./lib/pages/TravelPage.svelte";
+  import FestivalCalendarPage from "./lib/pages/FestivalCalendarPage.svelte";
+  import MantrasPage from "./lib/pages/MantrasPage.svelte";
+  import ContactsPage from "./lib/pages/ContactsPage.svelte";
+  import GroceryPage from "./lib/pages/GroceryPage.svelte";
+  import StudiesPage from "./lib/pages/StudiesPage.svelte";
+  import LearningGoalsPage from "./lib/pages/LearningGoalsPage.svelte";
+  import StudyPlansPage from "./pages/study-plans/+page.svelte";
+  import PantryPage from "./pages/pantry/+page.svelte";
+  import YogaExercisePage from "./lib/pages/YogaExercisePage.svelte";
+  import FamilyStoriesPage from "./lib/pages/FamilyStoriesPage.svelte";
+  import LegacyMemoryPage from "./lib/pages/LegacyMemoryPage.svelte";
+  import EmotionsFeelingsPage from "./lib/pages/EmotionsFeelingsPage.svelte";
+  import FamilyGovernancePage from "./lib/pages/FamilyGovernancePage.svelte";
+  import TripHistoryPage from "./lib/pages/TripHistoryPage.svelte";
+  import LeisureCommunityPage from "./lib/pages/LeisureCommunityPage.svelte";
 
   let current;
   let pageElement;
@@ -70,27 +88,38 @@
       "/": HomePage,
       "/home": HomePage,
       "/household": HouseholdPage,
+      "/members": MembersPage,
+      "/inventory": InventoryPage,
+      "/vehicles": VehiclesPage,
       "/home-services": HomePage, // Will create later
       "/requests": RequestsPage,
 
       // Education & Learning
       "/education": EducationPage,
       "/library": LibraryPage,
+      "/studies": StudiesPage,
+      "/learning-goals": LearningGoalsPage,
+      "/study-plans": StudyPlansPage,
 
       // Meals & Kitchen
       "/meals": MealsPage,
       "/recipes": RecipesPage,
+      "/grocery": GroceryPage,
+      "/pantry": PantryPage,
+      "/kitchen": MealsPage, // Kitchen management component within meals
 
       // Rituals & Spiritual
       "/rituals": RitualsPage,
       "/temple": TemplePage,
-      "/festival-calendar": RitualsPage, // Will create later
+      "/festival-calendar": FestivalCalendarPage,
+      "/mantras": MantrasPage,
 
       // Health & Wellness
       "/wellness": WellnessPage,
-      "/health": WellnessPage, // Will create later
-      "/mantras": WellnessPage, // Will create later
-      "/journal": WellnessPage, // Will create later
+      "/health": WellnessPage, // Health tracking component within wellness
+      "/yoga": YogaExercisePage,
+      "/mantras": MantrasPage,
+      "/journal": WellnessPage, // Journal component within wellness
 
       // Time & Events
       "/family-calendar-modern": FamilyCalendarModernPage,
@@ -101,19 +130,22 @@
 
       // Travel & Leisure
       "/travel": TravelPage,
-      "/trips": TravelPage,
-      "/leisure": TravelPage,
-      "/community": TravelPage,
+      "/trips": TripHistoryPage,
+      "/leisure": LeisureCommunityPage,
+      "/community": LeisureCommunityPage,
 
       // Life Flow & Memory
       "/lifeflow": LifeFlowPage,
-      "/legacy": LifeFlowPage, // Will create later
-      "/family-governance": LifeFlowPage, // Will create later
+      "/legacy": LegacyMemoryPage,
+      "/family-stories": FamilyStoriesPage,
+      "/emotions": EmotionsFeelingsPage,
+      "/family-governance": FamilyGovernancePage,
 
       // Directory & Contacts
       "/directory": DirectoryPage,
-      "/contacts": DirectoryPage, // Will create later
-      "/vendors": DirectoryPage, // Will create later
+      "/contacts": ContactsPage,
+      "/vendors": DirectoryPage, // Vendors component within directory
+      "/emergency": IssuesEmergencyPage, // Emergency should be in Issues section
 
       // Issues Management
       "/emergency": IssuesEmergencyPage,

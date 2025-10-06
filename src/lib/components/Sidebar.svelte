@@ -12,28 +12,99 @@
 
   let sidebarElement;
   let menuItemsElements = [];
-  // Track expanded submenus
-  let expandedMenus = {
-    dashboard: false,
-    divinity: false,
-    contacts: false,
-    food: false,
-    education: false,
-    health: false,
-    issues: false,
-    memories: false,
-    travel: false,
-  };
+  // Main menu items without sub-menus
+  $: mainMenuItems = [
+    {
+      key: "dashboard",
+      title: "🏠 Home",
+      icon: "heroicons:home",
+      path: "/",
+      color: "text-blue-400",
+      routes: ["/", "/household", "/members", "/inventory", "/vehicles", "/family-calendar-modern", "/family-notes-modern", "/reminders"],
+    },
+    {
+      key: "divinity",
+      title: "🕉️ Divinity",
+      icon: "heroicons:sparkles",
+      path: "/rituals",
+      color: "text-orange-600",
+      routes: ["/rituals", "/temple", "/festival-calendar", "/mantras"],
+    },
+    {
+      key: "contacts",
+      title: "📇 Contacts",
+      icon: "heroicons:phone",
+      path: "/contacts",
+      color: "text-green-600",
+      routes: ["/contacts", "/emergency", "/vendors", "/directory"],
+    },
+    {
+      key: "food",
+      title: "🍛 Food",
+      icon: "heroicons:utensils",
+      path: "/meals",
+      color: "text-orange-500",
+      routes: ["/meals", "/recipes", "/grocery", "/pantry", "/kitchen"],
+    },
+    {
+      key: "education",
+      title: "📚 Education",
+      icon: "heroicons:academic-cap",
+      path: "/education",
+      color: "text-indigo-500",
+      routes: ["/education", "/library", "/studies", "/learning-goals", "/study-plans"],
+    },
+    {
+      key: "health",
+      title: "💚 Health",
+      icon: "heroicons:heart",
+      path: "/wellness",
+      color: "text-green-600",
+      routes: ["/wellness", "/health", "/yoga", "/journal"],
+    },
+    {
+      key: "issues",
+      title: "🚨 Issues",
+      icon: "heroicons:exclamation-triangle",
+      path: "/emergency",
+      color: "text-red-600",
+      routes: ["/emergency", "/urgent", "/repairs", "/maintenance", "/requests"],
+    },
+    {
+      key: "memories",
+      title: "💭 Memories",
+      icon: "heroicons:photo",
+      path: "/lifeflow",
+      color: "text-blue-500",
+      routes: ["/lifeflow", "/family-stories", "/legacy", "/emotions", "/family-governance"],
+    },
+    {
+      key: "travel",
+      title: "✈️ Travel",
+      icon: "heroicons:map",
+      path: "/travel",
+      color: "text-emerald-500",
+      routes: ["/travel", "/trips", "/leisure", "/community"],
+    },
+  ];
+
+  // Check if current route belongs to a menu section
+  function isMenuActive(menuItem) {
+    return menuItem.routes.includes($currentRoute);
+  }
 
   // Create simplified 9-item menu structure
   $: menuSections = [
     {
       key: "dashboard",
-      title: "🏠 Dashboard",
+      title: "🏠 Home",
       icon: "heroicons:home",
       items: [
-        { path: "/", icon: "heroicons:home", name: "Home Overview", color: "text-blue-400" },
+        { path: "/", icon: "heroicons:home", name: "Dashboard", color: "text-blue-400" },
         { path: "/household", icon: "heroicons:squares-2x2", name: "Household", color: "text-green-500" },
+        { path: "/members", icon: "heroicons:users", name: "Family Members", color: "text-purple-500" },
+        { path: "/inventory", icon: "heroicons:archive-box", name: "Home Inventory", color: "text-amber-500" },
+        { path: "/vehicles", icon: "heroicons:truck", name: "Vehicle Management", color: "text-cyan-500" },
         { path: "/family-calendar-modern", icon: "heroicons:calendar-days", name: "Calendar", color: "text-violet-400" },
         { path: "/family-notes-modern", icon: "heroicons:document-text", name: "Notes", color: "text-sky-400" },
         { path: "/reminders", icon: "heroicons:bell-alert", name: "Reminders", color: "text-stone-400" },
@@ -66,7 +137,7 @@
       title: "🍛 Food",
       icon: "heroicons:utensils",
       items: [
-        { path: "/meals", icon: "heroicons:utensils", name: "Meals & Planning", color: "text-orange-500" },
+        { path: "/meals", icon: "heroicons:calendar-days", name: "Meals & Planning", color: "text-orange-500" },
         { path: "/recipes", icon: "heroicons:book-open", name: "Recipes", color: "text-red-500" },
         { path: "/grocery", icon: "heroicons:shopping-cart", name: "Grocery & Pantry", color: "text-green-500" },
         { path: "/kitchen", icon: "heroicons:home", name: "Kitchen Management", color: "text-amber-500" },
@@ -150,26 +221,10 @@
     isOpen = false;
   }
 
-  // Check if a menu item is active based on current route
-  function isActive(itemPath) {
-    return $currentRoute === itemPath;
-  }
-
   // Handle menu item click with animation
   function handleMenuClick(path) {
     navigate(path);
     closeSidebar();
-  }
-
-  // Toggle submenu expansion
-  function toggleSubmenu(key) {
-    expandedMenus[key] = !expandedMenus[key];
-  }
-
-  // Check if a submenu is active
-  function isSubmenuActive(items) {
-    if (!items) return false;
-    return items.some((item) => item.path === $currentRoute);
   }
 
   // Add logout function
@@ -207,29 +262,15 @@
 
   <!-- Navigation section - takes up remaining space -->
   <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-    {#each menuSections as section, sectionIndex}
-      <div class="menu-section">
-        <button class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isSubmenuActive(section.items) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click={() => toggleSubmenu(section.key)}>
-          <div class="flex items-center">
-            <Icon icon={section.icon} class="w-5 h-5 mr-3 text-gray-400" />
-            {section.title}
-          </div>
-          <Icon icon={expandedMenus[section.key] ? "heroicons:chevron-down" : "heroicons:chevron-right"} class="w-4 h-4 transition-transform text-sidebar" />
-        </button>
-
-        {#if expandedMenus[section.key]}
-          <div class="ml-4 pl-4 border-l border-white/20 mt-1 space-y-1">
-            {#each section.items as item, itemIndex}
-              <a bind:this={menuItemsElements[sectionIndex * 10 + itemIndex]} href={item.path} class="w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 {$currentRoute === item.path ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(item.path)} use:motionInView={{ animation: "fadeInLeft", delay: (sectionIndex * 10 + itemIndex) * 0.05 }}>
-                <Icon icon={item.icon} class="w-4 h-4 mr-3 {item.color}" />
-                {item.name}
-                {#if $currentRoute === item.path}
-                  <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                {/if}
-              </a>
-            {/each}
-          </div>
-        {/if}
+    {#each mainMenuItems as menuItem, index}
+      <div class="menu-item">
+        <a bind:this={menuItemsElements[index]} href={menuItem.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isMenuActive(menuItem) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(menuItem.path)} use:motionInView={{ animation: "fadeInLeft", delay: index * 0.05 }}>
+          <Icon icon={menuItem.icon} class="w-5 h-5 mr-3 {menuItem.color}" />
+          {menuItem.title}
+          {#if isMenuActive(menuItem)}
+            <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          {/if}
+        </a>
       </div>
     {/each}
   </nav>
