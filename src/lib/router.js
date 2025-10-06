@@ -20,6 +20,11 @@ import GanttPage from './pages/GanttPage.svelte';
 import FamilyCalendarModernPage from './pages/FamilyCalendarModernPage.svelte';
 import FamilyNotesModernPage from './pages/FamilyNotesModernPage.svelte';
 import RemindersPage from './pages/RemindersPage.svelte';
+import FinancesPageEnhanced from './pages/FinancesPageEnhanced.svelte';
+import EducationPage from './pages/EducationPage.svelte';
+import KitchenPage from './pages/KitchenPage.svelte';
+import TamilPanchangamPage from './pages/TamilPanchangamPage.svelte';
+import HobbiesActivitiesPage from './pages/HobbiesActivitiesPage.svelte';
 
 // Create stores for routing
 const currentRoute = writable(window.location.pathname);
@@ -47,6 +52,51 @@ const routes = {
   '/family-calendar-modern': FamilyCalendarModernPage,
   '/family-notes-modern': FamilyNotesModernPage,
   '/reminders': RemindersPage,
+  '/finances': FinancesPageEnhanced,
+  '/recharges': FinancesPageEnhanced,
+  '/expenses': FinancesPageEnhanced,
+  '/budget': FinancesPageEnhanced,
+  '/insurance': FinancesPageEnhanced,
+  '/family-members': FinancesPageEnhanced,
+  '/finance/expenses': FinancesPageEnhanced,
+  '/finance/budget': FinancesPageEnhanced,
+  '/finance/savings': FinancesPageEnhanced,
+  '/finance/wealth': FinancesPageEnhanced,
+  '/finance/recharges': FinancesPageEnhanced,
+  '/finance/insurance': FinancesPageEnhanced,
+  '/finance/property': FinancesPageEnhanced,
+  '/finance/milestones': FinancesPageEnhanced,
+  '/finance/festivals': FinancesPageEnhanced,
+  '/finance/gifts': FinancesPageEnhanced,
+  '/finance/vendors': FinancesPageEnhanced,
+  '/finance/documents': FinancesPageEnhanced,
+  '/finance/resilience': FinancesPageEnhanced,
+  '/finance/income': FinancesPageEnhanced,
+  '/finance/ai': FinancesPageEnhanced,
+  '/education': EducationPage,
+  '/education/dashboard': EducationPage,
+  '/education/students': EducationPage,
+  '/education/curriculum': EducationPage,
+  '/education/planner': EducationPage,
+  '/education/quiz': EducationPage,
+  '/education/assessment': EducationPage,
+  '/education/courses': EducationPage,
+  '/education/mentors': EducationPage,
+  '/education/achievements': EducationPage,
+  '/education/archive': EducationPage,
+  '/kitchen': KitchenPage,
+  '/kitchen/dashboard': KitchenPage,
+  '/kitchen/pantry': KitchenPage,
+  '/kitchen/fresh': KitchenPage,
+  '/kitchen/meals': KitchenPage,
+  '/kitchen/kids': KitchenPage,
+  '/kitchen/recipes': KitchenPage,
+  '/kitchen/cleaning': KitchenPage,
+  '/kitchen/vendors': KitchenPage,
+  '/kitchen/wellness': KitchenPage,
+  '/kitchen/festivals': KitchenPage,
+  '/tamil-panchangam': TamilPanchangamPage,
+  '/hobbies-activities': HobbiesActivitiesPage,
   '*': NotFoundPage
 };
 

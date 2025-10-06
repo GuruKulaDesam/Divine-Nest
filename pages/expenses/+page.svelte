@@ -142,67 +142,69 @@
         <!-- Current Month Budget -->
         <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
           <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">October 2024 Budget vs Actual</h3>
-          {@const currentMonth = monthlyBudget.october2024}
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3">Planned Budget</h4>
-              <div class="space-y-2">
-                {#each Object.entries(currentMonth.planned) as [category, amount]}
-                  <div class="flex justify-between text-sm">
-                    <span class="capitalize text-gray-600 dark:text-gray-400">{category.replace("_", " ")}:</span>
-                    <span class="font-medium">{formatCurrency(amount)}</span>
-                  </div>
-                {/each}
-                <div class="border-t pt-2 flex justify-between font-bold">
-                  <span>Total:</span>
-                  <span class="text-green-600">{formatCurrency(getMonthlyTotal(currentMonth))}</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3">Actual Spend</h4>
-              <div class="space-y-2">
-                {#each Object.entries(currentMonth.actual) as [category, amount]}
-                  {@const planned = currentMonth.planned[category]}
-                  {@const variance = calculateBudgetVariance(planned, amount)}
-                  <div class="flex justify-between text-sm">
-                    <span class="capitalize text-gray-600 dark:text-gray-400">{category.replace("_", " ")}:</span>
-                    <div class="flex items-center space-x-2">
+          {#if monthlyBudget.october2024}
+            {@const currentMonth = monthlyBudget.october2024}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3">Planned Budget</h4>
+                <div class="space-y-2">
+                  {#each Object.entries(currentMonth.planned) as [category, amount]}
+                    <div class="flex justify-between text-sm">
+                      <span class="capitalize text-gray-600 dark:text-gray-400">{category.replace("_", " ")}:</span>
                       <span class="font-medium">{formatCurrency(amount)}</span>
-                      {#if variance !== 0}
-                        <span class="text-xs px-1 py-0.5 rounded {variance > 0 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}">
-                          {variance > 0 ? "+" : ""}{variance}%
-                        </span>
-                      {/if}
                     </div>
+                  {/each}
+                  <div class="border-t pt-2 flex justify-between font-bold">
+                    <span>Total:</span>
+                    <span class="text-green-600">{formatCurrency(getMonthlyTotal(currentMonth))}</span>
                   </div>
-                {/each}
-                <div class="border-t pt-2 flex justify-between font-bold">
-                  <span>Total:</span>
-                  <span class="text-blue-600">{formatCurrency(Object.values(currentMonth.actual).reduce((sum, amount) => sum + amount, 0))}</span>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3">Actual Spend</h4>
+                <div class="space-y-2">
+                  {#each Object.entries(currentMonth.actual) as [category, amount]}
+                    {@const planned = currentMonth.planned[category]}
+                    {@const variance = calculateBudgetVariance(planned, amount)}
+                    <div class="flex justify-between text-sm">
+                      <span class="capitalize text-gray-600 dark:text-gray-400">{category.replace("_", " ")}:</span>
+                      <div class="flex items-center space-x-2">
+                        <span class="font-medium">{formatCurrency(amount)}</span>
+                        {#if variance !== 0}
+                          <span class="text-xs px-1 py-0.5 rounded {variance > 0 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}">
+                            {variance > 0 ? "+" : ""}{variance}%
+                          </span>
+                        {/if}
+                      </div>
+                    </div>
+                  {/each}
+                  <div class="border-t pt-2 flex justify-between font-bold">
+                    <span>Total:</span>
+                    <span class="text-blue-600">{formatCurrency(Object.values(currentMonth.actual).reduce((sum, amount) => sum + amount, 0))}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Budget Notes -->
-          <div class="mt-6">
-            <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3">Budget Notes</h4>
-            <div class="space-y-2">
-              {#each Object.entries(currentMonth.notes) as [category, note]}
-                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                  <div class="flex items-start space-x-2">
-                    <Icon icon="heroicons:information-circle" class="w-4 h-4 text-blue-600 mt-0.5" />
-                    <div>
-                      <span class="font-medium text-blue-800 dark:text-blue-200 capitalize">{category.replace("_", " ")}: </span>
-                      <span class="text-blue-700 dark:text-blue-300">{note}</span>
+            <!-- Budget Notes -->
+            <div class="mt-6">
+              <h4 class="font-semibold text-gray-700 dark:text-gray-300 mb-3">Budget Notes</h4>
+              <div class="space-y-2">
+                {#each Object.entries(currentMonth.notes) as [category, note]}
+                  <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <div class="flex items-start space-x-2">
+                      <Icon icon="heroicons:information-circle" class="w-4 h-4 text-blue-600 mt-0.5" />
+                      <div>
+                        <span class="font-medium text-blue-800 dark:text-blue-200 capitalize">{category.replace("_", " ")}: </span>
+                        <span class="text-blue-700 dark:text-blue-300">{note}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              {/each}
+                {/each}
+              </div>
             </div>
-          </div>
+          {/if}
         </div>
 
         <!-- Upcoming Items -->
@@ -266,21 +268,23 @@
               <Icon icon="heroicons:crystal-ball" class="w-5 h-5 mr-2 text-purple-500" />
               November Prediction
             </h3>
-            {@const novemberBudget = monthlyBudget.predicted_november}
-            <div class="space-y-2">
-              <div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                <div class="text-2xl font-bold text-purple-600">{formatCurrency(getMonthlyTotal(novemberBudget))}</div>
-                <div class="text-sm text-purple-700 dark:text-purple-300">Estimated Total</div>
+            {#if monthlyBudget.predicted_november}
+              {@const novemberBudget = monthlyBudget.predicted_november}
+              <div class="space-y-2">
+                <div class="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                  <div class="text-2xl font-bold text-purple-600">{formatCurrency(getMonthlyTotal(novemberBudget))}</div>
+                  <div class="text-sm text-purple-700 dark:text-purple-300">Estimated Total</div>
+                </div>
+                <div class="space-y-1 text-sm">
+                  {#each Object.entries(novemberBudget.reasoning) as [category, reason]}
+                    <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded">
+                      <span class="font-medium capitalize">{category.replace("_", " ")}: </span>
+                      <span class="text-purple-700 dark:text-purple-300">{reason}</span>
+                    </div>
+                  {/each}
+                </div>
               </div>
-              <div class="space-y-1 text-sm">
-                {#each Object.entries(novemberBudget.reasoning) as [category, reason]}
-                  <div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded">
-                    <span class="font-medium capitalize">{category.replace("_", " ")}: </span>
-                    <span class="text-purple-700 dark:text-purple-300">{reason}</span>
-                  </div>
-                {/each}
-              </div>
-            </div>
+            {/if}
           </div>
         </div>
       </div>
@@ -304,81 +308,83 @@
 
         <!-- Category Details -->
         <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          {@const category = expenseCategories[selectedCategory]}
-          <div class="flex items-center space-x-3 mb-6">
-            <div class="p-3 bg-gradient-to-r {category.color} rounded-xl text-white">
-              <Icon icon={category.icon} class="w-6 h-6" />
+          {#if expenseCategories[selectedCategory]}
+            {@const category = expenseCategories[selectedCategory]}
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="p-3 bg-gradient-to-r {category.color} rounded-xl text-white">
+                <Icon icon={category.icon} class="w-6 h-6" />
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white">{category.name}</h3>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white">{category.name}</h3>
-          </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {#each category.items as item}
-              <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
-                <div class="flex justify-between items-start mb-2">
-                  <h4 class="font-medium text-gray-900 dark:text-white">{item.name}</h4>
-                  <span class="font-bold text-green-600">{formatCurrency(item.amount)}</span>
-                </div>
-                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                  <div class="flex items-center space-x-2">
-                    <Icon icon="heroicons:clock" class="w-3 h-3" />
-                    <span class="capitalize">{item.frequency.replace("_", " ")}</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {#each category.items as item}
+                <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                  <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-medium text-gray-900 dark:text-white">{item.name}</h4>
+                    <span class="font-bold text-green-600">{formatCurrency(item.amount)}</span>
                   </div>
-                  {#if item.notes}
-                    <div class="flex items-start space-x-2">
-                      <Icon icon="heroicons:information-circle" class="w-3 h-3 mt-0.5" />
-                      <span>{item.notes}</span>
+                  <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    <div class="flex items-center space-x-2">
+                      <Icon icon="heroicons:clock" class="w-3 h-3" />
+                      <span class="capitalize">{item.frequency.replace("_", " ")}</span>
                     </div>
-                  {/if}
+                    {#if item.notes}
+                      <div class="flex items-start space-x-2">
+                        <Icon icon="heroicons:information-circle" class="w-3 h-3 mt-0.5" />
+                        <span>{item.notes}</span>
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              {/each}
+            </div>
+
+            <!-- Category Summary -->
+            <div class="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg">
+              <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Category Summary</h4>
+              <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span class="text-gray-600 dark:text-gray-400">Monthly Items: </span>
+                  <span class="font-medium">{category.items.filter((item) => item.frequency === "monthly").length}</span>
+                </div>
+                <div>
+                  <span class="text-gray-600 dark:text-gray-400">Total Items: </span>
+                  <span class="font-medium">{category.items.length}</span>
+                </div>
+                <div>
+                  <span class="text-gray-600 dark:text-gray-400">Monthly Total: </span>
+                  <span class="font-medium text-green-600">
+                    {formatCurrency(category.items.filter((item) => item.frequency === "monthly").reduce((sum, item) => sum + item.amount, 0))}
+                  </span>
+                </div>
+                <div>
+                  <span class="text-gray-600 dark:text-gray-400">Annual Estimate: </span>
+                  <span class="font-medium text-purple-600">
+                    {formatCurrency(
+                      category.items.reduce((sum, item) => {
+                        switch (item.frequency) {
+                          case "monthly":
+                            return sum + item.amount * 12;
+                          case "weekly":
+                            return sum + item.amount * 52;
+                          case "quarterly":
+                            return sum + item.amount * 4;
+                          case "yearly":
+                          case "seasonal":
+                            return sum + item.amount;
+                          case "term":
+                            return sum + item.amount * 3;
+                          default:
+                            return sum;
+                        }
+                      }, 0)
+                    )}
+                  </span>
                 </div>
               </div>
-            {/each}
-          </div>
-
-          <!-- Category Summary -->
-          <div class="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg">
-            <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Category Summary</h4>
-            <div class="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span class="text-gray-600 dark:text-gray-400">Monthly Items: </span>
-                <span class="font-medium">{category.items.filter((item) => item.frequency === "monthly").length}</span>
-              </div>
-              <div>
-                <span class="text-gray-600 dark:text-gray-400">Total Items: </span>
-                <span class="font-medium">{category.items.length}</span>
-              </div>
-              <div>
-                <span class="text-gray-600 dark:text-gray-400">Monthly Total: </span>
-                <span class="font-medium text-green-600">
-                  {formatCurrency(category.items.filter((item) => item.frequency === "monthly").reduce((sum, item) => sum + item.amount, 0))}
-                </span>
-              </div>
-              <div>
-                <span class="text-gray-600 dark:text-gray-400">Annual Estimate: </span>
-                <span class="font-medium text-purple-600">
-                  {formatCurrency(
-                    category.items.reduce((sum, item) => {
-                      switch (item.frequency) {
-                        case "monthly":
-                          return sum + item.amount * 12;
-                        case "weekly":
-                          return sum + item.amount * 52;
-                        case "quarterly":
-                          return sum + item.amount * 4;
-                        case "yearly":
-                        case "seasonal":
-                          return sum + item.amount;
-                        case "term":
-                          return sum + item.amount * 3;
-                        default:
-                          return sum;
-                      }
-                    }, 0)
-                  )}
-                </span>
-              </div>
             </div>
-          </div>
+          {/if}
         </div>
       </div>
     {:else if currentTab === "subscriptions"}

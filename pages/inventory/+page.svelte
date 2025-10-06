@@ -597,29 +597,31 @@
       </div>
 
       <!-- Inventory Stats -->
-      {@const stats = getInventoryStats()}
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-emerald-600">{stats.total}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Total Items</div>
+      {#if true}
+        {@const stats = getInventoryStats()}
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-emerald-600">{stats.total}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Total Items</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-green-600">{stats.inStock}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">In Stock</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-yellow-600">{stats.lowStock}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Low Stock</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-orange-600">{stats.needsRepair}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Needs Repair</div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
+            <div class="text-2xl font-bold text-red-600">{stats.expiringSoon}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Expiring Soon</div>
+          </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-green-600">{stats.inStock}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">In Stock</div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-yellow-600">{stats.lowStock}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Low Stock</div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-orange-600">{stats.needsRepair}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Needs Repair</div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center">
-          <div class="text-2xl font-bold text-red-600">{stats.expiringSoon}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">Expiring Soon</div>
-        </div>
-      </div>
+      {/if}
 
       <!-- Search Bar -->
       <div class="mb-6">
