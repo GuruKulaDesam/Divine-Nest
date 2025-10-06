@@ -8,6 +8,7 @@ import MapsPage from './pages/MapsPage.svelte';
 import SchedulePage from './pages/SchedulePage.svelte';
 import ProfilePage from './pages/ProfilePage.svelte';
 import SettingsPage from './pages/SettingsPage.svelte';
+import ViewModeTestPage from './pages/ViewModeTestPage.svelte';
 import LoginPage from './pages/LoginPage.svelte';
 import LoginV2 from './pages/LoginV2.svelte';
 import LoginV3 from './pages/LoginV3.svelte';
@@ -29,6 +30,7 @@ import HobbiesActivitiesPage from './pages/HobbiesActivitiesPage.svelte';
 // Additional page imports
 import HouseholdPage from './pages/HouseholdPage.svelte';
 import ContactsPage from './pages/ContactsPage.svelte';
+import EmergencyContactsPage from './pages/EmergencyContactsPage.svelte';
 import IssuesEmergencyPage from './pages/IssuesEmergencyPage.svelte';
 import IssuesUrgentPage from './pages/IssuesUrgentPage.svelte';
 import IssuesRepairsPage from './pages/IssuesRepairsPage.svelte';
@@ -75,6 +77,7 @@ const routes = {
   '/schedule': SchedulePage,
   '/profile': ProfilePage,
   '/settings': SettingsPage,
+  '/view-mode-test': HomePage,
   '/auth/login': LoginPage,
   '/auth/login-v2': LoginV2,
   '/auth/login-v3': LoginV3,
@@ -145,7 +148,7 @@ const routes = {
 
   // Contacts routes
   '/contacts': ContactsPage,
-  '/emergency': IssuesEmergencyPage,
+  '/emergency': EmergencyContactsPage,
   '/vendors': ContactsPage,
   '/directory': ContactsPage,
 

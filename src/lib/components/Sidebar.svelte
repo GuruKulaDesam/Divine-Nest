@@ -79,6 +79,14 @@
       routes: ["/assets", "/assets/items", "/assets/value", "/assets/maintenance", "/assets/documents", "/inventory", "/vehicles"],
     },
     {
+      key: "projects",
+      title: "📋 Projects",
+      icon: "heroicons:clipboard-document-list",
+      path: "/projects",
+      color: "text-cyan-600",
+      routes: ["/projects", "/gantt", "/schedule", "/analytics", "/charts", "/maps"],
+    },
+    {
       key: "issues",
       title: "🚨 Issues",
       icon: "heroicons:exclamation-triangle",

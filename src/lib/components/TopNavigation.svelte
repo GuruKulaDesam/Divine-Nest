@@ -97,6 +97,16 @@
       { id: "vehicles", label: "Vehicle Management", icon: "heroicons:truck", path: "/vehicles" },
     ],
 
+    // Projects section
+    projects: [
+      { id: "management", label: "Project Management", icon: "heroicons:clipboard-document-list", path: "/projects" },
+      { id: "gantt", label: "Gantt Chart", icon: "heroicons:chart-bar", path: "/gantt" },
+      { id: "schedule", label: "Daily Schedule", icon: "heroicons:calendar-days", path: "/schedule" },
+      { id: "analytics", label: "Analytics Dashboard", icon: "heroicons:chart-bar", path: "/analytics" },
+      { id: "charts", label: "Data Charts", icon: "heroicons:chart-pie", path: "/charts" },
+      { id: "maps", label: "Interactive Maps", icon: "heroicons:map", path: "/maps" },
+    ],
+
     // Issues section
     issues: [
       { id: "emergency", label: "Emergency", icon: "heroicons:shield-exclamation", path: "/emergency" },
@@ -133,6 +143,7 @@
     education: { label: "Education", icon: "heroicons:academic-cap", color: "text-indigo-500" },
     health: { label: "Health", icon: "heroicons:heart", color: "text-green-600" },
     assets: { label: "Assets", icon: "heroicons:building-storefront", color: "text-purple-600" },
+    projects: { label: "Projects", icon: "heroicons:clipboard-document-list", color: "text-blue-600" },
     issues: { label: "Issues", icon: "heroicons:exclamation-triangle", color: "text-red-600" },
     memories: { label: "Memories", icon: "heroicons:photo", color: "text-blue-500" },
     travel: { label: "Travel", icon: "heroicons:map", color: "text-emerald-500" },
@@ -153,6 +164,7 @@
       education: ["/education", "/library", "/studies", "/learning-goals", "/study-plans"],
       health: ["/wellness", "/health", "/yoga", "/journal", "/hobbies-activities"],
       assets: ["/assets", "/assets/items", "/assets/value", "/assets/maintenance", "/assets/documents", "/inventory", "/vehicles"],
+      projects: ["/projects", "/gantt", "/schedule", "/analytics", "/charts", "/maps"],
       issues: ["/emergency", "/urgent", "/repairs", "/maintenance", "/requests"],
       memories: ["/lifeflow", "/family-stories", "/legacy", "/emotions", "/family-governance"],
       travel: ["/travel", "/trips", "/leisure", "/community"],

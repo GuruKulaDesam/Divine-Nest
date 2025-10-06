@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import DashboardLayout from "../components/DashboardLayout.svelte";
 
   let currentView = "dashboard";
   let showActivityModal = false;
@@ -208,446 +207,444 @@
   $: totalSessions = filteredSessions.length;
 </script>
 
-<DashboardLayout>
-  <div class="space-y-6">
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl text-white shadow-lg">
-          <Icon icon="heroicons:puzzle-piece" class="w-8 h-8" />
-        </div>
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">பொழுதுபோக்கு மற்றும் செயல்பாடுகள்</h1>
-          <p class="text-gray-600 dark:text-gray-300">Hobbies, Interests & Family Activities Tracker</p>
-        </div>
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl text-white shadow-lg">
+        <Icon icon="heroicons:puzzle-piece" class="w-8 h-8" />
       </div>
-      <div class="flex items-center space-x-3">
-        <select bind:value={selectedMember} class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
-          {#each familyMembers as member}
-            <option value={member.id}>{member.name}</option>
-          {/each}
-        </select>
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">பொழுதுபோக்கு மற்றும் செயல்பாடுகள்</h1>
+        <p class="text-gray-600 dark:text-gray-300">Hobbies, Interests & Family Activities Tracker</p>
       </div>
     </div>
-
-    <!-- View Tabs -->
-    <div class="flex space-x-2">
-      {#each views as view}
-        <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-purple-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-purple-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-purple-900/20'}" on:click={() => (currentView = view.id)}>
-          <Icon icon={view.icon} class="w-4 h-4" />
-          <span class="font-medium">{view.label}</span>
-        </button>
-      {/each}
+    <div class="flex items-center space-x-3">
+      <select bind:value={selectedMember} class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
+        {#each familyMembers as member}
+          <option value={member.id}>{member.name}</option>
+        {/each}
+      </select>
     </div>
-
-    <!-- Dashboard View -->
-    {#if currentView === "dashboard"}
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <!-- Summary Stats -->
-        <div class="lg:col-span-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Total Hobbies</p>
-                <p class="text-2xl font-bold text-gray-900 dark:text-white">{totalHobbies}</p>
-              </div>
-              <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                <Icon icon="heroicons:puzzle-piece" class="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Active Today</p>
-                <p class="text-2xl font-bold text-gray-900 dark:text-white">{activeToday}</p>
-              </div>
-              <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                <Icon icon="heroicons:clock" class="w-6 h-6 text-green-600" />
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Avg Progress</p>
-                <p class="text-2xl font-bold text-gray-900 dark:text-white">{Math.round(avgProgress)}%</p>
-              </div>
-              <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                <Icon icon="heroicons:chart-bar" class="w-6 h-6 text-blue-600" />
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm text-gray-600 dark:text-gray-400">Recent Sessions</p>
-                <p class="text-2xl font-bold text-gray-900 dark:text-white">{totalSessions}</p>
-              </div>
-              <div class="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                <Icon icon="heroicons:calendar-days" class="w-6 h-6 text-orange-600" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Activities -->
-        <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">இன்றைய செயல்பாடுகள்</h3>
-          <div class="space-y-3">
-            {#each filteredSessions.slice(0, 5) as session}
-              <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <div class="flex items-center space-x-3">
-                  <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <div>
-                    <p class="font-medium text-gray-900 dark:text-white">{session.activity}</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{getMemberName(session.member)} • {session.duration}</p>
-                  </div>
-                </div>
-                <div class="flex items-center space-x-1">
-                  {#each Array(session.enjoyment) as _}
-                    <Icon icon="heroicons:star" class="w-4 h-4 text-yellow-400" />
-                  {/each}
-                </div>
-              </div>
-            {/each}
-          </div>
-        </div>
-
-        <!-- Categories Overview -->
-        <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">பொழுதுபோக்கு வகைகள்</h3>
-          <div class="grid grid-cols-2 gap-3">
-            {#each hobbyCategories as category}
-              {@const count = filteredHobbies.filter((h) => h.category === category.id).length}
-              <div class="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <div class="p-2 {category.color} rounded-lg">
-                  <Icon icon={category.icon} class="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p class="font-medium text-gray-900 dark:text-white">{category.tamil}</p>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{count} hobbies</p>
-                </div>
-              </div>
-            {/each}
-          </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="lg:col-span-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button on:click={() => (showHobbyModal = true)} class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg">
-            <Icon icon="heroicons:plus" class="w-8 h-8 mx-auto mb-2" />
-            <p class="font-semibold">Add New Hobby</p>
-            <p class="text-sm opacity-90">புதிய பொழுதுபோக்கு</p>
-          </button>
-
-          <button on:click={() => (showActivityModal = true)} class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-6 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg">
-            <Icon icon="heroicons:user-group" class="w-8 h-8 mx-auto mb-2" />
-            <p class="font-semibold">Plan Family Activity</p>
-            <p class="text-sm opacity-90">குடும்ப செயல்பாடு</p>
-          </button>
-
-          <button on:click={() => (showSessionModal = true)} class="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-6 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all shadow-lg">
-            <Icon icon="heroicons:clock" class="w-8 h-8 mx-auto mb-2" />
-            <p class="font-semibold">Log Session</p>
-            <p class="text-sm opacity-90">அமர்வு பதிவு</p>
-          </button>
-        </div>
-      </div>
-
-      <!-- Hobbies View -->
-    {:else if currentView === "hobbies"}
-      <div class="space-y-6">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white">தனிநபர் பொழுதுபோக்குகள்</h2>
-          <button on:click={() => (showHobbyModal = true)} class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
-            <Icon icon="heroicons:plus" class="w-4 h-4 inline mr-2" />
-            Add Hobby
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {#each filteredHobbies as hobby}
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all">
-              <div class="flex items-start justify-between mb-4">
-                <div class="flex items-center space-x-3">
-                  <div class="p-2 {getCategoryColor(hobby.category)} rounded-lg">
-                    <Icon icon={getCategoryIcon(hobby.category)} class="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 class="font-bold text-gray-900 dark:text-white">{hobby.name}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{hobby.tamil}</p>
-                  </div>
-                </div>
-                <span class="px-2 py-1 text-xs font-medium rounded-full border {getSkillColor(hobby.skill)}">
-                  {hobby.skill}
-                </span>
-              </div>
-
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Progress</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{hobby.progress}%</span>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="bg-purple-500 h-2 rounded-full" style="width: {hobby.progress}%"></div>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                  <div class="w-3 h-3 {getFrequencyColor(hobby.frequency)} rounded-full"></div>
-                  <span class="text-sm text-gray-600 dark:text-gray-400">{hobby.frequency}</span>
-                </div>
-
-                <div class="flex flex-wrap gap-1">
-                  {#each hobby.members as memberId}
-                    <span class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
-                      {getMemberName(memberId)}
-                    </span>
-                  {/each}
-                </div>
-
-                <div class="flex flex-wrap gap-1">
-                  {#each hobby.materials.slice(0, 3) as material}
-                    <span class="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded">
-                      {material}
-                    </span>
-                  {/each}
-                  {#if hobby.materials.length > 3}
-                    <span class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
-                      +{hobby.materials.length - 3} more
-                    </span>
-                  {/if}
-                </div>
-              </div>
-            </div>
-          {/each}
-        </div>
-      </div>
-
-      <!-- Family Activities View -->
-    {:else if currentView === "activities"}
-      <div class="space-y-6">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white">குடும்ப செயல்பாடுகள்</h2>
-          <button on:click={() => (showActivityModal = true)} class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-            <Icon icon="heroicons:plus" class="w-4 h-4 inline mr-2" />
-            Plan Activity
-          </button>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {#each familyActivities as activity}
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <div class="flex items-start justify-between mb-4">
-                <div>
-                  <h3 class="text-lg font-bold text-gray-900 dark:text-white">{activity.name}</h3>
-                  <p class="text-gray-600 dark:text-gray-400">{activity.tamil}</p>
-                </div>
-                <div class="flex items-center space-x-1">
-                  {#each Array(Math.floor(activity.rating)) as _}
-                    <Icon icon="heroicons:star" class="w-4 h-4 text-yellow-400" />
-                  {/each}
-                </div>
-              </div>
-
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Frequency:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.frequency}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Duration:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.duration}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Participants:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.participants}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Last Done:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.lastDone}</span>
-                </div>
-              </div>
-
-              <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors"> Schedule Next Session </button>
-              </div>
-            </div>
-          {/each}
-        </div>
-      </div>
-
-      <!-- Sessions View -->
-    {:else if currentView === "sessions"}
-      <div class="space-y-6">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white">செயல்பாட்டு அமர்வுகள்</h2>
-          <button on:click={() => (showSessionModal = true)} class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
-            <Icon icon="heroicons:plus" class="w-4 h-4 inline mr-2" />
-            Log Session
-          </button>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead class="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Activity</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Member</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Duration</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Enjoyment</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Notes</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                {#each filteredSessions as session}
-                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="font-medium text-gray-900 dark:text-white">{session.activity}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-600 dark:text-gray-400">{getMemberName(session.member)}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-600 dark:text-gray-400">{session.date}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-600 dark:text-gray-400">{session.duration}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex items-center space-x-1">
-                        {#each Array(session.enjoyment) as _}
-                          <Icon icon="heroicons:star" class="w-4 h-4 text-yellow-400" />
-                        {/each}
-                      </div>
-                    </td>
-                    <td class="px-6 py-4">
-                      <div class="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">{session.notes}</div>
-                    </td>
-                  </tr>
-                {/each}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Achievements View -->
-    {:else if currentView === "achievements"}
-      <div class="space-y-6">
-        <h2 class="text-xl font-bold text-gray-900 dark:text-white">சாதனைகள் மற்றும் மைல்கற்கள்</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {#each filteredAchievements as achievement}
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <div class="flex items-start justify-between mb-4">
-                <div class="flex items-center space-x-3">
-                  <div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
-                    <Icon icon="heroicons:trophy" class="w-6 h-6 text-yellow-600" />
-                  </div>
-                  <div>
-                    <h3 class="font-bold text-gray-900 dark:text-white">{achievement.title}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{achievement.tamil}</p>
-                  </div>
-                </div>
-                <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-900/30 dark:text-blue-400">
-                  {achievement.type}
-                </span>
-              </div>
-
-              <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Member:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{getMemberName(achievement.member)}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Hobby:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{achievement.hobby}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Date:</span>
-                  <span class="text-sm font-medium text-gray-900 dark:text-white">{achievement.date}</span>
-                </div>
-              </div>
-
-              <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-600 dark:text-gray-400">{achievement.description}</p>
-              </div>
-            </div>
-          {/each}
-        </div>
-      </div>
-    {/if}
   </div>
 
-  <!-- Add Hobby Modal -->
-  {#if showHobbyModal}
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div class="flex items-center justify-between mb-6">
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white">புதிய பொழுதுபோக்கு சேர்க்கவும்</h3>
-          <button on:click={() => (showHobbyModal = false)} class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-            <Icon icon="heroicons:x-mark" class="w-6 h-6" />
-          </button>
+  <!-- View Tabs -->
+  <div class="flex space-x-2">
+    {#each views as view}
+      <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-purple-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-purple-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-purple-900/20'}" on:click={() => (currentView = view.id)}>
+        <Icon icon={view.icon} class="w-4 h-4" />
+        <span class="font-medium">{view.label}</span>
+      </button>
+    {/each}
+  </div>
+
+  <!-- Dashboard View -->
+  {#if currentView === "dashboard"}
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <!-- Summary Stats -->
+      <div class="lg:col-span-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Total Hobbies</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">{totalHobbies}</p>
+            </div>
+            <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+              <Icon icon="heroicons:puzzle-piece" class="w-6 h-6 text-purple-600" />
+            </div>
+          </div>
         </div>
 
-        <form on:submit|preventDefault={addHobby} class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hobby Name</label>
-              <input type="text" bind:value={newHobby.name} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Painting" required />
+              <p class="text-sm text-gray-600 dark:text-gray-400">Active Today</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">{activeToday}</p>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tamil Name</label>
-              <input type="text" bind:value={newHobby.tamilName} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., ஓவியம்" />
+            <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <Icon icon="heroicons:clock" class="w-6 h-6 text-green-600" />
             </div>
           </div>
+        </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-              <select bind:value={newHobby.category} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
-                {#each hobbyCategories as category}
-                  <option value={category.id}>{category.name}</option>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Avg Progress</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">{Math.round(avgProgress)}%</p>
+            </div>
+            <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+              <Icon icon="heroicons:chart-bar" class="w-6 h-6 text-blue-600" />
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Recent Sessions</p>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">{totalSessions}</p>
+            </div>
+            <div class="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+              <Icon icon="heroicons:calendar-days" class="w-6 h-6 text-orange-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activities -->
+      <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">இன்றைய செயல்பாடுகள்</h3>
+        <div class="space-y-3">
+          {#each filteredSessions.slice(0, 5) as session}
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div>
+                  <p class="font-medium text-gray-900 dark:text-white">{session.activity}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{getMemberName(session.member)} • {session.duration}</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-1">
+                {#each Array(session.enjoyment) as _}
+                  <Icon icon="heroicons:star" class="w-4 h-4 text-yellow-400" />
                 {/each}
-              </select>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Skill Level</label>
-              <select bind:value={newHobby.skill} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Frequency</label>
-              <select bind:value={newHobby.frequency} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
-                <option value="daily">Daily</option>
-                <option value="3x week">3x Week</option>
-                <option value="weekly">Weekly</option>
-                <option value="weekend">Weekend</option>
-                <option value="evening">Evening</option>
-              </select>
-            </div>
-          </div>
+          {/each}
+        </div>
+      </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
-            <textarea bind:value={newHobby.notes} rows="3" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white" placeholder="Additional notes about this hobby..."></textarea>
-          </div>
+      <!-- Categories Overview -->
+      <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">பொழுதுபோக்கு வகைகள்</h3>
+        <div class="grid grid-cols-2 gap-3">
+          {#each hobbyCategories as category}
+            {@const count = filteredHobbies.filter((h) => h.category === category.id).length}
+            <div class="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div class="p-2 {category.color} rounded-lg">
+                <Icon icon={category.icon} class="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <p class="font-medium text-gray-900 dark:text-white">{category.tamil}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{count} hobbies</p>
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
 
-          <div class="flex justify-end space-x-3 pt-4">
-            <button type="button" on:click={() => (showHobbyModal = false)} class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"> Cancel </button>
-            <button type="submit" class="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600"> Add Hobby </button>
+      <!-- Quick Actions -->
+      <div class="lg:col-span-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button on:click={() => (showHobbyModal = true)} class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg">
+          <Icon icon="heroicons:plus" class="w-8 h-8 mx-auto mb-2" />
+          <p class="font-semibold">Add New Hobby</p>
+          <p class="text-sm opacity-90">புதிய பொழுதுபோக்கு</p>
+        </button>
+
+        <button on:click={() => (showActivityModal = true)} class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-6 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg">
+          <Icon icon="heroicons:user-group" class="w-8 h-8 mx-auto mb-2" />
+          <p class="font-semibold">Plan Family Activity</p>
+          <p class="text-sm opacity-90">குடும்ப செயல்பாடு</p>
+        </button>
+
+        <button on:click={() => (showSessionModal = true)} class="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-6 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all shadow-lg">
+          <Icon icon="heroicons:clock" class="w-8 h-8 mx-auto mb-2" />
+          <p class="font-semibold">Log Session</p>
+          <p class="text-sm opacity-90">அமர்வு பதிவு</p>
+        </button>
+      </div>
+    </div>
+
+    <!-- Hobbies View -->
+  {:else if currentView === "hobbies"}
+    <div class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">தனிநபர் பொழுதுபோக்குகள்</h2>
+        <button on:click={() => (showHobbyModal = true)} class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+          <Icon icon="heroicons:plus" class="w-4 h-4 inline mr-2" />
+          Add Hobby
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {#each filteredHobbies as hobby}
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <div class="p-2 {getCategoryColor(hobby.category)} rounded-lg">
+                  <Icon icon={getCategoryIcon(hobby.category)} class="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-900 dark:text-white">{hobby.name}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{hobby.tamil}</p>
+                </div>
+              </div>
+              <span class="px-2 py-1 text-xs font-medium rounded-full border {getSkillColor(hobby.skill)}">
+                {hobby.skill}
+              </span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Progress</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{hobby.progress}%</span>
+              </div>
+              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div class="bg-purple-500 h-2 rounded-full" style="width: {hobby.progress}%"></div>
+              </div>
+
+              <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 {getFrequencyColor(hobby.frequency)} rounded-full"></div>
+                <span class="text-sm text-gray-600 dark:text-gray-400">{hobby.frequency}</span>
+              </div>
+
+              <div class="flex flex-wrap gap-1">
+                {#each hobby.members as memberId}
+                  <span class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
+                    {getMemberName(memberId)}
+                  </span>
+                {/each}
+              </div>
+
+              <div class="flex flex-wrap gap-1">
+                {#each hobby.materials.slice(0, 3) as material}
+                  <span class="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded">
+                    {material}
+                  </span>
+                {/each}
+                {#if hobby.materials.length > 3}
+                  <span class="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
+                    +{hobby.materials.length - 3} more
+                  </span>
+                {/if}
+              </div>
+            </div>
           </div>
-        </form>
+        {/each}
+      </div>
+    </div>
+
+    <!-- Family Activities View -->
+  {:else if currentView === "activities"}
+    <div class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">குடும்ப செயல்பாடுகள்</h2>
+        <button on:click={() => (showActivityModal = true)} class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+          <Icon icon="heroicons:plus" class="w-4 h-4 inline mr-2" />
+          Plan Activity
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {#each familyActivities as activity}
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{activity.name}</h3>
+                <p class="text-gray-600 dark:text-gray-400">{activity.tamil}</p>
+              </div>
+              <div class="flex items-center space-x-1">
+                {#each Array(Math.floor(activity.rating)) as _}
+                  <Icon icon="heroicons:star" class="w-4 h-4 text-yellow-400" />
+                {/each}
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Frequency:</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.frequency}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Duration:</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.duration}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Participants:</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.participants}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Last Done:</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{activity.lastDone}</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors"> Schedule Next Session </button>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+
+    <!-- Sessions View -->
+  {:else if currentView === "sessions"}
+    <div class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">செயல்பாட்டு அமர்வுகள்</h2>
+        <button on:click={() => (showSessionModal = true)} class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+          <Icon icon="heroicons:plus" class="w-4 h-4 inline mr-2" />
+          Log Session
+        </button>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Activity</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Member</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Duration</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Enjoyment</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              {#each filteredSessions as session}
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-900 dark:text-white">{session.activity}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">{getMemberName(session.member)}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">{session.date}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">{session.duration}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center space-x-1">
+                      {#each Array(session.enjoyment) as _}
+                        <Icon icon="heroicons:star" class="w-4 h-4 text-yellow-400" />
+                      {/each}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">{session.notes}</div>
+                  </td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements View -->
+  {:else if currentView === "achievements"}
+    <div class="space-y-6">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white">சாதனைகள் மற்றும் மைல்கற்கள்</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {#each filteredAchievements as achievement}
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+                  <Icon icon="heroicons:trophy" class="w-6 h-6 text-yellow-600" />
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-900 dark:text-white">{achievement.title}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{achievement.tamil}</p>
+                </div>
+              </div>
+              <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full dark:bg-blue-900/30 dark:text-blue-400">
+                {achievement.type}
+              </span>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Member:</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{getMemberName(achievement.member)}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Hobby:</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{achievement.hobby}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Date:</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">{achievement.date}</span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <p class="text-sm text-gray-600 dark:text-gray-400">{achievement.description}</p>
+            </div>
+          </div>
+        {/each}
       </div>
     </div>
   {/if}
-</DashboardLayout>
+</div>
+
+<!-- Add Hobby Modal -->
+{#if showHobbyModal}
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white">புதிய பொழுதுபோக்கு சேர்க்கவும்</h3>
+        <button on:click={() => (showHobbyModal = false)} class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <Icon icon="heroicons:x-mark" class="w-6 h-6" />
+        </button>
+      </div>
+
+      <form on:submit|preventDefault={addHobby} class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hobby Name</label>
+            <input type="text" bind:value={newHobby.name} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Painting" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tamil Name</label>
+            <input type="text" bind:value={newHobby.tamilName} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., ஓவியம்" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+            <select bind:value={newHobby.category} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
+              {#each hobbyCategories as category}
+                <option value={category.id}>{category.name}</option>
+              {/each}
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Skill Level</label>
+            <select bind:value={newHobby.skill} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Frequency</label>
+            <select bind:value={newHobby.frequency} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white">
+              <option value="daily">Daily</option>
+              <option value="3x week">3x Week</option>
+              <option value="weekly">Weekly</option>
+              <option value="weekend">Weekend</option>
+              <option value="evening">Evening</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
+          <textarea bind:value={newHobby.notes} rows="3" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white" placeholder="Additional notes about this hobby..."></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-3 pt-4">
+          <button type="button" on:click={() => (showHobbyModal = false)} class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"> Cancel </button>
+          <button type="submit" class="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600"> Add Hobby </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{/if}

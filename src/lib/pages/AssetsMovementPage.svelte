@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import DashboardLayout from "../components/DashboardLayout.svelte";
 
   let currentView = "movements";
   let searchTerm = "";
@@ -291,329 +290,327 @@
   }
 </script>
 
-<DashboardLayout>
-  <div class="space-y-6">
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl text-white shadow-lg">
-          <Icon icon="heroicons:arrow-right-circle" class="w-8 h-8" />
-        </div>
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="p-3 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl text-white shadow-lg">
+        <Icon icon="heroicons:arrow-right-circle" class="w-8 h-8" />
+      </div>
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Movement & Lending</h1>
+        <p class="text-gray-600 dark:text-gray-300">Track asset movements, loans, and location changes</p>
+      </div>
+    </div>
+    <button class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
+      <Icon icon="heroicons:plus" class="w-5 h-5" />
+      <span>Record Movement</span>
+    </button>
+  </div>
+
+  <!-- View Tabs -->
+  <div class="flex space-x-2">
+    {#each views as view}
+      <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-blue-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-blue-900/20'}" on:click={() => (currentView = view.id)}>
+        <Icon icon={view.icon} class="w-4 h-4" />
+        <span class="font-medium">{view.label}</span>
+      </button>
+    {/each}
+  </div>
+
+  <!-- Asset Movements View -->
+  {#if currentView === "movements"}
+    <!-- Filters -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Movement & Lending</h1>
-          <p class="text-gray-600 dark:text-gray-300">Track asset movements, loans, and location changes</p>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Movements</label>
+          <div class="relative">
+            <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input type="text" bind:value={searchTerm} placeholder="Search by asset, person, or location..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+          <select bind:value={selectedStatus} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="returned">Returned</option>
+            <option value="overdue">Overdue</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
+          <select bind:value={selectedType} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+            <option value="all">All Types</option>
+            <option value="lending">Lending</option>
+            <option value="borrowing">Borrowing</option>
+            <option value="temporary_move">Temporary Move</option>
+          </select>
         </div>
       </div>
-      <button class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all shadow-lg flex items-center space-x-2" on:click={() => (showAddModal = true)}>
-        <Icon icon="heroicons:plus" class="w-5 h-5" />
-        <span>Record Movement</span>
-      </button>
     </div>
 
-    <!-- View Tabs -->
-    <div class="flex space-x-2">
-      {#each views as view}
-        <button class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 {currentView === view.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-white/80 text-gray-700 hover:bg-blue-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-blue-900/20'}" on:click={() => (currentView = view.id)}>
-          <Icon icon={view.icon} class="w-4 h-4" />
-          <span class="font-medium">{view.label}</span>
-        </button>
+    <!-- Movement Records -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {#each filteredMovements as movement}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+          <div class="p-6">
+            <!-- Movement Header -->
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-start space-x-3">
+                <div class="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white">
+                  <Icon icon={getTypeIcon(movement.type)} class="w-6 h-6" />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-bold text-gray-900 dark:text-white">{movement.assetName}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{movement.tamilName}</p>
+                  <div class="flex items-center space-x-2 mt-2">
+                    <span class="px-2 py-1 text-xs font-medium border rounded-full {getTypeColor(movement.type)} capitalize">
+                      {movement.type.replace("_", " ")}
+                    </span>
+                    <span class="px-2 py-1 text-xs font-medium border rounded-full {getStatusColor(movement.status)}">
+                      <Icon icon={getStatusIcon(movement.status)} class="w-3 h-3 inline mr-1" />
+                      {movement.status}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-right">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  {getDaysRemaining(movement.expectedReturn, movement.actualReturn, movement.status)}
+                </p>
+                {#if movement.status === "overdue"}
+                  <p class="text-xs text-red-600 dark:text-red-400 font-medium">Action required</p>
+                {/if}
+              </div>
+            </div>
+
+            <!-- Movement Path -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+              <div class="flex items-center justify-between">
+                <div class="text-center flex-1">
+                  <div class="p-2 bg-white dark:bg-gray-600 rounded-lg inline-block mb-2">
+                    <Icon icon="heroicons:map-pin" class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                  </div>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">{movement.fromLocation}</p>
+                  <p class="text-xs text-gray-600 dark:text-gray-400">{movement.fromPerson}</p>
+                </div>
+
+                <div class="px-4">
+                  <Icon icon="heroicons:arrow-right" class="w-6 h-6 text-gray-400" />
+                </div>
+
+                <div class="text-center flex-1">
+                  <div class="p-2 bg-white dark:bg-gray-600 rounded-lg inline-block mb-2">
+                    <Icon icon="heroicons:map-pin" class="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">{movement.toLocation}</p>
+                  <p class="text-xs text-gray-600 dark:text-gray-400">{movement.toPerson}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Movement Details -->
+            <div class="space-y-3 text-sm">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-gray-600 dark:text-gray-400 mb-1">Start Date:</p>
+                  <p class="font-medium text-gray-900 dark:text-white">{formatDate(movement.startDate)}</p>
+                </div>
+                <div>
+                  <p class="text-gray-600 dark:text-gray-400 mb-1">Expected Return:</p>
+                  <p class="font-medium text-gray-900 dark:text-white">{formatDate(movement.expectedReturn)}</p>
+                </div>
+              </div>
+
+              {#if movement.actualReturn}
+                <div>
+                  <p class="text-gray-600 dark:text-gray-400 mb-1">Actual Return:</p>
+                  <p class="font-medium text-green-600">{formatDate(movement.actualReturn)}</p>
+                </div>
+              {/if}
+
+              <div>
+                <p class="text-gray-600 dark:text-gray-400 mb-1">Reason:</p>
+                <p class="text-gray-900 dark:text-white">{movement.reason}</p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-gray-600 dark:text-gray-400 mb-1">Security:</p>
+                  <p class="font-medium text-gray-900 dark:text-white">{movement.security}</p>
+                </div>
+                <div>
+                  <p class="text-gray-600 dark:text-gray-400 mb-1">Contact:</p>
+                  <p class="font-medium text-gray-900 dark:text-white">{movement.contact}</p>
+                </div>
+              </div>
+
+              {#if movement.conditions}
+                <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                  <p class="text-yellow-800 dark:text-yellow-300 text-sm">
+                    <Icon icon="heroicons:exclamation-triangle" class="w-4 h-4 inline mr-1" />
+                    {movement.conditions}
+                  </p>
+                </div>
+              {/if}
+
+              {#if movement.notes}
+                <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <p class="text-gray-600 dark:text-gray-400">{movement.notes}</p>
+                </div>
+              {/if}
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex space-x-2 mt-6">
+              {#if movement.status === "active"}
+                <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Mark Returned </button>
+                <button class="flex-1 bg-yellow-50 text-yellow-600 px-4 py-2 rounded-lg hover:bg-yellow-100 transition-colors text-sm font-medium dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-900/50"> Extend Due Date </button>
+              {:else if movement.status === "overdue"}
+                <button class="flex-1 bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"> Follow Up </button>
+                <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Mark Returned </button>
+              {:else}
+                <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> View Details </button>
+              {/if}
+            </div>
+          </div>
+        </div>
       {/each}
     </div>
 
-    <!-- Asset Movements View -->
-    {#if currentView === "movements"}
-      <!-- Filters -->
+    <!-- Loans & Borrowing View -->
+  {:else if currentView === "lending"}
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="flex items-center justify-between">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Movements</label>
-            <div class="relative">
-              <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input type="text" bind:value={searchTerm} placeholder="Search by asset, person, or location..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
-            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Items Lent Out</p>
+            <p class="text-2xl font-bold text-orange-600">{movementData.filter((m) => m.type === "lending" && m.status === "active").length}</p>
           </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
-            <select bind:value={selectedStatus} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="returned">Returned</option>
-              <option value="overdue">Overdue</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
-            <select bind:value={selectedType} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-              <option value="all">All Types</option>
-              <option value="lending">Lending</option>
-              <option value="borrowing">Borrowing</option>
-              <option value="temporary_move">Temporary Move</option>
-            </select>
+          <div class="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+            <Icon icon="heroicons:arrow-right-circle" class="w-6 h-6 text-orange-600 dark:text-orange-400" />
           </div>
         </div>
       </div>
 
-      <!-- Movement Records -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {#each filteredMovements as movement}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
-            <div class="p-6">
-              <!-- Movement Header -->
-              <div class="flex items-start justify-between mb-4">
-                <div class="flex items-start space-x-3">
-                  <div class="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white">
-                    <Icon icon={getTypeIcon(movement.type)} class="w-6 h-6" />
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">{movement.assetName}</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">{movement.tamilName}</p>
-                    <div class="flex items-center space-x-2 mt-2">
-                      <span class="px-2 py-1 text-xs font-medium border rounded-full {getTypeColor(movement.type)} capitalize">
-                        {movement.type.replace("_", " ")}
-                      </span>
-                      <span class="px-2 py-1 text-xs font-medium border rounded-full {getStatusColor(movement.status)}">
-                        <Icon icon={getStatusIcon(movement.status)} class="w-3 h-3 inline mr-1" />
-                        {movement.status}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="text-right">
-                  <p class="text-sm text-gray-600 dark:text-gray-400">
-                    {getDaysRemaining(movement.expectedReturn, movement.actualReturn, movement.status)}
-                  </p>
-                  {#if movement.status === "overdue"}
-                    <p class="text-xs text-red-600 dark:text-red-400 font-medium">Action required</p>
-                  {/if}
-                </div>
-              </div>
-
-              <!-- Movement Path -->
-              <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
-                <div class="flex items-center justify-between">
-                  <div class="text-center flex-1">
-                    <div class="p-2 bg-white dark:bg-gray-600 rounded-lg inline-block mb-2">
-                      <Icon icon="heroicons:map-pin" class="w-4 h-4 text-gray-600 dark:text-gray-300" />
-                    </div>
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">{movement.fromLocation}</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">{movement.fromPerson}</p>
-                  </div>
-
-                  <div class="px-4">
-                    <Icon icon="heroicons:arrow-right" class="w-6 h-6 text-gray-400" />
-                  </div>
-
-                  <div class="text-center flex-1">
-                    <div class="p-2 bg-white dark:bg-gray-600 rounded-lg inline-block mb-2">
-                      <Icon icon="heroicons:map-pin" class="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">{movement.toLocation}</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">{movement.toPerson}</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Movement Details -->
-              <div class="space-y-3 text-sm">
-                <div class="grid grid-cols-2 gap-4">
-                  <div>
-                    <p class="text-gray-600 dark:text-gray-400 mb-1">Start Date:</p>
-                    <p class="font-medium text-gray-900 dark:text-white">{formatDate(movement.startDate)}</p>
-                  </div>
-                  <div>
-                    <p class="text-gray-600 dark:text-gray-400 mb-1">Expected Return:</p>
-                    <p class="font-medium text-gray-900 dark:text-white">{formatDate(movement.expectedReturn)}</p>
-                  </div>
-                </div>
-
-                {#if movement.actualReturn}
-                  <div>
-                    <p class="text-gray-600 dark:text-gray-400 mb-1">Actual Return:</p>
-                    <p class="font-medium text-green-600">{formatDate(movement.actualReturn)}</p>
-                  </div>
-                {/if}
-
-                <div>
-                  <p class="text-gray-600 dark:text-gray-400 mb-1">Reason:</p>
-                  <p class="text-gray-900 dark:text-white">{movement.reason}</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                  <div>
-                    <p class="text-gray-600 dark:text-gray-400 mb-1">Security:</p>
-                    <p class="font-medium text-gray-900 dark:text-white">{movement.security}</p>
-                  </div>
-                  <div>
-                    <p class="text-gray-600 dark:text-gray-400 mb-1">Contact:</p>
-                    <p class="font-medium text-gray-900 dark:text-white">{movement.contact}</p>
-                  </div>
-                </div>
-
-                {#if movement.conditions}
-                  <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                    <p class="text-yellow-800 dark:text-yellow-300 text-sm">
-                      <Icon icon="heroicons:exclamation-triangle" class="w-4 h-4 inline mr-1" />
-                      {movement.conditions}
-                    </p>
-                  </div>
-                {/if}
-
-                {#if movement.notes}
-                  <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <p class="text-gray-600 dark:text-gray-400">{movement.notes}</p>
-                  </div>
-                {/if}
-              </div>
-
-              <!-- Action Buttons -->
-              <div class="flex space-x-2 mt-6">
-                {#if movement.status === "active"}
-                  <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Mark Returned </button>
-                  <button class="flex-1 bg-yellow-50 text-yellow-600 px-4 py-2 rounded-lg hover:bg-yellow-100 transition-colors text-sm font-medium dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-900/50"> Extend Due Date </button>
-                {:else if movement.status === "overdue"}
-                  <button class="flex-1 bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"> Follow Up </button>
-                  <button class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Mark Returned </button>
-                {:else}
-                  <button class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> View Details </button>
-                {/if}
-              </div>
-            </div>
-          </div>
-        {/each}
-      </div>
-
-      <!-- Loans & Borrowing View -->
-    {:else if currentView === "lending"}
-      <!-- Summary Stats -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Items Lent Out</p>
-              <p class="text-2xl font-bold text-orange-600">{movementData.filter((m) => m.type === "lending" && m.status === "active").length}</p>
-            </div>
-            <div class="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-              <Icon icon="heroicons:arrow-right-circle" class="w-6 h-6 text-orange-600 dark:text-orange-400" />
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Items Borrowed</p>
-              <p class="text-2xl font-bold text-purple-600">{movementData.filter((m) => m.type === "borrowing" && m.status === "active").length}</p>
-            </div>
-            <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-              <Icon icon="heroicons:arrow-left-circle" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Overdue Items</p>
-              <p class="text-2xl font-bold text-red-600">{movementData.filter((m) => m.status === "overdue").length}</p>
-            </div>
-            <div class="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
-              <Icon icon="heroicons:exclamation-triangle" class="w-6 h-6 text-red-600 dark:text-red-400" />
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Completed</p>
-              <p class="text-2xl font-bold text-green-600">{movementData.filter((m) => m.status === "returned").length}</p>
-            </div>
-            <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <Icon icon="heroicons:check-circle" class="w-6 h-6 text-green-600 dark:text-green-400" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Active Transactions -->
       <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Active Loans & Borrowings</h3>
-        <div class="space-y-4">
-          {#each movementData.filter((m) => m.status === "active" || m.status === "overdue") as movement}
-            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <div class="flex items-center space-x-4">
-                <div class="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white">
-                  <Icon icon={getTypeIcon(movement.type)} class="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 class="font-medium text-gray-900 dark:text-white">{movement.assetName}</h4>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">
-                    {movement.type === "lending" ? "Lent to" : "Borrowed from"}: {movement.type === "lending" ? movement.toPerson : movement.fromPerson}
-                  </p>
-                </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Items Borrowed</p>
+            <p class="text-2xl font-bold text-purple-600">{movementData.filter((m) => m.type === "borrowing" && m.status === "active").length}</p>
+          </div>
+          <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+            <Icon icon="heroicons:arrow-left-circle" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Overdue Items</p>
+            <p class="text-2xl font-bold text-red-600">{movementData.filter((m) => m.status === "overdue").length}</p>
+          </div>
+          <div class="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+            <Icon icon="heroicons:exclamation-triangle" class="w-6 h-6 text-red-600 dark:text-red-400" />
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Completed</p>
+            <p class="text-2xl font-bold text-green-600">{movementData.filter((m) => m.status === "returned").length}</p>
+          </div>
+          <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+            <Icon icon="heroicons:check-circle" class="w-6 h-6 text-green-600 dark:text-green-400" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Transactions -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Active Loans & Borrowings</h3>
+      <div class="space-y-4">
+        {#each movementData.filter((m) => m.status === "active" || m.status === "overdue") as movement}
+          <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div class="flex items-center space-x-4">
+              <div class="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white">
+                <Icon icon={getTypeIcon(movement.type)} class="w-5 h-5" />
               </div>
-              <div class="text-right">
-                <p class="text-sm font-medium {movement.status === 'overdue' ? 'text-red-600' : 'text-gray-900 dark:text-white'}">
-                  {getDaysRemaining(movement.expectedReturn, movement.actualReturn, movement.status)}
+              <div>
+                <h4 class="font-medium text-gray-900 dark:text-white">{movement.assetName}</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  {movement.type === "lending" ? "Lent to" : "Borrowed from"}: {movement.type === "lending" ? movement.toPerson : movement.fromPerson}
                 </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Due: {formatDate(movement.expectedReturn)}</p>
               </div>
             </div>
-          {/each}
-        </div>
-      </div>
-
-      <!-- Location Tracking View -->
-    {:else if currentView === "tracking"}
-      <div class="space-y-6">
-        {#each locationTracking as location}
-          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex-1">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{location.assetName}</h3>
-                <div class="flex items-center space-x-2 mt-2">
-                  <Icon icon="heroicons:map-pin" class="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                  <span class="text-sm text-gray-600 dark:text-gray-400">{location.currentLocation}</span>
-                </div>
-              </div>
-              <div class="text-right">
-                <p class="text-sm text-gray-600 dark:text-gray-400">Last Updated</p>
-                <p class="font-medium text-gray-900 dark:text-white">{formatDate(location.lastUpdated)}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Next Review: {formatDate(location.nextReview)}</p>
-              </div>
-            </div>
-
-            <div>
-              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-3">Recent Access Log</h4>
-              <div class="space-y-2">
-                {#each location.accessLog as log}
-                  <div class="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700 rounded">
-                    <div class="flex items-center space-x-2">
-                      <Icon icon="heroicons:clock" class="w-4 h-4 text-gray-400" />
-                      <span class="text-gray-900 dark:text-white">{log.purpose}</span>
-                    </div>
-                    <div class="text-right">
-                      <p class="text-gray-600 dark:text-gray-400">{log.person}</p>
-                      <p class="text-xs text-gray-500 dark:text-gray-500">{formatDate(log.date)}</p>
-                    </div>
-                  </div>
-                {/each}
-              </div>
-            </div>
-
-            <div class="flex space-x-2 mt-6">
-              <button class="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> Update Location </button>
-              <button class="bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Log Access </button>
+            <div class="text-right">
+              <p class="text-sm font-medium {movement.status === 'overdue' ? 'text-red-600' : 'text-gray-900 dark:text-white'}">
+                {getDaysRemaining(movement.expectedReturn, movement.actualReturn, movement.status)}
+              </p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Due: {formatDate(movement.expectedReturn)}</p>
             </div>
           </div>
         {/each}
       </div>
-    {/if}
-  </div>
-</DashboardLayout>
+    </div>
+
+    <!-- Location Tracking View -->
+  {:else if currentView === "tracking"}
+    <div class="space-y-6">
+      {#each locationTracking as location}
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white">{location.assetName}</h3>
+              <div class="flex items-center space-x-2 mt-2">
+                <Icon icon="heroicons:map-pin" class="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <span class="text-sm text-gray-600 dark:text-gray-400">{location.currentLocation}</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm text-gray-600 dark:text-gray-400">Last Updated</p>
+              <p class="font-medium text-gray-900 dark:text-white">{formatDate(location.lastUpdated)}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Next Review: {formatDate(location.nextReview)}</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-3">Recent Access Log</h4>
+            <div class="space-y-2">
+              {#each location.accessLog as log}
+                <div class="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                  <div class="flex items-center space-x-2">
+                    <Icon icon="heroicons:clock" class="w-4 h-4 text-gray-400" />
+                    <span class="text-gray-900 dark:text-white">{log.purpose}</span>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-gray-600 dark:text-gray-400">{log.person}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-500">{formatDate(log.date)}</p>
+                  </div>
+                </div>
+              {/each}
+            </div>
+          </div>
+
+          <div class="flex space-x-2 mt-6">
+            <button class="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"> Update Location </button>
+            <button class="bg-green-50 text-green-600 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"> Log Access </button>
+          </div>
+        </div>
+      {/each}
+    </div>
+  {/if}
+</div>
 
 <!-- Add Movement Modal -->
 {#if showAddModal}
