@@ -20,7 +20,7 @@
       icon: "heroicons:home",
       path: "/",
       color: "text-blue-400",
-      routes: ["/", "/household", "/members", "/inventory", "/vehicles", "/family-calendar-modern", "/family-notes-modern", "/reminders"],
+      routes: ["/", "/household", "/members", "/family-calendar-modern", "/family-notes-modern", "/reminders"],
     },
     {
       key: "divinity",
@@ -69,6 +69,14 @@
       path: "/finances",
       color: "text-emerald-600",
       routes: ["/finances", "/recharges", "/expenses", "/budget", "/insurance", "/investments"],
+    },
+    {
+      key: "assets",
+      title: "🏢 Assets",
+      icon: "heroicons:building-storefront",
+      path: "/assets",
+      color: "text-purple-600",
+      routes: ["/assets", "/assets/items", "/assets/value", "/assets/maintenance", "/assets/documents", "/inventory", "/vehicles"],
     },
     {
       key: "issues",

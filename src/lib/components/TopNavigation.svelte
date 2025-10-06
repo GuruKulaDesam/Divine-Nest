@@ -37,8 +37,6 @@
       { id: "home", label: "Dashboard", icon: "heroicons:home", path: "/" },
       { id: "household", label: "Household", icon: "heroicons:squares-2x2", path: "/household" },
       { id: "members", label: "Family Members", icon: "heroicons:users", path: "/members" },
-      { id: "inventory", label: "Home Inventory", icon: "heroicons:archive-box", path: "/inventory" },
-      { id: "vehicles", label: "Vehicle Management", icon: "heroicons:truck", path: "/vehicles" },
       { id: "calendar", label: "Calendar", icon: "heroicons:calendar-days", path: "/family-calendar-modern" },
       { id: "notes", label: "Notes", icon: "heroicons:document-text", path: "/family-notes-modern" },
       { id: "reminders", label: "Reminders", icon: "heroicons:bell-alert", path: "/reminders" },
@@ -88,6 +86,17 @@
       { id: "hobbies", label: "Hobbies & Activities", icon: "heroicons:puzzle-piece", path: "/hobbies-activities" },
     ],
 
+    // Assets section
+    assets: [
+      { id: "overview", label: "Asset Overview", icon: "heroicons:building-storefront", path: "/assets" },
+      { id: "items", label: "Asset Items", icon: "heroicons:archive-box", path: "/assets/items" },
+      { id: "value", label: "Asset Value", icon: "heroicons:currency-rupee", path: "/assets/value" },
+      { id: "maintenance", label: "Maintenance", icon: "heroicons:wrench-screwdriver", path: "/assets/maintenance" },
+      { id: "documents", label: "Documents", icon: "heroicons:document-text", path: "/assets/documents" },
+      { id: "inventory", label: "Home Inventory", icon: "heroicons:archive-box", path: "/inventory" },
+      { id: "vehicles", label: "Vehicle Management", icon: "heroicons:truck", path: "/vehicles" },
+    ],
+
     // Issues section
     issues: [
       { id: "emergency", label: "Emergency", icon: "heroicons:shield-exclamation", path: "/emergency" },
@@ -123,6 +132,7 @@
     food: { label: "Food", icon: "heroicons:cake", color: "text-orange-500" },
     education: { label: "Education", icon: "heroicons:academic-cap", color: "text-indigo-500" },
     health: { label: "Health", icon: "heroicons:heart", color: "text-green-600" },
+    assets: { label: "Assets", icon: "heroicons:building-storefront", color: "text-purple-600" },
     issues: { label: "Issues", icon: "heroicons:exclamation-triangle", color: "text-red-600" },
     memories: { label: "Memories", icon: "heroicons:photo", color: "text-blue-500" },
     travel: { label: "Travel", icon: "heroicons:map", color: "text-emerald-500" },
@@ -136,12 +146,13 @@
   function getCurrentSection(route) {
     // Check each section's routes to find which section the current route belongs to
     const sectionRoutes = {
-      dashboard: ["/", "/household", "/members", "/inventory", "/vehicles", "/family-calendar-modern", "/family-notes-modern", "/reminders"],
+      dashboard: ["/", "/household", "/members", "/family-calendar-modern", "/family-notes-modern", "/reminders"],
       divinity: ["/rituals", "/temple", "/festival-calendar", "/mantras", "/tamil-panchangam"],
       contacts: ["/contacts", "/emergency", "/vendors", "/directory"],
       food: ["/meals", "/recipes", "/grocery", "/pantry", "/kitchen"],
       education: ["/education", "/library", "/studies", "/learning-goals", "/study-plans"],
       health: ["/wellness", "/health", "/yoga", "/journal", "/hobbies-activities"],
+      assets: ["/assets", "/assets/items", "/assets/value", "/assets/maintenance", "/assets/documents", "/inventory", "/vehicles"],
       issues: ["/emergency", "/urgent", "/repairs", "/maintenance", "/requests"],
       memories: ["/lifeflow", "/family-stories", "/legacy", "/emotions", "/family-governance"],
       travel: ["/travel", "/trips", "/leisure", "/community"],

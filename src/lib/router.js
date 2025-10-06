@@ -53,6 +53,10 @@ import StudiesPage from './pages/StudiesPage.svelte';
 import LearningGoalsPage from './pages/LearningGoalsPage.svelte';
 import WeatherPage from './pages/WeatherPage.svelte';
 import AssetsPage from './pages/AssetsPage.svelte';
+import AssetsItemsPage from './pages/AssetsItemsPage.svelte';
+import AssetsValuePage from './pages/AssetsValuePage.svelte';
+import AssetsMaintenancePage from './pages/AssetsMaintenancePage.svelte';
+import AssetsDocumentsPage from './pages/AssetsDocumentsPage.svelte';
 
 // Create stores for routing
 const currentRoute = writable(window.location.pathname);
@@ -165,6 +169,13 @@ const routes = {
 
   // Finances routes
   '/investments': FinancesPageEnhanced,
+
+  // Assets routes
+  '/assets': AssetsPage,
+  '/assets/items': AssetsItemsPage,
+  '/assets/value': AssetsValuePage,
+  '/assets/maintenance': AssetsMaintenancePage,
+  '/assets/documents': AssetsDocumentsPage,
 
   // Issues routes
   '/urgent': IssuesUrgentPage,
