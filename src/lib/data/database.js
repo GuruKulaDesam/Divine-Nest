@@ -337,19 +337,25 @@ export const requestsDB = db;
 export async function initializeDatabase() {
   try {
     console.log("Initializing database...");
-    
+
     // Check if contacts table is empty and populate if needed
     const existingContacts = await db.contacts.count();
     console.log("Existing contacts count:", existingContacts);
-    
+
     if (existingContacts === 0) {
       console.log("No contacts found, initializing with local service providers...");
-      await initDirectorySampleData();
-      console.log("Database initialization completed");
+      try {
+        await initDirectorySampleData();
+        console.log("Database initialization completed");
+      } catch (sampleDataError) {
+        console.warn("Sample data initialization failed, but continuing:", sampleDataError);
+        // Don't fail the entire initialization if sample data fails
+      }
     } else {
       console.log("Contacts already exist, skipping initialization");
     }
   } catch (error) {
     console.error("Error initializing database:", error);
+    // Don't throw - allow app to continue even if database init fails
   }
 }

@@ -19,19 +19,43 @@
   // Initialize app
   async function initializeApp() {
     try {
-      // Wait for i18n to be ready
-      await i18nReadyPromise;
+      console.log("Starting app initialization...");
 
-      // Initialize theme
-      themeActions.init();
+      // Add overall timeout to prevent infinite loading
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          console.warn("App initialization timeout - proceeding anyway");
+          reject(new Error('App initialization timeout'));
+        }, 10000); // 10 second timeout
+      });
 
-      // Initialize database
-      await initializeDatabase();
+      await Promise.race([
+        (async () => {
+          // Wait for i18n to be ready
+          console.log("Waiting for i18n...");
+          await i18nReadyPromise;
+          console.log("i18n ready");
+
+          // Initialize theme
+          console.log("Initializing theme...");
+          themeActions.init();
+          console.log("Theme initialized");
+
+          // Initialize database
+          console.log("Initializing database...");
+          await initializeDatabase();
+          console.log("Database initialized");
+
+          console.log("App initialization completed");
+        })(),
+        timeoutPromise
+      ]);
 
       appReady = true;
     } catch (error) {
       console.error("Error initializing app:", error);
-      appReady = true; // Still show app even if init fails
+      // Still show app even if init fails
+      appReady = true;
     }
   }
 

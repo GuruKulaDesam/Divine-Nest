@@ -83,18 +83,28 @@ register('ko', () => import('./locales/ko.json'));
 let i18nReady = false;
 const i18nReadyPromise = new Promise(async (resolve) => {
   try {
-    await init({
-      fallbackLocale: 'en',
-      initialLocale: getInitialLanguage(),
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('i18n initialization timeout')), 5000);
     });
-    
-    // Wait for the initial locale to load
-    await waitLocale();
-    
+
+    await Promise.race([
+      (async () => {
+        await init({
+          fallbackLocale: 'en',
+          initialLocale: getInitialLanguage(),
+        });
+
+        // Wait for the initial locale to load
+        await waitLocale();
+      })(),
+      timeoutPromise
+    ]);
+
     i18nReady = true;
     resolve(true);
   } catch (error) {
-    console.warn('i18n initialization failed:', error);
+    console.warn('i18n initialization failed or timed out:', error);
     i18nReady = true; // Consider it ready even if failed
     resolve(true);
   }
