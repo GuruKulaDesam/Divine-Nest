@@ -9,6 +9,9 @@
   import FloatingAssistant from "./FloatingAssistant.svelte";
   import Icon from "@iconify/svelte";
   import TestPage from "../pages/TestPage.svelte";
+  import HomePage from "../pages/HomePage.svelte";
+  import SchedulePage from "../pages/SchedulePage.svelte";
+  import ViewModeTestPage from "../pages/ViewModeTestPage.svelte";
 
   import { viewMode } from "../stores/viewMode.js";
 
@@ -233,16 +236,7 @@
       <!-- Mobile Main Content -->
       <main class="pt-16 pb-20 px-4">
         <div bind:this={pageElement} class="transition-opacity duration-200 ease-in-out" style="opacity: 1;">
-          {#if componentToRender}
-            <svelte:component this={componentToRender} />
-          {:else}
-            <div class="flex items-center justify-center h-64">
-              <div class="text-center">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                <p class="text-gray-600">Loading page...</p>
-              </div>
-            </div>
-          {/if}
+          <svelte:component this={componentToRender || HomePage} />
         </div>
       </main>
 
@@ -278,24 +272,10 @@
             <div class="p-4 sm:p-6 lg:p-8">
               <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-sm shadow-xl border border-white/20 p-6 sm:p-8">
                 <div bind:this={pageElement} class="page-content" style="opacity: 1; transform: translateX(0);">
-                  <!-- Loading overlay during navigation -->
-                  {#if $isNavigating}
-                    <div class="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl">
-                      <div class="flex flex-col items-center gap-3">
-                        <div class="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
-                        <span class="text-sm text-gray-600 dark:text-gray-400">Loading...</span>
-                      </div>
-                    </div>
-                  {/if}
                   {#if componentToRender}
                     <svelte:component this={componentToRender} />
                   {:else}
-                    <div class="flex items-center justify-center h-64">
-                      <div class="text-center">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                        <p class="text-gray-600 dark:text-gray-400">Loading page...</p>
-                      </div>
-                    </div>
+                    <svelte:component this={HomePage} />
                   {/if}
                 </div>
               </div>
