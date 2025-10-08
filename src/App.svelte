@@ -25,7 +25,7 @@
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => {
           console.warn("App initialization timeout - proceeding anyway");
-          reject(new Error('App initialization timeout'));
+          reject(new Error("App initialization timeout"));
         }, 10000); // 10 second timeout
       });
 
@@ -48,7 +48,7 @@
 
           console.log("App initialization completed");
         })(),
-        timeoutPromise
+        timeoutPromise,
       ]);
 
       appReady = true;
