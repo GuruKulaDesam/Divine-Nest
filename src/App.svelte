@@ -1,24 +1,19 @@
 <script>
   import { onMount } from "svelte";
   import MobileFirstLayout from "./lib/components/MobileFirstLayout.svelte";
-  import { currentRoute, navigate, router, currentComponent } from "./lib/router.js";
+  import { currentRoute, navigate, router } from "./lib/router.js";
   import { themeActions } from "./lib/stores/theme.js";
   import { i18nReadyPromise } from "./lib/i18n/index.js";
   import LoadingSpinner from "./lib/components/LoadingSpinner.svelte";
   import { initializeDatabase } from "./lib/data/database.js";
 
-  let currentComponentValue = null;
   let appReady = false;
-
-  // Get current component from router store
-  $: currentComponentValue = $currentComponent;
 
   // Handle navigation events
   async function handleNavigate(event) {
     const { path } = event.detail;
     console.log("App - handleNavigate called with path:", path);
     navigate(path);
-    console.log("App - currentComponent set to:", $currentComponent);
   }
 
   // Initialize app
@@ -32,12 +27,6 @@
 
       // Initialize database
       await initializeDatabase();
-
-      // Load initial route
-      const initialPath = window.location.pathname;
-      console.log("Initial path:", initialPath);
-      navigate(initialPath);
-      console.log("Component loaded:", $currentComponent, typeof $currentComponent);
 
       appReady = true;
     } catch (error) {
@@ -62,7 +51,7 @@
   </div>
 {:else}
   <!-- Main App with Mobile-First Layout -->
-  <MobileFirstLayout currentComponent={currentComponentValue} on:navigate={handleNavigate} />
+  <MobileFirstLayout on:navigate={handleNavigate} />
 {/if}
 
 <style global>
