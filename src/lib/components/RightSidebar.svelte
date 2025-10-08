@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import Icon from "@iconify/svelte";
   import { motionInView } from "../utils/motion.js";
   function extractAfterKeywords(command, keywords) {
@@ -24,6 +24,8 @@
   let currentLanguage = "ta-IN";
   let assistantName = "Shivo";
   let wakeWords = ["nanbaa", "நண்பா", "thozhi", "தோழி", "shivo", "சிவோ", "ஷக்தி", "shakthi", "bro", "ப்ரோ"];
+  let recognition = null;
+  let wakeWordTimeout = null;
 
   // Tamil voice commands
   const tamilCommands = {
@@ -62,15 +64,108 @@
     }
   }
 
-  // Start continuous voice recognition
+  // Start wake word detection (short listening periods)
+  function startWakeWordDetection() {
+    if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
+      console.log("Voice recognition not supported");
+      return;
+    }
+
+    if (isListening) return; // Already listening
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+
+    recognition.lang = currentLanguage;
+    recognition.continuous = false; // Single utterance for wake word detection
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      isListening = true;
+      transcript = "காத்திருக்கிறது..."; // "Waiting..." in Tamil
+    };
+
+    recognition.onresult = (event) => {
+      const result = event.results[0][0];
+      const command = result.transcript.toLowerCase();
+      transcript = result.transcript;
+      confidence = Math.round(result.confidence * 100);
+
+      console.log("Wake word detection - Heard:", command, "Confidence:", confidence, "Wake words:", wakeWords);
+
+      // Check for wake word
+      let hasWakeWord = false;
+      let detectedWakeWord = "";
+      for (let wake of wakeWords) {
+        if (command.includes(wake.toLowerCase())) {
+          hasWakeWord = true;
+          detectedWakeWord = wake;
+          break;
+        }
+      }
+
+      if (hasWakeWord && confidence > 70) {
+        // Require good confidence for wake word
+        console.log("✅ Wake word detected:", detectedWakeWord, "in command:", command);
+        isContinuous = true;
+        speak("கேட்கிறேன்", "ta-IN"); // "I'm listening" in Tamil
+        // Start continuous listening for commands
+        setTimeout(() => {
+          startVoiceRecognition();
+        }, 500);
+      } else {
+        console.log("❌ No wake word detected in:", command, "Confidence:", confidence);
+        // No wake word detected, try again in a few seconds
+        wakeWordTimeout = setTimeout(() => {
+          startWakeWordDetection();
+        }, 3000); // Wait 3 seconds before trying again
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Wake word detection error:", event.error);
+      transcript = "பிழை: " + event.error;
+      isListening = false;
+      // Try again after error
+      wakeWordTimeout = setTimeout(() => {
+        startWakeWordDetection();
+      }, 2000);
+    };
+
+    recognition.onend = () => {
+      isListening = false;
+      transcript = "காத்திருக்கிறது...";
+      // If not in continuous mode, restart wake word detection
+      if (!isContinuous) {
+        wakeWordTimeout = setTimeout(() => {
+          startWakeWordDetection();
+        }, 1000);
+      }
+    };
+
+    try {
+      recognition.start();
+    } catch (error) {
+      console.error("Error starting wake word detection:", error);
+      wakeWordTimeout = setTimeout(() => {
+        startWakeWordDetection();
+      }, 2000);
+    }
+  }
+
+  // Start continuous voice recognition (for commands after wake word)
   function startVoiceRecognition() {
     if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
       speak("Voice recognition is not supported in this browser.", "en-US");
       return;
     }
 
+    if (recognition) {
+      recognition.stop(); // Stop any existing recognition
+    }
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
+    recognition = new SpeechRecognition();
 
     recognition.lang = currentLanguage;
     recognition.continuous = true;
@@ -79,7 +174,6 @@
     recognition.onstart = () => {
       isListening = true;
       transcript = "கேட்கிறது...";
-      // Removed auto greeting to reduce unsolicited speech
     };
 
     recognition.onresult = (event) => {
@@ -87,6 +181,8 @@
       const command = result.transcript.toLowerCase();
       transcript = result.transcript;
       confidence = Math.round(result.confidence * 100);
+
+      console.log("Command heard:", command, "Confidence:", confidence);
 
       // Simple emotion detection based on keywords
       if (command.includes("மகிழ்ச்சி") || command.includes("நன்று") || command.includes("happy") || command.includes("good")) {
@@ -99,9 +195,7 @@
 
       // Process the command
       const actionTaken = processTamilCommand(command);
-
-      // Only speak for successful actions, not for errors to reduce unsolicited speech
-      // If no action was taken, remain silent
+      console.log("Command processed, action taken:", actionTaken);
 
       // Add to recent activities
       recentActivities = [{ time: "Just now", action: `Voice: "${result.transcript}"`, type: "voice" }, ...recentActivities.slice(0, 4)];
@@ -111,21 +205,34 @@
       console.error("Voice recognition error:", event.error);
       transcript = "பிழை: " + event.error;
       isListening = false;
-      speak("There was an error with voice recognition. Please try again.", "en-US");
+      // Return to wake word detection
+      isContinuous = false;
+      wakeWordTimeout = setTimeout(() => {
+        startWakeWordDetection();
+      }, 2000);
     };
 
     recognition.onend = () => {
       isListening = false;
       transcript = "காத்திருக்கிறது...";
-      // Restart recognition after a short delay to keep it continuous
+      // Return to wake word detection if not stopped intentionally
       if (isContinuous) {
-        setTimeout(() => {
-          startVoiceRecognition();
+        isContinuous = false;
+        wakeWordTimeout = setTimeout(() => {
+          startWakeWordDetection();
         }, 1000);
       }
     };
 
-    recognition.start();
+    try {
+      recognition.start();
+    } catch (error) {
+      console.error("Error starting voice recognition:", error);
+      isContinuous = false;
+      wakeWordTimeout = setTimeout(() => {
+        startWakeWordDetection();
+      }, 2000);
+    }
   }
 
   // Process Tamil voice commands
@@ -133,26 +240,33 @@
     let processedCommand = command.toLowerCase();
     let actionTaken = false;
 
-    // Check for wake word
-    let hasWakeWord = false;
-    for (let wake of wakeWords) {
-      if (processedCommand.includes(wake)) {
-        hasWakeWord = true;
-        break;
-      }
-    }
+    console.log("Processing command:", processedCommand, "isContinuous:", isContinuous);
 
-    // If wake word detected and not in continuous mode, start listening
-    if (hasWakeWord && !isContinuous) {
-      isContinuous = true;
-      speak("கேட்கிறேன்", "ta-IN"); // "I'm listening" in Tamil
+    // Stop commands - check first
+    if (processedCommand.includes("நிறுத்து") || processedCommand.includes("stop") || processedCommand.includes("போதும்")) {
+      console.log("Stop command detected");
+      speak("நிறுத்தினேன்", "ta-IN"); // "Stopped" in Tamil
+      isListening = false;
+      isContinuous = false;
+      if (recognition) {
+        recognition.stop();
+      }
+      if (wakeWordTimeout) {
+        clearTimeout(wakeWordTimeout);
+      }
+      // Return to wake word detection after a delay
+      setTimeout(() => {
+        startWakeWordDetection();
+      }, 2000);
       actionTaken = true;
-      // Don't process further for wake word alone
       return actionTaken;
     }
 
-    // If not in continuous mode and no wake word, ignore
-    if (!isContinuous && !hasWakeWord) return false;
+    // If not in continuous mode, ignore commands (except wake words which are handled separately)
+    if (!isContinuous) {
+      console.log("Not in continuous mode, ignoring command");
+      return false;
+    }
 
     // Stop commands
     if (processedCommand.includes("நிறுத்து") || processedCommand.includes("stop") || processedCommand.includes("போதும்")) {
@@ -399,7 +513,20 @@
   }
 
   onMount(() => {
-    // Wait for wake word to start listening
+    // Start wake word detection
+    setTimeout(() => {
+      startWakeWordDetection();
+    }, 1000); // Small delay to ensure component is fully mounted
+  });
+
+  onDestroy(() => {
+    // Clean up voice recognition and timeouts
+    if (recognition) {
+      recognition.stop();
+    }
+    if (wakeWordTimeout) {
+      clearTimeout(wakeWordTimeout);
+    }
   });
 </script>
 
