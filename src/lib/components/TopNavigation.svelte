@@ -3,7 +3,7 @@
   import Icon from "@iconify/svelte";
   import { generateUserAvatar, generateFallbackAvatar } from "../utils/avatar.js";
   import { users } from "../data/dashboard.js";
-  import { navigate, currentRoute } from "../router.js";
+  import { navigate, currentRoute, isNavigating } from "../router.js";
   import { dropdownAnimations, motionHover } from "../utils/motion.js";
   import NotificationDropdown from "./NotificationDropdown.svelte";
   import MessageDropdown from "./MessageDropdown.svelte";
@@ -245,10 +245,20 @@
   }
 
   function handleTabClick(path) {
+    // Prevent navigation if already in progress
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring tab click");
+      return;
+    }
     navigate(path);
   }
 
   function handleBreadcrumbClick(path) {
+    // Prevent navigation if already in progress
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring breadcrumb click");
+      return;
+    }
     navigate(path);
   }
 
@@ -301,6 +311,11 @@
   }
 
   function handleLogout() {
+    // Prevent logout if already navigating
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring logout");
+      return;
+    }
     closeUserMenu();
     authActions.logout();
     setTimeout(() => {
@@ -309,19 +324,39 @@
   }
 
   function handleLogin() {
+    // Prevent navigation if already in progress
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring login");
+      return;
+    }
     navigate("/auth/login");
   }
 
   function handleRegister() {
+    // Prevent navigation if already in progress
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring register");
+      return;
+    }
     navigate("/auth/register");
   }
 
   function handleProfile() {
+    // Prevent navigation if already in progress
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring profile");
+      return;
+    }
     navigate("/profile");
     closeUserMenu();
   }
 
   function handleSettings() {
+    // Prevent navigation if already in progress
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring settings");
+      return;
+    }
     navigate("/settings");
     closeUserMenu();
   }

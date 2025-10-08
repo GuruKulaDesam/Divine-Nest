@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { currentRoute, navigate } from "../router.js";
+  import { currentRoute, navigate, isNavigating } from "../router.js";
   import ResponsiveHeader from "./ResponsiveHeader.svelte";
   import BottomNavigation from "./BottomNavigation.svelte";
   import MobileSidebar from "./MobileSidebar.svelte";
@@ -145,11 +145,30 @@
     });
   }
 
-  // Handle navigation events
-  function handleNavigate(event) {
+  // Handle navigation events with smooth transitions
+  async function handleNavigate(event) {
+    // Prevent navigation if already in progress
+    if ($isNavigating) {
+      console.log("Navigation already in progress, ignoring:", event.detail.path);
+      return;
+    }
+
     const { path } = event.detail;
-    navigate(path);
-    sidebarOpen = false;
+    console.log("MobileFirstLayout - handleNavigate called with path:", path);
+
+    // Start transition effect
+    if (pageElement) {
+      pageElement.style.opacity = "0";
+      pageElement.style.transform = "translateX(20px)";
+    }
+
+    try {
+      await navigate(path);
+      sidebarOpen = false;
+      console.log("MobileFirstLayout - navigation completed");
+    } catch (error) {
+      console.error("Navigation error:", error);
+    }
   }
 
   function toggleSidebar() {
@@ -160,32 +179,41 @@
     sidebarOpen = false;
   }
 
-  // Page transition effect
+  // Enhanced page transition effect
   function handlePageTransition() {
-    if (pageElement) {
+    if (pageElement && !$isNavigating) {
+      // Reset transform and opacity for smooth entry
+      pageElement.style.transform = "translateX(20px)";
       pageElement.style.opacity = "0";
-      setTimeout(() => {
-        if (pageElement) {
-          pageElement.style.opacity = "1";
-        }
-      }, 50);
+
+      // Use requestAnimationFrame for smoother animation
+      requestAnimationFrame(() => {
+        pageElement.style.transition = "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
+        pageElement.style.transform = "translateX(0)";
+        pageElement.style.opacity = "1";
+      });
     }
   }
 
-  $: if (currentComponent) {
+  // Watch for navigation completion
+  $: if (!$isNavigating && currentComponent) {
     handlePageTransition();
   }
 
   onMount(() => {
     checkMobileDevice();
     window.addEventListener("resize", checkMobileDevice);
-    return () => window.removeEventListener("resize", checkMobileDevice);
+    window.addEventListener("navigate", handleNavigate);
+    return () => {
+      window.removeEventListener("resize", checkMobileDevice);
+      window.removeEventListener("navigate", handleNavigate);
+    };
   });
 </script>
 
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-  <!-- View Mode Toggle (Top Right) -->
-  <div class="fixed top-4 right-4 z-50">
+  <!-- View Mode Toggle (Bottom Right) -->
+  <div class="fixed bottom-4 right-4 z-50">
     <button on:click={toggleViewMode} class="bg-white dark:bg-gray-800 shadow-lg rounded-lg px-3 py-2 flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700" title="Toggle View Mode">
       {#if $viewMode === "auto"}
         <Icon icon="heroicons:device-phone-mobile" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
@@ -235,6 +263,9 @@
           <MobileSidebar isOpen={sidebarOpen} {activeGroup} on:navigate={handleNavigate} on:close={closeSidebar} />
         </div>
       {/if}
+
+      <!-- Right Sidebar for Assistant (Mobile) -->
+      <RightSidebar />
     </div>
   {:else}
     <!-- DESKTOP LAYOUT -->
@@ -253,7 +284,16 @@
           <main class="flex-1 scrollable-container bg-transparent">
             <div class="p-4 sm:p-6 lg:p-8">
               <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-sm shadow-xl border border-white/20 p-6 sm:p-8">
-                <div bind:this={pageElement} class="transition-opacity duration-200 ease-in-out" style="opacity: 1;">
+                <div bind:this={pageElement} class="page-content transition-all duration-400 ease-out" style="opacity: 1; transform: translateX(0);">
+                  <!-- Loading overlay during navigation -->
+                  {#if $isNavigating}
+                    <div class="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl">
+                      <div class="flex flex-col items-center gap-3">
+                        <div class="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Loading...</span>
+                      </div>
+                    </div>
+                  {/if}
                   <svelte:component this={componentToRender} />
                 </div>
               </div>
@@ -278,10 +318,43 @@
     transition: opacity 0.2s ease-in-out;
   }
 
-  /* Smooth transitions */
+  /* Enhanced page transitions */
+  .page-content {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+  }
+
+  /* Smooth transitions for main content */
   main {
     transition:
-      margin-left 0.3s ease,
-      padding 0.3s ease;
+      margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Disable interactions during navigation */
+  :global(.page-content) {
+    pointer-events: none;
+  }
+
+  :global(.page-content:not(.navigating)) {
+    pointer-events: auto;
+  }
+
+  /* Loading spinner animation */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+
+  /* Prevent multiple clicks on navigation elements */
+  .navigating :global(button),
+  .navigating :global(a) {
+    pointer-events: none;
+    opacity: 0.6;
   }
 </style>
