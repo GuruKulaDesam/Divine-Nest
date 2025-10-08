@@ -177,7 +177,7 @@
   <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
     {#each mainMenuItems as menuItem, index}
       <div class="menu-item">
-        <a href={menuItem.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 {isMenuActive(menuItem) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(menuItem.path)} use:motionInView={{ animation: "fadeInLeft", delay: index * 0.05 }}>
+        <a href={menuItem.path} class="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg {isMenuActive(menuItem) ? 'bg-white/10 text-white border border-white/20 backdrop-blur-sm' : 'text-sidebar hover:bg-white/10 hover:text-sidebar-hover hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleMenuClick(menuItem.path)}>
           <Icon icon={menuItem.icon} class="w-5 h-5 mr-3 {menuItem.color}" />
           {menuItem.title}
           {#if isMenuActive(menuItem)}
@@ -197,10 +197,10 @@
         <p class="text-xs text-sidebar/60 truncate">john.doe@example.com</p>
       </div>
       <div class="flex items-center gap-2">
-        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-red-400 hover:bg-red-400/20 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-red-400" on:click={handleLogout} aria-label="Logout">
+        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-red-400 hover:bg-red-400/20 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-red-400" on:click={handleLogout} aria-label="Logout">
           <Icon icon="heroicons:arrow-right-on-rectangle" class="w-5 h-5" />
         </button>
-        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-sidebar hover:bg-white/10 transition-all duration-300 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary" aria-label="More options">
+        <button class="p-1.5 rounded-md text-sidebar/60 hover:text-sidebar hover:bg-white/10 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary" aria-label="More options">
           <Icon icon="heroicons:ellipsis-vertical" class="w-5 h-5" />
         </button>
       </div>
