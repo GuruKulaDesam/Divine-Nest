@@ -278,6 +278,8 @@ class Router {
 
   // Navigate to a route with smooth transitions
   async navigate(path, updateHistory = true) {
+    console.log('Router.navigate called with path:', path, 'updateHistory:', updateHistory);
+
     // Prevent multiple simultaneous navigations
     if (this.isTransitioning) {
       console.log('Navigation in progress, queuing:', path);
@@ -299,13 +301,16 @@ class Router {
 
       // Find the matching route
       let component = this.routes.get(path);
+      console.log('Found component for path', path, ':', component);
 
       // If no exact match, try to find a catch-all route
       if (!component) {
         component = this.routes.get('*');
+        console.log('Using catch-all component:', component);
       }
 
       // Update component immediately
+      console.log('Setting currentComponent to:', component);
       currentComponent.set(component);
 
     } finally {

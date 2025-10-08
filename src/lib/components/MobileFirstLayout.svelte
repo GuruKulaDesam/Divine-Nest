@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { currentRoute, navigate, isNavigating } from "../router.js";
+  import { currentRoute, navigate, isNavigating, currentComponent } from "../router.js";
   import ResponsiveHeader from "./ResponsiveHeader.svelte";
   import BottomNavigation from "./BottomNavigation.svelte";
   import MobileSidebar from "./MobileSidebar.svelte";
@@ -116,16 +116,15 @@
     "auth-register-v3": HomePage,
   };
 
-  export let currentComponent = null;
-
   let sidebarOpen = false;
   let activeGroup = "home";
   let pageElement;
   let isMobileDevice = false;
 
   // Reactive statements
-  $: console.log("MobileFirstLayout - currentComponent:", currentComponent, typeof currentComponent);
-  $: componentToRender = currentComponent;
+  $: console.log("MobileFirstLayout - currentComponent changed:", $currentComponent, typeof $currentComponent);
+  $: componentToRender = $currentComponent;
+  $: console.log("MobileFirstLayout - componentToRender set to:", componentToRender);
   $: isMobileView = $viewMode === "auto" ? isMobileDevice : $viewMode === "mobile";
 
   // Check if device is mobile
