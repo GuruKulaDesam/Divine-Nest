@@ -5,8 +5,8 @@
   import BottomNavigation from "./BottomNavigation.svelte";
   import MobileSidebar from "./MobileSidebar.svelte";
   import Sidebar from "./Sidebar.svelte";
-  import RightSidebar from "./RightSidebar.svelte";
   import TopNavigation from "./TopNavigation.svelte";
+  import FloatingAssistant from "./FloatingAssistant.svelte";
   import Icon from "@iconify/svelte";
   import TestPage from "../pages/TestPage.svelte";
   import HomePage from "../pages/HomePage.svelte";
@@ -252,8 +252,8 @@
         </div>
       {/if}
 
-      <!-- Right Sidebar for Assistant (Mobile) -->
-      <RightSidebar />
+      <!-- Floating Voice Assistant -->
+      <FloatingAssistant />
     </div>
   {:else}
     <!-- DESKTOP LAYOUT -->
@@ -264,7 +264,7 @@
         <Sidebar isOpen={sidebarOpen} on:close={closeSidebar} />
 
         <!-- Main content area -->
-        <div class="flex-1 flex flex-col overflow-hidden mr-80">
+        <div class="flex-1 flex flex-col overflow-hidden">
           <!-- Enhanced Header with integrated breadcrumb and navigation -->
           <TopNavigation {sidebarOpen} on:toggleSidebar={toggleSidebar} />
 
@@ -289,8 +289,8 @@
           </main>
         </div>
 
-        <!-- Right Sidebar for Assistant -->
-        <RightSidebar />
+        <!-- Floating Voice Assistant -->
+        <FloatingAssistant />
       </div>
     </div>
   {/if}
