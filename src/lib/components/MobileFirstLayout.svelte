@@ -147,12 +147,6 @@
 
   // Handle navigation events with smooth transitions
   async function handleNavigate(event) {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring:", event.detail.path);
-      return;
-    }
-
     const { path } = event.detail;
     console.log("MobileFirstLayout - handleNavigate called with path:", path);
 
@@ -195,8 +189,8 @@
     }
   }
 
-  // Watch for navigation completion
-  $: if (!$isNavigating && currentComponent) {
+  // Watch for component changes
+  $: if (currentComponent) {
     handlePageTransition();
   }
 

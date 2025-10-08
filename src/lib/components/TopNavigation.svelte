@@ -143,7 +143,8 @@
       icon: "heroicons:home",
       path: "/",
       color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+      borderColor: "border-blue-500/50",
+      textColor: "text-blue-600 dark:text-blue-400",
       description: "Dashboard & Overview",
     },
     {
@@ -152,7 +153,8 @@
       icon: "heroicons:sparkles",
       path: "/tamil-panchangam",
       color: "from-orange-500 to-orange-600",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
+      borderColor: "border-orange-500/50",
+      textColor: "text-orange-600 dark:text-orange-400",
       description: "Spiritual & Religious",
     },
     {
@@ -161,7 +163,8 @@
       icon: "heroicons:phone",
       path: "/contacts",
       color: "from-green-500 to-green-600",
-      bgColor: "bg-green-50 dark:bg-green-900/20",
+      borderColor: "border-green-500/50",
+      textColor: "text-green-600 dark:text-green-400",
       description: "People & Directory",
     },
     {
@@ -170,7 +173,8 @@
       icon: "heroicons:cake",
       path: "/meals",
       color: "from-orange-400 to-orange-500",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
+      borderColor: "border-orange-400/50",
+      textColor: "text-orange-600 dark:text-orange-400",
       description: "Meals & Recipes",
     },
     {
@@ -179,7 +183,8 @@
       icon: "heroicons:academic-cap",
       path: "/education",
       color: "from-indigo-500 to-indigo-600",
-      bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
+      borderColor: "border-indigo-500/50",
+      textColor: "text-indigo-600 dark:text-indigo-400",
       description: "Education & Study",
     },
     {
@@ -188,7 +193,8 @@
       icon: "heroicons:heart",
       path: "/wellness",
       color: "from-pink-500 to-pink-600",
-      bgColor: "bg-pink-50 dark:bg-pink-900/20",
+      borderColor: "border-pink-500/50",
+      textColor: "text-pink-600 dark:text-pink-400",
       description: "Wellness & Fitness",
     },
     {
@@ -197,7 +203,8 @@
       icon: "heroicons:clipboard-document-list",
       path: "/projects",
       color: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-50 dark:bg-purple-900/20",
+      borderColor: "border-purple-500/50",
+      textColor: "text-purple-600 dark:text-purple-400",
       description: "Management & Tasks",
     },
     {
@@ -206,7 +213,8 @@
       icon: "heroicons:building-storefront",
       path: "/assets",
       color: "from-emerald-500 to-emerald-600",
-      bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+      borderColor: "border-emerald-500/50",
+      textColor: "text-emerald-600 dark:text-emerald-400",
       description: "Property & Vehicles",
     },
     {
@@ -215,7 +223,8 @@
       icon: "heroicons:map",
       path: "/travel",
       color: "from-cyan-500 to-cyan-600",
-      bgColor: "bg-cyan-50 dark:bg-cyan-900/20",
+      borderColor: "border-cyan-500/50",
+      textColor: "text-cyan-600 dark:text-cyan-400",
       description: "Trips & Journeys",
     },
     {
@@ -224,7 +233,8 @@
       icon: "heroicons:photo",
       path: "/lifeflow",
       color: "from-rose-500 to-rose-600",
-      bgColor: "bg-rose-50 dark:bg-rose-900/20",
+      borderColor: "border-rose-500/50",
+      textColor: "text-rose-600 dark:text-rose-400",
       description: "Stories & Legacy",
     },
   ];
@@ -324,29 +334,14 @@
   }
 
   function handleTabClick(path) {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring tab click");
-      return;
-    }
     navigate(path);
   }
 
   function handleBreadcrumbClick(path) {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring breadcrumb click");
-      return;
-    }
     navigate(path);
   }
 
   function handleTileClick(path) {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring tile click");
-      return;
-    }
     navigate(path);
   }
 
@@ -399,11 +394,6 @@
   }
 
   function handleLogout() {
-    // Prevent logout if already navigating
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring logout");
-      return;
-    }
     closeUserMenu();
     authActions.logout();
     setTimeout(() => {
@@ -412,39 +402,19 @@
   }
 
   function handleLogin() {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring login");
-      return;
-    }
     navigate("/auth/login");
   }
 
   function handleRegister() {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring register");
-      return;
-    }
     navigate("/auth/register");
   }
 
   function handleProfile() {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring profile");
-      return;
-    }
     navigate("/profile");
     closeUserMenu();
   }
 
   function handleSettings() {
-    // Prevent navigation if already in progress
-    if ($isNavigating) {
-      console.log("Navigation already in progress, ignoring settings");
-      return;
-    }
     navigate("/settings");
     closeUserMenu();
   }
@@ -580,7 +550,7 @@
     <!-- Navigation Tiles Grid -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-10 gap-3">
       {#each navigationTiles as tile}
-        <button class="group relative overflow-hidden rounded-xl {tile.bgColor} border border-base-300/30 hover:border-base-300/60 transition-all duration-300 hover:shadow-lg hover:scale-105 backdrop-blur-sm" on:click={() => handleTileClick(tile.path)} use:motionHover>
+        <button class="group relative overflow-hidden rounded-xl bg-transparent border-2 {tile.borderColor} hover:bg-base-100/10 transition-all duration-300 hover:shadow-lg hover:scale-105 backdrop-blur-sm" on:click={() => handleTileClick(tile.path)} use:motionHover>
           <div class="p-4 text-center">
             <!-- Icon with gradient background -->
             <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br {tile.color} mb-3 shadow-sm">
@@ -588,13 +558,13 @@
             </div>
 
             <!-- Label -->
-            <h3 class="text-sm font-semibold text-base-content mb-1">{tile.label}</h3>
+            <h3 class="text-sm font-semibold {tile.textColor} mb-1">{tile.label}</h3>
 
             <!-- Description -->
             <p class="text-xs text-base-content/60 leading-tight">{tile.description}</p>
 
             <!-- Hover effect overlay -->
-            <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-xl"></div>
           </div>
         </button>
       {/each}
