@@ -1,4 +1,4 @@
-<script></script>
+<script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
   import { navigate } from "../router.js";
@@ -16,22 +16,22 @@
       description: "AI-powered reminder system",
       icon: "heroicons:clock",
       path: "/reminders",
-      color: "text-blue-500"
+      color: "text-blue-500",
     },
     {
       title: "Add Reminder",
       description: "Create a new reminder",
       icon: "heroicons:plus-circle",
       path: "/reminders",
-      color: "text-green-500"
+      color: "text-green-500",
     },
     {
       title: "Today's Tasks",
       description: "View today's reminders",
       icon: "heroicons:calendar",
       path: "/reminders",
-      color: "text-orange-500"
-    }
+      color: "text-orange-500",
+    },
   ];
 
   function handleActionClick(path) {
@@ -64,12 +64,7 @@
   <!-- Reminders Actions -->
   <div class="py-2">
     {#each remindersActions as action (action.title)}
-      <button
-        class="w-full p-4 hover:bg-base-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
-        on:click={() => handleActionClick(action.path)}
-        use:motionHover
-        aria-label="{action.title}: {action.description}"
-      >
+      <button class="w-full p-4 hover:bg-base-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary" on:click={() => handleActionClick(action.path)} use:motionHover aria-label="{action.title}: {action.description}">
         <div class="flex items-center space-x-3">
           <div class="flex-shrink-0">
             <Icon icon={action.icon} class="w-5 h-5 {action.color}" />
@@ -86,11 +81,6 @@
 
   <!-- Footer -->
   <div class="p-3 border-t border-base-300 bg-base-50">
-    <button
-      class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors"
-      on:click={() => handleActionClick("/reminders")}
-    >
-      Open Full Reminders
-    </button>
+    <button class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors" on:click={() => handleActionClick("/reminders")}> Open Full Reminders </button>
   </div>
 </div>

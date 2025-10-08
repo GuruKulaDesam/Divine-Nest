@@ -60,6 +60,15 @@ import AssetsItemsPage from './pages/AssetsItemsPage.svelte';
 import AssetsValuePage from './pages/AssetsValuePage.svelte';
 import AssetsMaintenancePage from './pages/AssetsMaintenancePage.svelte';
 import AssetsDocumentsPage from './pages/AssetsDocumentsPage.svelte';
+import GradesTrackerPage from './pages/GradesTrackerPage.svelte';
+
+// Assistant Pages
+import AssistantPage from './pages/AssistantPage.svelte';
+import VoiceLogPage from './pages/VoiceLogPage.svelte';
+import TaskBoardPage from './pages/TaskBoardPage.svelte';
+import EventFeedPage from './pages/EventFeedPage.svelte';
+import AutoChecklistPage from './pages/AutoChecklistPage.svelte';
+import AmbientLogPage from './pages/AmbientLogPage.svelte';
 
 // Create stores for routing
 const currentRoute = writable(window.location.pathname);
@@ -121,6 +130,13 @@ const routes = {
   '/education/mentors': EducationPage,
   '/education/achievements': EducationPage,
   '/education/archive': EducationPage,
+  '/education/grades-tracker': GradesTrackerPage,
+  '/assistant': AssistantPage,
+  '/assistant/voice-log': VoiceLogPage,
+  '/assistant/task-board': TaskBoardPage,
+  '/assistant/event-feed': EventFeedPage,
+  '/assistant/auto-checklist': AutoChecklistPage,
+  '/assistant/ambient-log': AmbientLogPage,
   '/kitchen': KitchenPage,
   '/kitchen/dashboard': KitchenPage,
   '/kitchen/pantry': KitchenPage,
