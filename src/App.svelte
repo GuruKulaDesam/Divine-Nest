@@ -53,7 +53,7 @@
 
 {#if !appReady}
   <!-- Loading Screen -->
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 flex items-center justify-center">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50/30 via-indigo-50/30 to-purple-50/30 dark:from-gray-900/30 dark:via-purple-900/10 dark:to-blue-900/10 flex items-center justify-center">
     <div class="text-center">
       <LoadingSpinner />
       <h2 class="text-xl font-semibold text-gray-900 dark:text-white mt-4">Loading Family App</h2>
