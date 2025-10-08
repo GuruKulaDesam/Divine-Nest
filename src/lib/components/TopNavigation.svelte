@@ -8,7 +8,16 @@
   import NotificationDropdown from "./NotificationDropdown.svelte";
   import MessageDropdown from "./MessageDropdown.svelte";
   import LanguageSwitcher from "./LanguageSwitcher.svelte";
-  import ThemeToggle from "./ThemeToggle.svelte";
+  import ThemeToggle  .tile-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    /* Removed transition for faster rendering */
+  }hemeToggle.svelte";
   import { getUnreadNotificationsCount, getUnreadMessagesCount } from "../data/notifications.js";
   import { _, isLoading } from "svelte-i18n";
   import { isAuthenticated, currentUser, authActions } from "../stores/auth.js";
@@ -357,13 +366,11 @@
     notificationMenuOpen = false;
     messageMenuOpen = false;
 
-    setTimeout(() => {
-      if (userMenuOpen && dropdownElement) {
-        dropdownAnimations.open(dropdownElement);
-      } else if (!userMenuOpen && dropdownElement) {
-        dropdownAnimations.close(dropdownElement);
-      }
-    }, 10);
+    if (userMenuOpen && dropdownElement) {
+      dropdownAnimations.open(dropdownElement);
+    } else if (!userMenuOpen && dropdownElement) {
+      dropdownAnimations.close(dropdownElement);
+    }
   }
 
   function toggleNotificationMenu() {
@@ -396,9 +403,7 @@
   function handleLogout() {
     closeUserMenu();
     authActions.logout();
-    setTimeout(() => {
-      navigate("/auth/login");
-    }, 150);
+    navigate("/auth/login");
   }
 
   function handleLogin() {
@@ -550,7 +555,7 @@
     <!-- Navigation Tiles Grid -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-10 gap-3">
       {#each navigationTiles as tile}
-        <button class="group relative overflow-hidden rounded-xl bg-transparent border-2 {tile.borderColor} hover:bg-base-100/10 transition-all duration-300 hover:shadow-lg hover:scale-105 backdrop-blur-sm" on:click={() => handleTileClick(tile.path)} use:motionHover>
+        <button class="group relative overflow-hidden rounded-xl bg-transparent border-2 {tile.borderColor} hover:bg-base-100/10 hover:shadow-lg hover:scale-105 backdrop-blur-sm" on:click={() => handleTileClick(tile.path)} use:motionHover>
           <div class="p-4 text-center">
             <!-- Icon with gradient background -->
             <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br {tile.color} mb-3 shadow-sm">
@@ -564,7 +569,7 @@
             <p class="text-xs text-base-content/60 leading-tight">{tile.description}</p>
 
             <!-- Hover effect overlay -->
-            <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-5 rounded-xl"></div>
           </div>
         </button>
       {/each}
@@ -581,7 +586,7 @@
 
   /* Smooth transitions for interactive elements */
   button {
-    transition: all 0.2s ease-in-out;
+    /* Removed transition for faster rendering */
   }
 
   button:hover {

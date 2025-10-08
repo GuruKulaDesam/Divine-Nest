@@ -175,17 +175,11 @@
 
   // Enhanced page transition effect
   function handlePageTransition() {
-    if (pageElement && !$isNavigating) {
-      // Reset transform and opacity for smooth entry
-      pageElement.style.transform = "translateX(20px)";
-      pageElement.style.opacity = "0";
-
-      // Use requestAnimationFrame for smoother animation
-      requestAnimationFrame(() => {
-        pageElement.style.transition = "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
-        pageElement.style.transform = "translateX(0)";
-        pageElement.style.opacity = "1";
-      });
+    // Removed transition effects for faster rendering
+    if (pageElement) {
+      pageElement.style.transform = "translateX(0)";
+      pageElement.style.opacity = "1";
+      pageElement.style.transition = "none";
     }
   }
 
@@ -278,7 +272,7 @@
           <main class="flex-1 scrollable-container bg-transparent">
             <div class="p-4 sm:p-6 lg:p-8">
               <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-sm shadow-xl border border-white/20 p-6 sm:p-8">
-                <div bind:this={pageElement} class="page-content transition-all duration-400 ease-out" style="opacity: 1; transform: translateX(0);">
+                <div bind:this={pageElement} class="page-content" style="opacity: 1; transform: translateX(0);">
                   <!-- Loading overlay during navigation -->
                   {#if $isNavigating}
                     <div class="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl">
