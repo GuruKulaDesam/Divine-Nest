@@ -8,16 +8,7 @@
   import NotificationDropdown from "./NotificationDropdown.svelte";
   import MessageDropdown from "./MessageDropdown.svelte";
   import LanguageSwitcher from "./LanguageSwitcher.svelte";
-  import ThemeToggle  .tile-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    /* Removed transition for faster rendering */
-  }hemeToggle.svelte";
+  import ThemeToggle from "./ThemeToggle.svelte";
   import { getUnreadNotificationsCount, getUnreadMessagesCount } from "../data/notifications.js";
   import { _, isLoading } from "svelte-i18n";
   import { isAuthenticated, currentUser, authActions } from "../stores/auth.js";
