@@ -343,14 +343,10 @@ export async function initializeDatabase() {
     console.log("Existing contacts count:", existingContacts);
 
     if (existingContacts === 0) {
-      console.log("No contacts found, initializing with local service providers...");
-      try {
-        await initDirectorySampleData();
-        console.log("Database initialization completed");
-      } catch (sampleDataError) {
-        console.warn("Sample data initialization failed, but continuing:", sampleDataError);
-        // Don't fail the entire initialization if sample data fails
-      }
+      console.log("No contacts found, skipping sample data initialization for faster startup");
+      // Skip sample data for now to prevent loading delays
+      // await initDirectorySampleData();
+      console.log("Database initialization completed (skipping sample data)");
     } else {
       console.log("Contacts already exist, skipping initialization");
     }
