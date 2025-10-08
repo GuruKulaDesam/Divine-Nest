@@ -230,7 +230,7 @@
 
   {#if isMobileView}
     <!-- MOBILE LAYOUT -->
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-screen bg-gray-50/30 dark:bg-gray-900/30">
       <!-- Mobile Header -->
       <header class="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div class="flex items-center justify-between px-4 py-3">
@@ -271,7 +271,7 @@
     <!-- DESKTOP LAYOUT -->
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
       <!-- Desktop Layout with Sidebar and Top Navigation -->
-      <div class="flex h-screen bg-base-200 mountain-background" data-theme="modern">
+      <div class="flex h-screen bg-base-200/30 mountain-background" data-theme="modern">
         <!-- Desktop Sidebar -->
         <Sidebar isOpen={sidebarOpen} on:close={closeSidebar} />
 
