@@ -255,7 +255,7 @@ class Router {
   constructor() {
     this.routes = new Map();
     this.isTransitioning = false;
-    this.transitionDuration = 300; // ms
+    this.transitionDuration = 0; // ms - removed transitions for faster navigation
 
     // Initialize all routes
     Object.entries(routes).forEach(([path, component]) => {
@@ -290,9 +290,7 @@ class Router {
     isNavigating.set(true);
 
     try {
-      // Add a small delay for smooth transition
-      await new Promise(resolve => setTimeout(resolve, 50));
-
+      // Immediate navigation without delay
       if (updateHistory) {
         window.history.pushState({}, '', path);
       }
@@ -307,14 +305,11 @@ class Router {
         component = this.routes.get('*');
       }
 
-      // Update component with transition
+      // Update component immediately
       currentComponent.set(component);
 
-      // Wait for transition to complete
-      await new Promise(resolve => setTimeout(resolve, this.transitionDuration));
-
     } finally {
-      // Reset navigation state
+      // Reset navigation state immediately
       this.isTransitioning = false;
       isNavigating.set(false);
 
@@ -322,7 +317,7 @@ class Router {
       navigationQueue.update(queue => {
         if (queue.length > 0) {
           const next = queue.shift();
-          setTimeout(() => this.navigate(next.path, next.updateHistory), 100);
+          setTimeout(() => this.navigate(next.path, next.updateHistory), 0);
         }
         return queue;
       });
