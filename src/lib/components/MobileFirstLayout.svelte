@@ -9,9 +9,6 @@
   import FloatingAssistant from "./FloatingAssistant.svelte";
   import Icon from "@iconify/svelte";
   import TestPage from "../pages/TestPage.svelte";
-  import HomePage from "../pages/HomePage.svelte";
-  import SchedulePage from "../pages/SchedulePage.svelte";
-  import ViewModeTestPage from "../pages/ViewModeTestPage.svelte";
 
   import { viewMode } from "../stores/viewMode.js";
 
@@ -128,7 +125,7 @@
 
   // Reactive statements
   $: console.log("MobileFirstLayout - currentComponent:", currentComponent, typeof currentComponent);
-  $: componentToRender = currentComponent || TestPage;
+  $: componentToRender = currentComponent;
   $: isMobileView = $viewMode === "auto" ? isMobileDevice : $viewMode === "mobile";
 
   // Check if device is mobile
@@ -237,7 +234,16 @@
       <!-- Mobile Main Content -->
       <main class="pt-16 pb-20 px-4">
         <div bind:this={pageElement} class="transition-opacity duration-200 ease-in-out" style="opacity: 1;">
-          <svelte:component this={componentToRender} />
+          {#if componentToRender}
+            <svelte:component this={componentToRender} />
+          {:else}
+            <div class="flex items-center justify-center h-64">
+              <div class="text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                <p class="text-gray-600">Loading page...</p>
+              </div>
+            </div>
+          {/if}
         </div>
       </main>
 
@@ -282,7 +288,16 @@
                       </div>
                     </div>
                   {/if}
-                  <svelte:component this={componentToRender} />
+                  {#if componentToRender}
+                    <svelte:component this={componentToRender} />
+                  {:else}
+                    <div class="flex items-center justify-center h-64">
+                      <div class="text-center">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                        <p class="text-gray-600 dark:text-gray-400">Loading page...</p>
+                      </div>
+                    </div>
+                  {/if}
                 </div>
               </div>
             </div>
