@@ -125,9 +125,7 @@
   let isMobileDevice = false;
 
   // Reactive statements
-  $: console.log("MobileFirstLayout - currentComponent changed:", $currentComponent, typeof $currentComponent);
   $: componentToRender = $currentComponent;
-  $: console.log("MobileFirstLayout - componentToRender set to:", componentToRender);
   $: isMobileView = $viewMode === "auto" ? isMobileDevice : $viewMode === "mobile";
 
   // Check if device is mobile

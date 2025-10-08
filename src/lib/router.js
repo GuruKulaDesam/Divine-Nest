@@ -253,7 +253,6 @@ window.addEventListener('load', () => {
 // Router class
 class Router {
   constructor() {
-    console.log('Router constructor called');
     this.routes = new Map();
     this.isTransitioning = false;
     this.transitionDuration = 0; // ms - removed transitions for faster navigation
@@ -262,7 +261,6 @@ class Router {
     Object.entries(routes).forEach(([path, component]) => {
       this.add(path, component);
     });
-    console.log('Routes initialized:', this.routes);
 
     // Listen for browser navigation
     window.addEventListener('popstate', () => {
@@ -270,7 +268,6 @@ class Router {
     });
 
     // Initialize with current path
-    console.log('Initializing with path:', window.location.pathname);
     this.navigate(window.location.pathname, false);
   }
 
@@ -281,8 +278,6 @@ class Router {
 
   // Navigate to a route with smooth transitions
   async navigate(path, updateHistory = true) {
-    console.log('Router.navigate called with path:', path, 'updateHistory:', updateHistory);
-
     // Prevent multiple simultaneous navigations
     if (this.isTransitioning) {
       console.log('Navigation in progress, queuing:', path);
@@ -304,16 +299,13 @@ class Router {
 
       // Find the matching route
       let component = this.routes.get(path);
-      console.log('Found component for path', path, ':', component);
 
       // If no exact match, try to find a catch-all route
       if (!component) {
         component = this.routes.get('*');
-        console.log('Using catch-all component:', component);
       }
 
       // Update component immediately
-      console.log('Setting currentComponent to:', component);
       currentComponent.set(component);
 
     } finally {
