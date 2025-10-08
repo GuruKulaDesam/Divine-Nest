@@ -2,15 +2,28 @@
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
   import { motionInView } from "../utils/motion.js";
+  function extractAfterKeywords(command, keywords) {
+    const lowerCommand = command.toLowerCase();
+    for (let kw of keywords) {
+      const index = lowerCommand.indexOf(kw.toLowerCase());
+      if (index > -1) {
+        return command.substring(index + kw.length).trim();
+      }
+    }
+    return command.trim();
+  }
 
   export let isOpen = true; // Assistant sidebar is always visible on desktop
 
   // Voice recognition variables
   let isListening = false;
+  let isContinuous = false; // Start with wake word required
   let transcript = "";
   let confidence = 0;
   let emotion = "😐";
   let currentLanguage = "ta-IN";
+  let assistantName = "Shivo";
+  let wakeWords = ["nanbaa", "நண்பா", "thozhi", "தோழி", "shivo", "சிவோ", "ஷக்தி", "shakthi", "bro", "ப்ரோ"];
 
   // Tamil voice commands
   const tamilCommands = {
@@ -38,10 +51,21 @@
     { time: "10 min ago", action: "Reminder set", type: "reminder" },
   ];
 
-  // Start voice recognition
+  // Speech synthesis function
+  function speak(text, lang = currentLanguage) {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      speechSynthesis.speak(utterance);
+    }
+  }
+
+  // Start continuous voice recognition
   function startVoiceRecognition() {
     if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
-      alert("Voice recognition not supported in this browser");
+      speak("Voice recognition is not supported in this browser.", "en-US");
       return;
     }
 
@@ -49,43 +73,56 @@
     const recognition = new SpeechRecognition();
 
     recognition.lang = currentLanguage;
-    recognition.continuous = false;
+    recognition.continuous = true;
     recognition.interimResults = false;
 
     recognition.onstart = () => {
       isListening = true;
       transcript = "கேட்கிறது...";
+      // Removed auto greeting to reduce unsolicited speech
     };
 
     recognition.onresult = (event) => {
-      const result = event.results[0][0];
+      const result = event.results[event.results.length - 1][0];
+      const command = result.transcript.toLowerCase();
       transcript = result.transcript;
       confidence = Math.round(result.confidence * 100);
 
       // Simple emotion detection based on keywords
-      if (transcript.includes("மகிழ்ச்சி") || transcript.includes("நன்று")) {
+      if (command.includes("மகிழ்ச்சி") || command.includes("நன்று") || command.includes("happy") || command.includes("good")) {
         emotion = "😊";
-      } else if (transcript.includes("அழுத்தம்") || transcript.includes("சிரமம்")) {
+      } else if (command.includes("அழுத்தம்") || command.includes("சிரமம்") || command.includes("stress") || command.includes("problem")) {
         emotion = "😟";
       } else {
         emotion = "😐";
       }
 
-      // Process Tamil commands
-      processTamilCommand(transcript.toLowerCase());
+      // Process the command
+      const actionTaken = processTamilCommand(command);
+
+      // Only speak for successful actions, not for errors to reduce unsolicited speech
+      // If no action was taken, remain silent
 
       // Add to recent activities
-      recentActivities = [{ time: "Just now", action: `Voice: "${transcript}"`, type: "voice" }, ...recentActivities.slice(0, 4)];
+      recentActivities = [{ time: "Just now", action: `Voice: "${result.transcript}"`, type: "voice" }, ...recentActivities.slice(0, 4)];
     };
 
     recognition.onerror = (event) => {
       console.error("Voice recognition error:", event.error);
       transcript = "பிழை: " + event.error;
       isListening = false;
+      speak("There was an error with voice recognition. Please try again.", "en-US");
     };
 
     recognition.onend = () => {
       isListening = false;
+      transcript = "காத்திருக்கிறது...";
+      // Restart recognition after a short delay to keep it continuous
+      if (isContinuous) {
+        setTimeout(() => {
+          startVoiceRecognition();
+        }, 1000);
+      }
     };
 
     recognition.start();
@@ -93,17 +130,254 @@
 
   // Process Tamil voice commands
   function processTamilCommand(command) {
-    // Simple keyword matching for Tamil commands
-    if (command.includes("பட்டியல்")) {
-      // Navigate to task board
-      window.dispatchEvent(new CustomEvent("navigate", { detail: { path: "/assistant/task-board" } }));
-    } else if (command.includes("குரல் பதிவு")) {
-      // Navigate to voice log
-      window.dispatchEvent(new CustomEvent("navigate", { detail: { path: "/assistant/voice-log" } }));
-    } else if (command.includes("நிகழ்வு")) {
-      // Navigate to event feed
-      window.dispatchEvent(new CustomEvent("navigate", { detail: { path: "/assistant/event-feed" } }));
+    let processedCommand = command.toLowerCase();
+    let actionTaken = false;
+
+    // Check for wake word
+    let hasWakeWord = false;
+    for (let wake of wakeWords) {
+      if (processedCommand.includes(wake)) {
+        hasWakeWord = true;
+        break;
+      }
     }
+
+    // If wake word detected and not in continuous mode, start listening
+    if (hasWakeWord && !isContinuous) {
+      isContinuous = true;
+      speak("கேட்கிறேன்", "ta-IN"); // "I'm listening" in Tamil
+      actionTaken = true;
+      // Don't process further for wake word alone
+      return actionTaken;
+    }
+
+    // If not in continuous mode and no wake word, ignore
+    if (!isContinuous && !hasWakeWord) return false;
+
+    // Stop commands
+    if (processedCommand.includes("நிறுத்து") || processedCommand.includes("stop") || processedCommand.includes("போதும்")) {
+      speak("நிறுத்தினேன்", "ta-IN"); // "Stopped" in Tamil
+      isListening = false;
+      isContinuous = false;
+      actionTaken = true;
+      return actionTaken;
+    }
+
+    // Emotion inference
+    updateEmotion(processedCommand);
+
+    // Assistant navigation commands - Tamil responses
+    if (processedCommand.includes("பட்டியல்") || processedCommand.includes("list") || processedCommand.includes("tasks")) {
+      navigateTo("assistant/task-board");
+      speak("பணிகள் பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("குரல் பதிவு") || processedCommand.includes("voice log")) {
+      navigateTo("assistant/voice-log");
+      speak("குரல் பதிவு பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("நிகழ்வு") || processedCommand.includes("event") || processedCommand.includes("events")) {
+      navigateTo("assistant/event-feed");
+      speak("நிகழ்வுகள் பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("உதவி") || processedCommand.includes("help")) {
+      navigateTo("assistant");
+      speak("எப்படி உதவ?", "ta-IN");
+      actionTaken = true;
+    }
+
+    // Control commands - Tamil responses
+    if (processedCommand.includes("நிறுத்து") || processedCommand.includes("stop") || processedCommand.includes("போதும்")) {
+      speak("நிறுத்தினேன்", "ta-IN");
+      isListening = false;
+      isContinuous = false;
+      actionTaken = true;
+    } else if (processedCommand.includes("தொடங்கு") || processedCommand.includes("start") || processedCommand.includes("listen")) {
+      if (!isListening) {
+        speak("கேட்கிறேன்", "ta-IN");
+        isContinuous = true;
+        startVoiceRecognition();
+      }
+      actionTaken = true;
+    }
+
+    // App navigation commands - Tamil responses
+    else if (processedCommand.includes("முகப்பு") || processedCommand.includes("home") || processedCommand.includes("முதல் பக்கம்")) {
+      navigateTo("home");
+      speak("முகப்பு பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("பயனர்கள்") || processedCommand.includes("users")) {
+      navigateTo("users");
+      speak("பயனர்கள் பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("தயாரிப்புகள்") || processedCommand.includes("products")) {
+      navigateTo("products");
+      speak("தயாரிப்புகள் பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("பகுப்பாய்வு") || processedCommand.includes("analytics")) {
+      navigateTo("analytics");
+      speak("பகுப்பாய்வு பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("வரைபடங்கள்") || processedCommand.includes("charts")) {
+      navigateTo("charts");
+      speak("வரைபடங்கள் பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("காண்ட்") || processedCommand.includes("gantt")) {
+      navigateTo("gantt");
+      speak("காண்ட் வரைபட பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("வரைபடம்") || processedCommand.includes("map")) {
+      navigateTo("maps");
+      speak("வரைபட பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("திட்ட மேலாண்மை") || processedCommand.includes("project")) {
+      navigateTo("project-management");
+      speak("திட்ட மேலாண்மை பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("அமைப்புகள்") || processedCommand.includes("settings")) {
+      navigateTo("settings");
+      speak("அமைப்புகள் பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("சுயவிவரம்") || processedCommand.includes("profile")) {
+      navigateTo("profile");
+      speak("சுயவிவர பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("அவசர") || processedCommand.includes("emergency")) {
+      navigateTo("emergency");
+      speak("அவசர பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    } else if (processedCommand.includes("அட்டவணை") || processedCommand.includes("schedule")) {
+      navigateTo("schedule");
+      speak("அட்டவணை பக்கத்திற்கு செல்கிறேன்", "ta-IN");
+      actionTaken = true;
+    }
+
+    // Creation commands - more flexible matching
+    if (processedCommand.includes("பணி") || (processedCommand.includes("create") && processedCommand.includes("task")) || (processedCommand.includes("add") && processedCommand.includes("task"))) {
+      const taskText = extractAfterKeywords(command, ["பணி", "task"]);
+      if (taskText) {
+        createTask(taskText);
+        speak(`பணி: ${taskText}`, "ta-IN");
+        actionTaken = true;
+      }
+    } else if (processedCommand.includes("நினைவூட்ட") || processedCommand.includes("reminder") || (processedCommand.includes("set") && processedCommand.includes("reminder"))) {
+      const reminderText = extractAfterKeywords(command, ["நினைவூட்டல்", "நினைவூட்டு", "reminder"]);
+      if (reminderText) {
+        createReminder(reminderText);
+        speak(`நினைவூட்டல்: ${reminderText}`, "ta-IN");
+        actionTaken = true;
+      }
+    } else if (processedCommand.includes("நிகழ்வு") || (processedCommand.includes("create") && processedCommand.includes("event")) || (processedCommand.includes("add") && processedCommand.includes("event"))) {
+      const eventText = extractAfterKeywords(command, ["நிகழ்வு", "event"]);
+      if (eventText) {
+        createEvent(eventText);
+        speak(`நிகழ்வு: ${eventText}`, "ta-IN");
+        actionTaken = true;
+      }
+    } else if (processedCommand.includes("குறிப்பு") || processedCommand.includes("note") || (processedCommand.includes("write") && processedCommand.includes("note"))) {
+      const noteText = extractAfterKeywords(command, ["குறிப்பு", "note"]);
+      if (noteText) {
+        createNote(noteText);
+        speak(`குறிப்பு: ${noteText}`, "ta-IN");
+        actionTaken = true;
+      }
+    } else if (processedCommand.includes("சரிபார்ப்பு") || processedCommand.includes("checklist") || (processedCommand.includes("create") && processedCommand.includes("checklist"))) {
+      const checklistText = extractAfterKeywords(command, ["சரிபார்ப்பு பட்டியல்", "checklist"]);
+      if (checklistText) {
+        createChecklist(checklistText);
+        speak(`பட்டியல்: ${checklistText}`, "ta-IN");
+        actionTaken = true;
+      }
+    } else if (processedCommand.includes("செய்ய வேண்டிய") || processedCommand.includes("to-do") || processedCommand.includes("todo") || (processedCommand.includes("add") && processedCommand.includes("to-do"))) {
+      const todoText = extractAfterKeywords(command, ["செய்ய வேண்டியவை", "to-do", "todo"]);
+      if (todoText) {
+        createTodo(todoText);
+        speak(`செய்ய வேண்டியது: ${todoText}`, "ta-IN");
+        actionTaken = true;
+      }
+    }
+
+    return actionTaken;
+  }
+
+  // Update emotion based on command content
+  function updateEmotion(command) {
+    if (command.includes("மகிழ்ச்சி") || command.includes("நன்று") || command.includes("happy") || command.includes("good") || command.includes("great")) {
+      emotion = "😊";
+    } else if (command.includes("அழுத்தம்") || command.includes("சிரமம்") || command.includes("stress") || command.includes("problem") || command.includes("tired")) {
+      emotion = "😟";
+    } else if (command.includes("கோபம்") || command.includes("angry") || command.includes("frustrated")) {
+      emotion = "😠";
+    } else if (command.includes("அமைதி") || command.includes("calm") || command.includes("relax")) {
+      emotion = "😌";
+    } else {
+      emotion = "😐";
+    }
+  }
+
+  // Extract item text after keywords
+  function extractItemText(command, keywords) {
+    for (let kw of keywords) {
+      if (command.toLowerCase().includes(kw.toLowerCase())) {
+        return command.replace(new RegExp(kw, "i"), "").trim();
+      }
+    }
+    return command.trim();
+  }
+
+  // Create functions
+  function createTask(text) {
+    const tasks = JSON.parse(localStorage.getItem("assistant_tasks") || "[]");
+    const newTask = { id: Date.now(), text, completed: false, created: new Date().toISOString() };
+    tasks.push(newTask);
+    localStorage.setItem("assistant_tasks", JSON.stringify(tasks));
+    recentActivities = [{ time: "Just now", action: `Task created: "${text}"`, type: "task" }, ...recentActivities.slice(0, 4)];
+    // Dispatch event for other components to update
+    window.dispatchEvent(new CustomEvent("task-created", { detail: newTask }));
+  }
+
+  function createReminder(text) {
+    const reminders = JSON.parse(localStorage.getItem("assistant_reminders") || "[]");
+    const newReminder = { id: Date.now(), text, completed: false, created: new Date().toISOString() };
+    reminders.push(newReminder);
+    localStorage.setItem("assistant_reminders", JSON.stringify(reminders));
+    recentActivities = [{ time: "Just now", action: `Reminder set: "${text}"`, type: "reminder" }, ...recentActivities.slice(0, 4)];
+    window.dispatchEvent(new CustomEvent("reminder-created", { detail: newReminder }));
+  }
+
+  function createEvent(text) {
+    const events = JSON.parse(localStorage.getItem("assistant_events") || "[]");
+    const newEvent = { id: Date.now(), text, created: new Date().toISOString() };
+    events.push(newEvent);
+    localStorage.setItem("assistant_events", JSON.stringify(events));
+    recentActivities = [{ time: "Just now", action: `Event created: "${text}"`, type: "event" }, ...recentActivities.slice(0, 4)];
+    window.dispatchEvent(new CustomEvent("event-created", { detail: newEvent }));
+  }
+
+  function createNote(text) {
+    const notes = JSON.parse(localStorage.getItem("assistant_notes") || "[]");
+    const newNote = { id: Date.now(), text, created: new Date().toISOString() };
+    notes.push(newNote);
+    localStorage.setItem("assistant_notes", JSON.stringify(notes));
+    recentActivities = [{ time: "Just now", action: `Note created: "${text}"`, type: "note" }, ...recentActivities.slice(0, 4)];
+    window.dispatchEvent(new CustomEvent("note-created", { detail: newNote }));
+  }
+
+  function createChecklist(text) {
+    const checklists = JSON.parse(localStorage.getItem("assistant_checklists") || "[]");
+    const newChecklist = { id: Date.now(), title: text, items: [], created: new Date().toISOString() };
+    checklists.push(newChecklist);
+    localStorage.setItem("assistant_checklists", JSON.stringify(checklists));
+    recentActivities = [{ time: "Just now", action: `Checklist created: "${text}"`, type: "checklist" }, ...recentActivities.slice(0, 4)];
+    window.dispatchEvent(new CustomEvent("checklist-created", { detail: newChecklist }));
+  }
+
+  function createTodo(text) {
+    const todos = JSON.parse(localStorage.getItem("assistant_todos") || "[]");
+    const newTodo = { id: Date.now(), text, completed: false, created: new Date().toISOString() };
+    todos.push(newTodo);
+    localStorage.setItem("assistant_todos", JSON.stringify(todos));
+    recentActivities = [{ time: "Just now", action: `To-do created: "${text}"`, type: "todo" }, ...recentActivities.slice(0, 4)];
+    window.dispatchEvent(new CustomEvent("todo-created", { detail: newTodo }));
   }
 
   // Handle quick action
@@ -116,7 +390,7 @@
         window.dispatchEvent(new CustomEvent("navigate", { detail: { path: "/assistant/task-board" } }));
         break;
       case "reminder":
-        // Could open a reminder modal or navigate
+        window.dispatchEvent(new CustomEvent("navigate", { detail: { path: "/reminders" } }));
         break;
       case "schedule":
         window.dispatchEvent(new CustomEvent("navigate", { detail: { path: "/schedule" } }));
@@ -125,13 +399,12 @@
   }
 
   onMount(() => {
-    // Auto-start voice recognition for ambient listening (simulated)
-    // In a real implementation, this would be continuous ambient listening
+    // Wait for wake word to start listening
   });
 </script>
 
 <!-- Right Sidebar for Assistant -->
-<div class="hidden lg:block fixed right-0 top-0 h-full w-80 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-l border-gray-200/50 dark:border-gray-700/50 shadow-2xl z-40 transform transition-transform duration-300 {isOpen ? 'translate-x-0' : 'translate-x-full'}">
+<div class="block fixed right-0 top-16 h-[calc(100vh-4rem)] w-full lg:top-0 lg:h-full lg:w-80 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 lg:border-t-0 lg:border-l shadow-2xl z-30 transform transition-transform duration-300 {isOpen ? 'translate-x-0' : 'translate-x-full'}">
   <!-- Header -->
   <div class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
     <div class="flex items-center justify-between">
@@ -140,8 +413,8 @@
           <Icon icon="heroicons:chat-bubble-left-right" class="w-5 h-5 text-white" />
         </div>
         <div>
-          <h2 class="text-lg font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">உதவியாளர்</h2>
-          <p class="text-xs text-gray-500 dark:text-gray-400">Voice Assistant</p>
+          <h2 class="text-lg font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">{assistantName}</h2>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Your Voice Companion</p>
         </div>
       </div>
 

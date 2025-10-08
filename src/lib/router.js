@@ -74,6 +74,8 @@ import AmbientLogPage from './pages/AmbientLogPage.svelte';
 const currentRoute = writable(window.location.pathname);
 const navigationHistory = writable([]);
 const currentComponent = writable(HomePage);
+const isNavigating = writable(false);
+const navigationQueue = writable([]);
 
 // Define routes
 const routes = {
@@ -252,43 +254,84 @@ window.addEventListener('load', () => {
 class Router {
   constructor() {
     this.routes = new Map();
-    
+    this.isTransitioning = false;
+    this.transitionDuration = 300; // ms
+
     // Initialize all routes
     Object.entries(routes).forEach(([path, component]) => {
       this.add(path, component);
     });
-    
+
     // Listen for browser navigation
     window.addEventListener('popstate', () => {
       this.navigate(window.location.pathname, false);
     });
-    
+
     // Initialize with current path
     this.navigate(window.location.pathname, false);
   }
-  
+
   // Add a route
   add(path, component) {
     this.routes.set(path, component);
   }
-  
-  // Navigate to a route
-  navigate(path, updateHistory = true) {
-    if (updateHistory) {
-      window.history.pushState({}, '', path);
+
+  // Navigate to a route with smooth transitions
+  async navigate(path, updateHistory = true) {
+    // Prevent multiple simultaneous navigations
+    if (this.isTransitioning) {
+      console.log('Navigation in progress, queuing:', path);
+      navigationQueue.update(queue => [...queue, { path, updateHistory }]);
+      return;
     }
-    
-    currentRoute.set(path);
-    
-    // Find the matching route
-    let component = this.routes.get(path);
-    
-    // If no exact match, try to find a catch-all route
-    if (!component) {
-      component = this.routes.get('*');
+
+    // Set navigation state
+    this.isTransitioning = true;
+    isNavigating.set(true);
+
+    try {
+      // Add a small delay for smooth transition
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      if (updateHistory) {
+        window.history.pushState({}, '', path);
+      }
+
+      currentRoute.set(path);
+
+      // Find the matching route
+      let component = this.routes.get(path);
+
+      // If no exact match, try to find a catch-all route
+      if (!component) {
+        component = this.routes.get('*');
+      }
+
+      // Update component with transition
+      currentComponent.set(component);
+
+      // Wait for transition to complete
+      await new Promise(resolve => setTimeout(resolve, this.transitionDuration));
+
+    } finally {
+      // Reset navigation state
+      this.isTransitioning = false;
+      isNavigating.set(false);
+
+      // Process queued navigation if any
+      navigationQueue.update(queue => {
+        if (queue.length > 0) {
+          const next = queue.shift();
+          setTimeout(() => this.navigate(next.path, next.updateHistory), 100);
+        }
+        return queue;
+      });
     }
-    
-    currentComponent.set(component);
+  }
+
+  // Check if navigation is in progress
+  isCurrentlyNavigating() {
+    return this.isTransitioning;
   }
 }
 
@@ -302,5 +345,7 @@ export {
   currentRoute,
   navigationHistory,
   currentComponent,
+  isNavigating,
+  navigationQueue,
   navigate
 };
