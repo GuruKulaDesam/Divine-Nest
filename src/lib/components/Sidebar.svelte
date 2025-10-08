@@ -52,7 +52,15 @@
       icon: "heroicons:academic-cap",
       path: "/education",
       color: "text-indigo-500",
-      routes: ["/education", "/education/dashboard", "/education/students", "/education/curriculum", "/education/planner", "/education/quiz", "/education/assessment", "/education/courses", "/education/mentors", "/education/achievements", "/education/archive", "/library", "/studies", "/learning-goals", "/study-plans"],
+      routes: ["/education", "/education/dashboard", "/education/students", "/education/curriculum", "/education/planner", "/education/quiz", "/education/assessment", "/education/courses", "/education/mentors", "/education/achievements", "/education/archive", "/library", "/studies", "/learning-goals", "/study-plans", "/education/grades-tracker"],
+    },
+    {
+      key: "assistant",
+      title: "🤖 Assistant",
+      icon: "heroicons:chat-bubble-left-right",
+      path: "/assistant",
+      color: "text-purple-500",
+      routes: ["/assistant", "/assistant/voice-log", "/assistant/task-board", "/assistant/event-feed", "/assistant/auto-checklist", "/assistant/ambient-log"],
     },
     {
       key: "health",

@@ -5,6 +5,7 @@
   import BottomNavigation from "./BottomNavigation.svelte";
   import MobileSidebar from "./MobileSidebar.svelte";
   import Sidebar from "./Sidebar.svelte";
+  import RightSidebar from "./RightSidebar.svelte";
   import TopNavigation from "./TopNavigation.svelte";
   import Icon from "@iconify/svelte";
   import TestPage from "../pages/TestPage.svelte";
@@ -244,7 +245,7 @@
         <Sidebar isOpen={sidebarOpen} on:close={closeSidebar} />
 
         <!-- Main content area -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-hidden mr-80">
           <!-- Enhanced Header with integrated breadcrumb and navigation -->
           <TopNavigation {sidebarOpen} on:toggleSidebar={toggleSidebar} />
 
@@ -259,6 +260,9 @@
             </div>
           </main>
         </div>
+
+        <!-- Right Sidebar for Assistant -->
+        <RightSidebar />
       </div>
     </div>
   {/if}
