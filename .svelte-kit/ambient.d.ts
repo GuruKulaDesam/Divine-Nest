@@ -46,7 +46,6 @@ declare module '$env/static/private' {
 	export const GEMINI_CLI_IDE_SERVER_PORT: string;
 	export const GEMINI_CLI_IDE_WORKSPACE_PATH: string;
 	export const GIT_ASKPASS: string;
-	export const GIT_PAGER: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
 	export const HOMEPATH: string;
@@ -116,7 +115,7 @@ declare module '$env/static/private' {
 	export const VSCODE_GIT_ASKPASS_MAIN: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
 	export const VSCODE_GIT_IPC_HANDLE: string;
-	export const VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
+	export const VSCODE_NONCE: string;
 	export const WINDIR: string;
 	export const _: string;
 }
@@ -168,7 +167,6 @@ declare module '$env/dynamic/private' {
 		GEMINI_CLI_IDE_SERVER_PORT: string;
 		GEMINI_CLI_IDE_WORKSPACE_PATH: string;
 		GIT_ASKPASS: string;
-		GIT_PAGER: string;
 		HOME: string;
 		HOMEDRIVE: string;
 		HOMEPATH: string;
@@ -238,7 +236,7 @@ declare module '$env/dynamic/private' {
 		VSCODE_GIT_ASKPASS_MAIN: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
 		VSCODE_GIT_IPC_HANDLE: string;
-		VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
+		VSCODE_NONCE: string;
 		WINDIR: string;
 		_: string;
 		[key: `PUBLIC_${string}`]: undefined;

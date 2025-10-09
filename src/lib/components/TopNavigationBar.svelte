@@ -249,7 +249,7 @@
   }
 </script>
 
-<div class="outlook-nav w-full bg-transparent backdrop-blur-xl border-0">
+<div class="outlook-nav w-full bg-transparent backdrop-blur-xl border-0" style="margin-top: -32px; margin-bottom: -32px;">
   <!-- Main Navigation Container - Full Width -->
   <div class="flex items-center justify-between px-6 py-0 h-16">
     <!-- Left Section: Logo and Active Category Info -->
@@ -336,10 +336,11 @@
 
 <style>
   .outlook-nav {
-    position: sticky;
-    top: 0;
-    z-index: 40;
+    position: relative;
+    z-index: 50;
     backdrop-filter: blur(8px);
+    margin-top: -32px;
+    margin-bottom: -32px;
   }
 
   .outlook-nav-tab {

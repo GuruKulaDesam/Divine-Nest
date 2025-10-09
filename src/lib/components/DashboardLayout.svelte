@@ -72,7 +72,7 @@
 
     <!-- Main content area -->
     <main class="flex-1 scrollable-container bg-transparent">
-      <div class="p-4 sm:p-6 lg:p-8">
+      <div class="p-4 sm:p-6 lg:p-8 pt-20 sm:pt-24 lg:pt-28">
         <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8">
           <slot />
         </div>
