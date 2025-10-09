@@ -1,36 +1,88 @@
 <script>
-  import Sidebar from "./Sidebar.svelte";
-  import TopNavigation from "./TopNavigation.svelte";
+  import LeftTileBar from "./LeftTileBar.svelte";
+  import RightTileBar from "./RightTileBar.svelte";
+  import TopNavigationBar from "./TopNavigationBar.svelte";
 
-  let sidebarOpen = true; // Keep sidebar open by default
+  // Handle actions from the right tile bar
+  function handleRightTileAction(event) {
+    const { action, tile } = event.detail;
+    console.log(`Action triggered: ${action}`, tile);
 
-  function handleToggleSidebar() {
-    sidebarOpen = !sidebarOpen;
-  }
-
-  function handleCloseSidebar() {
-    // Only close on mobile, keep open on desktop
-    sidebarOpen = false;
+    // Here you can implement the logic for each action
+    // For example, opening modals, triggering saves, etc.
+    switch (action) {
+      case "save":
+        // Implement save logic
+        console.log("Save action triggered");
+        break;
+      case "submit":
+        // Implement submit logic
+        console.log("Submit action triggered");
+        break;
+      case "add":
+        // Implement add logic
+        console.log("Add action triggered");
+        break;
+      case "update":
+        // Implement update logic
+        console.log("Update action triggered");
+        break;
+      case "remove":
+        // Implement remove logic
+        console.log("Remove action triggered");
+        break;
+      case "sms":
+        // Implement SMS logic
+        console.log("SMS action triggered");
+        break;
+      case "emails":
+        // Implement emails logic
+        console.log("Emails action triggered");
+        break;
+      case "alarms":
+        // Implement alarms logic
+        console.log("Alarms action triggered");
+        break;
+      case "todos":
+        // Implement todos logic
+        console.log("Todos action triggered");
+        break;
+      case "checklists":
+        // Implement checklists logic
+        console.log("Checklists action triggered");
+        break;
+      default:
+        console.log(`Unknown action: ${action}`);
+    }
   }
 </script>
 
 <div class="flex h-screen bg-base-200 mountain-background" data-theme="modern">
-  <!-- Sidebar - Fixed on desktop, overlay on mobile -->
-  <Sidebar isOpen={sidebarOpen} on:close={handleCloseSidebar} />
+  <!-- Left Container -->
+  <div class="flex-shrink-0">
+    <LeftTileBar />
+  </div>
 
-  <!-- Main content area -->
+  <!-- Middle Container -->
   <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Enhanced Header with integrated breadcrumb and navigation -->
-    <TopNavigation {sidebarOpen} on:toggleSidebar={handleToggleSidebar} />
+    <!-- Top Navigation Bar for sub-menus - Integrated with main content -->
+    <div class="flex-shrink-0">
+      <TopNavigationBar />
+    </div>
 
     <!-- Main content area -->
     <main class="flex-1 scrollable-container bg-transparent">
       <div class="p-4 sm:p-6 lg:p-8">
-        <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-sm shadow-xl border border-white/20 p-6 sm:p-8">
+        <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8">
           <slot />
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- Right Container -->
+  <div class="flex-shrink-0">
+    <RightTileBar on:action={handleRightTileAction} />
   </div>
 </div>
 
@@ -73,7 +125,7 @@
 
   .content-container:hover {
     transform: translateY(-2px);
-    shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   }
 
   /* Mountain silhouettes */

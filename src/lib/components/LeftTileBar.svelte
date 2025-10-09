@@ -141,6 +141,16 @@
       subTiles: [{ label: "Music Companion", path: "/shivo-music", icon: "heroicons:musical-note" }],
     },
     {
+      id: "shivo-agentic",
+      label: "Shivo Agentic",
+      icon: "heroicons:robot",
+      color: "from-violet-500 to-violet-600",
+      borderColor: "border-violet-500/50",
+      textColor: "text-violet-600 dark:text-violet-400",
+      description: "Agentic AI Assistant",
+      subTiles: [{ label: "Agentic AI", path: "/shivo-agentic", icon: "heroicons:robot" }],
+    },
+    {
       id: "health",
       label: "Health",
       icon: "heroicons:heart",
@@ -306,49 +316,20 @@
   }
 </script>
 
-<div class="left-tile-bar flex flex-col min-w-20 h-screen bg-base-100/95 backdrop-blur-sm border-r border-base-300/50 shadow-xl relative z-10 overflow-hidden flex-shrink-0">
+<div class="left-tile-bar flex flex-col w-20 h-screen bg-transparent backdrop-blur-sm relative z-10 overflow-hidden flex-shrink-0">
   <div class="p-2">
     <div class="logo-container mb-3 flex items-center justify-center">
-      <svg width="180" height="60" viewBox="0 0 180 60" class="drop-shadow-sm">
-        <!-- Background gradient -->
-        <defs>
-          <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#F7931E;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#FFD23F;stop-opacity:1" />
-          </linearGradient>
-          <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-
-        <!-- Decorative elements -->
-        <!-- Lotus flower -->
-        <g transform="translate(5, 8)">
-          <circle cx="8" cy="8" r="6" fill="#10b981" opacity="0.8" />
-          <circle cx="8" cy="8" r="3" fill="#34d399" />
+      <svg width="32" height="32" viewBox="0 0 24 24" class="drop-shadow-sm">
+        <!-- Lotus flower icon -->
+        <g transform="translate(3, 3)">
+          <circle cx="9" cy="9" r="7" fill="#10b981" opacity="0.8" />
+          <circle cx="9" cy="9" r="3.5" fill="#34d399" />
           <!-- Petals -->
-          <ellipse cx="8" cy="2" rx="2" ry="3" fill="#10b981" opacity="0.6" />
-          <ellipse cx="14" cy="8" rx="3" ry="2" fill="#10b981" opacity="0.6" />
-          <ellipse cx="8" cy="14" rx="2" ry="3" fill="#10b981" opacity="0.6" />
-          <ellipse cx="2" cy="8" rx="3" ry="2" fill="#10b981" opacity="0.6" />
+          <ellipse cx="9" cy="2" rx="2.5" ry="4" fill="#10b981" opacity="0.7" />
+          <ellipse cx="16" cy="9" rx="4" ry="2.5" fill="#10b981" opacity="0.7" />
+          <ellipse cx="9" cy="16" rx="2.5" ry="4" fill="#10b981" opacity="0.7" />
+          <ellipse cx="2" cy="9" rx="4" ry="2.5" fill="#10b981" opacity="0.7" />
         </g>
-
-        <!-- Home icon -->
-        <g transform="translate(25, 5)">
-          <polygon points="8,15 15,10 15,15 12,15 12,12 11,12 11,15" fill="#3b82f6" />
-          <polygon points="6,15 16,15 16,10 8,4 0,10 0,15 6,15" fill="none" stroke="#1e40af" stroke-width="1.5" />
-        </g>
-
-        <!-- Text -->
-        <text x="50" y="18" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="url(#textGradient)">Gurukulavasam</text>
-        <text x="50" y="32" font-family="Arial, sans-serif" font-size="8" font-weight="600" fill="#059669">Home Manager</text>
-        <text x="50" y="45" font-family="Arial, sans-serif" font-size="7" fill="#7c2d12">v1g</text>
-
-        <!-- Decorative border -->
-        <rect x="1" y="1" width="178" height="58" rx="8" ry="8" fill="none" stroke="url(#logoBg)" stroke-width="2" opacity="0.3" />
       </svg>
     </div>
 
@@ -357,7 +338,7 @@
       {#each mainTiles as tile (tile.id)}
         <div class="relative">
           <button
-            class="tile-button group relative w-full aspect-square rounded-xl border-2 {isTileActive(tile) ? 'border-primary bg-primary/10' : 'border-base-300 hover:border-primary/50'} transition-all duration-300 hover:shadow-lg hover:scale-105"
+            class="tile-button group relative w-full aspect-square rounded-xl border-0 transition-all duration-300 hover:shadow-lg hover:scale-105"
             on:mouseenter={(e) => handleTileMouseEnter(tile.id, e)}
             on:mouseleave={handleTileMouseLeave}
             on:click={() => {
@@ -394,7 +375,7 @@
     {@const activeTile = mainTiles.find((t) => t.id === hoveredTile)}
     {#if activeTile && activeTile.subTiles.length > 1}
       {@const popupPos = getPopupPosition()}
-      <div class="fixed z-50 bg-base-100 border border-base-300/50 rounded-lg shadow-lg py-2 min-w-48" style="top: {popupPos.top}px; left: {popupPos.left}px;" role="menu" tabindex="-1" on:mouseenter={handlePopupMouseEnter} on:mouseleave={handlePopupMouseLeave}>
+      <div class="fixed z-50 bg-transparent backdrop-blur-xl border-0 rounded-lg shadow-2xl py-2 min-w-48" style="top: {popupPos.top}px; left: {popupPos.left}px;" role="menu" tabindex="-1" on:mouseenter={handlePopupMouseEnter} on:mouseleave={handlePopupMouseLeave}>
         <div class="px-3 py-2 border-b border-base-300/30">
           <h3 class="font-medium text-base-content text-sm flex items-center gap-2">
             <div class="w-4 h-4 {activeTile.textColor}">

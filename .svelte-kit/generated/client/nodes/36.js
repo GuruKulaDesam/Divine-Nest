@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/family-notes-modern/+page.svelte";

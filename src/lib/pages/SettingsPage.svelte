@@ -1,411 +1,590 @@
 <script>
-  import Icon from '@iconify/svelte';
-  import { motionInView, motionHover } from '../utils/motion.js';
-  import { _ } from 'svelte-i18n';
-  
-  // Settings state
-  let profileSettings = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    role: $_("users.admin"),
-    timezone: 'UTC-5',
-    language: 'English'
+  import Icon from "@iconify/svelte";
+  import { motionInView, motionHover } from "$lib/utils/motion";
+  import { _ } from "svelte-i18n";
+
+  // AI Settings
+  let aiSettings = {
+    voice: "female", // 'male', 'female', 'neutral'
+    wakeWords: ["சிவோ", "shivo", "hey shivo", "ai", "assistant"],
+    autoWake: false,
+    language: "ta-IN",
+    responseStyle: "helpful", // 'helpful', 'concise', 'detailed'
+    emotionDetection: true,
   };
-  
+
+  // Computed property for wake words string
+  $: aiSettings.wakeWordsString = aiSettings.wakeWords.join(", ");
+  $: aiSettings.wakeWords = aiSettings.wakeWordsString ? aiSettings.wakeWordsString.split(",").map((w) => w.trim()) : [];
+
+  // Profile Settings
+  let profileSettings = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+    role: $_("users.admin"),
+    timezone: "UTC-5",
+  };
+
+  // Notification Settings
   let notificationSettings = {
     emailNotifications: true,
     pushNotifications: true,
-    marketingEmails: false,
-    securityAlerts: true,
-    weeklyReports: true
+    smsNotifications: false,
+    reminderNotifications: true,
+    familyUpdates: true,
+    systemAlerts: true,
   };
-  
+
+  // Security Settings
   let securitySettings = {
     twoFactorAuth: false,
-    sessionTimeout: 30,
-    passwordExpiry: 90,
-    loginNotifications: true
+    biometricAuth: true,
+    autoLock: true,
+    sessionTimeout: 30, // minutes
+    passwordChangeReminder: true,
   };
-  
+
+  // Display Settings
   let displaySettings = {
-    theme: 'light',
-    sidebarCollapsed: false,
-    compactMode: false,
-    showAnimations: true
+    theme: "auto", // 'light', 'dark', 'auto'
+    language: "en",
+    dateFormat: "MM/DD/YYYY",
+    timeFormat: "12h",
+    currency: "INR",
   };
-  
-  let showThemeSelect = false;
-  let showTimezoneSelect = false;
-  
-  const themeOptions = [
-    { value: 'light', label: $_("settings.light") },
-    { value: 'dark', label: $_("settings.dark") },
-    { value: 'auto', label: $_("settings.auto") }
-  ];
-  
+
+  // Timezone options
   const timezoneOptions = [
-    { value: 'UTC-8', label: $_("settings.pacific_time") },
-    { value: 'UTC-7', label: $_("settings.mountain_time") },
-    { value: 'UTC-6', label: $_("settings.central_time") },
-    { value: 'UTC-5', label: $_("settings.eastern_time") },
-    { value: 'UTC+0', label: $_("settings.utc") },
-    { value: 'UTC+1', label: $_("settings.central_european_time") }
+    { value: "UTC-12", label: "UTC-12 (Baker Island)" },
+    { value: "UTC-11", label: "UTC-11 (American Samoa)" },
+    { value: "UTC-10", label: "UTC-10 (Hawaii)" },
+    { value: "UTC-9", label: "UTC-9 (Alaska)" },
+    { value: "UTC-8", label: "UTC-8 (Pacific)" },
+    { value: "UTC-7", label: "UTC-7 (Mountain)" },
+    { value: "UTC-6", label: "UTC-6 (Central)" },
+    { value: "UTC-5", label: "UTC-5 (Eastern)" },
+    { value: "UTC-4", label: "UTC-4 (Atlantic)" },
+    { value: "UTC-3", label: "UTC-3 (Argentina)" },
+    { value: "UTC-2", label: "UTC-2 (South Georgia)" },
+    { value: "UTC-1", label: "UTC-1 (Azores)" },
+    { value: "UTC+0", label: "UTC+0 (London)" },
+    { value: "UTC+1", label: "UTC+1 (Berlin)" },
+    { value: "UTC+2", label: "UTC+2 (Cairo)" },
+    { value: "UTC+3", label: "UTC+3 (Moscow)" },
+    { value: "UTC+4", label: "UTC+4 (Dubai)" },
+    { value: "UTC+5", label: "UTC+5 (Karachi)" },
+    { value: "UTC+5:30", label: "UTC+5:30 (India)" },
+    { value: "UTC+6", label: "UTC+6 (Dhaka)" },
+    { value: "UTC+7", label: "UTC+7 (Bangkok)" },
+    { value: "UTC+8", label: "UTC+8 (Singapore)" },
+    { value: "UTC+9", label: "UTC+9 (Tokyo)" },
+    { value: "UTC+10", label: "UTC+10 (Sydney)" },
+    { value: "UTC+11", label: "UTC+11 (Solomon Islands)" },
+    { value: "UTC+12", label: "UTC+12 (Fiji)" },
   ];
-  
-  function toggleThemeSelect() {
-    showThemeSelect = !showThemeSelect;
-    showTimezoneSelect = false;
+
+  // Language options
+  const languageOptions = [
+    { value: "en", label: "English" },
+    { value: "ta", label: "தமிழ் (Tamil)" },
+    { value: "hi", label: "हिंदी (Hindi)" },
+    { value: "te", label: "తెలుగు (Telugu)" },
+    { value: "kn", label: "ಕನ್ನಡ (Kannada)" },
+    { value: "ml", label: "മലയാളം (Malayalam)" },
+  ];
+
+  // Active section
+  let activeSection = "ai";
+
+  // Functions
+  function saveSettings() {
+    // Save settings logic here
+    console.log("Settings saved");
   }
-  
-  function toggleTimezoneSelect() {
-    showTimezoneSelect = !showTimezoneSelect;
-    showThemeSelect = false;
+
+  function resetSettings() {
+    // Reset to defaults
+    console.log("Settings reset");
   }
-  
-  function selectTheme(value) {
-    displaySettings.theme = value;
-    showThemeSelect = false;
+
+  function exportSettings() {
+    // Export settings as JSON
+    const settings = {
+      ai: aiSettings,
+      profile: profileSettings,
+      notifications: notificationSettings,
+      security: securitySettings,
+      display: displaySettings,
+    };
+
+    const dataStr = JSON.stringify(settings, null, 2);
+    const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+    const exportFileDefaultName = "shivo-settings.json";
+
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", exportFileDefaultName);
+    linkElement.click();
   }
-  
-  function selectTimezone(value) {
-    profileSettings.timezone = value;
-    showTimezoneSelect = false;
-  }
-  
-  function handleSave() {
-    // Handle save logic here
-    console.log('Settings saved:', { profileSettings, notificationSettings, securitySettings, displaySettings });
-  }
-  
-  function handleReset() {
-    // Handle reset logic here
-    console.log('Settings reset');
+
+  function importSettings() {
+    // Import settings from file
+    console.log("Import settings");
   }
 </script>
 
-<div class="space-y-8">
-  <!-- Page header with enhanced styling -->
-  <div
-    class="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 border border-base-300/50"
-    use:motionInView={{ animation: "fadeInDown" }}
-  >
-    <!-- Background decorative elements -->
-    <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
-      <Icon icon="heroicons:cog-6-tooth" class="w-full h-full text-primary" />
-    </div>
-    <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
-      <Icon icon="heroicons:adjustments-horizontal" class="w-full h-full text-secondary" />
+<main class="settings-container">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <div class="mb-8" use:motionInView>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        {$_("settings.title")}
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        {$_("settings.subtitle")}
+      </p>
     </div>
 
-    <div class="relative flex items-center justify-between">
-      <div>
-        <h1 class="text-3xl font-bold text-primary">{$_("settings.title")}</h1>
-        <p class="mt-2 text-sm text-base-content/70 max-w-md">{$_("settings.description")}</p>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <!-- Sidebar Navigation -->
+      <div class="lg:col-span-1">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+          <nav class="space-y-2">
+            <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'ai' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "ai")}>
+              <div class="flex items-center space-x-3">
+                <Icon icon="heroicons:cpu-chip" class="w-5 h-5" />
+                <span>{$_("settings.ai_assistant")}</span>
+              </div>
+            </button>
+
+            <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'profile' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "profile")}>
+              <div class="flex items-center space-x-3">
+                <Icon icon="heroicons:user" class="w-5 h-5" />
+                <span>{$_("settings.profile")}</span>
+              </div>
+            </button>
+
+            <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'notifications' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "notifications")}>
+              <div class="flex items-center space-x-3">
+                <Icon icon="heroicons:bell" class="w-5 h-5" />
+                <span>{$_("settings.notifications")}</span>
+              </div>
+            </button>
+
+            <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'security' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "security")}>
+              <div class="flex items-center space-x-3">
+                <Icon icon="heroicons:shield-check" class="w-5 h-5" />
+                <span>{$_("settings.security")}</span>
+              </div>
+            </button>
+
+            <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'display' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "display")}>
+              <div class="flex items-center space-x-3">
+                <Icon icon="heroicons:computer-desktop" class="w-5 h-5" />
+                <span>{$_("settings.display")}</span>
+              </div>
+            </button>
+          </nav>
+        </div>
       </div>
-      <div class="flex space-x-3">
-        <button 
-          class="btn btn-outline shadow-md hover:shadow-lg group relative overflow-hidden"
-          on:click={handleReset}
-          use:motionHover
-        >
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-error to-error/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          ></div>
-          <div class="relative flex items-center">
-            <div
-              class="p-1.5 rounded-lg bg-error-content/20 group-hover:bg-error-content/30 transition-colors duration-300"
-            >
-              <Icon icon="heroicons:arrow-path" class="w-5 h-5 mr-2" />
+
+      <!-- Main Content -->
+      <div class="lg:col-span-3">
+        <!-- AI Assistant Settings -->
+        {#if activeSection === "ai"}
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6" use:motionInView>
+            <div class="flex items-center space-x-3 mb-6">
+              <Icon icon="heroicons:cpu-chip" class="w-6 h-6 text-blue-600" />
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                {$_("settings.ai_assistant")}
+              </h2>
             </div>
-            {$_("settings.reset")}
-          </div>
-        </button>
-        <button 
-          class="btn btn-primary shadow-md hover:shadow-lg group relative overflow-hidden"
-          on:click={handleSave}
-          use:motionHover
-        >
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          ></div>
-          <div class="relative flex items-center">
-            <div
-              class="p-1.5 rounded-lg bg-primary-content/20 group-hover:bg-primary-content/30 transition-colors duration-300"
-            >
-              <Icon icon="heroicons:check" class="w-4 h-4 mr-2" />
+
+            <div class="space-y-6">
+              <!-- Voice Settings -->
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                  {$_("settings.voice_settings")}
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      {$_("settings.voice")}
+                    </label>
+                    <select bind:value={aiSettings.voice} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      <option value="female">{$_("settings.female")}</option>
+                      <option value="male">{$_("settings.male")}</option>
+                      <option value="neutral">{$_("settings.neutral")}</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      {$_("settings.language")}
+                    </label>
+                    <select bind:value={aiSettings.language} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      <option value="ta-IN">தமிழ் (Tamil)</option>
+                      <option value="en-IN">English (India)</option>
+                      <option value="hi-IN">हिंदी (Hindi)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Wake Words -->
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                  {$_("settings.wake_words")}
+                </h3>
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      {$_("settings.wake_words_list")}
+                    </label>
+                    <input type="text" bind:value={aiSettings.wakeWordsString} placeholder={$_("settings.wake_words_placeholder")} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      {$_("settings.wake_words_help")}
+                    </p>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <input type="checkbox" id="autoWake" bind:checked={aiSettings.autoWake} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    <label for="autoWake" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {$_("settings.auto_wake")}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Response Settings -->
+              <div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                  {$_("settings.response_settings")}
+                </h3>
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      {$_("settings.response_style")}
+                    </label>
+                    <select bind:value={aiSettings.responseStyle} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                      <option value="helpful">{$_("settings.helpful")}</option>
+                      <option value="concise">{$_("settings.concise")}</option>
+                      <option value="detailed">{$_("settings.detailed")}</option>
+                    </select>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <input type="checkbox" id="emotionDetection" bind:checked={aiSettings.emotionDetection} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    <label for="emotionDetection" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {$_("settings.emotion_detection")}
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
-            {$_("settings.save_changes")}
           </div>
-        </button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Settings sections -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- Profile Settings -->
-    <div class="lg:col-span-2 space-y-6">
-      <!-- Profile Information -->
-      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInLeft' }}>
-        <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center mr-3">
-            <Icon icon="heroicons:user-circle" class="w-4 h-4 text-primary" />
-          </div>
-          {$_("settings.profile_information")}
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.full_name")}</label>
-            <input
-              type="text"
-              bind:value={profileSettings.name}
-              class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
-            >
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.email_address")}</label>
-            <input
-              type="email"
-              bind:value={profileSettings.email}
-              class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
-            >
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.role")}</label>
-            <input
-              type="text"
-              bind:value={profileSettings.role}
-              disabled
-              class="w-full px-3 py-2 border border-base-300 rounded-lg bg-base-200 text-base-content/60"
-            >
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.timezone")}</label>
-            <div class="relative">
-              <button 
-                class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
-                on:click={toggleTimezoneSelect}
-              >
-                {timezoneOptions.find(opt => opt.value === profileSettings.timezone)?.label || $_("settings.select_timezone")}
-                <Icon icon="heroicons:chevron-down" class="w-4 h-4 ml-2 inline float-right" />
-              </button>
-              {#if showTimezoneSelect}
-                <div class="absolute top-full mt-1 bg-base-100 border border-base-300 rounded-lg shadow-lg z-50 w-full">
+        {/if}
+
+        <!-- Profile Settings -->
+        {#if activeSection === "profile"}
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6" use:motionInView>
+            <div class="flex items-center space-x-3 mb-6">
+              <Icon icon="heroicons:user" class="w-6 h-6 text-green-600" />
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                {$_("settings.profile")}
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.full_name")}
+                </label>
+                <input type="text" bind:value={profileSettings.name} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.email")}
+                </label>
+                <input type="email" bind:value={profileSettings.email} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.role")}
+                </label>
+                <input type="text" bind:value={profileSettings.role} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.timezone")}
+                </label>
+                <select bind:value={profileSettings.timezone} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                   {#each timezoneOptions as option}
-                    <button 
-                      class="w-full px-3 py-2 text-left text-sm hover:bg-base-200 {option.value === profileSettings.timezone ? 'bg-primary/10 text-primary' : 'text-base-content'}"
-                      on:click={() => selectTimezone(option.value)}
-                    >
-                      {option.label}
-                    </button>
+                    <option value={option.value}>{option.label}</option>
                   {/each}
+                </select>
+              </div>
+            </div>
+          </div>
+        {/if}
+
+        <!-- Notification Settings -->
+        {#if activeSection === "notifications"}
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6" use:motionInView>
+            <div class="flex items-center space-x-3 mb-6">
+              <Icon icon="heroicons:bell" class="w-6 h-6 text-yellow-600" />
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                {$_("settings.notifications")}
+              </h2>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.email_notifications")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.email_notifications_desc")}
+                  </p>
                 </div>
-              {/if}
+                <input type="checkbox" bind:checked={notificationSettings.emailNotifications} class="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.push_notifications")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.push_notifications_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={notificationSettings.pushNotifications} class="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.sms_notifications")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.sms_notifications_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={notificationSettings.smsNotifications} class="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.reminder_notifications")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.reminder_notifications_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={notificationSettings.reminderNotifications} class="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.family_updates")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.family_updates_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={notificationSettings.familyUpdates} class="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.system_alerts")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.system_alerts_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={notificationSettings.systemAlerts} class="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      
-      <!-- Notification Settings -->
-      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInLeft' }}>
-        <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <div class="w-8 h-8 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3">
-            <Icon icon="heroicons:bell" class="w-4 h-4 text-secondary" />
-          </div>
-          {$_("settings.notification_preferences")}
-        </h2>
-        <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-base-content">{$_("settings.email_notifications")}</h3>
-              <p class="text-sm text-base-content/60">{$_("settings.email_notifications_desc")}</p>
+        {/if}
+
+        <!-- Security Settings -->
+        {#if activeSection === "security"}
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6" use:motionInView>
+            <div class="flex items-center space-x-3 mb-6">
+              <Icon icon="heroicons:shield-check" class="w-6 h-6 text-red-600" />
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                {$_("settings.security")}
+              </h2>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" bind:checked={notificationSettings.emailNotifications} class="sr-only peer">
-              <div class="w-11 h-6 bg-base-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-base-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
-          </div>
-          
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-base-content">{$_("settings.push_notifications")}</h3>
-              <p class="text-sm text-base-content/60">{$_("settings.push_notifications_desc")}</p>
+
+            <div class="space-y-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.two_factor_auth")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.two_factor_auth_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={securitySettings.twoFactorAuth} class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.biometric_auth")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.biometric_auth_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={securitySettings.biometricAuth} class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.auto_lock")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.auto_lock_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={securitySettings.autoLock} class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.session_timeout")}
+                </label>
+                <select bind:value={securitySettings.sessionTimeout} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  <option value={15}>15 {$_("common.minutes")}</option>
+                  <option value={30}>30 {$_("common.minutes")}</option>
+                  <option value={60}>1 {$_("common.hour")}</option>
+                  <option value={120}>2 {$_("common.hours")}</option>
+                </select>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {$_("settings.password_reminder")}
+                  </h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                    {$_("settings.password_reminder_desc")}
+                  </p>
+                </div>
+                <input type="checkbox" bind:checked={securitySettings.passwordChangeReminder} class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              </div>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" bind:checked={notificationSettings.pushNotifications} class="sr-only peer">
-              <div class="w-11 h-6 bg-base-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-base-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
           </div>
-          
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-base-content">{$_("settings.marketing_emails")}</h3>
-              <p class="text-sm text-base-content/60">{$_("settings.marketing_emails_desc")}</p>
+        {/if}
+
+        <!-- Display Settings -->
+        {#if activeSection === "display"}
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6" use:motionInView>
+            <div class="flex items-center space-x-3 mb-6">
+              <Icon icon="heroicons:computer-desktop" class="w-6 h-6 text-purple-600" />
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                {$_("settings.display")}
+              </h2>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" bind:checked={notificationSettings.marketingEmails} class="sr-only peer">
-              <div class="w-11 h-6 bg-base-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-base-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
-          </div>
-          
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-base-content">{$_("settings.security_alerts")}</h3>
-              <p class="text-sm text-base-content/60">{$_("settings.security_alerts_desc")}</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.theme")}
+                </label>
+                <select bind:value={displaySettings.theme} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  <option value="light">{$_("settings.light")}</option>
+                  <option value="dark">{$_("settings.dark")}</option>
+                  <option value="auto">{$_("settings.auto")}</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.language")}
+                </label>
+                <select bind:value={displaySettings.language} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  {#each languageOptions as option}
+                    <option value={option.value}>{option.label}</option>
+                  {/each}
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.date_format")}
+                </label>
+                <select bind:value={displaySettings.dateFormat} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.time_format")}
+                </label>
+                <select bind:value={displaySettings.timeFormat} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  <option value="12h">12 {$_("common.hour")}</option>
+                  <option value="24h">24 {$_("common.hour")}</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {$_("settings.currency")}
+                </label>
+                <select bind:value={displaySettings.currency} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  <option value="INR">₹ {$_("settings.indian_rupee")}</option>
+                  <option value="USD">$ {$_("settings.us_dollar")}</option>
+                  <option value="EUR">€ {$_("settings.euro")}</option>
+                </select>
+              </div>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" bind:checked={notificationSettings.securityAlerts} class="sr-only peer">
-              <div class="w-11 h-6 bg-base-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-base-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
           </div>
-        </div>
-      </div>
-      
-      <!-- Security Settings -->
-      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInLeft' }}>
-        <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <div class="w-8 h-8 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center mr-3">
-            <Icon icon="heroicons:shield-check" class="w-4 h-4 text-accent" />
-          </div>
-          {$_("settings.security_settings")}
-        </h2>
-        <div class="space-y-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-base-content">{$_("settings.two_factor_auth")}</h3>
-              <p class="text-sm text-base-content/60">{$_("settings.two_factor_auth_desc")}</p>
-            </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" bind:checked={securitySettings.twoFactorAuth} class="sr-only peer">
-              <div class="w-11 h-6 bg-base-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-base-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.session_timeout")}</label>
-            <select
-              bind:value={securitySettings.sessionTimeout}
-              class="w-full md:w-48 px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
-            >
-              <option value={15}>15 {$_("settings.minutes")}</option>
-              <option value={30}>30 {$_("settings.minutes")}</option>
-              <option value={60}>1 {$_("settings.hours")}</option>
-              <option value={120}>2 {$_("settings.hours")}</option>
-              <option value={480}>8 {$_("settings.hours")}</option>
-            </select>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.password_expiry")}</label>
-            <select
-              bind:value={securitySettings.passwordExpiry}
-              class="w-full md:w-48 px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
-            >
-              <option value={30}>30 {$_("settings.days")}</option>
-              <option value={60}>60 {$_("settings.days")}</option>
-              <option value={90}>90 {$_("settings.days")}</option>
-              <option value={180}>6 {$_("settings.months")}</option>
-              <option value={365}>1 {$_("settings.year")}</option>
-            </select>
-          </div>
-        </div>
+        {/if}
       </div>
     </div>
-    
-    <!-- Display Settings -->
-    <div class="space-y-6">
-      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInRight' }}>
-        <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <div class="w-8 h-8 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3">
-            <Icon icon="heroicons:computer-desktop" class="w-4 h-4 text-primary" />
-          </div>
-          {$_("settings.display_settings")}
-        </h2>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-base-content mb-2">{$_("settings.theme")}</label>
-            <div class="relative">
-              <button 
-                class="w-full px-3 py-2 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-left bg-base-100 text-base-content hover:border-primary/50 transition-colors duration-200"
-                on:click={toggleThemeSelect}
-              >
-                {themeOptions.find(opt => opt.value === displaySettings.theme)?.label || $_("settings.select_theme")}
-                <Icon icon="heroicons:chevron-down" class="w-4 h-4 ml-2 inline float-right" />
-              </button>
-              {#if showThemeSelect}
-                <div class="absolute top-full mt-1 bg-base-100 border border-base-300 rounded-lg shadow-lg z-50 w-full">
-                  {#each themeOptions as option}
-                    <button 
-                      class="w-full px-3 py-2 text-left text-sm hover:bg-base-200 {option.value === displaySettings.theme ? 'bg-primary/10 text-primary' : 'text-base-content'}"
-                      on:click={() => selectTheme(option.value)}
-                    >
-                      {option.label}
-                    </button>
-                  {/each}
-                </div>
-              {/if}
-            </div>
-          </div>
-          
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-base-content">{$_("settings.compact_mode")}</h3>
-              <p class="text-sm text-base-content/60">{$_("settings.compact_mode_desc")}</p>
-            </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" bind:checked={displaySettings.compactMode} class="sr-only peer">
-              <div class="w-11 h-6 bg-base-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-base-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
-          </div>
-          
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-base-content">{$_("settings.show_animations")}</h3>
-              <p class="text-sm text-base-content/60">{$_("settings.show_animations_desc")}</p>
-            </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" bind:checked={displaySettings.showAnimations} class="sr-only peer">
-              <div class="w-11 h-6 bg-base-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-base-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </label>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Quick Actions -->
-      <div class="bg-base-100 rounded-xl shadow-md border border-base-300 p-6 hover:shadow-lg transition-shadow duration-200" use:motionInView={{ animation: 'fadeInRight' }}>
-        <h2 class="text-lg font-semibold text-base-content mb-6 flex items-center">
-          <div class="w-8 h-8 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3">
-            <Icon icon="heroicons:bolt" class="w-4 h-4 text-secondary" />
-          </div>
-          {$_("settings.quick_actions")}
-        </h2>
-        <div class="space-y-3">
-          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-primary hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
-            <div class="w-6 h-6 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
-              <Icon icon="heroicons:key" class="w-3 h-3 text-primary group-hover:text-white" />
-            </div>
-            {$_("settings.change_password")}
-          </button>
-          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-secondary hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
-            <div class="w-6 h-6 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
-              <Icon icon="heroicons:device-phone-mobile" class="w-3 h-3 text-secondary group-hover:text-white" />
-            </div>
-            {$_("settings.manage_devices")}
-          </button>
-          <button class="w-full flex items-center p-3 text-sm text-base-content hover:bg-accent hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
-            <div class="w-6 h-6 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
-              <Icon icon="heroicons:document-text" class="w-3 h-3 text-accent group-hover:text-white" />
-            </div>
-            {$_("settings.export_data")}
-          </button>
-          <button class="w-full flex items-center p-3 text-sm text-error hover:bg-error hover:text-white rounded-lg transition-all duration-200 group" use:motionHover>
-            <div class="w-6 h-6 bg-gradient-to-br from-error/20 to-error/30 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
-              <Icon icon="heroicons:trash" class="w-3 h-3 text-error group-hover:text-white" />
-            </div>
-            {$_("settings.delete_account")}
-          </button>
-        </div>
-      </div>
+
+    <!-- Action Buttons -->
+    <div class="mt-8 flex flex-wrap gap-4 justify-center" use:motionInView>
+      <button on:click={saveSettings} class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium" use:motionHover>
+        <Icon icon="heroicons:check" class="w-5 h-5 inline mr-2" />
+        {$_("settings.save_settings")}
+      </button>
+
+      <button on:click={resetSettings} class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors font-medium" use:motionHover>
+        <Icon icon="heroicons:arrow-path" class="w-5 h-5 inline mr-2" />
+        {$_("settings.reset_settings")}
+      </button>
+
+      <button on:click={exportSettings} class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors font-medium" use:motionHover>
+        <Icon icon="heroicons:arrow-down-tray" class="w-5 h-5 inline mr-2" />
+        {$_("settings.export_settings")}
+      </button>
+
+      <button on:click={importSettings} class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium" use:motionHover>
+        <Icon icon="heroicons:arrow-up-tray" class="w-5 h-5 inline mr-2" />
+        {$_("settings.import_settings")}
+      </button>
     </div>
   </div>
-</div> 
+</main>
+
+<style>
+  .settings-container {
+    width: 100%;
+    padding: 0;
+    margin: 0 auto;
+  }
+</style>

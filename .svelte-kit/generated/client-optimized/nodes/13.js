@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/assistant/task-board/+page.svelte";

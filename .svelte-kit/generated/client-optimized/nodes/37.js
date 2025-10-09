@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/family-stories/+page.svelte";

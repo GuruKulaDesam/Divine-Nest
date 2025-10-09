@@ -1,0 +1,17 @@
+import "clsx";
+import { I as Icon } from "./Icon.js";
+function WeatherPage($$renderer, $$props) {
+  $$renderer.component(($$renderer2) => {
+    $$renderer2.push(`<div class="p-6"><div class="flex items-center space-x-3 mb-6">`);
+    Icon($$renderer2, { icon: "heroicons:cloud", class: "w-8 h-8 text-blue-500" });
+    $$renderer2.push(`<!----> <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Weather Updates</h1></div> `);
+    {
+      $$renderer2.push("<!--[-->");
+      $$renderer2.push(`<div class="flex items-center justify-center py-12"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div></div>`);
+    }
+    $$renderer2.push(`<!--]--></div>`);
+  });
+}
+export {
+  WeatherPage as default
+};
