@@ -113,37 +113,10 @@
         { label: "Event Feed", path: "/assistant/event-feed", icon: "heroicons:rss" },
         { label: "Auto Checklist", path: "/assistant/auto-checklist", icon: "heroicons:check-circle" },
         { label: "Ambient Log", path: "/assistant/ambient-log", icon: "heroicons:eye" },
+        { label: "AI Assistant", path: "/shivo-ai", icon: "heroicons:sparkles" },
+        { label: "Music Companion", path: "/shivo-music", icon: "heroicons:musical-note" },
+        { label: "Agentic AI", path: "/shivo-agentic", icon: "heroicons:robot" },
       ],
-    },
-    {
-      id: "shivo-ai",
-      label: "Shivo AI",
-      icon: "heroicons:sparkles",
-      color: "from-orange-500 to-orange-600",
-      borderColor: "border-orange-500/50",
-      textColor: "text-orange-600 dark:text-orange-400",
-      description: "AI Assistant",
-      subTiles: [{ label: "AI Assistant", path: "/shivo-ai", icon: "heroicons:sparkles" }],
-    },
-    {
-      id: "shivo-music",
-      label: "Shivo Music",
-      icon: "heroicons:musical-note",
-      color: "from-pink-500 to-pink-600",
-      borderColor: "border-pink-500/50",
-      textColor: "text-pink-600 dark:text-pink-400",
-      description: "Music Companion",
-      subTiles: [{ label: "Music Companion", path: "/shivo-music", icon: "heroicons:musical-note" }],
-    },
-    {
-      id: "shivo-agentic",
-      label: "Shivo Agentic",
-      icon: "heroicons:robot",
-      color: "from-violet-500 to-violet-600",
-      borderColor: "border-violet-500/50",
-      textColor: "text-violet-600 dark:text-violet-400",
-      description: "Agentic AI Assistant",
-      subTiles: [{ label: "Agentic AI", path: "/shivo-agentic", icon: "heroicons:robot" }],
     },
     {
       id: "health",
@@ -256,10 +229,36 @@
 </script>
 
 <div class="dashboard-tiles w-full">
+  <!-- Page Title Section (only for home page) -->
+  {#if $page.url.pathname === "/"}
+    <div class="relative overflow-hidden bg-gradient-to-r from-blue-50 via-purple-50 to-green-50 dark:from-gray-800 dark:via-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6 mx-6 mt-6 mb-4 border border-gray-200 dark:border-gray-700">
+      <!-- Background decorative elements -->
+      <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
+        <Icon icon="heroicons:home" class="w-full h-full text-blue-600" />
+      </div>
+      <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
+        <Icon icon="heroicons:sparkles" class="w-full h-full text-purple-600" />
+      </div>
+
+      <div class="relative flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">गृह प्रबन्धन | Home Management Dashboard</h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 max-w-md">Complete overview of family, household, and daily management needs. Today's priorities at a glance.</p>
+        </div>
+        <div class="flex space-x-2">
+          <button class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <Icon icon="heroicons:plus" class="w-5 h-5 mr-2 inline" />
+            Quick Add
+          </button>
+        </div>
+      </div>
+    </div>
+  {/if}
+
   <!-- Dashboard Tiles as Tabs -->
-  <div class="flex flex-wrap gap-2 p-6 border-b border-white/20">
+  <div class="flex flex-wrap gap-2 p-6 border-b border-gray-300">
     {#each activeSubTiles as tile (tile.path)}
-      <button class="tab-button group relative px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 {isTileActive(tile.path) ? 'bg-white text-gray-900 shadow-lg' : 'bg-transparent text-white hover:bg-white/10'} border border-white/20 hover:border-white/40 hover:shadow-md" on:click={() => navigateTo(tile.path)}>
+      <button class="tab-button group relative px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 {isTileActive(tile.path) ? 'bg-gray-200 text-gray-900 shadow-lg' : 'bg-transparent text-gray-700 hover:bg-gray-100'} border border-gray-300 hover:border-gray-400 hover:shadow-md" on:click={() => navigateTo(tile.path)}>
         <div class="flex items-center space-x-2">
           <div class="w-5 h-5 {tile.iconColor} group-hover:scale-110 transition-transform duration-300">
             <Icon icon={tile.icon} class="w-full h-full" />
@@ -278,15 +277,15 @@
 
 <style>
   .tab-button {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   .tab-button:hover {
     transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.2);
   }
 
   .tab-button:active {
