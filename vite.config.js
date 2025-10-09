@@ -1,22 +1,10 @@
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
-import { resolve } from 'path'
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [svelte()],
-  server: {
-    port: 3000,
-    host: true,
-  },
-  base: '/',
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-  },
-  resolve: {
-    alias: {
-      '$lib': resolve('./src/lib'),
-    },
-  },
-})
+	plugins: [sveltekit()],
+	server: {
+		port: 3000,
+		host: '127.0.0.1',
+	},
+});

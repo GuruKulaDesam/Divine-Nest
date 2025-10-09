@@ -2,13 +2,14 @@
   import Sidebar from "./Sidebar.svelte";
   import TopNavigation from "./TopNavigation.svelte";
 
-  let sidebarOpen = false;
+  let sidebarOpen = true; // Keep sidebar open by default
 
   function handleToggleSidebar() {
     sidebarOpen = !sidebarOpen;
   }
 
   function handleCloseSidebar() {
+    // Only close on mobile, keep open on desktop
     sidebarOpen = false;
   }
 </script>

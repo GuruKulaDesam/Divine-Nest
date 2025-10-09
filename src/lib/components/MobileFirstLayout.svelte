@@ -126,6 +126,7 @@
 
   // Reactive statements
   $: componentToRender = $currentComponent;
+  $: isLoadingComponent = $isNavigating && !$currentComponent;
   $: isMobileView = $viewMode === "auto" ? isMobileDevice : $viewMode === "mobile";
 
   // Check if device is mobile
@@ -234,7 +235,29 @@
       <!-- Mobile Main Content -->
       <main class="pt-16 pb-20 px-4">
         <div bind:this={pageElement} class="transition-opacity duration-200 ease-in-out" style="opacity: 1;">
-          <svelte:component this={componentToRender || HomePage} />
+          <!-- Error display -->
+          {#if renderError}
+            <div class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl mx-2">
+              <h3 class="text-base font-semibold text-red-800 dark:text-red-200 mb-2">Navigation Error</h3>
+              <p class="text-sm text-red-600 dark:text-red-300 mb-3">{renderError}</p>
+              <button class="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors" on:click={() => window.location.reload()}> Reload </button>
+            </div>
+          {:else if isLoadingComponent}
+            <div class="flex items-center justify-center p-8">
+              <div class="text-center">
+                <LoadingSpinner />
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mt-4">Loading Page</h3>
+                <p class="text-gray-600 dark:text-gray-400 mt-2">Please wait while we load the content...</p>
+              </div>
+            </div>
+          {:else if componentToRender}
+            <svelte:component this={componentToRender} />
+          {:else}
+            <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl mx-2">
+              <h3 class="text-base font-semibold text-yellow-800 dark:text-yellow-200 mb-2">Component Not Found</h3>
+              <p class="text-sm text-yellow-600 dark:text-yellow-300">The requested page could not be loaded.</p>
+            </div>
+          {/if}
         </div>
       </main>
 
@@ -270,10 +293,28 @@
             <div class="p-4 sm:p-6 lg:p-8">
               <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-sm shadow-xl border border-white/20 p-6 sm:p-8">
                 <div bind:this={pageElement} class="page-content" style="opacity: 1; transform: translateX(0);">
-                  {#if componentToRender}
+                  <!-- Error display -->
+                  {#if renderError}
+                    <div class="p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+                      <h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Navigation Error</h3>
+                      <p class="text-red-600 dark:text-red-300 mb-4">{renderError}</p>
+                      <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" on:click={() => window.location.reload()}> Reload Page </button>
+                    </div>
+                  {:else if isLoadingComponent}
+                    <div class="flex items-center justify-center p-12">
+                      <div class="text-center">
+                        <LoadingSpinner />
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-4">Loading Page</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2">Please wait while we load the content...</p>
+                      </div>
+                    </div>
+                  {:else if componentToRender}
                     <svelte:component this={componentToRender} />
                   {:else}
-                    <svelte:component this={HomePage} />
+                    <div class="p-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl">
+                      <h3 class="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">Component Not Found</h3>
+                      <p class="text-yellow-600 dark:text-yellow-300">The requested page could not be loaded.</p>
+                    </div>
                   {/if}
                 </div>
               </div>
