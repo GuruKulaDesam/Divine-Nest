@@ -93,7 +93,7 @@
         <div class="absolute top-4 left-4 right-4 z-20">
           <TopNavigationBar on:action={handleTopNavAction} />
         </div>
-        <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8 pt-20">
+        <div class="content-container rounded-3xl bg-gray-100 shadow-2xl border-0 p-6 sm:p-8 pt-20">
           <!-- Dashboard Tiles for current page -->
           <DashboardTiles />
           <slot />
