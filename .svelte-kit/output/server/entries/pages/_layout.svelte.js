@@ -611,19 +611,16 @@ function LeftTileBar($$renderer, $$props) {
     if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }
-function RightTileBar($$renderer, $$props) {
+function TopNavigationBar($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
-    let hoveredTile = null;
-    let mainTiles = [
+    const rightTiles = [
       {
         id: "tasks",
         label: "Tasks",
         icon: "heroicons:clipboard-document-list",
         color: "from-blue-500 to-blue-600",
-        borderColor: "border-blue-500/50",
         textColor: "text-blue-600 dark:text-blue-400",
-        description: "Task Management",
         subTiles: [
           {
             label: "Add Task",
@@ -647,9 +644,7 @@ function RightTileBar($$renderer, $$props) {
         label: "Notes",
         icon: "heroicons:document-text",
         color: "from-green-500 to-green-600",
-        borderColor: "border-green-500/50",
         textColor: "text-green-600 dark:text-green-400",
-        description: "Note Taking",
         subTiles: [
           {
             label: "New Note",
@@ -673,9 +668,7 @@ function RightTileBar($$renderer, $$props) {
         label: "Reminders",
         icon: "heroicons:bell-alert",
         color: "from-orange-500 to-orange-600",
-        borderColor: "border-orange-500/50",
         textColor: "text-orange-600 dark:text-orange-400",
-        description: "Reminders & Alerts",
         subTiles: [
           {
             label: "Add Reminder",
@@ -699,9 +692,7 @@ function RightTileBar($$renderer, $$props) {
         label: "Voice",
         icon: "heroicons:microphone",
         color: "from-purple-500 to-purple-600",
-        borderColor: "border-purple-500/50",
         textColor: "text-purple-600 dark:text-purple-400",
-        description: "Voice Recording",
         subTiles: [
           {
             label: "Record Voice",
@@ -725,9 +716,7 @@ function RightTileBar($$renderer, $$props) {
         label: "Schedule",
         icon: "heroicons:calendar-days",
         color: "from-indigo-500 to-indigo-600",
-        borderColor: "border-indigo-500/50",
         textColor: "text-indigo-600 dark:text-indigo-400",
-        description: "Scheduling & Calendar",
         subTiles: [
           {
             label: "Add Event",
@@ -751,9 +740,7 @@ function RightTileBar($$renderer, $$props) {
         label: "AI Assistant",
         icon: "heroicons:sparkles",
         color: "from-pink-500 to-pink-600",
-        borderColor: "border-pink-500/50",
         textColor: "text-pink-600 dark:text-pink-400",
-        description: "AI Help & Automation",
         subTiles: [
           {
             label: "Ask AI",
@@ -777,9 +764,7 @@ function RightTileBar($$renderer, $$props) {
         label: "Quick Actions",
         icon: "heroicons:bolt",
         color: "from-cyan-500 to-cyan-600",
-        borderColor: "border-cyan-500/50",
         textColor: "text-cyan-600 dark:text-cyan-400",
-        description: "Common Actions",
         subTiles: [
           {
             label: "Search",
@@ -802,22 +787,26 @@ function RightTileBar($$renderer, $$props) {
     function isTileActive(tile) {
       return tile.subTiles.some((subTile) => store_get($$store_subs ??= {}, "$page", page).url.pathname === subTile.path);
     }
-    $$renderer2.push(`<div class="right-tile-bar flex flex-col min-w-16 h-screen bg-transparent relative z-10 overflow-hidden flex-shrink-0"><div class="w-16 p-2 space-y-2"><!--[-->`);
-    const each_array = ensure_array_like(mainTiles);
+    $$renderer2.push(`<div class="outlook-nav w-full bg-transparent backdrop-blur-xl border-0 svelte-1qkqwru"><div class="flex items-center justify-between px-6 py-0 h-16 svelte-1qkqwru"><div class="flex items-center space-x-4 h-full svelte-1qkqwru"><div class="flex items-center space-x-1 svelte-1qkqwru"><div class="flex flex-col svelte-1qkqwru"><span class="text-sm font-medium text-white/80 leading-tight svelte-1qkqwru">Gurukuladesam</span> <span class="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight svelte-1qkqwru">Home Manager</span></div></div></div> <div class="flex items-center space-x-2 h-full svelte-1qkqwru"><div class="flex items-center space-x-1 svelte-1qkqwru"><!--[-->`);
+    const each_array = ensure_array_like(rightTiles);
     for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
       let tile = each_array[$$index];
-      $$renderer2.push(`<div${attr_class(`tile-card relative group rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 ${stringify(isTileActive(tile) ? "active" : "")}`, void 0, { "hovered": hoveredTile === tile.id })}><button${attr_class(`w-full h-12 bg-gradient-to-br ${stringify(tile.color)} hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center relative overflow-hidden`, "svelte-1i0ynu5")}${attr("aria-label", tile.label)}><div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(tile.color)} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl`, "svelte-1i0ynu5")}></div> <div class="relative flex flex-col items-center justify-center h-full p-1"><div${attr_class(`w-5 h-5 mb-0.5 ${stringify(tile.textColor)} group-hover:scale-110 transition-transform duration-300`, "svelte-1i0ynu5")}>`);
+      $$renderer2.push(`<div class="relative svelte-1qkqwru"><button class="w-10 h-10 rounded-lg bg-transparent hover:bg-white/10 transition-all duration-200 flex items-center justify-center group svelte-1qkqwru"${attr("aria-label", tile.label)}><div${attr_class(`w-5 h-5 ${stringify(tile.textColor)} group-hover:scale-110 transition-transform duration-200`, "svelte-1qkqwru")}>`);
       Icon($$renderer2, { icon: tile.icon, class: "w-full h-full" });
-      $$renderer2.push(`<!----></div> <div class="text-[9px] font-medium text-white group-hover:text-white transition-colors duration-300 text-center leading-tight">${escape_html(tile.label)}</div> `);
+      $$renderer2.push(`<!----></div> `);
       if (isTileActive(tile)) {
         $$renderer2.push("<!--[-->");
-        $$renderer2.push(`<div class="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-pulse"></div>`);
+        $$renderer2.push(`<div class="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse svelte-1qkqwru"></div>`);
       } else {
         $$renderer2.push("<!--[!-->");
       }
-      $$renderer2.push(`<!--]--></div></button></div>`);
+      $$renderer2.push(`<!--]--></button></div>`);
     }
-    $$renderer2.push(`<!--]--></div> `);
+    $$renderer2.push(`<!--]--></div> <div class="h-6 w-px bg-gray-300/30 dark:bg-gray-600/30 mx-1 svelte-1qkqwru"></div> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 svelte-1qkqwru" title="Search">`);
+    Icon($$renderer2, { icon: "heroicons:magnifying-glass", class: "w-5 h-5" });
+    $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 svelte-1qkqwru" title="Settings">`);
+    Icon($$renderer2, { icon: "heroicons:cog-6-tooth", class: "w-5 h-5" });
+    $$renderer2.push(`<!----></button> <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm svelte-1qkqwru">U</div></div></div> `);
     {
       $$renderer2.push("<!--[!-->");
     }
@@ -825,7 +814,7 @@ function RightTileBar($$renderer, $$props) {
     if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }
-function TopNavigationBar($$renderer, $$props) {
+function DashboardTiles($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
     let activeMainTile, activeSubTiles;
@@ -1320,67 +1309,31 @@ function TopNavigationBar($$renderer, $$props) {
       return store_get($$store_subs ??= {}, "$page", page).url.pathname === tilePath;
     }
     activeMainTile = mainTiles.find((tile) => tile.subTiles.some((subTile) => store_get($$store_subs ??= {}, "$page", page).url.pathname === subTile.path));
-    activeSubTiles = activeMainTile ? activeMainTile.subTiles.slice(1).map((subTile) => ({
+    activeSubTiles = activeMainTile ? activeMainTile.subTiles.map((subTile) => ({
       ...subTile,
       color: activeMainTile.color,
       textColor: activeMainTile.textColor,
       parentId: activeMainTile.id
     })) : [];
-    $$renderer2.push(`<div class="outlook-nav w-full bg-transparent backdrop-blur-xl border-0 svelte-1qkqwru"><div class="flex items-center justify-between px-6 py-0 h-16 svelte-1qkqwru"><div class="flex items-center space-x-4 h-full svelte-1qkqwru"><div class="flex items-center space-x-1 svelte-1qkqwru"><div class="flex flex-col svelte-1qkqwru"><span class="text-sm font-medium text-white/80 leading-tight svelte-1qkqwru">Gurukuladesam</span> <span class="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight svelte-1qkqwru">Home Manager</span></div></div> <div class="h-8 w-px bg-gray-300/50 dark:bg-gray-600/50 mx-2 svelte-1qkqwru"></div> `);
-    if (activeMainTile) {
-      $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<div class="flex items-center space-x-3 svelte-1qkqwru"><div${attr_class(`w-6 h-6 rounded-lg bg-gradient-to-br ${stringify(activeMainTile.color)} flex items-center justify-center shadow-sm`, "svelte-1qkqwru")}>`);
-      Icon($$renderer2, { icon: activeMainTile.icon, class: "w-3.5 h-3.5 text-white" });
-      $$renderer2.push(`<!----></div> <div class="hidden sm:block svelte-1qkqwru"><h2 class="text-sm font-semibold text-gray-900 dark:text-white svelte-1qkqwru">${escape_html(activeMainTile.label)}</h2> <p class="text-xs text-gray-500 dark:text-gray-400 svelte-1qkqwru">${escape_html(activeMainTile.description)}</p></div></div>`);
-    } else {
-      $$renderer2.push("<!--[!-->");
-    }
-    $$renderer2.push(`<!--]--></div> <div class="flex-1 flex justify-center h-full svelte-1qkqwru"><div class="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1 shadow-inner h-12 svelte-1qkqwru"><!--[-->`);
-    const each_array = ensure_array_like(activeSubTiles.slice(0, 8));
+    $$renderer2.push(`<div class="dashboard-tiles w-full"><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-6"><!--[-->`);
+    const each_array = ensure_array_like(activeSubTiles);
     for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
       let tile = each_array[$$index];
-      $$renderer2.push(`<button${attr_class(
-        `outlook-nav-tab relative px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center space-x-2 h-full ${stringify(isTileActive(tile.path) ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50")}`,
-        "svelte-1qkqwru"
-      )}>`);
-      Icon($$renderer2, { icon: tile.icon, class: "w-4 h-4" });
-      $$renderer2.push(`<!----> <span class="inline svelte-1qkqwru">${escape_html(tile.label)}</span> `);
+      $$renderer2.push(`<div${attr_class(`tile-card group relative rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl ${stringify(isTileActive(tile.path) ? "ring-2 ring-blue-500 shadow-lg" : "")}`, "svelte-wc752v")}><button${attr_class(`w-full h-24 bg-gradient-to-br ${stringify(tile.color)} hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center relative overflow-hidden p-3`, "svelte-wc752v")}><div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(tile.color)} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl`, "svelte-wc752v")}></div> <div class="relative flex flex-col items-center justify-center h-full"><div class="w-8 h-8 mb-2 text-white group-hover:scale-110 transition-transform duration-300">`);
+      Icon($$renderer2, { icon: tile.icon, class: "w-full h-full" });
+      $$renderer2.push(`<!----></div> <div class="text-xs font-medium text-white text-center leading-tight group-hover:text-white transition-colors duration-300">${escape_html(tile.label)}</div> `);
       if (isTileActive(tile.path)) {
         $$renderer2.push("<!--[-->");
-        $$renderer2.push(`<div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-500 rounded-full svelte-1qkqwru"></div>`);
+        $$renderer2.push(`<div class="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full animate-pulse"></div>`);
       } else {
         $$renderer2.push("<!--[!-->");
       }
-      $$renderer2.push(`<!--]--></button>`);
+      $$renderer2.push(`<!--]--></div></button></div>`);
     }
-    $$renderer2.push(`<!--]--> `);
-    if (activeSubTiles.length > 8) {
+    $$renderer2.push(`<!--]--></div> `);
+    if (activeMainTile) {
       $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<div class="relative svelte-1qkqwru"><button class="outlook-nav-tab px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all duration-200 h-full svelte-1qkqwru">`);
-      Icon($$renderer2, { icon: "heroicons:ellipsis-horizontal", class: "w-4 h-4" });
-      $$renderer2.push(`<!----></button></div>`);
-    } else {
-      $$renderer2.push("<!--[!-->");
-    }
-    $$renderer2.push(`<!--]--></div></div> <div class="flex items-center space-x-2 h-full svelte-1qkqwru"><button class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 svelte-1qkqwru" title="Search">`);
-    Icon($$renderer2, { icon: "heroicons:magnifying-glass", class: "w-5 h-5" });
-    $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 svelte-1qkqwru" title="Settings">`);
-    Icon($$renderer2, { icon: "heroicons:cog-6-tooth", class: "w-5 h-5" });
-    $$renderer2.push(`<!----></button> <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm svelte-1qkqwru">U</div></div></div> `);
-    if (activeSubTiles.length > 8) {
-      $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<div class="border-0 px-6 py-2 svelte-1qkqwru"><div class="flex items-center space-x-2 overflow-x-auto svelte-1qkqwru"><!--[-->`);
-      const each_array_1 = ensure_array_like(activeSubTiles.slice(8));
-      for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
-        let tile = each_array_1[$$index_1];
-        $$renderer2.push(`<button${attr_class(
-          `flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 whitespace-nowrap ${stringify(isTileActive(tile.path) ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400" : "")}`,
-          "svelte-1qkqwru"
-        )}>`);
-        Icon($$renderer2, { icon: tile.icon, class: "w-4 h-4" });
-        $$renderer2.push(`<!----> <span class="svelte-1qkqwru">${escape_html(tile.label)}</span></button>`);
-      }
-      $$renderer2.push(`<!--]--></div></div>`);
+      $$renderer2.push(`<div class="px-6 pb-6"><div class="text-center"><h2 class="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-2">${escape_html(activeMainTile.label)}</h2> <p class="text-sm text-gray-600 dark:text-gray-400">${escape_html(activeMainTile.description)}</p></div></div>`);
     } else {
       $$renderer2.push("<!--[!-->");
     }
@@ -1388,16 +1341,46 @@ function TopNavigationBar($$renderer, $$props) {
     if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }
+function FloatingActionButtons($$renderer, $$props) {
+  $$renderer.component(($$renderer2) => {
+    let isRecording = false;
+    $$renderer2.push(`<div class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-3 svelte-son6ad">`);
+    {
+      $$renderer2.push("<!--[!-->");
+    }
+    $$renderer2.push(`<!--]--> <button${attr_class("w-14 h-14 rounded-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center group relative svelte-son6ad", void 0, {
+      "ring-4": isRecording,
+      "ring-red-300": isRecording,
+      "animate-pulse": isRecording
+    })}${attr("title", "Start Voice Input")}>`);
+    Icon($$renderer2, {
+      icon: "heroicons:microphone",
+      class: "w-7 h-7 group-hover:scale-110 transition-transform duration-200"
+    });
+    $$renderer2.push(`<!----> `);
+    {
+      $$renderer2.push("<!--[!-->");
+    }
+    $$renderer2.push(`<!--]--></button> <button class="w-10 h-10 rounded-full bg-gray-800/80 hover:bg-gray-700/80 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center backdrop-blur-sm svelte-son6ad"${attr("title", "Expand")}>`);
+    Icon($$renderer2, {
+      icon: "heroicons:chevron-up",
+      class: "w-5 h-5 transition-transform duration-200"
+    });
+    $$renderer2.push(`<!----></button></div>`);
+  });
+}
 function DashboardLayout($$renderer, $$props) {
   $$renderer.push(`<div class="flex h-screen bg-base-200 mountain-background svelte-b38hhi" data-theme="modern"><div class="flex-shrink-0">`);
   LeftTileBar($$renderer);
-  $$renderer.push(`<!----></div> <div class="flex-1 flex flex-col overflow-hidden"><div class="flex-shrink-0">`);
+  $$renderer.push(`<!----></div> <div class="flex-1 flex flex-col overflow-hidden"><main class="flex-1 scrollable-container bg-transparent"><div class="p-4 sm:p-6 lg:p-8 pt-20 sm:pt-24 lg:pt-28 relative"><div class="absolute top-4 left-4 right-4 z-20">`);
   TopNavigationBar($$renderer);
-  $$renderer.push(`<!----></div> <main class="flex-1 scrollable-container bg-transparent"><div class="p-4 sm:p-6 lg:p-8"><div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8 svelte-b38hhi"><!--[-->`);
+  $$renderer.push(`<!----></div> <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8 pt-20 svelte-b38hhi">`);
+  DashboardTiles($$renderer);
+  $$renderer.push(`<!----> <!--[-->`);
   slot($$renderer, $$props, "default", {});
-  $$renderer.push(`<!--]--></div></div></main></div> <div class="flex-shrink-0">`);
-  RightTileBar($$renderer);
-  $$renderer.push(`<!----></div></div>`);
+  $$renderer.push(`<!--]--></div></div></main></div> <div class="flex-shrink-0"></div> `);
+  FloatingActionButtons($$renderer);
+  $$renderer.push(`<!----></div>`);
 }
 function _layout($$renderer, $$props) {
   DashboardLayout($$renderer, {

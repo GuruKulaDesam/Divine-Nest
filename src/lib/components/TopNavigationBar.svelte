@@ -1,258 +1,173 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Icon from "@iconify/svelte";
-  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
 
   const dispatch = createEventDispatcher();
 
-  // Main navigation tiles (same as LeftTileBar)
-  const mainTiles = [
+  // Handle actions from right tile bar
+  let hoveredTile = null;
+  let hoveredTileElement = null;
+
+  // Handle mouse enter on tile
+  function handleTileMouseEnter(tileId, event) {
+    hoveredTile = tileId;
+    hoveredTileElement = event.currentTarget;
+  }
+
+  // Handle mouse leave from tile
+  function handleTileMouseLeave() {
+    setTimeout(() => {
+      if (!isHoveringPopup) {
+        hoveredTile = null;
+        hoveredTileElement = null;
+      }
+    }, 100);
+  }
+
+  // Track if mouse is over popup
+  let isHoveringPopup = false;
+
+  function handlePopupMouseEnter() {
+    isHoveringPopup = true;
+  }
+
+  function handlePopupMouseLeave() {
+    isHoveringPopup = false;
+    hoveredTile = null;
+    hoveredTileElement = null;
+  }
+
+  // Handle sub-tile navigation/action
+  function navigateTo(subTile) {
+    if (subTile.path) {
+      // Use goto for navigation
+      import("$app/navigation").then(({ goto }) => goto(subTile.path));
+    } else if (subTile.action) {
+      dispatch("action", { action: subTile.action, tile: subTile });
+    }
+    hoveredTile = null;
+    hoveredTileElement = null;
+  }
+
+  // Calculate popup position
+  function getPopupPosition() {
+    if (!hoveredTileElement) return { top: 0, left: 0 };
+
+    const rect = hoveredTileElement.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const popupWidth = 280;
+    const popupHeight = 200;
+
+    let top = rect.bottom + 8;
+    let left = rect.left - popupWidth / 2 + rect.width / 2;
+
+    // Ensure popup doesn't go off-screen
+    if (left < 20) left = 20;
+    if (left + popupWidth > viewportWidth - 20) left = viewportWidth - popupWidth - 20;
+    if (top + popupHeight > window.innerHeight - 20) top = rect.top - popupHeight - 8;
+
+    return { top, left };
+  }
+
+  // Right tile bar tiles (transparent)
+  const rightTiles = [
     {
-      id: "dashboard",
-      label: "Home",
-      icon: "heroicons:home",
-      color: "from-blue-500 to-blue-600",
-      borderColor: "border-blue-500/50",
-      textColor: "text-blue-600 dark:text-blue-400",
-      description: "Dashboard & Overview",
-      subTiles: [
-        { label: "Dashboard", path: "/", icon: "heroicons:home" },
-        { label: "Household", path: "/household", icon: "heroicons:squares-2x2" },
-        { label: "Family Members", path: "/members", icon: "heroicons:users" },
-        { label: "Calendar", path: "/family-calendar-modern", icon: "heroicons:calendar-days" },
-        { label: "Notes", path: "/family-notes-modern", icon: "heroicons:document-text" },
-        { label: "Reminders", path: "/reminders", icon: "heroicons:bell-alert" },
-      ],
-    },
-    {
-      id: "divinity",
-      label: "Divinity",
-      icon: "heroicons:sparkles",
-      color: "from-orange-500 to-orange-600",
-      borderColor: "border-orange-500/50",
-      textColor: "text-orange-600 dark:text-orange-400",
-      description: "Spiritual & Religious",
-      subTiles: [
-        { label: "Tamil Panchangam", path: "/tamil-panchangam", icon: "heroicons:sun" },
-        { label: "Rituals", path: "/rituals", icon: "heroicons:sparkles" },
-        { label: "Temple Visits", path: "/temple", icon: "heroicons:building-storefront" },
-        { label: "Festival Calendar", path: "/festival-calendar", icon: "heroicons:calendar" },
-        { label: "Mantras", path: "/mantras", icon: "heroicons:musical-note" },
-      ],
-    },
-    {
-      id: "contacts",
-      label: "Contacts",
-      icon: "heroicons:phone",
-      color: "from-green-500 to-green-600",
-      borderColor: "border-green-500/50",
-      textColor: "text-green-600 dark:text-green-400",
-      description: "People & Directory",
-      subTiles: [
-        { label: "Personal Contacts", path: "/contacts", icon: "heroicons:phone" },
-        { label: "Emergency Contacts", path: "/emergency", icon: "heroicons:exclamation-triangle" },
-        { label: "Vendors & Services", path: "/vendors", icon: "heroicons:wrench" },
-        { label: "Service Directory", path: "/directory", icon: "heroicons:building-storefront" },
-      ],
-    },
-    {
-      id: "food",
-      label: "Food",
-      icon: "heroicons:cake",
-      color: "from-orange-400 to-orange-500",
-      borderColor: "border-orange-400/50",
-      textColor: "text-orange-600 dark:text-orange-400",
-      description: "Meals & Recipes",
-      subTiles: [
-        { label: "Meals & Planning", path: "/meals", icon: "heroicons:calendar-days" },
-        { label: "Recipes", path: "/recipes", icon: "heroicons:book-open" },
-        { label: "Grocery & Pantry", path: "/grocery", icon: "heroicons:shopping-cart" },
-        { label: "Pantry Management", path: "/pantry", icon: "heroicons:archive-box" },
-        { label: "Kitchen Dashboard", path: "/kitchen", icon: "heroicons:home" },
-        { label: "Fresh Items", path: "/kitchen/fresh", icon: "heroicons:leaf" },
-        { label: "Kids Meals", path: "/kitchen/kids", icon: "heroicons:user-group" },
-        { label: "Cleaning Schedule", path: "/kitchen/cleaning", icon: "heroicons:sparkles" },
-      ],
-    },
-    {
-      id: "education",
-      label: "Learn",
-      icon: "heroicons:academic-cap",
-      color: "from-indigo-500 to-indigo-600",
-      borderColor: "border-indigo-500/50",
-      textColor: "text-indigo-600 dark:text-indigo-400",
-      description: "Education & Study",
-      subTiles: [
-        { label: "Education Dashboard", path: "/education", icon: "heroicons:academic-cap" },
-        { label: "Students", path: "/education/students", icon: "heroicons:users" },
-        { label: "Curriculum", path: "/education/curriculum", icon: "heroicons:book-open" },
-        { label: "Planner", path: "/education/planner", icon: "heroicons:calendar-days" },
-        { label: "Quiz", path: "/education/quiz", icon: "heroicons:question-mark-circle" },
-        { label: "Assessment", path: "/education/assessment", icon: "heroicons:clipboard-document-check" },
-        { label: "Courses", path: "/education/courses", icon: "heroicons:academic-cap" },
-        { label: "Mentors", path: "/education/mentors", icon: "heroicons:user-group" },
-        { label: "Achievements", path: "/education/achievements", icon: "heroicons:trophy" },
-        { label: "Family Library", path: "/library", icon: "heroicons:book-open" },
-        { label: "Studies & Exams", path: "/studies", icon: "heroicons:pencil" },
-        { label: "Learning Goals", path: "/learning-goals", icon: "heroicons:light-bulb" },
-      ],
-    },
-    {
-      id: "assistant",
-      label: "Assistant",
-      icon: "heroicons:chat-bubble-left-right",
-      color: "from-purple-500 to-purple-600",
-      borderColor: "border-purple-500/50",
-      textColor: "text-purple-600 dark:text-purple-400",
-      description: "AI & Automation",
-      subTiles: [
-        { label: "Assistant Dashboard", path: "/assistant", icon: "heroicons:chat-bubble-left-right" },
-        { label: "Voice Log", path: "/assistant/voice-log", icon: "heroicons:microphone" },
-        { label: "Task Board", path: "/assistant/task-board", icon: "heroicons:clipboard-document-list" },
-        { label: "Event Feed", path: "/assistant/event-feed", icon: "heroicons:rss" },
-        { label: "Auto Checklist", path: "/assistant/auto-checklist", icon: "heroicons:check-circle" },
-        { label: "Ambient Log", path: "/assistant/ambient-log", icon: "heroicons:eye" },
-      ],
-    },
-    {
-      id: "shivo-ai",
-      label: "Shivo AI",
-      icon: "heroicons:sparkles",
-      color: "from-orange-500 to-orange-600",
-      borderColor: "border-orange-500/50",
-      textColor: "text-orange-600 dark:text-orange-400",
-      description: "AI Assistant",
-      subTiles: [{ label: "AI Assistant", path: "/shivo-ai", icon: "heroicons:sparkles" }],
-    },
-    {
-      id: "shivo-music",
-      label: "Shivo Music",
-      icon: "heroicons:musical-note",
-      color: "from-pink-500 to-pink-600",
-      borderColor: "border-pink-500/50",
-      textColor: "text-pink-600 dark:text-pink-400",
-      description: "Music Companion",
-      subTiles: [{ label: "Music Companion", path: "/shivo-music", icon: "heroicons:musical-note" }],
-    },
-    {
-      id: "shivo-agentic",
-      label: "Shivo Agentic",
-      icon: "heroicons:robot",
-      color: "from-violet-500 to-violet-600",
-      borderColor: "border-violet-500/50",
-      textColor: "text-violet-600 dark:text-violet-400",
-      description: "Agentic AI Assistant",
-      subTiles: [{ label: "Agentic AI", path: "/shivo-agentic", icon: "heroicons:robot" }],
-    },
-    {
-      id: "health",
-      label: "Health",
-      icon: "heroicons:heart",
-      color: "from-pink-500 to-pink-600",
-      borderColor: "border-pink-500/50",
-      textColor: "text-pink-600 dark:text-pink-400",
-      description: "Wellness & Fitness",
-      subTiles: [
-        { label: "Wellness Dashboard", path: "/wellness", icon: "heroicons:heart" },
-        { label: "Health Tracking", path: "/health", icon: "heroicons:shield-check" },
-        { label: "Yoga & Exercise", path: "/yoga", icon: "heroicons:user" },
-        { label: "Health Journal", path: "/journal", icon: "heroicons:pencil-square" },
-        { label: "Hobbies & Activities", path: "/hobbies-activities", icon: "heroicons:puzzle-piece" },
-      ],
-    },
-    {
-      id: "finances",
-      label: "Finances",
-      icon: "heroicons:currency-rupee",
-      color: "from-emerald-500 to-emerald-600",
-      borderColor: "border-emerald-500/50",
-      textColor: "text-emerald-600 dark:text-emerald-400",
-      description: "Money & Budget",
-      subTiles: [
-        { label: "Finance Dashboard", path: "/finances", icon: "heroicons:currency-rupee" },
-        { label: "Recharges", path: "/recharges", icon: "heroicons:device-phone-mobile" },
-        { label: "Expenses", path: "/expenses", icon: "heroicons:credit-card" },
-        { label: "Budget", path: "/budget", icon: "heroicons:calculator" },
-        { label: "Insurance", path: "/insurance", icon: "heroicons:shield-check" },
-        { label: "Investments", path: "/investments", icon: "heroicons:chart-line" },
-      ],
-    },
-    {
-      id: "assets",
-      label: "Assets",
-      icon: "heroicons:building-storefront",
-      color: "from-emerald-500 to-emerald-600",
-      borderColor: "border-emerald-500/50",
-      textColor: "text-emerald-600 dark:text-emerald-400",
-      description: "Property & Vehicles",
-      subTiles: [
-        { label: "Asset Overview", path: "/assets", icon: "heroicons:building-storefront" },
-        { label: "Asset Items", path: "/assets/items", icon: "heroicons:archive-box" },
-        { label: "Asset Value", path: "/assets/value", icon: "heroicons:currency-rupee" },
-        { label: "Maintenance", path: "/assets/maintenance", icon: "heroicons:wrench-screwdriver" },
-        { label: "Documents", path: "/assets/documents", icon: "heroicons:document-text" },
-        { label: "Home Inventory", path: "/inventory", icon: "heroicons:archive-box" },
-        { label: "Vehicle Management", path: "/vehicles", icon: "heroicons:truck" },
-      ],
-    },
-    {
-      id: "projects",
-      label: "Projects",
+      id: "tasks",
+      label: "Tasks",
       icon: "heroicons:clipboard-document-list",
-      color: "from-cyan-500 to-cyan-600",
-      borderColor: "border-cyan-500/50",
-      textColor: "text-cyan-600 dark:text-cyan-400",
-      description: "Management & Tasks",
+      color: "from-blue-500 to-blue-600",
+      textColor: "text-blue-600 dark:text-blue-400",
       subTiles: [
-        { label: "Project Management", path: "/projects", icon: "heroicons:clipboard-document-list" },
-        { label: "Gantt Chart", path: "/gantt", icon: "heroicons:chart-bar" },
-        { label: "Daily Schedule", path: "/schedule", icon: "heroicons:calendar-days" },
-        { label: "Analytics Dashboard", path: "/analytics", icon: "heroicons:chart-bar" },
-        { label: "Data Charts", path: "/charts", icon: "heroicons:chart-pie" },
-        { label: "Interactive Maps", path: "/maps", icon: "heroicons:map" },
+        { label: "Add Task", icon: "heroicons:plus-circle", path: "/todo" },
+        { label: "Quick Task", icon: "heroicons:bolt", action: "quick-task" },
+        { label: "Task List", icon: "heroicons:clipboard-document-list", path: "/todo" },
+      ],
+    },
+    {
+      id: "notes",
+      label: "Notes",
+      icon: "heroicons:document-text",
+      color: "from-green-500 to-green-600",
+      textColor: "text-green-600 dark:text-green-400",
+      subTiles: [
+        { label: "New Note", icon: "heroicons:plus-circle", path: "/family-notes-modern" },
+        { label: "Quick Note", icon: "heroicons:pencil-square", action: "quick-note" },
+        { label: "Note List", icon: "heroicons:document-text", path: "/family-notes-modern" },
+      ],
+    },
+    {
+      id: "reminders",
+      label: "Reminders",
+      icon: "heroicons:bell-alert",
+      color: "from-orange-500 to-orange-600",
+      textColor: "text-orange-600 dark:text-orange-400",
+      subTiles: [
+        { label: "Add Reminder", icon: "heroicons:plus-circle", path: "/reminders" },
+        { label: "Quick Reminder", icon: "heroicons:bell", action: "quick-reminder" },
+        { label: "Reminder List", icon: "heroicons:bell-alert", path: "/reminders" },
+      ],
+    },
+    {
+      id: "voice-recording",
+      label: "Voice",
+      icon: "heroicons:microphone",
+      color: "from-purple-500 to-purple-600",
+      textColor: "text-purple-600 dark:text-purple-400",
+      subTiles: [
+        { label: "Record Voice", icon: "heroicons:microphone", path: "/recordings" },
+        { label: "Voice Notes", icon: "heroicons:musical-note", action: "voice-note" },
+        { label: "Voice Commands", icon: "heroicons:chat-bubble-left-right", action: "voice-command" },
+      ],
+    },
+    {
+      id: "scheduling",
+      label: "Schedule",
+      icon: "heroicons:calendar-days",
+      color: "from-indigo-500 to-indigo-600",
+      textColor: "text-indigo-600 dark:text-indigo-400",
+      subTiles: [
+        { label: "Add Event", icon: "heroicons:plus-circle", path: "/family-calendar-modern" },
+        { label: "Quick Schedule", icon: "heroicons:clock", action: "quick-schedule" },
+        { label: "Calendar View", icon: "heroicons:calendar-days", path: "/family-calendar-modern" },
+      ],
+    },
+    {
+      id: "ai-assistant",
+      label: "AI Assistant",
+      icon: "heroicons:sparkles",
+      color: "from-pink-500 to-pink-600",
+      textColor: "text-pink-600 dark:text-pink-400",
+      subTiles: [
+        { label: "Ask AI", icon: "heroicons:sparkles", path: "/shivo-ai" },
+        { label: "Agentic AI", icon: "heroicons:robot", path: "/shivo-agentic" },
+        { label: "Voice Assistant", icon: "heroicons:microphone", action: "voice-assistant" },
+      ],
+    },
+    {
+      id: "quick-actions",
+      label: "Quick Actions",
+      icon: "heroicons:bolt",
+      color: "from-cyan-500 to-cyan-600",
+      textColor: "text-cyan-600 dark:text-cyan-400",
+      subTiles: [
+        { label: "Search", icon: "heroicons:magnifying-glass", action: "search" },
+        { label: "Save All", icon: "heroicons:document-check", action: "save-all" },
+        { label: "Settings", icon: "heroicons:cog-6-tooth", action: "settings" },
       ],
     },
   ];
 
-  // Flatten all sub-tiles from main tiles
-  const allSubTiles = mainTiles.flatMap((mainTile) =>
-    mainTile.subTiles.map((subTile) => ({
-      ...subTile,
-      color: mainTile.color,
-      textColor: mainTile.textColor,
-      parentId: mainTile.id,
-    }))
-  );
-
-  // Get the currently active main tile based on current path
-  $: activeMainTile = mainTiles.find((tile) => tile.subTiles.some((subTile) => $page.url.pathname === subTile.path));
-
-  // Get sub-tiles for the active main tile only
-  $: activeSubTiles = activeMainTile
-    ? activeMainTile.subTiles.map((subTile) => ({
-        ...subTile,
-        color: activeMainTile.color,
-        textColor: activeMainTile.textColor,
-        parentId: activeMainTile.id,
-      }))
-    : [];
-
-  // Check if a tile path is currently active
-  function isTileActive(tilePath) {
-    return $page.url.pathname === tilePath;
-  }
-
-  // Navigate to a tile path
-  function navigateTo(path) {
-    goto(path);
+  // Check if current route belongs to a tile section
+  function isTileActive(tile) {
+    return tile.subTiles.some((subTile) => $page.url.pathname === subTile.path);
   }
 </script>
 
 <div class="outlook-nav w-full bg-transparent backdrop-blur-xl border-0">
   <!-- Main Navigation Container - Full Width -->
   <div class="flex items-center justify-between px-6 py-0 h-16">
-    <!-- Left Section: Logo and Active Category Info -->
+    <!-- Left Section: Logo and App Title -->
     <div class="flex items-center space-x-4 h-full">
       <!-- App Title -->
       <div class="flex items-center space-x-1">
@@ -261,49 +176,29 @@
           <span class="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">Home Manager</span>
         </div>
       </div>
-
-      <!-- Separator -->
-      <div class="h-8 w-px bg-gray-300/50 dark:bg-gray-600/50 mx-2"></div>
-
-      {#if activeMainTile}
-        <div class="flex items-center space-x-3">
-          <div class="w-6 h-6 rounded-lg bg-gradient-to-br {activeMainTile.color} flex items-center justify-center shadow-sm">
-            <Icon icon={activeMainTile.icon} class="w-3.5 h-3.5 text-white" />
-          </div>
-          <div class="hidden sm:block">
-            <h2 class="text-sm font-semibold text-gray-900 dark:text-white">{activeMainTile.label}</h2>
-            <p class="text-xs text-gray-500 dark:text-gray-400">{activeMainTile.description}</p>
-          </div>
-        </div>
-      {/if}
     </div>
 
-    <!-- Center Section: Navigation Tabs - Full Height Coverage -->
-    <div class="flex-1 flex justify-center h-full">
-      <div class="flex items-center space-x-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1 shadow-inner h-12">
-        {#each activeSubTiles.slice(0, 8) as tile (tile.path)}
-          <button class="outlook-nav-tab relative px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center space-x-2 h-full {isTileActive(tile.path) ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50'}" on:click={() => navigateTo(tile.path)}>
-            <Icon icon={tile.icon} class="w-4 h-4" />
-            <span class="inline">{tile.label}</span>
-            {#if isTileActive(tile.path)}
-              <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-500 rounded-full"></div>
-            {/if}
-          </button>
-        {/each}
-
-        <!-- More dropdown if there are more than 8 items -->
-        {#if activeSubTiles.length > 8}
+    <!-- Right Section: Actions and Right Tile Bar -->
+    <div class="flex items-center space-x-2 h-full">
+      <!-- Right Tile Bar (Transparent) -->
+      <div class="flex items-center space-x-1">
+        {#each rightTiles as tile (tile.id)}
           <div class="relative">
-            <button class="outlook-nav-tab px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all duration-200 h-full">
-              <Icon icon="heroicons:ellipsis-horizontal" class="w-4 h-4" />
+            <button class="w-10 h-10 rounded-lg bg-transparent hover:bg-white/10 transition-all duration-200 flex items-center justify-center group" on:mouseenter={(event) => handleTileMouseEnter(tile.id, event)} on:mouseleave={handleTileMouseLeave} aria-label={tile.label}>
+              <div class="w-5 h-5 {tile.textColor} group-hover:scale-110 transition-transform duration-200">
+                <Icon icon={tile.icon} class="w-full h-full" />
+              </div>
+              {#if isTileActive(tile)}
+                <div class="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              {/if}
             </button>
           </div>
-        {/if}
+        {/each}
       </div>
-    </div>
 
-    <!-- Right Section: Actions -->
-    <div class="flex items-center space-x-2 h-full">
+      <!-- Separator -->
+      <div class="h-6 w-px bg-gray-300/30 dark:bg-gray-600/30 mx-1"></div>
+
       <!-- Search Button -->
       <button class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200" title="Search">
         <Icon icon="heroicons:magnifying-glass" class="w-5 h-5" />
@@ -319,18 +214,33 @@
     </div>
   </div>
 
-  <!-- Sub-navigation for additional items (if needed) -->
-  {#if activeSubTiles.length > 8}
-    <div class="border-0 px-6 py-2">
-      <div class="flex items-center space-x-2 overflow-x-auto">
-        {#each activeSubTiles.slice(8) as tile (tile.path)}
-          <button class="flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 whitespace-nowrap {isTileActive(tile.path) ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : ''}" on:click={() => navigateTo(tile.path)}>
-            <Icon icon={tile.icon} class="w-4 h-4" />
-            <span>{tile.label}</span>
-          </button>
-        {/each}
+  <!-- Hover popup for right tiles -->
+  {#if hoveredTile && hoveredTileElement}
+    {@const tile = rightTiles.find((t) => t.id === hoveredTile)}
+    {@const position = getPopupPosition()}
+    {#if tile}
+      <div class="fixed z-50 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-lg shadow-2xl p-3 w-64" style="top: {position.top}px; left: {position.left}px;" on:mouseenter={handlePopupMouseEnter} on:mouseleave={handlePopupMouseLeave} role="menu" tabindex="-1">
+        <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2 pb-2 border-b border-gray-200/50 dark:border-gray-700/50">
+          <div class="w-4 h-4 rounded bg-gradient-to-br {tile.color} flex items-center justify-center">
+            <Icon icon={tile.icon} class="w-3 h-3 text-white" />
+          </div>
+          {tile.label}
+        </h4>
+
+        <div class="grid grid-cols-2 gap-1">
+          {#each tile.subTiles as subTile (subTile.label)}
+            <button class="group relative p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150 text-center border border-transparent hover:border-gray-300/50 dark:hover:border-gray-600/50" on:click={() => navigateTo(subTile)} role="menuitem" tabindex="-1">
+              <div class="w-5 h-5 mx-auto mb-1 {tile.textColor} group-hover:scale-110 transition-transform duration-200">
+                <Icon icon={subTile.icon} class="w-full h-full" />
+              </div>
+              <div class="text-xs font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-200 leading-tight">
+                {subTile.label}
+              </div>
+            </button>
+          {/each}
+        </div>
       </div>
-    </div>
+    {/if}
   {/if}
 </div>
 
