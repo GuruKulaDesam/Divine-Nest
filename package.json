@@ -7,6 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
+    "musicgen": "node musicgen-server.js",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
@@ -35,8 +36,10 @@
     "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.46.4",
     "chart.js": "^4.5.0",
+    "cors": "^2.8.5",
     "daisyui": "^5.0.43",
     "dexie": "^4.2.0",
+    "express": "^4.21.2",
     "leaflet": "^1.9.4",
     "motion": "^12.18.1",
     "pkill": "^2.0.0",

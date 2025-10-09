@@ -142,6 +142,11 @@ class AudioPlayer {
 let audioPlayerInstance: AudioPlayer | null = null
 
 export function getAudioPlayer(): AudioPlayer {
+  // Only create audio player in browser environment
+  if (typeof window === 'undefined') {
+    throw new Error('AudioPlayer can only be used in browser environment')
+  }
+
   if (!audioPlayerInstance) {
     audioPlayerInstance = new AudioPlayer()
   }
@@ -149,31 +154,37 @@ export function getAudioPlayer(): AudioPlayer {
 }
 
 export async function playAudio(buffer: AudioBuffer, options?: AudioPlaybackOptions): Promise<void> {
+  if (typeof window === 'undefined') return
   const player = getAudioPlayer()
   return player.playAudio(buffer, options)
 }
 
 export function stopAudio(): void {
+  if (typeof window === 'undefined') return
   const player = getAudioPlayer()
   player.stopAudio()
 }
 
 export function pauseAudio(): void {
+  if (typeof window === 'undefined') return
   const player = getAudioPlayer()
   player.pauseAudio()
 }
 
 export function resumeAudio(): void {
+  if (typeof window === 'undefined') return
   const player = getAudioPlayer()
   player.resumeAudio()
 }
 
 export function setVolume(volume: number): void {
+  if (typeof window === 'undefined') return
   const player = getAudioPlayer()
   player.setVolume(volume)
 }
 
 export function isPlaying(): boolean {
+  if (typeof window === 'undefined') return false
   const player = getAudioPlayer()
   return player.isCurrentlyPlaying
 }
@@ -186,6 +197,10 @@ export interface RecordingOptions {
 }
 
 export async function recordMicrophoneAudio(options: RecordingOptions = {}): Promise<Blob> {
+  if (typeof window === 'undefined') {
+    throw new Error('Microphone recording is only available in browser environment')
+  }
+
   return new Promise((resolve, reject) => {
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
@@ -231,6 +246,10 @@ export async function recordMicrophoneAudio(options: RecordingOptions = {}): Pro
 
 // Convert audio blob to AudioBuffer for playback
 export async function blobToAudioBuffer(blob: Blob): Promise<AudioBuffer> {
+  if (typeof window === 'undefined') {
+    throw new Error('Audio processing is only available in browser environment')
+  }
+
   const arrayBuffer = await blob.arrayBuffer()
   const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)

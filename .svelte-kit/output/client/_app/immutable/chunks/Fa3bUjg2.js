@@ -1,0 +1,1 @@
+import{D as T,F as c,G as q,I as x,S as A}from"./DFw88cu1.js";function k(i,r){return i===r||(i==null?void 0:i[A])===r}function D(i={},r,S,h){return T(()=>{var s,f;return c(()=>{s=f,f=(h==null?void 0:h())||[],x(()=>{i!==S(...f)&&(r(i,...f),s&&k(S(...s),i)&&r(null,...s))})}),()=>{q(()=>{f&&k(S(...f),i)&&r(null,...f)})}}),i}export{D as b};

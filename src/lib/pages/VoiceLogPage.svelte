@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
   import { motionInView } from "../utils/motion.js";
+  import { browser } from "$app/environment";
 
   // Voice logs data
   let voiceLogs = [
@@ -79,15 +80,17 @@
 
   onMount(() => {
     // Load logs from localStorage or API
-    const savedLogs = localStorage.getItem("voiceLogs");
-    if (savedLogs) {
-      voiceLogs = JSON.parse(savedLogs);
-      filteredLogs = voiceLogs;
+    if (browser) {
+      const savedLogs = localStorage.getItem("voiceLogs");
+      if (savedLogs) {
+        voiceLogs = JSON.parse(savedLogs);
+        filteredLogs = voiceLogs;
+      }
     }
   });
 
   // Save logs when they change
-  $: if (voiceLogs) {
+  $: if (browser && voiceLogs) {
     localStorage.setItem("voiceLogs", JSON.stringify(voiceLogs));
   }
 </script>
@@ -135,10 +138,10 @@
 
         <!-- Emotion Filter -->
         <div class="form-control">
-          <label class="label">
+          <label for="emotion-filter" class="label">
             <span class="label-text">{taLabels.filterEmotion}</span>
           </label>
-          <select bind:value={selectedEmotion} class="select select-bordered w-full">
+          <select id="emotion-filter" bind:value={selectedEmotion} class="select select-bordered w-full">
             <option value="">{taLabels.all}</option>
             <option value="😊">{taLabels.happy}</option>
             <option value="😐">{taLabels.neutral}</option>
@@ -148,10 +151,10 @@
 
         <!-- Source Filter -->
         <div class="form-control">
-          <label class="label">
+          <label for="source-filter" class="label">
             <span class="label-text">{taLabels.filterSource}</span>
           </label>
-          <select bind:value={selectedSource} class="select select-bordered w-full">
+          <select id="source-filter" bind:value={selectedSource} class="select select-bordered w-full">
             <option value="">{taLabels.all}</option>
             <option value="Child">{taLabels.child}</option>
             <option value="Amma">{taLabels.amma}</option>

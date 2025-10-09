@@ -30,7 +30,9 @@
     if (!isRecording) return;
 
     isRecording = false;
-    clearInterval(recordingInterval);
+    if (recordingInterval !== null) {
+      clearInterval(recordingInterval);
+    }
 
     const duration = recordingDuration;
     recordingStartTime = null;
