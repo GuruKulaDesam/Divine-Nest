@@ -228,9 +228,9 @@
   // Get the currently active main tile based on current path
   $: activeMainTile = mainTiles.find((tile) => tile.subTiles.some((subTile) => $page.url.pathname === subTile.path));
 
-  // Get sub-tiles for the active main tile only (skip first item)
+  // Get sub-tiles for the active main tile only
   $: activeSubTiles = activeMainTile
-    ? activeMainTile.subTiles.slice(1).map((subTile) => ({
+    ? activeMainTile.subTiles.map((subTile) => ({
         ...subTile,
         color: activeMainTile.color,
         textColor: activeMainTile.textColor,
@@ -249,7 +249,7 @@
   }
 </script>
 
-<div class="outlook-nav w-full bg-transparent backdrop-blur-xl border-0" style="margin-top: -32px; margin-bottom: -32px;">
+<div class="outlook-nav w-full bg-transparent backdrop-blur-xl border-0">
   <!-- Main Navigation Container - Full Width -->
   <div class="flex items-center justify-between px-6 py-0 h-16">
     <!-- Left Section: Logo and Active Category Info -->
@@ -337,10 +337,8 @@
 <style>
   .outlook-nav {
     position: relative;
-    z-index: 50;
+    z-index: 10;
     backdrop-filter: blur(8px);
-    margin-top: -32px;
-    margin-bottom: -32px;
   }
 
   .outlook-nav-tab {

@@ -65,15 +65,14 @@
 
   <!-- Middle Container -->
   <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Top Navigation Bar for sub-menus - Integrated with main content -->
-    <div class="flex-shrink-0">
-      <TopNavigationBar />
-    </div>
-
     <!-- Main content area -->
     <main class="flex-1 scrollable-container bg-transparent">
-      <div class="p-4 sm:p-6 lg:p-8 pt-20 sm:pt-24 lg:pt-28">
-        <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8">
+      <div class="p-4 sm:p-6 lg:p-8 pt-20 sm:pt-24 lg:pt-28 relative">
+        <!-- Top Navigation Bar positioned within content -->
+        <div class="absolute top-4 left-4 right-4 z-20">
+          <TopNavigationBar />
+        </div>
+        <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8 pt-20">
           <slot />
         </div>
       </div>
