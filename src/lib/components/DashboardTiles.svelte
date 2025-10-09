@@ -242,7 +242,7 @@
 
       <div class="relative flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">गृह प्रबन्धन | Home Management Dashboard</h1>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">இல்லற வழிகாட்டி | Home Management Dashboard</h1>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 max-w-md">Complete overview of family, household, and daily management needs. Today's priorities at a glance.</p>
         </div>
         <div class="flex space-x-2">

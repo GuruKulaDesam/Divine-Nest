@@ -1,26 +1,89 @@
-<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-  <!-- OM Symbol with Ganesha elements (white for dark theme) -->
-  <g transform="translate(10, 15)">
-    <!-- OM Symbol Base -->
-    <path d="M15 15 Q15 5 25 5 Q35 5 35 15 Q35 25 25 25 Q15 25 15 15 Z" fill="none" stroke="#60a5fa" stroke-width="2"/>
-    <path d="M25 5 Q35 5 35 15" fill="none" stroke="#60a5fa" stroke-width="2"/>
-    <path d="M35 15 Q45 15 45 25 Q35 25 35 15" fill="none" stroke="#60a5fa" stroke-width="2"/>
-    <path d="M45 25 Q45 35 35 35" fill="none" stroke="#60a5fa" stroke-width="2"/>
-    <!-- Dot above -->
-    <circle cx="35" cy="8" r="2" fill="#60a5fa"/>
-    <!-- Ganesha trunk curl -->
-    <path d="M35 35 Q40 32 42 28 Q44 32 40 35" fill="none" stroke="#60a5fa" stroke-width="2"/>
+<svg width="300" height="80" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Enhanced background decorative elements -->
+  <defs>
+    <linearGradient id="tamilGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.4)"/>
+    </filter>
+    <filter id="textGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Decorative background pattern -->
+  <rect width="300" height="80" rx="12" fill="url(#tamilGradient)" opacity="0.08"/>
+  <rect x="2" y="2" width="296" height="76" rx="10" fill="none" stroke="url(#tamilGradient)" stroke-width="1" opacity="0.3"/>
+
+  <!-- Center glow effect -->
+  <circle cx="150" cy="40" r="35" fill="url(#centerGlow)"/>
+
+  <!-- Enhanced lotus flower elements on left -->
+  <g transform="translate(20, 25)">
+    <!-- Outer petals -->
+    <ellipse cx="20" cy="8" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(0 20 20)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(45 20 20)"/>
+    <ellipse cx="32" cy="26" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(135 20 20)"/>
+    <ellipse cx="8" cy="26" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(225 20 20)"/>
+    <!-- Inner petals -->
+    <ellipse cx="20" cy="11" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(22.5 20 20)"/>
+    <ellipse cx="29" cy="20" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(67.5 20 20)"/>
+    <ellipse cx="20" cy="29" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(112.5 20 20)"/>
+    <ellipse cx="11" cy="20" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(157.5 20 20)"/>
+    <!-- Lotus base -->
+    <ellipse cx="20" cy="20" rx="12" ry="16" fill="url(#tamilGradient)" opacity="0.5"/>
+    <!-- Center dot with enhanced glow -->
+    <circle cx="20" cy="20" r="4" fill="url(#tamilGradient)" filter="url(#glow)"/>
   </g>
 
-  <!-- Home Icon -->
-  <g transform="translate(60, 10)">
-    <path d="M5 20 L15 10 L25 20 V30 H5 Z" fill="none" stroke="#60a5fa" stroke-width="2"/>
-    <rect x="10" y="20" width="10" height="10" fill="none" stroke="#60a5fa" stroke-width="2"/>
-    <!-- Door -->
-    <rect x="12" y="22" width="6" height="8" fill="#60a5fa"/>
+  <!-- Main Tamil text "தாய்வழி" as the primary logo with enhanced effects -->
+  <text x="150" y="35" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="url(#tamilGradient)" text-anchor="middle" filter="url(#textGlow)" style="text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);">தாய்வழி</text>
+  <text x="150" y="55" font-family="Arial, sans-serif" font-size="14" fill="#9ca3af" opacity="0.9" text-anchor="middle">மாதர் மரபு • Matrilineal Heritage</text>
+
+  <!-- Enhanced lotus flower elements on right -->
+  <g transform="translate(260, 25)">
+    <!-- Outer petals -->
+    <ellipse cx="20" cy="8" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(0 20 20)"/>
+    <ellipse cx="32" cy="14" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(45 20 20)"/>
+    <ellipse cx="32" cy="26" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(135 20 20)"/>
+    <ellipse cx="8" cy="26" rx="5" ry="10" fill="url(#tamilGradient)" opacity="0.7" transform="rotate(225 20 20)"/>
+    <!-- Inner petals -->
+    <ellipse cx="20" cy="11" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(22.5 20 20)"/>
+    <ellipse cx="29" cy="20" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(67.5 20 20)"/>
+    <ellipse cx="20" cy="29" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(112.5 20 20)"/>
+    <ellipse cx="11" cy="20" rx="4" ry="8" fill="url(#tamilGradient)" opacity="0.9" transform="rotate(157.5 20 20)"/>
+    <!-- Lotus base -->
+    <ellipse cx="20" cy="20" rx="12" ry="16" fill="url(#tamilGradient)" opacity="0.5"/>
+    <!-- Center dot with enhanced glow -->
+    <circle cx="20" cy="20" r="4" fill="url(#tamilGradient)" filter="url(#glow)"/>
   </g>
 
-  <!-- Text (white for dark theme) -->
-  <text x="110" y="25" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#f9fafb">Home Manager</text>
-  <text x="110" y="40" font-family="Arial, sans-serif" font-size="10" fill="#d1d5db">Family Dashboard</text>
+  <!-- Decorative connecting lines -->
+  <path d="M 60 35 Q 100 30 140 35" stroke="url(#tamilGradient)" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M 160 35 Q 200 30 240 35" stroke="url(#tamilGradient)" stroke-width="2" fill="none" opacity="0.6"/>
+
+  <!-- Additional decorative elements -->
+  <circle cx="220" cy="20" r="3" fill="url(#tamilGradient)" opacity="0.5"/>
+  <circle cx="220" cy="35" r="2" fill="url(#tamilGradient)" opacity="0.4"/>
+  <circle cx="220" cy="50" r="3" fill="url(#tamilGradient)" opacity="0.5"/>
 </svg>
