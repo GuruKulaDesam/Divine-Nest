@@ -1,55 +1,76 @@
 <script>
   import LeftTileBar from "./LeftTileBar.svelte";
-  import RightTileBar from "./RightTileBar.svelte";
   import TopNavigationBar from "./TopNavigationBar.svelte";
+  import DashboardTiles from "./DashboardTiles.svelte";
+  import FloatingActionButtons from "./FloatingActionButtons.svelte";
 
-  // Handle actions from the right tile bar
-  function handleRightTileAction(event) {
+  // Handle actions from the top navigation bar (right tiles)
+  function handleTopNavAction(event) {
     const { action, tile } = event.detail;
     console.log(`Action triggered: ${action}`, tile);
 
     // Here you can implement the logic for each action
     // For example, opening modals, triggering saves, etc.
     switch (action) {
-      case "save":
-        // Implement save logic
-        console.log("Save action triggered");
+      case "quick-task":
+        // Implement quick task logic
+        console.log("Quick task action triggered");
         break;
-      case "submit":
-        // Implement submit logic
-        console.log("Submit action triggered");
+      case "quick-note":
+        // Implement quick note logic
+        console.log("Quick note action triggered");
         break;
-      case "add":
-        // Implement add logic
-        console.log("Add action triggered");
+      case "quick-reminder":
+        // Implement quick reminder logic
+        console.log("Quick reminder action triggered");
         break;
-      case "update":
-        // Implement update logic
-        console.log("Update action triggered");
+      case "voice-note":
+        // Implement voice note logic
+        console.log("Voice note action triggered");
         break;
-      case "remove":
-        // Implement remove logic
-        console.log("Remove action triggered");
+      case "voice-command":
+        // Implement voice command logic
+        console.log("Voice command action triggered");
         break;
-      case "sms":
-        // Implement SMS logic
-        console.log("SMS action triggered");
+      case "quick-schedule":
+        // Implement quick schedule logic
+        console.log("Quick schedule action triggered");
         break;
-      case "emails":
-        // Implement emails logic
-        console.log("Emails action triggered");
+      case "voice-assistant":
+        // Implement voice assistant logic
+        console.log("Voice assistant action triggered");
         break;
-      case "alarms":
-        // Implement alarms logic
-        console.log("Alarms action triggered");
+      case "search":
+        // Implement search logic
+        console.log("Search action triggered");
         break;
-      case "todos":
-        // Implement todos logic
-        console.log("Todos action triggered");
+      case "save-all":
+        // Implement save all logic
+        console.log("Save all action triggered");
         break;
-      case "checklists":
-        // Implement checklists logic
-        console.log("Checklists action triggered");
+      case "settings":
+        // Implement settings logic
+        console.log("Settings action triggered");
+        break;
+      case "start-voice-input":
+        // Implement voice input start logic
+        console.log("Voice input started");
+        break;
+      case "stop-voice-input":
+        // Implement voice input stop logic
+        console.log("Voice input stopped");
+        break;
+      case "open-ai-assistant":
+        // Implement AI assistant logic
+        console.log("AI assistant opened");
+        break;
+      case "share-whatsapp":
+        // Implement WhatsApp share logic
+        console.log("WhatsApp share triggered");
+        break;
+      case "share-email":
+        // Implement email share logic
+        console.log("Email share triggered");
         break;
       default:
         console.log(`Unknown action: ${action}`);
@@ -70,9 +91,11 @@
       <div class="p-4 sm:p-6 lg:p-8 pt-20 sm:pt-24 lg:pt-28 relative">
         <!-- Top Navigation Bar positioned within content -->
         <div class="absolute top-4 left-4 right-4 z-20">
-          <TopNavigationBar />
+          <TopNavigationBar on:action={handleTopNavAction} />
         </div>
         <div class="content-container rounded-3xl bg-base-100/90 backdrop-blur-xl shadow-2xl border-0 p-6 sm:p-8 pt-20">
+          <!-- Dashboard Tiles for current page -->
+          <DashboardTiles />
           <slot />
         </div>
       </div>
@@ -81,8 +104,11 @@
 
   <!-- Right Container -->
   <div class="flex-shrink-0">
-    <RightTileBar on:action={handleRightTileAction} />
+    <!-- Right tile bar functionality moved to TopNavigationBar -->
   </div>
+
+  <!-- Floating Action Buttons -->
+  <FloatingActionButtons on:action={handleTopNavAction} />
 </div>
 
 <style>
