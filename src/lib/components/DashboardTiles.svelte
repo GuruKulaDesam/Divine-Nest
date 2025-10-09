@@ -229,35 +229,23 @@
 </script>
 
 <div class="dashboard-tiles w-full">
-  <!-- Page Title Section (only for home page) -->
-  {#if $page.url.pathname === "/"}
-    <div class="relative overflow-hidden bg-gradient-to-r from-blue-50 via-purple-50 to-green-50 dark:from-gray-800 dark:via-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6 mx-6 mt-6 mb-4 border border-gray-200 dark:border-gray-700">
-      <!-- Background decorative elements -->
-      <div class="absolute top-0 right-0 w-16 h-16 opacity-10">
-        <Icon icon="heroicons:home" class="w-full h-full text-blue-600" />
-      </div>
-      <div class="absolute bottom-0 left-0 w-24 h-24 opacity-10">
-        <Icon icon="heroicons:sparkles" class="w-full h-full text-purple-600" />
-      </div>
-
-      <div class="relative flex items-center justify-between">
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">இல்லற வழிகாட்டி | Home Management Dashboard</h1>
-          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">October 10, 2025</p>
-          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 max-w-md">Complete overview of family, household, and daily management needs. Today's priorities at a glance.</p>
-        </div>
-        <div class="flex space-x-2">
-          <button class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-            <Icon icon="heroicons:plus" class="w-5 h-5 mr-2 inline" />
-            Quick Add
-          </button>
-        </div>
-      </div>
-    </div>
-  {/if}
-
-  <!-- Dashboard Tiles as Tabs -->
+  <!-- Dashboard Tiles as Tabs with Title Integration -->
   <div class="flex flex-wrap gap-2 p-6 border-b border-gray-300">
+    <!-- Title Section as Part of Tab Layout -->
+    {#if $page.url.pathname === "/"}
+      <div class="flex items-center space-x-4 pr-6 border-r border-gray-300 mr-4">
+        <div>
+          <h1 class="text-xl font-bold text-gray-900 dark:text-white">இல்லற வழிகாட்டி | Home Management Dashboard</h1>
+          <p class="text-xs text-gray-500 dark:text-gray-400">October 10, 2025</p>
+        </div>
+        <button class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-sm">
+          <Icon icon="heroicons:plus" class="w-4 h-4 mr-1 inline" />
+          Quick Add
+        </button>
+      </div>
+    {/if}
+
+    <!-- Horizontal Tabs -->
     {#each activeSubTiles as tile (tile.path)}
       <button class="tab-button group relative px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 {isTileActive(tile.path) ? 'bg-gray-200 text-gray-900 shadow-lg' : 'bg-transparent text-gray-700 hover:bg-gray-100'} border border-gray-300 hover:border-gray-400 hover:shadow-md" on:click={() => navigateTo(tile.path)}>
         <div class="flex items-center space-x-2">

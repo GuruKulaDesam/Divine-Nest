@@ -291,52 +291,6 @@
 
 <div class="left-tile-bar flex flex-col w-20 h-screen bg-transparent backdrop-blur-sm relative z-10 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);">
   <div class="p-2">
-    <div class="logo-container mb-3 flex items-center justify-center">
-      <div class="relative">
-        <!-- Compact logo for sidebar -->
-        <svg width="48" height="48" viewBox="0 0 48 48" class="drop-shadow-sm">
-          <defs>
-            <linearGradient id="sidebarGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#ec4899" />
-              <stop offset="50%" style="stop-color:#8b5cf6" />
-              <stop offset="100%" style="stop-color:#06b6d4" />
-            </linearGradient>
-            <filter id="sidebarGlow">
-              <feGaussianBlur stdDeviation="1" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          <!-- Mini lotus flower -->
-          <g transform="translate(6, 6)">
-            <circle cx="18" cy="18" r="14" fill="url(#sidebarGradient)" opacity="0.2" />
-            <circle cx="18" cy="18" r="7" fill="url(#sidebarGradient)" opacity="0.4" />
-            <!-- Petals -->
-            <ellipse cx="18" cy="4" rx="3" ry="6" fill="url(#sidebarGradient)" opacity="0.6" />
-            <ellipse cx="32" cy="18" rx="6" ry="3" fill="url(#sidebarGradient)" opacity="0.6" />
-            <ellipse cx="18" cy="32" rx="3" ry="6" fill="url(#sidebarGradient)" opacity="0.6" />
-            <ellipse cx="4" cy="18" rx="6" ry="3" fill="url(#sidebarGradient)" opacity="0.6" />
-            <!-- Center -->
-            <circle cx="18" cy="18" r="2" fill="url(#sidebarGradient)" />
-          </g>
-
-          <!-- Tamil "தா" text -->
-          <text x="24" y="42" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="url(#sidebarGradient)" text-anchor="middle" filter="url(#sidebarGlow)">தா</text>
-        </svg>
-
-        <!-- Tooltip on hover -->
-        <div class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-          <div class="bg-gray-900 dark:bg-gray-700 text-white px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
-            <div class="font-bold text-sm">தாய்வழி</div>
-            <div class="text-xs opacity-75">Matrilineal Heritage</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Single Column Main Tiles -->
     <div class="flex flex-col gap-2">
       {#each mainTiles as tile (tile.id)}
