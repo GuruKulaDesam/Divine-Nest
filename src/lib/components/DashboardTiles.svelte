@@ -228,14 +228,20 @@
   // Get the currently active main tile based on current path
   $: activeMainTile = mainTiles.find((tile) => tile.subTiles.some((subTile) => $page.url.pathname === subTile.path));
 
-  // Get sub-tiles for the active main tile only
+  // Get sub-tiles for the active main tile only with unique icon colors
   $: activeSubTiles = activeMainTile
-    ? activeMainTile.subTiles.map((subTile) => ({
-        ...subTile,
-        color: activeMainTile.color,
-        textColor: activeMainTile.textColor,
-        parentId: activeMainTile.id,
-      }))
+    ? activeMainTile.subTiles.map((subTile, index) => {
+        // Create complementary icon colors for each tile with better contrast
+        const iconColors = ["text-blue-600", "text-green-600", "text-purple-600", "text-orange-600", "text-pink-600", "text-indigo-600", "text-red-600", "text-teal-600", "text-amber-600", "text-cyan-600", "text-emerald-600", "text-violet-600"];
+        return {
+          ...subTile,
+          color: activeMainTile.color,
+          borderColor: activeMainTile.borderColor,
+          textColor: activeMainTile.textColor,
+          parentId: activeMainTile.id,
+          iconColor: iconColors[index % iconColors.length],
+        };
+      })
     : [];
 
   // Check if a tile path is currently active
@@ -250,50 +256,40 @@
 </script>
 
 <div class="dashboard-tiles w-full">
-  <!-- Dashboard Tiles Grid -->
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 p-6">
+  <!-- Dashboard Tiles as Tabs -->
+  <div class="flex flex-wrap gap-2 p-6 border-b border-white/20">
     {#each activeSubTiles as tile (tile.path)}
-      <div class="tile-card group relative rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl {isTileActive(tile.path) ? 'ring-2 ring-blue-500 shadow-lg' : ''}">
-        <button class="w-full h-24 bg-gradient-to-br {tile.color} hover:shadow-lg transition-all duration-200 flex flex-col items-center justify-center relative overflow-hidden p-3" on:click={() => navigateTo(tile.path)}>
-          <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
-
-          <div class="relative flex flex-col items-center justify-center h-full">
-            <div class="w-8 h-8 mb-2 text-white group-hover:scale-110 transition-transform duration-300">
-              <Icon icon={tile.icon} class="w-full h-full" />
-            </div>
-            <div class="text-xs font-medium text-white text-center leading-tight group-hover:text-white transition-colors duration-300">
-              {tile.label}
-            </div>
-            {#if isTileActive(tile.path)}
-              <div class="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full animate-pulse"></div>
-            {/if}
+      <button class="tab-button group relative px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 {isTileActive(tile.path) ? 'bg-white text-gray-900 shadow-lg' : 'bg-transparent text-white hover:bg-white/10'} border border-white/20 hover:border-white/40 hover:shadow-md" on:click={() => navigateTo(tile.path)}>
+        <div class="flex items-center space-x-2">
+          <div class="w-5 h-5 {tile.iconColor} group-hover:scale-110 transition-transform duration-300">
+            <Icon icon={tile.icon} class="w-full h-full" />
           </div>
-        </button>
-      </div>
+          <span class="text-sm font-medium whitespace-nowrap">
+            {tile.label}
+          </span>
+          {#if isTileActive(tile.path)}
+            <div class="w-2 h-2 bg-gray-900 rounded-full animate-pulse"></div>
+          {/if}
+        </div>
+      </button>
     {/each}
   </div>
-
-  <!-- Active Category Info -->
-  {#if activeMainTile}
-    <div class="px-6 pb-6">
-      <div class="text-center">
-        <h2 class="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-2">
-          {activeMainTile.label}
-        </h2>
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          {activeMainTile.description}
-        </p>
-      </div>
-    </div>
-  {/if}
 </div>
 
 <style>
-  .tile-card:hover {
-    transform: translateY(-2px);
+  .tab-button {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  .tile-card:active {
+  .tab-button:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .tab-button:active {
     transform: translateY(0);
   }
 </style>
