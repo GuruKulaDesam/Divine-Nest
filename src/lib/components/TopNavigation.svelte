@@ -3,7 +3,8 @@
   import Icon from "@iconify/svelte";
   import { generateUserAvatar, generateFallbackAvatar } from "../utils/avatar.js";
   import { users } from "../data/dashboard.js";
-  import { navigate, currentRoute, isNavigating } from "../router.js";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
   import { dropdownAnimations, motionHover } from "../utils/motion.js";
   import NotificationDropdown from "./NotificationDropdown.svelte";
   import MessageDropdown from "./MessageDropdown.svelte";
@@ -240,8 +241,8 @@
   ];
 
   // Determine which section we're in based on current route
-  $: currentSection = getCurrentSection($currentRoute);
-  $: currentPage = getCurrentPage($currentRoute);
+  $: currentSection = getCurrentSection($page.url.pathname);
+  $: currentPage = getCurrentPage($page.url.pathname);
   $: breadcrumbItems = getBreadcrumbItems(currentSection, currentPage);
 
   function getCurrentSection(route) {
@@ -330,19 +331,19 @@
   }
 
   function isTabActive(tabPath) {
-    return $currentRoute === tabPath;
+    return $page.url.pathname === tabPath;
   }
 
   function handleTabClick(path) {
-    navigate(path);
+    goto(path);
   }
 
   function handleBreadcrumbClick(path) {
-    navigate(path);
+    goto(path);
   }
 
   function handleTileClick(path) {
-    navigate(path);
+    goto(path);
   }
 
   // Header functions
@@ -394,24 +395,24 @@
   function handleLogout() {
     closeUserMenu();
     authActions.logout();
-    navigate("/auth/login");
+    goto("/auth/login");
   }
 
   function handleLogin() {
-    navigate("/auth/login");
+    goto("/auth/login");
   }
 
   function handleRegister() {
-    navigate("/auth/register");
+    goto("/auth/register");
   }
 
   function handleProfile() {
-    navigate("/profile");
+    goto("/profile");
     closeUserMenu();
   }
 
   function handleSettings() {
-    navigate("/settings");
+    goto("/settings");
     closeUserMenu();
   }
 
