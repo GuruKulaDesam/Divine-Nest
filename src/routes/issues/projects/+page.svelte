@@ -1,5 +1,5 @@
 <script>
-  import ProjectManagementPage from '$lib/pages/ProjectManagementPage.svelte';
+  import ProjectManagementPage from "$lib/components/ProjectManagementPage.svelte";
 </script>
 
 <ProjectManagementPage />

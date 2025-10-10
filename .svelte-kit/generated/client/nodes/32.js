@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/divinity/tamil-panchangam/+page.svelte";
+export { default as component } from "../../../../src/routes/divinity/panchangam/+page.svelte";

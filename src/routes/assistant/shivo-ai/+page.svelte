@@ -1,5 +1,5 @@
 <script>
-  import ShivoAIPage from '$lib/pages/ShivoAIPage.svelte';
+  import ShivoAIPage from "$lib/components/ShivoAIPage.svelte";
 </script>
 
 <ShivoAIPage />

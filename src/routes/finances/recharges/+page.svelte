@@ -1,5 +1,5 @@
 <script>
-  import RechargesPage from '$lib/pages/RechargesPage.svelte';
+  import RechargesPage from "$lib/components/RechargesPage.svelte";
 </script>
 
 <RechargesPage />

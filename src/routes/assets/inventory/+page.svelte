@@ -1,5 +1,5 @@
 <script>
-  import InventoryPage from '$lib/pages/InventoryPage.svelte';
+  import InventoryPage from "$lib/components/InventoryPage.svelte";
 </script>
 
 <InventoryPage />

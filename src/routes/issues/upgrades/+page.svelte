@@ -1,5 +1,5 @@
 <script>
-  import UpgradesPage from '$lib/pages/UpgradesPage.svelte';
+  import UpgradesPage from "$lib/components/UpgradesPage.svelte";
 </script>
 
 <UpgradesPage />

@@ -61,10 +61,10 @@
     /* scrollbar-width and scrollbar-color removed for better browser compatibility */
   }
 
-  /* Webkit scrollbar styling - Thin and transparent */
+  /* Webkit scrollbar styling - Thin and white/light */
   ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 2px;
+    height: 2px;
   }
 
   ::-webkit-scrollbar-track {
@@ -72,12 +72,30 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--bc) / 0.2);
-    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 1px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--bc) / 0.4);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Dark mode scrollbars */
+  [data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.6);
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.8);
+  }
+
+  /* Transparent mode scrollbars */
+  [data-theme="transparent"] ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  [data-theme="transparent"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
   }
 
   ::-webkit-scrollbar-corner {
@@ -85,10 +103,9 @@
   }
 
   /* Custom scrollbar for specific elements */
-
   .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 2px;
+    height: 2px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
@@ -96,12 +113,30 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: hsl(var(--bc) / 0.3);
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 1px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--bc) / 0.5);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Dark mode custom scrollbars */
+  [data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.6);
+  }
+
+  [data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.6);
+  }
+
+  /* Transparent mode custom scrollbars */
+  [data-theme="transparent"] .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  [data-theme="transparent"] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
   }
 
   /* Prevent horizontal overflow */

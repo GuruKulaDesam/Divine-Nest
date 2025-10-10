@@ -1,5 +1,5 @@
 <script>
-  import SettingsPage from '$lib/pages/SettingsPage.svelte';
+  import SettingsPage from "$lib/components/SettingsPage.svelte";
 </script>
 
 <SettingsPage />

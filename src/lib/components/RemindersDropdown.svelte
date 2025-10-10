@@ -15,21 +15,21 @@
       title: "Smart Reminders",
       description: "AI-powered reminder system",
       icon: "heroicons:clock",
-      path: "/reminders",
+      path: "/home/reminders",
       color: "text-blue-500",
     },
     {
       title: "Add Reminder",
       description: "Create a new reminder",
       icon: "heroicons:plus-circle",
-      path: "/reminders",
+      path: "/home/reminders",
       color: "text-green-500",
     },
     {
       title: "Today's Tasks",
       description: "View today's reminders",
       icon: "heroicons:calendar",
-      path: "/reminders",
+      path: "/home/reminders",
       color: "text-orange-500",
     },
   ];
@@ -81,6 +81,6 @@
 
   <!-- Footer -->
   <div class="p-3 border-t border-base-300 bg-base-50">
-    <button class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors" on:click={() => handleActionClick("/reminders")}> Open Full Reminders </button>
+    <button class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors" on:click={() => handleActionClick("/home/reminders")}> Open Full Reminders </button>
   </div>
 </div>

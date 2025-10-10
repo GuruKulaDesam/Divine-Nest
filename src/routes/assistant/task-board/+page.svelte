@@ -1,5 +1,5 @@
 <script>
-  import TaskBoardPage from '$lib/pages/TaskBoardPage.svelte';
+  import TaskBoardPage from "$lib/components/TaskBoardPage.svelte";
 </script>
 
 <TaskBoardPage />

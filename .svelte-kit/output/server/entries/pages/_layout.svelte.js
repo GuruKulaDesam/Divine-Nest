@@ -4,7 +4,7 @@ import { $ as $locale, r as registerLocaleLoader, i as init, w as waitLocale } f
 import { I as Icon } from "../../chunks/Icon.js";
 import "@sveltejs/kit/internal";
 import "../../chunks/exports.js";
-import "../../chunks/utils2.js";
+import "../../chunks/utils.js";
 import { T as escape_html } from "../../chunks/context.js";
 import "clsx";
 import "@sveltejs/kit/internal/server";
@@ -86,6 +86,7 @@ new Promise(async (resolve) => {
 function LeftTileBar($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
+    let currentSection = null;
     const mainTiles = [
       {
         id: "dashboard",
@@ -99,28 +100,48 @@ function LeftTileBar($$renderer, $$props) {
           { label: "Dashboard", path: "/", icon: "heroicons:home" },
           {
             label: "Household",
-            path: "/household",
+            path: "/home/household",
             icon: "heroicons:squares-2x2"
           },
           {
             label: "Family Members",
-            path: "/members",
+            path: "/home/members",
             icon: "heroicons:users"
           },
           {
             label: "Calendar",
-            path: "/family-calendar-modern",
+            path: "/home/family-calendar-modern",
             icon: "heroicons:calendar-days"
           },
           {
             label: "Notes",
-            path: "/family-notes-modern",
+            path: "/home/family-notes-modern",
             icon: "heroicons:document-text"
           },
           {
             label: "Reminders",
-            path: "/reminders",
+            path: "/home/reminders",
             icon: "heroicons:bell-alert"
+          },
+          {
+            label: "Personal Contacts",
+            path: "/home/contacts",
+            icon: "heroicons:phone"
+          },
+          {
+            label: "Emergency Contacts",
+            path: "/home/contacts/emergency",
+            icon: "heroicons:exclamation-triangle"
+          },
+          {
+            label: "Vendors & Services",
+            path: "/home/contacts/vendors",
+            icon: "heroicons:wrench"
+          },
+          {
+            label: "Service Directory",
+            path: "/home/contacts/directory",
+            icon: "heroicons:building-storefront"
           }
         ]
       },
@@ -132,9 +153,17 @@ function LeftTileBar($$renderer, $$props) {
         borderColor: "border-orange-500/50",
         textColor: "text-orange-600 dark:text-orange-400",
         description: "Spiritual & Religious",
+        routes: [
+          "/divinity",
+          "/divinity/panchangam",
+          "/divinity/rituals",
+          "/divinity/temple",
+          "/divinity/mantras"
+        ],
         subTiles: [
+          { label: "Dashboard", path: "/divinity", icon: "heroicons:sun" },
           {
-            label: "Tamil Panchangam",
+            label: "Panchangam",
             path: "/divinity/panchangam",
             icon: "heroicons:sun"
           },
@@ -144,50 +173,19 @@ function LeftTileBar($$renderer, $$props) {
             icon: "heroicons:sparkles"
           },
           {
-            label: "Temple Visits",
+            label: "Temples",
             path: "/divinity/temple",
             icon: "heroicons:building-storefront"
           },
           {
-            label: "Festival Calendar",
-            path: "/divinity/festival-calendar",
+            label: "Festivals",
+            path: "/culture/festival-calendar",
             icon: "heroicons:calendar"
           },
           {
             label: "Mantras",
             path: "/divinity/mantras",
             icon: "heroicons:musical-note"
-          }
-        ]
-      },
-      {
-        id: "contacts",
-        label: "Contacts",
-        icon: "heroicons:phone",
-        color: "from-green-500 to-green-600",
-        borderColor: "border-green-500/50",
-        textColor: "text-green-600 dark:text-green-400",
-        description: "People & Directory",
-        subTiles: [
-          {
-            label: "Personal Contacts",
-            path: "/contacts",
-            icon: "heroicons:phone"
-          },
-          {
-            label: "Emergency Contacts",
-            path: "/contacts/emergency",
-            icon: "heroicons:exclamation-triangle"
-          },
-          {
-            label: "Vendors & Services",
-            path: "/contacts/vendors",
-            icon: "heroicons:wrench"
-          },
-          {
-            label: "Service Directory",
-            path: "/contacts/directory",
-            icon: "heroicons:building-storefront"
           }
         ]
       },
@@ -201,18 +199,28 @@ function LeftTileBar($$renderer, $$props) {
         description: "Meals & Recipes",
         subTiles: [
           {
+            label: "Dashboard",
+            path: "/food",
+            icon: "heroicons:utensils"
+          },
+          {
             label: "Meals & Planning",
-            path: "/meals",
+            path: "/food/meals",
             icon: "heroicons:calendar-days"
           },
           {
             label: "Recipes",
-            path: "/recipes",
+            path: "/food/recipes",
             icon: "heroicons:book-open"
           },
           {
+            label: "Traditional Recipes",
+            path: "/food/recipes/traditional",
+            icon: "heroicons:document-text"
+          },
+          {
             label: "Grocery & Pantry",
-            path: "/grocery",
+            path: "/food/grocery",
             icon: "heroicons:shopping-cart"
           },
           {
@@ -236,15 +244,35 @@ function LeftTileBar($$renderer, $$props) {
             icon: "heroicons:user-group"
           },
           {
+            label: "Kitchen Meals",
+            path: "/food/kitchen/meals",
+            icon: "heroicons:utensils"
+          },
+          {
             label: "Cleaning Schedule",
             path: "/food/kitchen/cleaning",
             icon: "heroicons:sparkles"
+          },
+          {
+            label: "Kitchen Vendors",
+            path: "/food/kitchen/vendors",
+            icon: "heroicons:truck"
+          },
+          {
+            label: "Wellness Kitchen",
+            path: "/food/kitchen/wellness",
+            icon: "heroicons:heart"
+          },
+          {
+            label: "Festival Foods",
+            path: "/food/kitchen/festivals",
+            icon: "heroicons:cake"
           }
         ]
       },
       {
         id: "education",
-        label: "Learn",
+        label: "Learning",
         icon: "heroicons:academic-cap",
         color: "from-indigo-500 to-indigo-600",
         borderColor: "border-indigo-500/50",
@@ -491,16 +519,181 @@ function LeftTileBar($$renderer, $$props) {
             icon: "heroicons:truck"
           }
         ]
+      },
+      {
+        id: "culture",
+        label: "Culture",
+        icon: "heroicons:globe-asia-australia",
+        color: "from-amber-500 to-amber-600",
+        borderColor: "border-amber-500/50",
+        textColor: "text-amber-600 dark:text-amber-400",
+        description: "Traditions & Heritage",
+        subTiles: [
+          {
+            label: "Culture Dashboard",
+            path: "/culture",
+            icon: "heroicons:globe-asia-australia"
+          },
+          {
+            label: "Festival Calendar",
+            path: "/culture/festival-calendar",
+            icon: "heroicons:calendar"
+          },
+          {
+            label: "Things to Follow",
+            path: "/culture/things-to-follow",
+            icon: "heroicons:checklist"
+          },
+          {
+            label: "Things to Remember",
+            path: "/culture/things-to-remember",
+            icon: "heroicons:light-bulb"
+          },
+          {
+            label: "Daily Voice Guide",
+            path: "/culture/daily-voice-guide",
+            icon: "heroicons:microphone"
+          },
+          {
+            label: "Lifestyle Guide",
+            path: "/culture/lifestyle-guide",
+            icon: "heroicons:home"
+          },
+          {
+            label: "Places to Visit",
+            path: "/culture/places-to-visit",
+            icon: "heroicons:map-pin"
+          },
+          {
+            label: "Kolam Patterns",
+            path: "/culture/kolam",
+            icon: "heroicons:sparkles"
+          }
+        ]
+      },
+      {
+        id: "travel",
+        label: "Travel",
+        icon: "heroicons:map",
+        color: "from-cyan-500 to-cyan-600",
+        borderColor: "border-cyan-500/50",
+        textColor: "text-cyan-600 dark:text-cyan-400",
+        description: "Trips & Journeys",
+        subTiles: [
+          {
+            label: "Travel Dashboard",
+            path: "/travel",
+            icon: "heroicons:map"
+          },
+          {
+            label: "Trip History",
+            path: "/travel/trips",
+            icon: "heroicons:calendar-days"
+          },
+          {
+            label: "Community",
+            path: "/travel/community",
+            icon: "heroicons:users"
+          },
+          {
+            label: "Leisure",
+            path: "/travel/leisure",
+            icon: "heroicons:sparkles"
+          }
+        ]
+      },
+      {
+        id: "issues",
+        label: "Issues",
+        icon: "heroicons:exclamation-triangle",
+        color: "from-red-500 to-red-600",
+        borderColor: "border-red-500/50",
+        textColor: "text-red-600 dark:text-red-400",
+        description: "Problems & Maintenance",
+        subTiles: [
+          {
+            label: "Issues Dashboard",
+            path: "/issues",
+            icon: "heroicons:exclamation-triangle"
+          },
+          {
+            label: "Urgent Issues",
+            path: "/issues/urgent",
+            icon: "heroicons:bolt"
+          },
+          {
+            label: "Repairs",
+            path: "/issues/repairs",
+            icon: "heroicons:wrench-screwdriver"
+          },
+          {
+            label: "Upgrades",
+            path: "/issues/upgrades",
+            icon: "heroicons:arrow-trending-up"
+          },
+          {
+            label: "Projects",
+            path: "/issues/projects",
+            icon: "heroicons:clipboard-document-list"
+          },
+          {
+            label: "Maintenance",
+            path: "/issues/maintenance",
+            icon: "heroicons:cog"
+          },
+          {
+            label: "Requests",
+            path: "/issues/requests",
+            icon: "heroicons:chat-bubble-left-right"
+          }
+        ]
+      },
+      {
+        id: "memories",
+        label: "Memories",
+        icon: "heroicons:photo",
+        color: "from-rose-500 to-rose-600",
+        borderColor: "border-rose-500/50",
+        textColor: "text-rose-600 dark:text-rose-400",
+        description: "Family History & Stories",
+        subTiles: [
+          {
+            label: "Memories Dashboard",
+            path: "/memories",
+            icon: "heroicons:photo"
+          },
+          {
+            label: "Family Stories",
+            path: "/memories/family-stories",
+            icon: "heroicons:book-open"
+          },
+          {
+            label: "Legacy",
+            path: "/memories/legacy",
+            icon: "heroicons:shield-check"
+          },
+          {
+            label: "Family Governance",
+            path: "/memories/family-governance",
+            icon: "heroicons:scale"
+          },
+          {
+            label: "Lifeflow",
+            path: "/memories/lifeflow",
+            icon: "heroicons:arrows-right-left"
+          }
+        ]
       }
     ];
     function isTileActive(tile) {
       return tile.subTiles.some((subTile) => store_get($$store_subs ??= {}, "$page", page).url.pathname === subTile.path);
     }
-    $$renderer2.push(`<div class="left-tile-bar flex flex-col w-20 h-screen bg-transparent backdrop-blur-sm relative z-10 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);"><div class="p-2"><div class="flex flex-col gap-2"><!--[-->`);
+    mainTiles.find((tile) => isTileActive(tile));
+    $$renderer2.push(`<div class="left-tile-bar flex h-screen bg-white/10 dark:bg-gray-900/20 backdrop-blur-2xl border-r border-white/20 dark:border-gray-700/30 shadow-2xl z-50 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);"><div class="w-20 flex flex-col"><div class="p-2"><div class="flex flex-col gap-2"><!--[-->`);
     const each_array = ensure_array_like(mainTiles);
     for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
       let tile = each_array[$$index];
-      $$renderer2.push(`<div class="relative"><button class="tile-button group relative w-full aspect-square rounded-xl border-0 transition-all duration-300 hover:shadow-lg hover:scale-105"><div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(tile.color)} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl`, "svelte-wwrruu")}></div> <div class="relative flex flex-col items-center justify-center h-full p-2"><div${attr_class(`w-6 h-6 mb-1 ${stringify(tile.textColor)} group-hover:scale-110 transition-transform duration-300`, "svelte-wwrruu")}>`);
+      $$renderer2.push(`<div class="relative"><button${attr_class(`tile-button group relative w-full aspect-square rounded-xl border-0 transition-all duration-300 hover:shadow-lg hover:scale-105 ${stringify(currentSection === tile.id ? "ring-2 ring-primary ring-offset-2 ring-offset-base-100" : "")}`)}><div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(tile.color)} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl`, "svelte-wwrruu")}></div> <div class="relative flex flex-col items-center justify-center h-full p-2"><div${attr_class(`w-6 h-6 mb-1 ${stringify(tile.textColor)} group-hover:scale-110 transition-transform duration-300`, "svelte-wwrruu")}>`);
       Icon($$renderer2, { icon: tile.icon, class: "w-full h-full" });
       $$renderer2.push(`<!----></div> <div class="text-[10px] font-medium text-base-content group-hover:text-primary transition-colors duration-300 text-center leading-tight">${escape_html(tile.label)}</div> `);
       if (isTileActive(tile)) {
@@ -511,7 +704,11 @@ function LeftTileBar($$renderer, $$props) {
       }
       $$renderer2.push(`<!--]--></div></button></div>`);
     }
-    $$renderer2.push(`<!--]--></div></div> `);
+    $$renderer2.push(`<!--]--></div></div></div> `);
+    {
+      $$renderer2.push("<!--[!-->");
+    }
+    $$renderer2.push(`<!--]--> `);
     {
       $$renderer2.push("<!--[!-->");
     }
@@ -522,176 +719,196 @@ function LeftTileBar($$renderer, $$props) {
 function TopNavigationBar($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
-    const ribbonGroups = [
+    const requestCategories = [
       {
-        id: "create",
-        label: "Create",
-        icon: "heroicons:plus-circle",
-        color: "from-emerald-500 to-teal-600",
-        textColor: "text-emerald-600 dark:text-emerald-400",
-        items: [
-          {
-            label: "Task",
-            icon: "heroicons:clipboard-document-list",
-            path: "/todo",
-            shortcut: "Ctrl+T"
-          },
-          {
-            label: "Note",
-            icon: "heroicons:document-text",
-            path: "/family-notes-modern",
-            shortcut: "Ctrl+N"
-          },
-          {
-            label: "Event",
-            icon: "heroicons:calendar-days",
-            path: "/family-calendar-modern",
-            shortcut: "Ctrl+E"
-          },
-          {
-            label: "Reminder",
-            icon: "heroicons:bell-alert",
-            path: "/reminders",
-            shortcut: "Ctrl+R"
-          }
-        ]
+        id: "urgents",
+        title: "Urgents",
+        icon: "heroicons:exclamation-triangle",
+        color: "from-red-500 to-red-600",
+        borderColor: "border-red-400",
+        bgColor: "bg-red-50 dark:bg-red-900/20",
+        textColor: "text-red-700 dark:text-red-300",
+        metric: "3",
+        path: "/issues/urgent"
       },
       {
-        id: "voice",
-        label: "Voice & AI",
-        icon: "heroicons:microphone",
-        color: "from-purple-500 to-pink-600",
-        textColor: "text-purple-600 dark:text-purple-400",
-        items: [
-          {
-            label: "Record",
-            icon: "heroicons:microphone",
-            path: "/recordings",
-            shortcut: "Ctrl+V"
-          },
-          {
-            label: "AI",
-            icon: "heroicons:sparkles",
-            path: "/shivo-ai",
-            shortcut: "Ctrl+A"
-          },
-          {
-            label: "Voice Cmd",
-            icon: "heroicons:chat-bubble-left-right",
-            action: "voice-command",
-            shortcut: "Ctrl+Shift+V"
-          },
-          {
-            label: "Agentic",
-            icon: "heroicons:robot",
-            path: "/shivo-agentic",
-            shortcut: "Ctrl+Shift+A"
-          }
-        ]
+        id: "repairs",
+        title: "Repairs",
+        icon: "heroicons:wrench-screwdriver",
+        color: "from-orange-500 to-orange-600",
+        borderColor: "border-orange-400",
+        bgColor: "bg-orange-50 dark:bg-orange-900/20",
+        textColor: "text-orange-700 dark:text-orange-300",
+        metric: "7",
+        path: "/issues/repairs"
       },
       {
-        id: "quick-actions",
-        label: "Quick Actions",
-        icon: "heroicons:bolt",
-        color: "from-blue-500 to-cyan-600",
-        textColor: "text-blue-600 dark:text-blue-400",
-        items: [
-          {
-            label: "Quick Task",
-            icon: "heroicons:bolt",
-            action: "quick-task",
-            shortcut: "Ctrl+Q"
-          },
-          {
-            label: "Quick Note",
-            icon: "heroicons:pencil-square",
-            action: "quick-note",
-            shortcut: "Ctrl+Shift+N"
-          },
-          {
-            label: "Schedule",
-            icon: "heroicons:clock",
-            action: "quick-schedule",
-            shortcut: "Ctrl+Shift+E"
-          },
-          {
-            label: "Search",
-            icon: "heroicons:magnifying-glass",
-            action: "search",
-            shortcut: "Ctrl+F"
-          }
-        ]
+        id: "inventory",
+        title: "Inventory",
+        icon: "heroicons:archive-box",
+        color: "from-yellow-500 to-yellow-600",
+        borderColor: "border-yellow-400",
+        bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
+        textColor: "text-yellow-700 dark:text-yellow-300",
+        metric: "8",
+        path: "/inventory"
       },
       {
-        id: "manage",
-        label: "Manage",
+        id: "maintenance",
+        title: "Maintenance",
         icon: "heroicons:cog-6-tooth",
-        color: "from-orange-500 to-red-600",
-        textColor: "text-orange-600 dark:text-orange-400",
-        items: [
-          {
-            label: "Save All",
-            icon: "heroicons:document-check",
-            action: "save-all",
-            shortcut: "Ctrl+S"
-          },
-          {
-            label: "Settings",
-            icon: "heroicons:cog-6-tooth",
-            action: "settings",
-            shortcut: "Ctrl+,"
-          },
-          {
-            label: "Share",
-            icon: "heroicons:share",
-            action: "share-whatsapp",
-            shortcut: "Ctrl+Shift+S"
-          },
-          {
-            label: "Export",
-            icon: "heroicons:arrow-down-tray",
-            action: "export-data",
-            shortcut: "Ctrl+E"
-          }
-        ]
+        color: "from-blue-500 to-blue-600",
+        borderColor: "border-blue-400",
+        bgColor: "bg-blue-50 dark:bg-blue-900/20",
+        textColor: "text-blue-700 dark:text-blue-300",
+        metric: "12",
+        path: "/issues/maintenance"
+      },
+      {
+        id: "expenses",
+        title: "Expenses",
+        icon: "heroicons:credit-card",
+        color: "from-emerald-500 to-emerald-600",
+        borderColor: "border-emerald-400",
+        bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+        textColor: "text-emerald-700 dark:text-emerald-300",
+        metric: "₹8.3K",
+        path: "/finances/expenses"
+      },
+      {
+        id: "reminders",
+        title: "Reminders",
+        icon: "heroicons:bell-alert",
+        color: "from-cyan-500 to-cyan-600",
+        borderColor: "border-cyan-400",
+        bgColor: "bg-cyan-50 dark:bg-cyan-900/20",
+        textColor: "text-cyan-700 dark:text-cyan-300",
+        metric: "4",
+        path: "/reminders"
+      },
+      {
+        id: "savings",
+        title: "Savings",
+        icon: "heroicons:banknotes",
+        color: "from-teal-500 to-teal-600",
+        borderColor: "border-teal-400",
+        bgColor: "bg-teal-50 dark:bg-teal-900/20",
+        textColor: "text-teal-700 dark:text-teal-300",
+        metric: "₹45K",
+        path: "/finances"
+      },
+      {
+        id: "tasks",
+        title: "Tasks",
+        icon: "heroicons:clipboard-document-list",
+        color: "from-indigo-500 to-indigo-600",
+        borderColor: "border-indigo-400",
+        bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
+        textColor: "text-indigo-700 dark:text-indigo-300",
+        metric: "15",
+        path: "/assistant/task-board"
+      },
+      {
+        id: "bills",
+        title: "Bills",
+        icon: "heroicons:currency-rupee",
+        color: "from-purple-500 to-purple-600",
+        borderColor: "border-purple-400",
+        bgColor: "bg-purple-50 dark:bg-purple-900/20",
+        textColor: "text-purple-700 dark:text-purple-300",
+        metric: "₹12.5K",
+        path: "/finances"
+      },
+      {
+        id: "events",
+        title: "Events",
+        icon: "heroicons:calendar-days",
+        color: "from-pink-500 to-pink-600",
+        borderColor: "border-pink-400",
+        bgColor: "bg-pink-50 dark:bg-pink-900/20",
+        textColor: "text-pink-700 dark:text-pink-300",
+        metric: "6",
+        path: "/home/family-calendar-modern"
+      },
+      {
+        id: "upgrades",
+        title: "Upgrades",
+        icon: "heroicons:arrow-trending-up",
+        color: "from-green-500 to-green-600",
+        borderColor: "border-green-400",
+        bgColor: "bg-green-50 dark:bg-green-900/20",
+        textColor: "text-green-700 dark:text-green-300",
+        metric: "5",
+        path: "/issues/upgrades"
+      },
+      {
+        id: "assets",
+        title: "Assets",
+        icon: "heroicons:building-office",
+        color: "from-amber-500 to-amber-600",
+        borderColor: "border-amber-400",
+        bgColor: "bg-amber-50 dark:bg-amber-900/20",
+        textColor: "text-amber-700 dark:text-amber-300",
+        metric: "₹2.5L",
+        path: "/assets"
       }
     ];
-    function isItemActive(item) {
-      return store_get($$store_subs ??= {}, "$page", page).url.pathname === item.path;
+    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-white/10 dark:bg-gray-900/20 backdrop-blur-2xl border-b border-white/20 dark:border-gray-700/30 shadow-2xl z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/5 via-transparent to-white/5 svelte-1qkqwru"><div class="flex flex-col items-center space-y-2 flex-shrink-0 svelte-1qkqwru"><div class="relative flex items-center justify-center w-28 h-16 overflow-hidden shadow-lg rounded-lg svelte-1qkqwru" style="clip-path: polygon(50% 0%, 55% 15%, 70% 5%, 75% 25%, 90% 15%, 95% 35%, 100% 25%, 90% 45%, 100% 55%, 85% 65%, 95% 75%, 75% 85%, 85% 95%, 65% 90%, 50% 100%, 35% 90%, 15% 95%, 25% 85%, 5% 75%, 15% 65%, 0% 55%, 10% 45%, 0% 25%, 5% 35%, 10% 15%, 25% 25%, 30% 5%, 45% 15%);"><div class="absolute inset-0 bg-gradient-to-br from-pink-300 via-pink-400 to-pink-500 rounded-lg svelte-1qkqwru"></div> <div class="absolute inset-0 bg-gradient-to-t from-pink-600/60 via-transparent to-pink-200/40 svelte-1qkqwru"></div> <span class="text-sm font-bold text-white leading-tight relative z-10 drop-shadow-lg svelte-1qkqwru" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(255,255,255,0.4); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்வழி</span></div> <div class="flex flex-col items-center text-center svelte-1qkqwru"><span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">Home Maker</span></div></div> <div class="flex-1 flex justify-center mx-6 svelte-1qkqwru"><div class="grid grid-cols-12 grid-rows-1 gap-2 max-w-full svelte-1qkqwru"><!--[-->`);
+    const each_array = ensure_array_like(requestCategories);
+    for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
+      let category = each_array[$$index];
+      $$renderer2.push(`<div${attr_class(`group relative bg-transparent border border-dashed ${stringify(category.borderColor)} rounded-lg pt-2.5 pb-3 px-2 aspect-square cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-0.5 hover:rotate-1 flex flex-col items-center justify-center overflow-hidden`, "svelte-1qkqwru")} role="button" tabindex="0"><div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(category.color)} opacity-0 group-hover:opacity-20 rounded-md transition-all duration-300 group-hover:animate-pulse`, "svelte-1qkqwru")}></div> <div class="relative z-10 flex flex-col items-center justify-center h-full text-center w-full svelte-1qkqwru"><div class="mb-2 svelte-1qkqwru"><div class="bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-full shadow-sm transition-all duration-300 svelte-1qkqwru"><span${attr_class(`text-[19.8px] font-sans font-bold ${stringify(category.textColor)} group-hover:scale-110 transition-transform duration-300`, "svelte-1qkqwru")} style="font-family: 'Segoe UI', 'Helvetica Neue', 'DIN Alternate', sans-serif;">${escape_html(category.metric)}</span></div></div> <div class="mt-2 svelte-1qkqwru"><span class="font-medium text-gray-900 dark:text-white text-xs leading-tight block transition-colors duration-300 svelte-1qkqwru">${escape_html(category.title)}</span></div></div> <div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(category.color)} opacity-0 group-active:opacity-30 rounded-lg transition-opacity duration-150 pointer-events-none`, "svelte-1qkqwru")}></div></div>`);
     }
-    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-transparent backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30 shadow-sm z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-2 min-h-[60px] max-w-full svelte-1qkqwru"><div class="flex items-center space-x-4 flex-shrink-0 svelte-1qkqwru"><div class="flex items-center space-x-2 svelte-1qkqwru"><div class="flex flex-col items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 rounded-xl shadow-lg p-1 svelte-1qkqwru"><span class="text-xs font-bold text-white leading-tight svelte-1qkqwru" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்</span> <span class="text-xs font-bold text-white leading-tight svelte-1qkqwru" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">வழி</span></div> <div class="flex flex-col svelte-1qkqwru"><span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">Home Maker</span></div></div></div> <div class="flex-1 flex justify-center mx-4 svelte-1qkqwru"><div class="flex items-stretch overflow-x-auto svelte-1qkqwru"><!--[-->`);
-    const each_array = ensure_array_like(ribbonGroups);
-    for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
-      let group = each_array[$$index_1];
-      $$renderer2.push(`<div class="ribbon-group-separator flex flex-col items-center space-x-1 px-4 py-2 border-r-2 border-gray-300/60 dark:border-gray-600/60 last:border-r-0 relative svelte-1qkqwru"><div class="text-[9px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 svelte-1qkqwru">${escape_html(group.label)}</div> <div class="flex items-center space-x-0.5 svelte-1qkqwru"><!--[-->`);
-      const each_array_1 = ensure_array_like(group.items);
-      for (let $$index = 0, $$length2 = each_array_1.length; $$index < $$length2; $$index++) {
-        let item = each_array_1[$$index];
-        $$renderer2.push(`<button${attr_class(
-          `group relative flex flex-col items-center justify-center w-12 h-10 rounded hover:bg-white/90 dark:hover:bg-gray-700/90 transition-all duration-150 border border-transparent hover:border-gray-300/60 dark:hover:border-gray-600/60 ${stringify(isItemActive(item) ? "bg-blue-50/90 dark:bg-blue-900/50 border-blue-200/70 dark:border-blue-800/70" : "")}`,
-          "svelte-1qkqwru"
-        )}${attr("title", `${stringify(item.label)}${stringify(item.shortcut ? ` (${item.shortcut})` : "")}`)}${attr("aria-label", item.label)}><div${attr_class(`w-4 h-4 ${stringify(group.textColor)} group-hover:scale-110 transition-transform duration-200 mb-0.5`, "svelte-1qkqwru")}>`);
-        Icon($$renderer2, { icon: item.icon, class: "w-full h-full" });
-        $$renderer2.push(`<!----></div> <span class="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight text-center svelte-1qkqwru">${escape_html(item.label.split(" ")[0])}</span> `);
-        if (isItemActive(item)) {
-          $$renderer2.push("<!--[-->");
-          $$renderer2.push(`<div class="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-500 rounded-full svelte-1qkqwru"></div>`);
-        } else {
-          $$renderer2.push("<!--[!-->");
-        }
-        $$renderer2.push(`<!--]--></button>`);
-      }
-      $$renderer2.push(`<!--]--></div></div>`);
-    }
-    $$renderer2.push(`<!--]--></div></div> <div class="flex items-center space-x-2 flex-shrink-0 svelte-1qkqwru"><button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru" title="Search (Ctrl+F)">`);
-    Icon($$renderer2, { icon: "heroicons:magnifying-glass", class: "w-5 h-5" });
-    $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru"${attr("title", `Toggle Theme (${stringify(store_get($$store_subs ??= {}, "$theme", theme))})`)}>`);
-    Icon($$renderer2, { icon: "heroicons:swatch", class: "w-5 h-5" });
-    $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru"${attr("title", `Toggle Background (${stringify(store_get($$store_subs ??= {}, "$background", background))})`)}>`);
-    Icon($$renderer2, { icon: "heroicons:photo", class: "w-5 h-5" });
-    $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru" title="Settings (Ctrl+,)">`);
-    Icon($$renderer2, { icon: "heroicons:cog-6-tooth", class: "w-5 h-5" });
-    $$renderer2.push(`<!----></button> <div class="relative group svelte-1qkqwru"><button class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 svelte-1qkqwru">U</button> <div class="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm svelte-1qkqwru"><div class="p-3 border-b border-gray-200 dark:border-gray-700 svelte-1qkqwru"><div class="text-sm font-medium text-gray-900 dark:text-white svelte-1qkqwru">User Name</div> <div class="text-xs text-gray-500 dark:text-gray-400 svelte-1qkqwru">user@example.com</div></div> <div class="py-1 svelte-1qkqwru"><button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 svelte-1qkqwru">Profile Settings</button> <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 svelte-1qkqwru">Preferences</button> <button class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150 svelte-1qkqwru">Sign Out</button></div></div></div></div></div></div>`);
+    $$renderer2.push(`<!--]--></div></div> <div class="flex items-center flex-shrink-0 svelte-1qkqwru"><div class="relative group svelte-1qkqwru"><button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru" title="Menu">`);
+    Icon($$renderer2, {
+      icon: "heroicons:bars-3",
+      class: "w-6 h-6",
+      style: "color: currentColor; fill: currentColor;"
+    });
+    $$renderer2.push(`<!----></button> <div class="absolute right-0 top-full mt-2 w-80 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm max-h-96 overflow-y-auto svelte-1qkqwru"><div class="p-3 svelte-1qkqwru"><div class="mb-4 svelte-1qkqwru"><div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 svelte-1qkqwru">Quick Actions</div> <button class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 svelte-1qkqwru">`);
+    Icon($$renderer2, {
+      icon: "heroicons:magnifying-glass",
+      class: "w-4 h-4 text-gray-500 flex-shrink-0"
+    });
+    $$renderer2.push(`<!----> <span class="svelte-1qkqwru">Search (Ctrl+F)</span></button> <button class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 svelte-1qkqwru">`);
+    Icon($$renderer2, {
+      icon: "heroicons:cog-6-tooth",
+      class: "w-4 h-4 text-gray-500 flex-shrink-0"
+    });
+    $$renderer2.push(`<!----> <span class="svelte-1qkqwru">Settings (Ctrl+,)</span></button></div> <div class="mb-4 svelte-1qkqwru"><div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 svelte-1qkqwru">Theme</div> <div class="grid grid-cols-3 gap-1 svelte-1qkqwru"><button${attr_class(
+      `flex flex-col items-center gap-1 p-2 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$theme", theme) === "light" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Light</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-2 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$theme", theme) === "dark" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-600 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Dark</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-2 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$theme", theme) === "transparent" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-r from-blue-400 to-green-400 border border-transparent opacity-80 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Glass</span></button></div></div> <div class="mb-4 svelte-1qkqwru"><div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 svelte-1qkqwru">Background</div> <div class="grid grid-cols-4 gap-1 svelte-1qkqwru"><button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "transparent" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-transparent border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Trans</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "nature" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-br from-green-400 to-blue-500 border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Nature</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "ocean" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-br from-blue-400 to-blue-800 border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Ocean</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "sunset" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Sunset</span></button></div> <div class="grid grid-cols-4 gap-1 mt-1 svelte-1qkqwru"><button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "mountain" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-t from-gray-400 to-gray-200 border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Mount</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "forest" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-br from-green-600 to-green-800 border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Forest</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "night" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-br from-indigo-900 via-purple-900 to-black border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Night</span></button> <button${attr_class(
+      `flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 ${stringify(store_get($$store_subs ??= {}, "$background", background) === "gradient" ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700")}`,
+      "svelte-1qkqwru"
+    )}><div class="w-3 h-3 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 border border-gray-300 svelte-1qkqwru"></div> <span class="svelte-1qkqwru">Grad</span></button></div></div> <div class="border-t border-gray-200 dark:border-gray-600 pt-3 svelte-1qkqwru"><div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 svelte-1qkqwru">Account</div> <div class="flex items-center gap-3 p-2 mb-2 svelte-1qkqwru"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm svelte-1qkqwru">U</div> <div class="flex-1 min-w-0 svelte-1qkqwru"><div class="text-sm font-medium text-gray-900 dark:text-white truncate svelte-1qkqwru">User Name</div> <div class="text-xs text-gray-500 dark:text-gray-400 truncate svelte-1qkqwru">user@example.com</div></div></div> <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 rounded-lg svelte-1qkqwru">Profile Settings</button> <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 rounded-lg svelte-1qkqwru">Preferences</button> <button class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150 rounded-lg svelte-1qkqwru">Sign Out</button></div></div></div></div></div></div></div>`);
     if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }
@@ -713,27 +930,27 @@ function DashboardTiles($$renderer, $$props) {
           { label: "Dashboard", path: "/", icon: "heroicons:home" },
           {
             label: "Household",
-            path: "/household",
+            path: "/home/household",
             icon: "heroicons:squares-2x2"
           },
           {
             label: "Family Members",
-            path: "/members",
+            path: "/home/members",
             icon: "heroicons:users"
           },
           {
             label: "Calendar",
-            path: "/family-calendar-modern",
+            path: "/home/family-calendar-modern",
             icon: "heroicons:calendar-days"
           },
           {
             label: "Notes",
-            path: "/family-notes-modern",
+            path: "/home/family-notes-modern",
             icon: "heroicons:document-text"
           },
           {
             label: "Reminders",
-            path: "/reminders",
+            path: "/home/reminders",
             icon: "heroicons:bell-alert"
           }
         ]
@@ -750,27 +967,27 @@ function DashboardTiles($$renderer, $$props) {
         subTiles: [
           {
             label: "Tamil Panchangam",
-            path: "/tamil-panchangam",
+            path: "/divinity/panchangam",
             icon: "heroicons:sun"
           },
           {
             label: "Rituals",
-            path: "/rituals",
+            path: "/divinity/rituals",
             icon: "heroicons:sparkles"
           },
           {
             label: "Temple Visits",
-            path: "/temple",
+            path: "/divinity/temple",
             icon: "heroicons:building-storefront"
           },
           {
             label: "Festival Calendar",
-            path: "/festival-calendar",
+            path: "/culture/festival-calendar",
             icon: "heroicons:calendar"
           },
           {
             label: "Mantras",
-            path: "/mantras",
+            path: "/divinity/mantras",
             icon: "heroicons:musical-note"
           }
         ]
@@ -787,22 +1004,22 @@ function DashboardTiles($$renderer, $$props) {
         subTiles: [
           {
             label: "Personal Contacts",
-            path: "/contacts",
+            path: "/home/contacts",
             icon: "heroicons:phone"
           },
           {
             label: "Emergency Contacts",
-            path: "/emergency",
+            path: "/home/contacts/emergency",
             icon: "heroicons:exclamation-triangle"
           },
           {
             label: "Vendors & Services",
-            path: "/vendors",
+            path: "/home/contacts/vendors",
             icon: "heroicons:wrench"
           },
           {
             label: "Service Directory",
-            path: "/directory",
+            path: "/home/contacts/directory",
             icon: "heroicons:building-storefront"
           }
         ]
@@ -819,17 +1036,17 @@ function DashboardTiles($$renderer, $$props) {
         subTiles: [
           {
             label: "Meals & Planning",
-            path: "/meals",
+            path: "/food/meals",
             icon: "heroicons:calendar-days"
           },
           {
             label: "Recipes",
-            path: "/recipes",
+            path: "/food/recipes",
             icon: "heroicons:book-open"
           },
           {
             label: "Grocery & Pantry",
-            path: "/grocery",
+            path: "/food/grocery",
             icon: "heroicons:shopping-cart"
           },
           {
@@ -839,7 +1056,7 @@ function DashboardTiles($$renderer, $$props) {
           },
           {
             label: "Kitchen Dashboard",
-            path: "/kitchen",
+            path: "/food/kitchen",
             icon: "heroicons:home"
           },
           {
@@ -1174,7 +1391,7 @@ function DashboardTiles($$renderer, $$props) {
     currentSectionData = mainTiles.find((tile) => tile.id === currentSection);
     $$renderer2.push(`<div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6"><div class="max-w-7xl mx-auto"><div class="mb-8"><h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center gap-3">`);
     Icon($$renderer2, { icon: "heroicons:home", class: "text-indigo-600" });
-    $$renderer2.push(`<!----> 🏠 Home Management Dashboard</h1> <p class="text-gray-600 text-lg">Manage your household, family, and daily activities</p></div> <div class="flex gap-6"><div class="w-80 flex-shrink-0"><div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
+    $$renderer2.push(`<!----> 🏠 Home Management Dashboard</h1> <p class="text-gray-600 text-lg">Manage your household, family, and daily activities</p></div> <div class="flex gap-6"><div class="w-60 flex-shrink-0"><div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
     Icon($$renderer2, { icon: "heroicons:squares-2x2", class: "text-indigo-500" });
     $$renderer2.push(`<!----> ${escape_html(currentSectionData?.label || "Home")} Menu</h3> <div class="space-y-2">`);
     if (currentSectionData) {
@@ -1337,7 +1554,7 @@ function DashboardLayout($$renderer, $$props) {
     themeActions.init();
     backgroundActions.init();
     currentPath = store_get($$store_subs ??= {}, "$page", page).url.pathname;
-    $$renderer2.push(`<div class="flex h-screen bg-base-200 nature-background svelte-b38hhi" data-theme="modern" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80')"><div class="fixed top-0 left-0 right-0 z-50">`);
+    $$renderer2.push(`<div class="relative flex h-screen bg-base-200 svelte-b38hhi"${attr("data-theme", store_get($$store_subs ??= {}, "$theme", theme))}><div${attr_class(`fixed inset-0 ${stringify(store_get($$store_subs ??= {}, "$theme", theme) === "transparent" ? "transparent-background" : "")} nature-background z-0`, "svelte-b38hhi")} style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80')"></div> <div class="relative z-10 flex w-full"><div class="fixed top-0 left-0 right-0 z-50">`);
     TopNavigationBar($$renderer2);
     $$renderer2.push(`<!----></div> <div class="flex-shrink-0 pt-32">`);
     LeftTileBar($$renderer2);
@@ -1347,7 +1564,7 @@ function DashboardLayout($$renderer, $$props) {
       DashboardTiles($$renderer2);
     } else {
       $$renderer2.push("<!--[!-->");
-      $$renderer2.push(`<div class="p-4 sm:p-6 lg:p-8 relative"><div class="content-container rounded-3xl border-0 p-6 sm:p-8 svelte-b38hhi"><div class="mb-6 flex items-center space-x-2 text-sm"><button class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">`);
+      $$renderer2.push(`<div class="p-4 sm:p-6 lg:p-8 relative"><div class="content-container rounded-[2rem] border-0 p-6 sm:p-8 svelte-b38hhi"><div class="mb-6 flex items-center space-x-2 text-sm"><button class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">`);
       Icon($$renderer2, { icon: "heroicons:home", class: "w-4 h-4" });
       $$renderer2.push(`<!----> <span>Home</span></button> `);
       Icon($$renderer2, {
@@ -1360,7 +1577,7 @@ function DashboardLayout($$renderer, $$props) {
     }
     $$renderer2.push(`<!--]--></main></div> <div class="flex-shrink-0"></div> `);
     FloatingActionButtons($$renderer2);
-    $$renderer2.push(`<!----> <div class="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50"><a href="https://www.gurukulavasam.org" target="_blank" rel="noopener noreferrer" class="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200 flex items-center space-x-1"><span>Gurukulavasam</span> <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div></div>`);
+    $$renderer2.push(`<!----> <div class="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50"><a href="https://www.gurukulavasam.org" target="_blank" rel="noopener noreferrer" class="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200 flex items-center space-x-1"><span>Gurukulavasam</span> <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div></div></div>`);
     if ($$store_subs) unsubscribe_stores($$store_subs);
   });
 }

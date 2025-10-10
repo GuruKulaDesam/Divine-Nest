@@ -1,24 +1,9 @@
 import "clsx";
 import { a as ensure_array_like, b as attr_class, g as clsx, j as attr_style, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import Dexie from "dexie";
+import { g as getStudyPlans } from "../../../../chunks/education.js";
 import { T as escape_html } from "../../../../chunks/context.js";
 import "../../../../chunks/database.js";
-class EducationDB extends Dexie {
-  constructor() {
-    super("EducationDB");
-    this.version(1).stores({
-      studyPlans: "id, subject, dueDate, completed",
-      books: "id, title, author, category, ownedBy, status, progress",
-      exams: "id, subject, date, syllabus",
-      readingSessions: "id, bookId, userId, startTime, endTime, pagesRead"
-    });
-  }
-}
-const educationDB = new EducationDB();
-async function getStudyPlans() {
-  return await educationDB.studyPlans.toArray();
-}
 function StudyPlanner($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let plans = [];

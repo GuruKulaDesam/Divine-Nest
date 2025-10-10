@@ -96,66 +96,69 @@
 
   <!-- Content Layer - Above background -->
   <div class="relative z-10 flex w-full">
-    <!-- Top Navigation Bar - Fixed overlay spanning full width -->
+    <!-- Requests Dashboard - Fixed overlay spanning full width -->
     <div class="fixed top-0 left-0 right-0 z-50">
       <TopNavigationBar on:action={handleTopNavAction} />
     </div>
 
-    <!-- Left Container - Positioned below top nav -->
+    <!-- Left Container - Positioned below requests dashboard -->
     <div class="flex-shrink-0 pt-32">
-    <LeftTileBar />
-  </div>
+      <LeftTileBar />
+    </div>
 
-  <!-- Middle Container -->
-  <div class="flex-1 flex flex-col overflow-hidden pt-32">
-    <!-- Main content area -->
-    <main class="flex-1 scrollable-container bg-transparent">
-      {#if currentPath === "/"}
-        <!-- Full dashboard layout with sidebar for home page -->
-        <DashboardTiles />
-      {:else}
-        <!-- Content pages with breadcrumb -->
-        <div class="p-4 sm:p-6 lg:p-8 relative">
-          <div class="content-container rounded-[2rem] border-0 p-6 sm:p-8">
-            <!-- Breadcrumb Navigation -->
-            <div class="mb-6 flex items-center space-x-2 text-sm">
-              <button on:click={() => goto("/")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
-                <Icon icon="heroicons:home" class="w-4 h-4" />
-                <span>Home</span>
-              </button>
-              <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
-              <span class="text-gray-600 dark:text-gray-300 capitalize">
-                {currentPath.startsWith("/home/") ? currentPath.replace("/home/", "").split("/").filter(Boolean).join(" › ") : currentPath.split("/").filter(Boolean).join(" › ")}
-              </span>
+    <!-- Middle Container -->
+    <div class="flex-1 flex flex-col overflow-hidden pt-32">
+      <!-- Main content area -->
+      <main class="flex-1 scrollable-container bg-transparent">
+        {#if currentPath === "/"}
+          <!-- Full dashboard layout with sidebar for home page -->
+          <DashboardTiles />
+        {:else}
+          <!-- Content pages with breadcrumb -->
+          <div class="p-4 sm:p-6 lg:p-8 relative">
+            <div class="content-container rounded-[2rem] border-0 p-6 sm:p-8">
+              <!-- Breadcrumb Navigation -->
+              <div class="mb-6 flex items-center space-x-2 text-sm">
+                <button on:click={() => goto("/")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                  <Icon icon="heroicons:home" class="w-4 h-4" />
+                  <span>Home</span>
+                </button>
+                <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                <span class="text-gray-600 dark:text-gray-300 capitalize">
+                  {currentPath.startsWith("/home/") ? currentPath.replace("/home/", "").split("/").filter(Boolean).join(" › ") : currentPath.split("/").filter(Boolean).join(" › ")}
+                </span>
+              </div>
+
+              <!-- Page content -->
+              <slot />
             </div>
-
-            <!-- Page content -->
-            <slot />
           </div>
-        </div>
-      {/if}
-    </main>
-  </div>
+        {/if}
+      </main>
+    </div>
 
-  <!-- Right Container -->
-  <div class="flex-shrink-0">
-    <!-- Right tile bar functionality moved to TopNavigationBar -->
-  </div>
+    <!-- Right Container -->
+    <div class="flex-shrink-0">
+      <!-- Right tile bar functionality integrated into TopNavigationBar -->
+    </div>
 
-  <!-- Floating Action Buttons -->
-  <FloatingActionButtons on:action={handleTopNavAction} />
+    <!-- Floating Action Buttons -->
+    <FloatingActionButtons on:action={handleRequestsAction} />
 
-  <!-- Footer with Gurukulavasam link - Bottom center, smaller -->
-  <div class="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50">
-    <a href="https://www.gurukulavasam.org" target="_blank" rel="noopener noreferrer" class="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200 flex items-center space-x-1">
-      <span>Gurukulavasam</span>
-      <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-      </svg>
-    </a>
+    <!-- Footer with Gurukulavasam link - Bottom center, smaller -->
+    <div class="fixed bottom-2 left-1/2 transform -translate-x-1/2 z-50">
+      <a href="https://www.gurukulavasam.org" target="_blank" rel="noopener noreferrer" class="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200 flex items-center space-x-1">
+        <span>Gurukulavasam</span>
+        <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+        </svg>
+      </a>
+    </div>
   </div>
-  </div> <!-- End content layer -->
-</div> <!-- End main container -->
+  <!-- End content layer -->
+</div>
+
+<!-- End main container -->
 
 <style>
   .nature-background {
@@ -194,15 +197,20 @@
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
+    border: 3px solid white;
     border-radius: 32px;
-    box-shadow: 0 20px 40px var(--glass-shadow);
+    /* Inverted shadow for carved out effect */
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.1),
+      inset 0 4px 8px rgba(0, 0, 0, 0.1),
+      inset 0 8px 16px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 
   /* In transparent mode, content containers have light background */
   [data-theme="transparent"] .content-container {
     background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 3px solid white;
   }
 
   .scrollable-container {

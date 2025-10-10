@@ -2,7 +2,7 @@ import "clsx";
 import { k as bind_props, b as attr_class, a as ensure_array_like, s as stringify, c as store_get, u as unsubscribe_stores } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import { t as todos, n as notes, r as reminders } from "../../../../chunks/reminders.js";
-import { f as fallback } from "../../../../chunks/utils.js";
+import { f as fallback } from "../../../../chunks/utils2.js";
 import { T as escape_html } from "../../../../chunks/context.js";
 function ShivoHUDSimple($$renderer, $$props) {
   let transcript = fallback($$props["transcript"], "");

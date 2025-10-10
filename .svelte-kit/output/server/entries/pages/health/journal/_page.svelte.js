@@ -161,7 +161,7 @@ function JournalPage($$renderer, $$props) {
       });
       $$renderer2.push(`<!----> <div class="dropdown dropdown-end"><button class="btn btn-ghost btn-sm">`);
       Icon($$renderer2, { icon: "mdi:dots-vertical" });
-      $$renderer2.push(`<!----></button> <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"><li><button>Edit Entry</button></li> <li><button class="text-error">Delete</button></li></ul></div></div></div> <p class="text-base-content/80 mb-4 line-clamp-3 svelte-2g7uiu">${escape_html(journal.content)}</p> `);
+      $$renderer2.push(`<!----></button> <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"><li><button>Edit Entry</button></li> <li><button class="text-error">Delete</button></li></ul></div></div></div> <p class="text-base-content/80 mb-4 line-clamp-3 svelte-hrabyw">${escape_html(journal.content)}</p> `);
       if (journal.tags.length > 0) {
         $$renderer2.push("<!--[-->");
         $$renderer2.push(`<div class="flex flex-wrap gap-1 mb-4"><!--[-->`);

@@ -1,5 +1,5 @@
 <script>
-  import UrgentPage from '$lib/pages/UrgentPage.svelte';
+  import UrgentPage from "$lib/components/UrgentPage.svelte";
 </script>
 
 <UrgentPage />

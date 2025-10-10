@@ -1,5 +1,5 @@
 <script>
-  import InsurancePage from '$lib/pages/InsurancePage.svelte';
+  import InsurancePage from "$lib/components/InsurancePage.svelte";
 </script>
 
 <InsurancePage />

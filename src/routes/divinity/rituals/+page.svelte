@@ -1,5 +1,10 @@
 <script>
-  import RitualsPage from '$lib/pages/RitualsPage.svelte';
+  import RitualsDashboard from "$lib/components/RitualsDashboard.svelte";
 </script>
 
-<RitualsPage />
+<svelte:head>
+  <title>Rituals & Spiritual Life - South Indian Family App</title>
+  <meta name="description" content="Manage daily rituals, temple trips, and festival celebrations in your South Indian family life" />
+</svelte:head>
+
+<RitualsDashboard />

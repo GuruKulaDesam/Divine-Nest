@@ -1,5 +1,5 @@
 <script>
-  import CurriculumPage from '$lib/pages/CurriculumPage.svelte';
+  import CurriculumPage from "$lib/components/CurriculumPage.svelte";
 </script>
 
 <CurriculumPage />

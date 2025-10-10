@@ -1,5 +1,5 @@
 <script>
-  import LearningGoalsPage from '$lib/pages/LearningGoalsPage.svelte';
+  import LearningGoalsPage from "$lib/components/LearningGoalsPage.svelte";
 </script>
 
 <LearningGoalsPage />

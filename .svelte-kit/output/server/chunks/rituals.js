@@ -15,75 +15,6 @@ class RitualsDB extends Dexie {
   }
 }
 new RitualsDB();
-const RitualsSections = [
-  {
-    id: "overview",
-    name: "Spiritual Overview",
-    tamil: "ஆன்மீக கண்ணோட்டம்",
-    icon: "heroicons:sparkles",
-    color: "orange"
-  },
-  {
-    id: "tracker",
-    name: "Ritual Tracker",
-    tamil: "சடங்கு கண்காணிப்பு",
-    icon: "heroicons:check-circle",
-    color: "amber"
-  },
-  {
-    id: "temple",
-    name: "Temple Planner",
-    tamil: "கோயில் திட்டமிடல்",
-    icon: "heroicons:building-storefront",
-    color: "red"
-  },
-  {
-    id: "festivals",
-    name: "Festival Manager",
-    tamil: "விழா மேலாளர்",
-    icon: "heroicons:calendar-days",
-    color: "purple"
-  },
-  {
-    id: "mantras",
-    name: "Mantras & Prayers",
-    tamil: "மந்திரங்கள் & பிரார்த்தனைகள்",
-    icon: "heroicons:musical-note",
-    color: "indigo"
-  }
-];
-const FamilyMembers = {
-  family: {
-    name: "Family",
-    tamil: "குடும்பம்",
-    role: "All members"
-  },
-  amma: {
-    name: "Amma",
-    tamil: "அம்மா",
-    role: "Primary performer"
-  },
-  appa: {
-    name: "Appa",
-    tamil: "அப்பா",
-    role: "Family head"
-  },
-  paati: {
-    name: "Paati",
-    tamil: "பாட்டி",
-    role: "Elder guidance"
-  },
-  thambi: {
-    name: "Thambi",
-    tamil: "தம்பி",
-    role: "Young learner"
-  },
-  akka: {
-    name: "Akka",
-    tamil: "அக்கா",
-    role: "Assistant"
-  }
-};
 const ritualPrompts = {
   1: "இன்று உன் உடல் மற்றும் மனம் ஆரோக்கியமாக இருக்கட்டும். தினமும் காலை வழிபாட்டை தவறாமல் செய்.",
   2: "குடும்பத்துடன் நேரம் செலவிடு. உன் பெற்றோர்களுக்கு மரியாதை கொடு.",
@@ -193,8 +124,6 @@ const tamilWisdom = [
   "ஆன்மீக வளர்ச்சி ஒன்றே வாழ்க்கையின் நோக்கம்."
 ];
 export {
-  FamilyMembers as F,
-  RitualsSections as R,
   avoidFoods as a,
   foodRecommendations as f,
   ritualPrompts as r,

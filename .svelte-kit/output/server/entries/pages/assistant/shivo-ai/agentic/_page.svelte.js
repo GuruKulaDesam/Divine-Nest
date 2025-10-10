@@ -2285,7 +2285,7 @@ function ShivoAgenticPage($$renderer, $$props) {
     Icon($$renderer2, { icon: "heroicons:information-circle", class: "w-4 h-4" });
     $$renderer2.push(`<!----> Capabilities</button> <button class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors duration-200 flex items-center gap-2">`);
     Icon($$renderer2, { icon: "heroicons:play", class: "w-4 h-4" });
-    $$renderer2.push(`<!----> Demo Autonomy</button></div></div></div> <div class="h-96 overflow-y-auto p-6 space-y-4 svelte-13nmn" id="conversation"><!--[-->`);
+    $$renderer2.push(`<!----> Demo Autonomy</button></div></div></div> <div class="h-96 overflow-y-auto p-6 space-y-4 svelte-103w443" id="conversation"><!--[-->`);
     const each_array_1 = ensure_array_like(conversation);
     for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
       let message = each_array_1[$$index_1];

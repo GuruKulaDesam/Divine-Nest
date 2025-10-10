@@ -1,5 +1,5 @@
 <script>
-  import PlannerPage from '$lib/pages/PlannerPage.svelte';
+  import PlannerPage from "$lib/components/PlannerPage.svelte";
 </script>
 
 <PlannerPage />

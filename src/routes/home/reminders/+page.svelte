@@ -1,5 +1,5 @@
 <script>
-  import RemindersPage from '$lib/pages/RemindersPage.svelte';
+  import RemindersPage from "$lib/components/RemindersPage.svelte";
 </script>
 
 <RemindersPage />

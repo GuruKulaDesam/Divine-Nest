@@ -1,5 +1,5 @@
 <script>
-  import GroceryPage from '$lib/pages/GroceryPage.svelte';
+  import GroceryPage from "$lib/components/GroceryPage.svelte";
 </script>
 
 <GroceryPage />

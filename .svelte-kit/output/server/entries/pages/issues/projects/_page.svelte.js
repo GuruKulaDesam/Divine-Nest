@@ -2,7 +2,7 @@ import "clsx";
 import { d as attr, c as store_get, u as unsubscribe_stores, k as bind_props, a as ensure_array_like, b as attr_class, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import { a as $format } from "../../../../chunks/runtime.js";
-import { f as fallback } from "../../../../chunks/utils.js";
+import { f as fallback } from "../../../../chunks/utils2.js";
 import { T as escape_html } from "../../../../chunks/context.js";
 function DeleteConfirmationModal($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {

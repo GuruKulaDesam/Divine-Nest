@@ -1,5 +1,5 @@
 <script>
-  import KitchenPage from '$lib/pages/KitchenPage.svelte';
+  import KitchenPage from "$lib/components/KitchenPage.svelte";
 </script>
 
 <KitchenPage />

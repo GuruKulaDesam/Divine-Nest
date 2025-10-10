@@ -9,7 +9,7 @@
   let mounted = false;
 
   // Reactive logo path based on theme
-  $: logoSrc = $theme === THEMES.DARK ? "/logo-dark.svg" : "/logo-light.svg";
+  // $: logoSrc = $theme === THEMES.DARK ? "/logo-dark.svg" : "/logo-light.svg";
 
   onMount(() => {
     mounted = true;

@@ -15,21 +15,21 @@
       title: "Family Notes",
       description: "View and manage family notes",
       icon: "heroicons:document-text",
-      path: "/family-notes-modern",
+      path: "/home/family-notes-modern",
       color: "text-blue-500",
     },
     {
       title: "Quick Note",
       description: "Create a quick note",
       icon: "heroicons:pencil-square",
-      path: "/family-notes-modern",
+      path: "/home/family-notes-modern",
       color: "text-green-500",
     },
     {
       title: "Search Notes",
       description: "Find notes by keyword",
       icon: "heroicons:magnifying-glass",
-      path: "/family-notes-modern",
+      path: "/home/family-notes-modern",
       color: "text-purple-500",
     },
   ];
@@ -81,6 +81,6 @@
 
   <!-- Footer -->
   <div class="p-3 border-t border-base-300 bg-base-50">
-    <button class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors" on:click={() => handleActionClick("/family-notes-modern")}> Open Full Notes </button>
+    <button class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors" on:click={() => handleActionClick("/home/family-notes-modern")}> Open Full Notes </button>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <script>
-  import GanttPage from '$lib/pages/GanttPage.svelte';
+  import GanttPage from "$lib/components/GanttPage.svelte";
 </script>
 
 <GanttPage />

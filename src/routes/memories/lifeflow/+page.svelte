@@ -1,5 +1,5 @@
 <script>
-  import LifeflowPage from '$lib/pages/LifeflowPage.svelte';
+  import LifeflowPage from "$lib/components/LifeflowPage.svelte";
 </script>
 
 <LifeflowPage />
