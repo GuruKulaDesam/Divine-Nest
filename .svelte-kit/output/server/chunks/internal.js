@@ -891,9 +891,9 @@ const options = {
   service_worker: false,
   service_worker_options: void 0,
   templates: {
-    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\r\n<html lang="en">\r\n	<head>\r\n		<meta charset="utf-8" />\r\n		<link rel="icon" type="image/svg+xml" href="' + assets + `/favicon.svg" />\r
+    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\r\n<html lang="en">\r\n	<head>\r\n		<meta charset="utf-8" />\r\n		<link rel="icon" href="' + assets + `/favicon.svg" />\r
 		<meta name="viewport" content="width=device-width, initial-scale=1" />\r
-		<title>Home Maker - Open Source Svelte & Tailwind CSS Admin Dashboard Template</title>\r
+		<title>Home Maker - Modern Family Dashboard</title>\r
 		<!-- Modern Fonts -->\r
 		<link rel="preconnect" href="https://fonts.googleapis.com">\r
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\r
@@ -982,7 +982,7 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "o2842"
+  version_hash: "6y780t"
 };
 async function get_hooks() {
   let handle;

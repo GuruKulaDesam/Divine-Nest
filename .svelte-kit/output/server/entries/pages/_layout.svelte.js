@@ -719,7 +719,7 @@ function TopNavigationBar($$renderer, $$props) {
     function isItemActive(item) {
       return store_get($$store_subs ??= {}, "$page", page).url.pathname === item.path;
     }
-    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-transparent backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30 shadow-sm z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-2 min-h-[60px] max-w-full svelte-1qkqwru"><div class="flex items-center space-x-4 flex-shrink-0 svelte-1qkqwru"><div class="flex items-center space-x-2 svelte-1qkqwru"><div class="flex flex-col svelte-1qkqwru"><span class="text-sm font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-lg font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight svelte-1qkqwru">Home Maker</span></div></div></div> <div class="flex-1 flex justify-center mx-4 svelte-1qkqwru"><div class="flex items-stretch overflow-x-auto svelte-1qkqwru"><!--[-->`);
+    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-transparent backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30 shadow-sm z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-2 min-h-[60px] max-w-full svelte-1qkqwru"><div class="flex items-center space-x-4 flex-shrink-0 svelte-1qkqwru"><div class="flex items-center space-x-2 svelte-1qkqwru"><div class="flex flex-col svelte-1qkqwru"><span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">Home Maker</span></div></div></div> <div class="flex-1 flex justify-center mx-4 svelte-1qkqwru"><div class="flex items-stretch overflow-x-auto svelte-1qkqwru"><!--[-->`);
     const each_array = ensure_array_like(ribbonGroups);
     for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
       let group = each_array[$$index_1];
@@ -1393,11 +1393,11 @@ function DashboardLayout($$renderer, $$props) {
     var $$store_subs;
     let currentPath;
     currentPath = store_get($$store_subs ??= {}, "$page", page).url.pathname;
-    $$renderer2.push(`<div class="flex h-screen bg-base-200 mountain-background svelte-b38hhi" data-theme="modern"><div class="fixed top-0 left-0 right-0 z-30">`);
+    $$renderer2.push(`<div class="flex h-screen bg-base-200 mountain-background svelte-b38hhi" data-theme="modern"><div class="fixed top-0 left-0 right-0 z-50">`);
     TopNavigationBar($$renderer2);
-    $$renderer2.push(`<!----></div> <div class="flex-shrink-0 pt-24">`);
+    $$renderer2.push(`<!----></div> <div class="flex-shrink-0 pt-32">`);
     LeftTileBar($$renderer2);
-    $$renderer2.push(`<!----></div> <div class="flex-1 flex flex-col overflow-hidden pt-24"><main class="flex-1 scrollable-container bg-transparent svelte-b38hhi">`);
+    $$renderer2.push(`<!----></div> <div class="flex-1 flex flex-col overflow-hidden pt-32"><main class="flex-1 scrollable-container bg-transparent svelte-b38hhi">`);
     if (currentPath === "/") {
       $$renderer2.push("<!--[-->");
       DashboardTiles($$renderer2);

@@ -1,5 +1,6 @@
 import "clsx";
 import "../../chunks/theme.js";
+import "../../chunks/background.js";
 import "../../chunks/database.js";
 import "../../chunks/functions.js";
 import "@sveltejs/kit/internal";

@@ -3,6 +3,7 @@
   import { motionInView, motionHover } from "$lib/utils/motion";
   import { _ } from "svelte-i18n";
   import { theme, themeActions, THEMES } from "$lib/stores/theme.js";
+  import { background, backgroundActions, BACKGROUNDS } from "$lib/stores/background.js";
 
   // AI Settings
   let aiSettings = {
@@ -52,6 +53,38 @@
     timeFormat: "12h",
     currency: "INR",
   };
+
+  // Background options
+  const backgroundOptions = [
+    {
+      value: BACKGROUNDS.TRANSPARENT,
+      label: "Transparent",
+      description: "Clean, no background image",
+      icon: "heroicons:eye-slash",
+      preview: "bg-gray-100 dark:bg-gray-800",
+    },
+    {
+      value: BACKGROUNDS.MOUNTAIN,
+      label: "Mountain View",
+      description: "Scenic mountain landscape",
+      icon: "heroicons:mountain",
+      preview: "bg-gradient-to-br from-blue-100 to-green-100",
+    },
+    {
+      value: BACKGROUNDS.NATURE,
+      label: "Nature Scene",
+      description: "Peaceful natural environment",
+      icon: "heroicons:tree",
+      preview: "bg-gradient-to-br from-green-100 to-blue-100",
+    },
+    {
+      value: BACKGROUNDS.MINIMAL,
+      label: "Minimal",
+      description: "Simple, clean design",
+      icon: "heroicons:square-3-stack-3d",
+      preview: "bg-gray-50 dark:bg-gray-900",
+    },
+  ];
 
   // Theme options with descriptions and previews
   const themeOptions = [
@@ -580,6 +613,32 @@
                 </div>
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">
                   Current theme: <span class="font-medium capitalize">{$theme}</span>
+                </p>
+              </div>
+
+              <!-- Background Selector -->
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4"> Background </label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {#each backgroundOptions as bgOption}
+                    <button class="relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 {bgOption.preview} {$background === bgOption.value ? 'ring-2 ring-blue-500 border-blue-500' : 'border-gray-200 dark:border-gray-600'}" on:click={() => backgroundActions.set(bgOption.value)}>
+                      <div class="flex flex-col items-center space-y-3">
+                        <Icon icon={bgOption.icon} class="w-8 h-8" />
+                        <div class="text-center">
+                          <h3 class="font-semibold text-sm">{bgOption.label}</h3>
+                          <p class="text-xs opacity-75 mt-1">{bgOption.description}</p>
+                        </div>
+                      </div>
+                      {#if $background === bgOption.value}
+                        <div class="absolute top-2 right-2 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+                          <Icon icon="heroicons:check" class="w-3 h-3 text-white" />
+                        </div>
+                      {/if}
+                    </button>
+                  {/each}
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">
+                  Current background: <span class="font-medium capitalize">{$background}</span>
                 </p>
               </div>
 

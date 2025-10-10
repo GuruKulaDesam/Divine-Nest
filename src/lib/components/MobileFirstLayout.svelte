@@ -279,7 +279,7 @@
     <!-- DESKTOP LAYOUT -->
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
       <!-- Desktop Layout with Sidebar and Top Navigation -->
-      <div class="flex h-screen bg-base-200/30 mountain-background" data-theme="modern">
+      <div class="flex h-screen bg-base-200/30 nature-background" data-theme="modern">
         <!-- Desktop Sidebar -->
         <Sidebar isOpen={sidebarOpen} on:close={closeSidebar} />
 
@@ -377,5 +377,72 @@
   .navigating :global(a) {
     pointer-events: none;
     opacity: 0.6;
+  }
+
+  /* Background styles */
+  .nature-background {
+    position: relative;
+    overflow: hidden;
+    background-image: url("/background.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .nature-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+  }
+
+  .mountain-background {
+    position: relative;
+    overflow: hidden;
+    background-image: url("/Cover.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .mountain-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+  }
+
+  .minimal-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+
+  .dark-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+
+  .light-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
+
+  .gradient-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   }
 </style>

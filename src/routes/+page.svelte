@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { themeActions } from "$lib/stores/theme.js";
+  import { backgroundActions } from "$lib/stores/background.js";
   import { initializeDatabase } from "$lib/data/database.js";
   import HomePage from "$lib/pages/HomePage.svelte";
 
@@ -14,6 +15,10 @@
       console.log("Initializing theme system...");
       themeActions.init();
       console.log("Theme system initialized");
+
+      console.log("Initializing background system...");
+      backgroundActions.init();
+      console.log("Background system initialized");
 
       console.log("Initializing database...");
       await initializeDatabase();
