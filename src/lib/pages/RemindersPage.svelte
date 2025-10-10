@@ -356,7 +356,7 @@
   }
 </script>
 
-<div class="reminders-page min-h-screen mountain-background p-6">
+<div class="reminders-page min-h-screen nature-background p-6">
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
     <div class="text-center mb-8">
@@ -560,6 +560,51 @@
     background: rgba(0, 0, 0, 0.3); /* Dark overlay for better text readability */
     z-index: 0;
   }
+
+  .nature-background {
+    position: relative;
+    overflow: hidden;
+    background-image: url("/background.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .nature-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); /* Dark overlay for better text readability */
+    z-index: 0;
+  }
+
+  .minimal-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+
+  .dark-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+
+  .light-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
+
+  .gradient-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  }
   .reminders-page {
     /* Transparent background with gradient border */
     min-height: 100vh;
@@ -581,22 +626,27 @@
   }
 
   .reminder-card {
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
 
   .reminder-card:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
   }
 
   .manual-form-card {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border-radius: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
 
   /* Input styling for manual form */

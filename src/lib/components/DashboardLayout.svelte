@@ -6,6 +6,12 @@
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import { themeActions } from "$lib/stores/theme";
+  import { backgroundActions } from "$lib/stores/background";
+
+  // Initialize stores
+  themeActions.init();
+  backgroundActions.init();
 
   // Reactive statement for current path
   $: currentPath = $page.url.pathname;
@@ -84,19 +90,19 @@
   }
 </script>
 
-<div class="flex h-screen bg-base-200 mountain-background" data-theme="modern">
+<div class="flex h-screen bg-base-200 nature-background" data-theme="modern">
   <!-- Top Navigation Bar - Fixed overlay spanning full width -->
-  <div class="fixed top-0 left-0 right-0 z-30">
+  <div class="fixed top-0 left-0 right-0 z-50">
     <TopNavigationBar on:action={handleTopNavAction} />
   </div>
 
   <!-- Left Container - Positioned below top nav -->
-  <div class="flex-shrink-0 pt-24">
+  <div class="flex-shrink-0 pt-32">
     <LeftTileBar />
   </div>
 
   <!-- Middle Container -->
-  <div class="flex-1 flex flex-col overflow-hidden pt-24">
+  <div class="flex-1 flex flex-col overflow-hidden pt-32">
     <!-- Main content area -->
     <main class="flex-1 scrollable-container bg-transparent">
       {#if currentPath === "/"}
@@ -156,7 +162,42 @@
     background-attachment: fixed;
   }
 
-  .mountain-background::before {
+  .nature-background {
+    position: relative;
+    overflow: hidden;
+    background-image: url("/background.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .minimal-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+
+  .dark-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+
+  .light-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
+
+  .gradient-background {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  }
+
+  .mountain-background::before,
+  .nature-background::before {
     content: "";
     position: absolute;
     top: 0;
@@ -174,6 +215,31 @@
     position: relative;
     overflow-y: auto;
     z-index: 1;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Dark theme content container */
+  [data-theme="dark"] .content-container {
+    background: rgba(31, 41, 55, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Minimal theme content container */
+  [data-theme="minimal"] .content-container {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* Nature theme content container */
+  [data-theme="nature"] .content-container {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(34, 197, 94, 0.2);
   }
 
   .scrollable-container {

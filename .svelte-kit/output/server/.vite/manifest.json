@@ -72,6 +72,13 @@
       "_app/immutable/assets/WellnessPage.4Ek67Xpg.css"
     ]
   },
+  "_background.js": {
+    "file": "chunks/background.js",
+    "name": "background",
+    "imports": [
+      "_index.js"
+    ]
+  },
   "_charts.js": {
     "file": "chunks/charts.js",
     "name": "charts"
@@ -1033,6 +1040,7 @@
       "_Icon.js",
       "_runtime.js",
       "_theme.js",
+      "_background.js",
       "_context.js"
     ],
     "css": [
@@ -1184,7 +1192,7 @@
       "src/lib/i18n/locales/ko.json"
     ],
     "css": [
-      "_app/immutable/assets/_layout.Darkzmif.css"
+      "_app/immutable/assets/_layout.C7uahwnf.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -1194,6 +1202,7 @@
     "isEntry": true,
     "imports": [
       "_theme.js",
+      "_background.js",
       "_database.js",
       "_functions.js",
       "_exports.js",

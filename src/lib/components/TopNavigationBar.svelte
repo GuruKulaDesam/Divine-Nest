@@ -4,6 +4,7 @@
   import { page } from "$app/stores";
   import { homeSounds } from "$lib/utils/sounds";
   import { theme, themeActions, THEMES } from "$lib/stores/theme";
+  import { background, backgroundActions, BACKGROUNDS } from "$lib/stores/background";
 
   const dispatch = createEventDispatcher();
 
@@ -97,8 +98,8 @@
       <!-- App Title -->
       <div class="flex items-center space-x-2">
         <div class="flex flex-col">
-          <span class="text-sm font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight">தமிழச்சி இல்லம்</span>
-          <span class="text-lg font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">Home Maker</span>
+          <span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80">தமிழச்சி இல்லம்</span>
+          <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80">Home Maker</span>
         </div>
       </div>
     </div>
@@ -158,6 +159,19 @@
         on:mouseenter={handleHover}
       >
         <Icon icon="heroicons:swatch" class="w-5 h-5" />
+      </button>
+
+      <!-- Background Toggle Button -->
+      <button
+        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
+        title="Toggle Background ({$background})"
+        on:click={() => {
+          homeSounds.playClick();
+          backgroundActions.toggle();
+        }}
+        on:mouseenter={handleHover}
+      >
+        <Icon icon="heroicons:photo" class="w-5 h-5" />
       </button>
 
       <!-- Settings Button -->

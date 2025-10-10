@@ -1,4 +1,4 @@
-# Home Maker - Open Source Modern Svelte Admin Dashboard Template
+# Home Maker - Modern Family Dashboard
 
 ![Cover](https://raw.githubusercontent.com/shishyan/kovaipudur1c/refs/heads/master/public/Cover.jpg)
 
