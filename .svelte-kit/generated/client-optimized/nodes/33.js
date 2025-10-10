@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/divinity/rituals/+page.svelte";
+export { default as component } from "../../../../src/routes/divinity/panchangam/+page.svelte";
