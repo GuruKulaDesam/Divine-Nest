@@ -1,5 +1,5 @@
 <script>
-  import CommunityPage from '$lib/pages/CommunityPage.svelte';
+  import CommunityPage from "$lib/components/CommunityPage.svelte";
 </script>
 
 <CommunityPage />

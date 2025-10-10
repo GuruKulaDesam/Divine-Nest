@@ -1,5 +1,5 @@
 <script>
-  import MentorsPage from '$lib/pages/MentorsPage.svelte';
+  import MentorsPage from "$lib/components/MentorsPage.svelte";
 </script>
 
 <MentorsPage />

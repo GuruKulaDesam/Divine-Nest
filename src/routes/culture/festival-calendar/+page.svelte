@@ -1,5 +1,5 @@
 <script>
-  import FestivalCalendarPage from '$lib/pages/FestivalCalendarPage.svelte';
+  import FestivalCalendarPage from "$lib/components/FestivalCalendarPage.svelte";
 </script>
 
 <FestivalCalendarPage />

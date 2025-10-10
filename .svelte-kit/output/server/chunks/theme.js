@@ -3,8 +3,7 @@ const browser = typeof window !== "undefined";
 const THEMES = {
   LIGHT: "light",
   DARK: "dark",
-  MINIMAL: "minimal",
-  NATURE: "nature"
+  TRANSPARENT: "transparent"
 };
 function getInitialTheme() {
   if (browser) {

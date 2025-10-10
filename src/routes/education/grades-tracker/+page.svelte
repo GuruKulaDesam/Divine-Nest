@@ -1,5 +1,5 @@
 <script>
-  import GradesTrackerPage from '$lib/pages/GradesTrackerPage.svelte';
+  import GradesTrackerPage from "$lib/components/GradesTrackerPage.svelte";
 </script>
 
 <GradesTrackerPage />

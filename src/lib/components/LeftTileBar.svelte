@@ -378,7 +378,7 @@
   }
 </script>
 
-<div class="left-tile-bar flex h-screen bg-transparent backdrop-blur-sm relative z-10 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);">
+<div class="left-tile-bar flex h-screen bg-white/10 dark:bg-gray-900/20 border-r border-white/20 dark:border-gray-700/30 z-50 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);">
   <!-- Main Navigation Tiles -->
   <div class="w-20 flex flex-col">
     <div class="p-2">

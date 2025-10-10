@@ -1,5 +1,5 @@
 <script>
-  import EventFeedPage from '$lib/pages/EventFeedPage.svelte';
+  import EventFeedPage from "$lib/components/EventFeedPage.svelte";
 </script>
 
 <EventFeedPage />

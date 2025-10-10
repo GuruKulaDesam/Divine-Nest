@@ -1,5 +1,5 @@
 <script>
-  import LibraryPage from '$lib/pages/LibraryPage.svelte';
+  import LibraryPage from "$lib/components/LibraryPage.svelte";
 </script>
 
 <LibraryPage />

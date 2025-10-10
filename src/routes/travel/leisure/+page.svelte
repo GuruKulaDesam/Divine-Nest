@@ -1,5 +1,5 @@
 <script>
-  import LeisurePage from '$lib/pages/LeisurePage.svelte';
+  import LeisurePage from "$lib/components/LeisurePage.svelte";
 </script>
 
 <LeisurePage />

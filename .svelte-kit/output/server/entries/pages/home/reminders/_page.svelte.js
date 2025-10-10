@@ -32,7 +32,7 @@ function RemindersPage($$renderer, $$props) {
           return "🔔";
       }
     }
-    $$renderer2.push(`<div class="reminders-page min-h-screen nature-background p-6 svelte-tnd5ji" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80')"><div class="max-w-6xl mx-auto"><div class="text-center mb-8"><h1 class="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-3"><span class="text-5xl">🔔</span> Smart Reminders</h1> <p class="text-white/70 text-lg">AI-powered reminders generated from your notes and calendar</p></div> <div class="flex justify-center mb-6 gap-4"><button${attr_class(`btn btn-primary btn-lg shadow-xl hover:shadow-2xl transition-all duration-300 ${stringify("")}`, "svelte-tnd5ji")}${attr("disabled", isGenerating, true)}>`);
+    $$renderer2.push(`<div class="reminders-page min-h-screen nature-background p-6 svelte-18mdyjk" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80')"><div class="max-w-6xl mx-auto"><div class="text-center mb-8"><h1 class="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-3"><span class="text-5xl">🔔</span> Smart Reminders</h1> <p class="text-white/70 text-lg">AI-powered reminders generated from your notes and calendar</p></div> <div class="flex justify-center mb-6 gap-4"><button${attr_class(`btn btn-primary btn-lg shadow-xl hover:shadow-2xl transition-all duration-300 ${stringify("")}`, "svelte-18mdyjk")}${attr("disabled", isGenerating, true)}>`);
     {
       $$renderer2.push("<!--[!-->");
       $$renderer2.push(`<span class="text-green-400">✨</span> Generate Reminders`);
@@ -48,7 +48,7 @@ function RemindersPage($$renderer, $$props) {
       const each_array = ensure_array_like(store_get($$store_subs ??= {}, "$reminders", reminders));
       for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
         let reminder = each_array[$$index];
-        $$renderer2.push(`<div class="reminder-card backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:transform hover:scale-105 svelte-tnd5ji"><div class="flex items-start justify-between mb-4"><div class="flex items-center gap-3"><span class="text-2xl">${escape_html(getTypeIcon(reminder.type))}</span> <div><h3 class="text-white font-semibold text-lg">${escape_html(reminder.title)}</h3> <span class="text-xs text-white/60 uppercase tracking-wide">${escape_html(reminder.source)}</span></div></div> <div class="flex items-center gap-2">`);
+        $$renderer2.push(`<div class="reminder-card backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:transform hover:scale-105 svelte-18mdyjk"><div class="flex items-start justify-between mb-4"><div class="flex items-center gap-3"><span class="text-2xl">${escape_html(getTypeIcon(reminder.type))}</span> <div><h3 class="text-white font-semibold text-lg">${escape_html(reminder.title)}</h3> <span class="text-xs text-white/60 uppercase tracking-wide">${escape_html(reminder.source)}</span></div></div> <div class="flex items-center gap-2">`);
         if (reminder.type === "manual") {
           $$renderer2.push("<!--[-->");
           $$renderer2.push(`<button class="btn btn-ghost btn-sm text-white/60 hover:text-white"${attr("title", reminder.isActive ? "Disable reminder" : "Enable reminder")}>${escape_html(reminder.isActive ? "🔊" : "🔇")}</button> <button class="btn btn-primary btn-sm"${attr("disabled", !reminder.isActive, true)} title="Trigger notification">${escape_html(reminder.notificationType === "sound" ? "🔊" : reminder.notificationType === "sms" ? "📱" : "📞")}</button>`);
@@ -69,7 +69,7 @@ function RemindersPage($$renderer, $$props) {
         } else {
           $$renderer2.push("<!--[!-->");
         }
-        $$renderer2.push(`<!--]--> <div class="flex items-center justify-between"><div class="flex items-center gap-2"><span${attr_class(`px-3 py-1 rounded-full text-xs font-medium border ${stringify(getPriorityColor(reminder.priority))}`, "svelte-tnd5ji")}>${escape_html(reminder.priority.toUpperCase())}</span> <span class="text-white/60 text-sm">Due: ${escape_html(new Date(reminder.dueDate).toLocaleDateString())} `);
+        $$renderer2.push(`<!--]--> <div class="flex items-center justify-between"><div class="flex items-center gap-2"><span${attr_class(`px-3 py-1 rounded-full text-xs font-medium border ${stringify(getPriorityColor(reminder.priority))}`, "svelte-18mdyjk")}>${escape_html(reminder.priority.toUpperCase())}</span> <span class="text-white/60 text-sm">Due: ${escape_html(new Date(reminder.dueDate).toLocaleDateString())} `);
         if (reminder.dueTime) {
           $$renderer2.push("<!--[-->");
           $$renderer2.push(`at ${escape_html(reminder.dueTime)}`);

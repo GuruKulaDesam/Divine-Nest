@@ -1,5 +1,5 @@
 <script>
-  import PantryPage from '$lib/pages/PantryPage.svelte';
+  import PantryPage from "$lib/components/PantryPage.svelte";
 </script>
 
 <PantryPage />

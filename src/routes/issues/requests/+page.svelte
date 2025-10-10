@@ -1,5 +1,5 @@
 <script>
-  import RequestsPage from '$lib/pages/RequestsPage.svelte';
+  import RequestsPage from "$lib/components/RequestsPage.svelte";
 </script>
 
 <RequestsPage />

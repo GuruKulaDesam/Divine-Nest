@@ -51,9 +51,9 @@
       textColor: "text-green-600 dark:text-green-400",
       description: "Note Taking",
       subTiles: [
-        { label: "New Note", icon: "heroicons:plus-circle", path: "/family-notes-modern" },
+        { label: "New Note", icon: "heroicons:plus-circle", path: "/home/family-notes-modern" },
         { label: "Quick Note", icon: "heroicons:pencil-square", action: "quick-note" },
-        { label: "Note List", icon: "heroicons:document-text", path: "/family-notes-modern" },
+        { label: "Note List", icon: "heroicons:document-text", path: "/home/family-notes-modern" },
       ],
     },
     {
@@ -65,9 +65,9 @@
       textColor: "text-orange-600 dark:text-orange-400",
       description: "Reminders & Alerts",
       subTiles: [
-        { label: "Add Reminder", icon: "heroicons:plus-circle", path: "/reminders" },
+        { label: "Add Reminder", icon: "heroicons:plus-circle", path: "/home/reminders" },
         { label: "Quick Reminder", icon: "heroicons:bell", action: "quick-reminder" },
-        { label: "Reminder List", icon: "heroicons:bell-alert", path: "/reminders" },
+        { label: "Reminder List", icon: "heroicons:bell-alert", path: "/home/reminders" },
       ],
     },
     {
@@ -93,9 +93,9 @@
       textColor: "text-indigo-600 dark:text-indigo-400",
       description: "Scheduling & Calendar",
       subTiles: [
-        { label: "Add Event", icon: "heroicons:plus-circle", path: "/family-calendar-modern" },
+        { label: "Add Event", icon: "heroicons:plus-circle", path: "/home/family-calendar-modern" },
         { label: "Quick Schedule", icon: "heroicons:clock", action: "quick-schedule" },
-        { label: "Calendar View", icon: "heroicons:calendar-days", path: "/family-calendar-modern" },
+        { label: "Calendar View", icon: "heroicons:calendar-days", path: "/home/family-calendar-modern" },
       ],
     },
     {

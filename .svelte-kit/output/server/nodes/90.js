@@ -2,7 +2,7 @@
 
 export const index = 90;
 let component_cache;
-export const component = async () => component_cache ??= (await import('../entries/pages/issues/projects/gantt/_page.svelte.js')).default;
-export const imports = ["_app/immutable/nodes/90.CeikDWAL.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/69_IOA4Y.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/B7bOZ5S9.js","_app/immutable/chunks/DIwmiGeX.js","_app/immutable/chunks/DBiBpNH-.js","_app/immutable/chunks/5L-6EDXk.js","_app/immutable/chunks/4B07Rhrk.js","_app/immutable/chunks/BeN61itl.js","_app/immutable/chunks/HaWL_7Wj.js","_app/immutable/chunks/BUszLdvL.js","_app/immutable/chunks/DnAqKgy0.js","_app/immutable/chunks/DlrJBDXQ.js","_app/immutable/chunks/BpwsUEBk.js","_app/immutable/chunks/DHI9gcf5.js","_app/immutable/chunks/CaVgIAJW.js","_app/immutable/chunks/BkU-PxQ3.js"];
-export const stylesheets = ["_app/immutable/assets/90.BaJqrd28.css"];
+export const component = async () => component_cache ??= (await import('../entries/pages/home/schedule/_page.svelte.js')).default;
+export const imports = ["_app/immutable/nodes/90.BT_yBR_h.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/69_IOA4Y.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/Dn4D4y7S.js","_app/immutable/chunks/Bsg-a7gO.js","_app/immutable/chunks/DTOIJTcU.js","_app/immutable/chunks/C2NsQb6S.js","_app/immutable/chunks/-jVUd4rq.js","_app/immutable/chunks/C4FjXvtf.js","_app/immutable/chunks/Bfc47y5P.js","_app/immutable/chunks/CVl-uwuJ.js","_app/immutable/chunks/BFUbdx6v.js","_app/immutable/chunks/DWPppJ2y.js","_app/immutable/chunks/D7s1gzwa.js","_app/immutable/chunks/Cpj98o6Y.js","_app/immutable/chunks/CCPGIiiA.js","_app/immutable/chunks/zUXBVMR_.js","_app/immutable/chunks/DVKSXItj.js"];
+export const stylesheets = ["_app/immutable/assets/90.snBpB0je.css"];
 export const fonts = [];

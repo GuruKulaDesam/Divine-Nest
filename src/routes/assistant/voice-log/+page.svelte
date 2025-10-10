@@ -1,5 +1,5 @@
 <script>
-  import VoiceLogPage from '$lib/pages/VoiceLogPage.svelte';
+  import VoiceLogPage from "$lib/components/VoiceLogPage.svelte";
 </script>
 
 <VoiceLogPage />

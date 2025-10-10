@@ -1,5 +1,5 @@
 <script>
-  import KolamPage from "$lib/pages/KolamPage.svelte";
+  import KolamPage from "$lib/components/KolamPage.svelte";
 </script>
 
 <KolamPage />

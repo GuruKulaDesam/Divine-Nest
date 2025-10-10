@@ -1,5 +1,5 @@
 <script>
-  import MantrasPage from '$lib/pages/MantrasPage.svelte';
+  import MantrasPage from "$lib/components/MantrasPage.svelte";
 </script>
 
 <MantrasPage />

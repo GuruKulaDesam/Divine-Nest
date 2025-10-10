@@ -1,5 +1,5 @@
 <script>
-  import StudiesPage from '$lib/pages/StudiesPage.svelte';
+  import StudiesPage from "$lib/components/StudiesPage.svelte";
 </script>
 
 <StudiesPage />

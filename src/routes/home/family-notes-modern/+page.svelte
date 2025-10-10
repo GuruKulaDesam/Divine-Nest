@@ -1,5 +1,5 @@
 <script>
-  import FamilyNotesModernPage from '$lib/pages/FamilyNotesModernPage.svelte';
+  import FamilyNotesModernPage from "$lib/components/FamilyNotesModernPage.svelte";
 </script>
 
 <FamilyNotesModernPage />

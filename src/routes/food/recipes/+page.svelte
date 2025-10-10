@@ -1,5 +1,5 @@
 <script>
-  import RecipesPage from '$lib/pages/RecipesPage.svelte';
+  import RecipesPage from "$lib/components/RecipesPage.svelte";
 </script>
 
 <RecipesPage />

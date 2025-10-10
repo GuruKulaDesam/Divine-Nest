@@ -1,5 +1,5 @@
 <script>
-  import JournalPage from '$lib/pages/JournalPage.svelte';
+  import JournalPage from "$lib/components/JournalPage.svelte";
 </script>
 
 <JournalPage />

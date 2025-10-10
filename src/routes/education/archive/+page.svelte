@@ -1,5 +1,5 @@
 <script>
-  import ArchivePage from '$lib/pages/ArchivePage.svelte';
+  import ArchivePage from "$lib/components/ArchivePage.svelte";
 </script>
 
 <ArchivePage />

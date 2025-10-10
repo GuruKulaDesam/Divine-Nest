@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import Icon from "@iconify/svelte";
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { homeSounds } from "$lib/utils/sounds";
   import { theme, themeActions, THEMES } from "$lib/stores/theme";
@@ -8,14 +9,171 @@
 
   const dispatch = createEventDispatcher();
 
-  // Handle actions from ribbon - simplified for always-visible items
-  function navigateTo(item) {
-    homeSounds.playClick();
-    if (item.path) {
-      // Use goto for navigation
-      import("$app/navigation").then(({ goto }) => goto(item.path));
-    } else if (item.action) {
-      dispatch("action", { action: item.action, tile: item });
+  /* function handleCategoryClick(category) {
+    try {
+      homeSounds.playClick();
+    } catch (error) {
+      console.warn("Sound playback failed:", error);
+    }
+    if (category.path) {
+      goto(category.path).catch((error) => {
+        console.error("Navigation error:", error);
+      });
+    } else {
+      dispatch("action", { action: category.id, category });
+    }
+  }*/
+
+  // Request categories with their KPIs and routing - compact version for nav bar
+  const requestCategories = [
+    {
+      id: "urgents",
+      title: "Urgents",
+      icon: "heroicons:exclamation-triangle",
+      color: "from-red-500 to-red-600",
+      borderColor: "border-red-400",
+      bgColor: "bg-red-50 dark:bg-red-900/20",
+      textColor: "text-red-700 dark:text-red-300",
+      metric: "3",
+      path: "/issues/urgent",
+    },
+    {
+      id: "repairs",
+      title: "Repairs",
+      icon: "heroicons:wrench-screwdriver",
+      color: "from-orange-500 to-orange-600",
+      borderColor: "border-orange-400",
+      bgColor: "bg-orange-50 dark:bg-orange-900/20",
+      textColor: "text-orange-700 dark:text-orange-300",
+      metric: "7",
+      path: "/issues/repairs",
+    },
+    {
+      id: "inventory",
+      title: "Inventory",
+      icon: "heroicons:archive-box",
+      color: "from-yellow-500 to-yellow-600",
+      borderColor: "border-yellow-400",
+      bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
+      textColor: "text-yellow-700 dark:text-yellow-300",
+      metric: "8",
+      path: "/inventory",
+    },
+    {
+      id: "maintenance",
+      title: "Maintenance",
+      icon: "heroicons:cog-6-tooth",
+      color: "from-blue-500 to-blue-600",
+      borderColor: "border-blue-400",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+      textColor: "text-blue-700 dark:text-blue-300",
+      metric: "12",
+      path: "/issues/maintenance",
+    },
+    {
+      id: "expenses",
+      title: "Expenses",
+      icon: "heroicons:credit-card",
+      color: "from-emerald-500 to-emerald-600",
+      borderColor: "border-emerald-400",
+      bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+      textColor: "text-emerald-700 dark:text-emerald-300",
+      metric: "₹8.3K",
+      path: "/finances/expenses",
+    },
+    {
+      id: "reminders",
+      title: "Reminders",
+      icon: "heroicons:bell-alert",
+      color: "from-cyan-500 to-cyan-600",
+      borderColor: "border-cyan-400",
+      bgColor: "bg-cyan-50 dark:bg-cyan-900/20",
+      textColor: "text-cyan-700 dark:text-cyan-300",
+      metric: "4",
+      path: "/home/reminders",
+    },
+    {
+      id: "savings",
+      title: "Savings",
+      icon: "heroicons:banknotes",
+      color: "from-teal-500 to-teal-600",
+      borderColor: "border-teal-400",
+      bgColor: "bg-teal-50 dark:bg-teal-900/20",
+      textColor: "text-teal-700 dark:text-teal-300",
+      metric: "₹45K",
+      path: "/finances",
+    },
+    {
+      id: "tasks",
+      title: "Tasks",
+      icon: "heroicons:clipboard-document-list",
+      color: "from-indigo-500 to-indigo-600",
+      borderColor: "border-indigo-400",
+      bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
+      textColor: "text-indigo-700 dark:text-indigo-300",
+      metric: "15",
+      path: "/assistant/task-board",
+    },
+    {
+      id: "bills",
+      title: "Bills",
+      icon: "heroicons:currency-rupee",
+      color: "from-purple-500 to-purple-600",
+      borderColor: "border-purple-400",
+      bgColor: "bg-purple-50 dark:bg-purple-900/20",
+      textColor: "text-purple-700 dark:text-purple-300",
+      metric: "₹12.5K",
+      path: "/finances",
+    },
+    {
+      id: "events",
+      title: "Events",
+      icon: "heroicons:calendar-days",
+      color: "from-pink-500 to-pink-600",
+      borderColor: "border-pink-400",
+      bgColor: "bg-pink-50 dark:bg-pink-900/20",
+      textColor: "text-pink-700 dark:text-pink-300",
+      metric: "6",
+      path: "/home/family-calendar-modern",
+    },
+    {
+      id: "upgrades",
+      title: "Upgrades",
+      icon: "heroicons:arrow-trending-up",
+      color: "from-green-500 to-green-600",
+      borderColor: "border-green-400",
+      bgColor: "bg-green-50 dark:bg-green-900/20",
+      textColor: "text-green-700 dark:text-green-300",
+      metric: "5",
+      path: "/issues/upgrades",
+    },
+    {
+      id: "assets",
+      title: "Assets",
+      icon: "heroicons:building-office",
+      color: "from-amber-500 to-amber-600",
+      borderColor: "border-amber-400",
+      bgColor: "bg-amber-50 dark:bg-amber-900/20",
+      textColor: "text-amber-700 dark:text-amber-300",
+      metric: "₹2.5L",
+      path: "/assets",
+    },
+  ];
+
+  function handleCategoryClick(category) {
+    console.log("Tile clicked:", category.title, "Path:", category.path);
+    try {
+      homeSounds.playClick();
+    } catch (error) {
+      console.warn("Sound playback failed:", error);
+    }
+    if (category.path) {
+      console.log("Navigating to:", category.path);
+      goto(category.path).catch((error) => {
+        console.error("Navigation error:", error);
+      });
+    } else {
+      dispatch("action", { action: category.id, category });
     }
   }
 
@@ -90,436 +248,253 @@
   }
 </script>
 
-<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-transparent backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30 shadow-sm z-50">
+<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-white/10 dark:bg-gray-900/20 border-b border-white/20 dark:border-gray-700/30 z-50">
   <!-- Main Ribbon Container -->
-  <div class="flex items-center px-6 py-2 min-h-[60px] max-w-full">
+  <div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/5 via-transparent to-white/5">
     <!-- Left Section: Logo and App Title -->
-    <div class="flex items-center space-x-4 flex-shrink-0">
+    <div class="flex flex-col items-center space-y-2 flex-shrink-0">
+      <!-- Logo -->
+      <div class="relative flex items-center justify-center w-28 h-16 overflow-hidden shadow-lg rounded-lg" style="clip-path: polygon(50% 0%, 55% 15%, 70% 5%, 75% 25%, 90% 15%, 95% 35%, 100% 25%, 90% 45%, 100% 55%, 85% 65%, 95% 75%, 75% 85%, 85% 95%, 65% 90%, 50% 100%, 35% 90%, 15% 95%, 25% 85%, 5% 75%, 15% 65%, 0% 55%, 10% 45%, 0% 25%, 5% 35%, 10% 15%, 25% 25%, 30% 5%, 45% 15%);">
+        <div class="absolute inset-0 bg-gradient-to-br from-pink-300 via-pink-400 to-pink-500 rounded-lg"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-pink-600/60 via-transparent to-pink-200/40"></div>
+        <span class="text-sm font-bold text-white leading-tight relative z-10 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(255,255,255,0.4); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்வழி</span>
+      </div>
+
       <!-- App Title -->
-      <div class="flex items-center space-x-2">
-        <!-- Logo Text -->
-        <div class="flex flex-col items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 rounded-xl shadow-lg p-1">
-          <span class="text-xs font-bold text-white leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்</span>
-          <span class="text-xs font-bold text-white leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">வழி</span>
-        </div>
-        <div class="flex flex-col">
-          <span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80">தமிழச்சி இல்லம்</span>
-          <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80">Home Maker</span>
-        </div>
+      <div class="flex flex-col items-center text-center">
+        <span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80">தமிழச்சி இல்லம்</span>
+        <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80">Home Maker</span>
       </div>
     </div>
 
-    <!-- Center Section: Excel-like Ribbon Groups - Always Visible -->
-    <div class="flex-1 flex justify-center mx-4">
-      <div class="flex items-stretch overflow-x-auto">
-        {#each ribbonGroups as group (group.id)}
-          <div class="ribbon-group-separator flex flex-col items-center space-x-1 px-4 py-2 border-r-2 border-gray-300/60 dark:border-gray-600/60 last:border-r-0 relative">
-            <!-- Group Label - Small text above -->
-            <div class="text-[9px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-              {group.label}
+    <!-- Center Section: KPI Dashboard Cards -->
+    <div class="flex-1 flex justify-center mx-6">
+      <div class="grid grid-cols-12 grid-rows-1 gap-2 max-w-full">
+        {#each requestCategories as category}
+          <button type="button" class="group relative bg-transparent border border-dashed {category.borderColor} rounded-lg pt-2.5 pb-3 px-2 aspect-square cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-0.5 hover:rotate-1 flex flex-col items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" on:click={() => handleCategoryClick(category)} on:mouseenter={handleHover}>
+            <!-- Animated background on hover -->
+            <div class="absolute inset-0 bg-gradient-to-br {category.color} opacity-0 group-hover:opacity-20 rounded-md transition-all duration-300 group-hover:animate-pulse"></div>
+
+            <!-- Content -->
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-center w-full">
+              <!-- Metric at the top -->
+              <div class="mb-2">
+                <div class="bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-full shadow-sm transition-all duration-300">
+                  <span class="text-[19.8px] font-sans font-bold {category.textColor} group-hover:scale-110 transition-transform duration-300" style="font-family: 'Segoe UI', 'Helvetica Neue', 'DIN Alternate', sans-serif;">{category.metric}</span>
+                </div>
+              </div>
+
+              <!-- Title at the bottom -->
+              <div class="mt-2">
+                <span class="font-medium text-gray-900 dark:text-white text-xs leading-tight block transition-colors duration-300">{category.title}</span>
+              </div>
             </div>
 
-            <!-- Group Items - Always Visible -->
-            <div class="flex items-center space-x-0.5">
-              {#each group.items as item (item.label)}
-                <button class="group relative flex flex-col items-center justify-center w-12 h-10 rounded hover:bg-white/90 dark:hover:bg-gray-700/90 transition-all duration-150 border border-transparent hover:border-gray-300/60 dark:hover:border-gray-600/60 {isItemActive(item) ? 'bg-blue-50/90 dark:bg-blue-900/50 border-blue-200/70 dark:border-blue-800/70' : ''}" on:click={() => navigateTo(item)} on:mouseenter={handleHover} title="{item.label}{item.shortcut ? ` (${item.shortcut})` : ''}" aria-label={item.label}>
-                  <div class="w-5 h-5 {group.textColor} group-hover:scale-110 transition-transform duration-200 mb-0.5">
-                    <Icon icon={item.icon} class="w-full h-full" style="color: currentColor; fill: currentColor;" />
-                  </div>
-                  <span class="text-[10px] font-medium {$theme === 'transparent' ? 'text-white' : 'text-gray-600 dark:text-gray-400'} leading-tight text-center opacity-{$theme === 'transparent' ? '90' : '70'}">{item.label.split(" ")[0]}</span>
-                  {#if isItemActive(item)}
-                    <div class="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-500 rounded-full"></div>
-                  {/if}
-                </button>
-              {/each}
-            </div>
-          </div>
+            <!-- Ripple effect on click -->
+            <div class="absolute inset-0 bg-gradient-to-br {category.color} opacity-0 group-active:opacity-30 rounded-lg transition-opacity duration-150 pointer-events-none"></div>
+          </button>
         {/each}
       </div>
     </div>
 
-    <!-- Right Section: User Menu and Minimal Actions -->
-    <div class="flex items-center space-x-2 flex-shrink-0">
-      <!-- Search Button -->
-      <button
-        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
-        title="Search (Ctrl+F)"
-        on:click={() => {
-          homeSounds.playClick();
-          dispatch("action", { action: "search" });
-        }}
-        on:mouseenter={handleHover}
-      >
-        <Icon icon="heroicons:magnifying-glass" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
-      </button>
-
-      <!-- Theme Toggle Dropdown -->
+    <!-- Right Section: Consolidated Menu -->
+    <div class="flex items-center flex-shrink-0">
+      <!-- Main Menu Button -->
       <div class="relative group">
-        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Theme: {$theme}" on:mouseenter={handleHover}>
-          <Icon icon="heroicons:swatch" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
+        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Menu" on:mouseenter={handleHover}>
+          <Icon icon="heroicons:bars-3" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
         </button>
 
-        <!-- Theme Dropdown -->
-        <div class="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm">
-          <div class="p-2">
-            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Viewing Mode</div>
+        <!-- Consolidated Menu Dropdown -->
+        <div class="absolute right-0 top-full mt-2 w-80 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm max-h-96 overflow-y-auto">
+          <div class="p-3">
+            <!-- Search Section -->
+            <div class="mb-4">
+              <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Quick Actions</div>
+              <button
+                class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                on:click={() => {
+                  homeSounds.playClick();
+                  dispatch("action", { action: "search" });
+                }}
+                on:mouseenter={handleHover}
+              >
+                <Icon icon="heroicons:magnifying-glass" class="w-4 h-4 text-gray-500 flex-shrink-0" />
+                <span>Search (Ctrl+F)</span>
+              </button>
+              <button
+                class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                on:click={() => {
+                  homeSounds.playClick();
+                  dispatch("action", { action: "settings" });
+                }}
+                on:mouseenter={handleHover}
+              >
+                <Icon icon="heroicons:cog-6-tooth" class="w-4 h-4 text-gray-500 flex-shrink-0" />
+                <span>Settings (Ctrl+,)</span>
+              </button>
+            </div>
 
-            <!-- Light Mode -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$theme === 'light' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                themeActions.set("light");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 border-2 border-gray-300 flex-shrink-0"></div>
-              <span>Light Mode</span>
-              {#if $theme === "light"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
+            <!-- Theme Section -->
+            <div class="mb-4">
+              <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Theme</div>
+              <div class="grid grid-cols-3 gap-1">
+                <button
+                  class="flex flex-col items-center gap-1 p-2 rounded-lg text-center text-xs transition-colors duration-200 {$theme === 'light' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    themeActions.set("light");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300"></div>
+                  <span>Light</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-2 rounded-lg text-center text-xs transition-colors duration-200 {$theme === 'dark' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    themeActions.set("dark");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-600"></div>
+                  <span>Dark</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-2 rounded-lg text-center text-xs transition-colors duration-200 {$theme === 'transparent' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    themeActions.set("transparent");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-r from-blue-400 to-green-400 border border-transparent opacity-80"></div>
+                  <span>Glass</span>
+                </button>
+              </div>
+            </div>
 
-            <!-- Dark Mode -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$theme === 'dark' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                themeActions.set("dark");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-900 border-2 border-gray-600 flex-shrink-0"></div>
-              <span>Dark Mode</span>
-              {#if $theme === "dark"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
+            <!-- Background Section -->
+            <div class="mb-4">
+              <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Background</div>
+              <div class="grid grid-cols-4 gap-1">
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'transparent' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("transparent");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-transparent border border-gray-300"></div>
+                  <span>Trans</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'nature' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("nature");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-br from-green-400 to-blue-500 border border-gray-300"></div>
+                  <span>Nature</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'ocean' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("ocean");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-br from-blue-400 to-blue-800 border border-gray-300"></div>
+                  <span>Ocean</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'sunset' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("sunset");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 border border-gray-300"></div>
+                  <span>Sunset</span>
+                </button>
+              </div>
+              <div class="grid grid-cols-4 gap-1 mt-1">
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'mountain' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("mountain");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-t from-gray-400 to-gray-200 border border-gray-300"></div>
+                  <span>Mount</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'forest' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("forest");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-br from-green-600 to-green-800 border border-gray-300"></div>
+                  <span>Forest</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'night' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("night");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-br from-indigo-900 via-purple-900 to-black border border-gray-300"></div>
+                  <span>Night</span>
+                </button>
+                <button
+                  class="flex flex-col items-center gap-1 p-1.5 rounded-lg text-center text-xs transition-colors duration-200 {$background === 'gradient' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+                  on:click={() => {
+                    homeSounds.playClick();
+                    backgroundActions.set("gradient");
+                  }}
+                  on:mouseenter={handleHover}
+                >
+                  <div class="w-3 h-3 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 border border-gray-300"></div>
+                  <span>Grad</span>
+                </button>
+              </div>
+            </div>
 
-            <!-- Transparent Mode -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$theme === 'transparent' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                themeActions.set("transparent");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-blue-400 to-green-400 border-2 border-transparent flex-shrink-0 opacity-80"></div>
-              <span>Transparent Mode</span>
-              {#if $theme === "transparent"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Reset to Default -->
-            <div class="border-t border-gray-200 dark:border-gray-600 my-2"></div>
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-              on:click={() => {
-                homeSounds.playClick();
-                themeActions.set("light");
-                backgroundActions.set("nature");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <Icon icon="heroicons:arrow-path" class="w-4 h-4 text-gray-500 flex-shrink-0" />
-              <span>Reset to Default</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Background Toggle Dropdown -->
-      <div class="relative group">
-        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Background: {$background}" on:mouseenter={handleHover}>
-          <Icon icon="heroicons:photo" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
-        </button>
-
-        <!-- Background Dropdown -->
-        <div class="absolute right-0 top-full mt-2 w-56 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm max-h-80 overflow-y-auto">
-          <div class="p-2">
-            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Backgrounds</div>
-
-            <!-- Transparent -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'transparent' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("transparent");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-transparent border-2 border-gray-300 flex-shrink-0"></div>
-              <span>Transparent</span>
-              {#if $background === "transparent"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Mountain -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'mountain' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("mountain");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-t from-gray-400 to-gray-200 border border-gray-300 flex-shrink-0"></div>
-              <span>Mountain</span>
-              {#if $background === "mountain"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Nature -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'nature' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("nature");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-green-400 to-blue-500 border border-gray-300 flex-shrink-0"></div>
-              <span>Nature</span>
-              {#if $background === "nature"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Forest -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'forest' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("forest");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-green-600 to-green-800 border border-gray-300 flex-shrink-0"></div>
-              <span>Forest</span>
-              {#if $background === "forest"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Ocean -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'ocean' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("ocean");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-blue-800 border border-gray-300 flex-shrink-0"></div>
-              <span>Ocean</span>
-              {#if $background === "ocean"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Sunset -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'sunset' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("sunset");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 border border-gray-300 flex-shrink-0"></div>
-              <span>Sunset</span>
-              {#if $background === "sunset"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Dawn -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'dawn' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("dawn");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-pink-300 via-orange-200 to-yellow-200 border border-gray-300 flex-shrink-0"></div>
-              <span>Dawn</span>
-              {#if $background === "dawn"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Night -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'night' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("night");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-indigo-900 via-purple-900 to-black border border-gray-300 flex-shrink-0"></div>
-              <span>Night</span>
-              {#if $background === "night"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Desert -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'desert' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("desert");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 border border-gray-300 flex-shrink-0"></div>
-              <span>Desert</span>
-              {#if $background === "desert"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Snow -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'snow' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("snow");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-white via-blue-50 to-blue-100 border border-gray-300 flex-shrink-0"></div>
-              <span>Snow</span>
-              {#if $background === "snow"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Autumn -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'autumn' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("autumn");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-red-400 via-orange-500 to-yellow-600 border border-gray-300 flex-shrink-0"></div>
-              <span>Autumn</span>
-              {#if $background === "autumn"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Minimal -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'minimal' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("minimal");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 flex-shrink-0"></div>
-              <span>Minimal</span>
-              {#if $background === "minimal"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Dark -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'dark' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("dark");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-gray-800 to-black border border-gray-300 flex-shrink-0"></div>
-              <span>Dark</span>
-              {#if $background === "dark"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Light -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'light' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("light");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-white to-gray-100 border border-gray-300 flex-shrink-0"></div>
-              <span>Light</span>
-              {#if $background === "light"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-
-            <!-- Gradient -->
-            <button
-              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'gradient' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
-              on:click={() => {
-                homeSounds.playClick();
-                backgroundActions.set("gradient");
-              }}
-              on:mouseenter={handleHover}
-            >
-              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 border border-gray-300 flex-shrink-0"></div>
-              <span>Gradient</span>
-              {#if $background === "gradient"}
-                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
-              {/if}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Settings Button -->
-      <button
-        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
-        title="Settings (Ctrl+,)"
-        on:click={() => {
-          homeSounds.playClick();
-          dispatch("action", { action: "settings" });
-        }}
-        on:mouseenter={handleHover}
-      >
-        <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5" />
-      </button>
-
-      <!-- User Menu -->
-      <div class="relative group">
-        <button class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105" on:mouseenter={handleHover}> U </button>
-
-        <!-- User Dropdown -->
-        <div class="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm">
-          <div class="p-3 border-b border-gray-200 dark:border-gray-700">
-            <div class="text-sm font-medium text-gray-900 dark:text-white">User Name</div>
-            <div class="text-xs text-gray-500 dark:text-gray-400">user@example.com</div>
-          </div>
-          <div class="py-1">
-            <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}> Profile Settings </button>
-            <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}> Preferences </button>
-            <button
-              class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150"
-              on:click={() => {
-                homeSounds.playClick();
-                dispatch("action", { action: "logout" });
-              }}
-              on:mouseenter={handleHover}
-            >
-              Sign Out
-            </button>
+            <!-- User Section -->
+            <div class="border-t border-gray-200 dark:border-gray-600 pt-3">
+              <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Account</div>
+              <div class="flex items-center gap-3 p-2 mb-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm">U</div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-medium text-gray-900 dark:text-white truncate">User Name</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 truncate">user@example.com</div>
+                </div>
+              </div>
+              <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 rounded-lg" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}>Profile Settings</button>
+              <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 rounded-lg" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}>Preferences</button>
+              <button
+                class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150 rounded-lg"
+                on:click={() => {
+                  homeSounds.playClick();
+                  dispatch("action", { action: "logout" });
+                }}
+                on:mouseenter={handleHover}
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>

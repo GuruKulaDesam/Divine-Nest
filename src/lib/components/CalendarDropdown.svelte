@@ -15,21 +15,21 @@
       title: "Family Calendar",
       description: "View family events and schedules",
       icon: "heroicons:calendar-days",
-      path: "/family-calendar-modern",
+      path: "/home/family-calendar-modern",
       color: "text-blue-500",
     },
     {
       title: "Festival Calendar",
       description: "Religious and cultural festivals",
       icon: "heroicons:sparkles",
-      path: "/festival-calendar",
+      path: "/culture/festival-calendar",
       color: "text-orange-500",
     },
     {
       title: "Add Event",
       description: "Create a new calendar event",
       icon: "heroicons:plus-circle",
-      path: "/family-calendar-modern",
+      path: "/home/family-calendar-modern",
       color: "text-green-500",
     },
   ];
@@ -81,6 +81,6 @@
 
   <!-- Footer -->
   <div class="p-3 border-t border-base-300 bg-base-50">
-    <button class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors" on:click={() => handleActionClick("/family-calendar-modern")}> Open Full Calendar </button>
+    <button class="w-full text-sm text-primary hover:text-primary-focus font-medium transition-colors" on:click={() => handleActionClick("/home/family-calendar-modern")}> Open Full Calendar </button>
   </div>
 </div>

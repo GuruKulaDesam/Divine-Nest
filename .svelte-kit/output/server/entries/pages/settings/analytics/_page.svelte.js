@@ -9,7 +9,7 @@ import { flip, offset, shift, arrow, size, autoUpdate, computePosition } from "@
 import { createFocusTrap } from "focus-trap";
 import { Chart, registerables } from "chart.js";
 import { c as chartColors, s as sampleData } from "../../../../chunks/charts.js";
-import { f as fallback } from "../../../../chunks/utils.js";
+import { f as fallback } from "../../../../chunks/utils2.js";
 import { a as $format } from "../../../../chunks/runtime.js";
 import { T as escape_html } from "../../../../chunks/context.js";
 function chunk(arr, size2) {

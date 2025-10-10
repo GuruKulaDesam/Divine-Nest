@@ -1,5 +1,5 @@
 <script>
-  import MapsPage from '$lib/pages/MapsPage.svelte';
+  import MapsPage from "$lib/components/MapsPage.svelte";
 </script>
 
 <MapsPage />

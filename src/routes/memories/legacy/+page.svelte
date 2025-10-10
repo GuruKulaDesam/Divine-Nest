@@ -1,5 +1,5 @@
 <script>
-  import LegacyPage from '$lib/pages/LegacyPage.svelte';
+  import LegacyPage from "$lib/components/LegacyPage.svelte";
 </script>
 
 <LegacyPage />

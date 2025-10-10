@@ -1,5 +1,5 @@
 <script>
-  import QuizPage from '$lib/pages/QuizPage.svelte';
+  import QuizPage from "$lib/components/QuizPage.svelte";
 </script>
 
 <QuizPage />

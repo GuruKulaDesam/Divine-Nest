@@ -618,7 +618,7 @@ function MapsPage($$renderer, $$props) {
     $$renderer2.push(`</div></div> <div class="flex items-center justify-between mt-4 pt-4 border-t border-base-300"><div class="text-sm text-base-content/60">${escape_html(allFilteredJobs.length)} ${escape_html(store_get($$store_subs ??= {}, "$_", $format)("common.of"))} ${escape_html(jobs.length)} ${escape_html(store_get($$store_subs ??= {}, "$_", $format)("maps.jobs_found"))}</div></div></div></div> <div class="flex flex-col lg:flex-row gap-6 mt-8 max-w-full overflow-x-hidden"><div class="lg:w-3/5 w-full h-[500px] lg:h-[700px]"><div class="relative h-full w-full">`);
     {
       $$renderer2.push("<!--[!-->");
-      $$renderer2.push(`<div class="h-full w-full rounded-lg map-container shadow-md svelte-1cih056">`);
+      $$renderer2.push(`<div class="h-full w-full rounded-lg map-container shadow-md svelte-1681j5o">`);
       if (!mapLoaded || mapInitializing) {
         $$renderer2.push("<!--[-->");
         $$renderer2.push(`<div class="absolute inset-0 flex items-center justify-center bg-base-200 rounded-lg z-10"><div class="text-center"><div class="loading loading-spinner loading-lg text-primary mb-4"></div> <p class="text-base-content/70">${escape_html(mapInitializing ? "Initializing map..." : store_get($$store_subs ??= {}, "$_", $format)("maps.loading_map"))}</p></div></div>`);

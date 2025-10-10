@@ -1,5 +1,5 @@
 <script>
-  import HealthPage from '$lib/pages/HealthPage.svelte';
+  import HealthPage from "$lib/components/HealthPage.svelte";
 </script>
 
 <HealthPage />

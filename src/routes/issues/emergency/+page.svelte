@@ -1,5 +1,5 @@
 <script>
-  import IssuesEmergencyPage from '$lib/pages/IssuesEmergencyPage.svelte';
+  import IssuesEmergencyPage from "$lib/components/IssuesEmergencyPage.svelte";
 </script>
 
 <IssuesEmergencyPage />

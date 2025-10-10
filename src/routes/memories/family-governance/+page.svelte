@@ -1,5 +1,5 @@
 <script>
-  import FamilyGovernancePage from '$lib/pages/FamilyGovernancePage.svelte';
+  import FamilyGovernancePage from "$lib/components/FamilyGovernancePage.svelte";
 </script>
 
 <FamilyGovernancePage />

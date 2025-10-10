@@ -1,5 +1,5 @@
 <script>
-  import ShivoAgenticPage from "$lib/pages/ShivoAgenticPage.svelte";
+  import ShivoAgenticPage from "$lib/components/ShivoAgenticPage.svelte";
 </script>
 
 <ShivoAgenticPage />

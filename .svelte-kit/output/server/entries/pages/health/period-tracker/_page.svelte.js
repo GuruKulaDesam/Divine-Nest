@@ -1,7 +1,7 @@
 import { b as attr_class, k as bind_props, s as stringify, a as ensure_array_like, c as store_get, d as attr, u as unsubscribe_stores, h as head } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import { w as writable } from "../../../../chunks/index.js";
-import { f as fallback } from "../../../../chunks/utils.js";
+import { f as fallback } from "../../../../chunks/utils2.js";
 import { T as escape_html } from "../../../../chunks/context.js";
 import { f as foodRecommendations, a as avoidFoods, r as ritualPrompts, t as tamilWisdom } from "../../../../chunks/rituals.js";
 const defaultCycleData = {

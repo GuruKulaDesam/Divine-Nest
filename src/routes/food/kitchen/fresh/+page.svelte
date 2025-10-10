@@ -1,5 +1,5 @@
 <script>
-  import FreshPage from '$lib/pages/FreshPage.svelte';
+  import FreshPage from "$lib/components/FreshPage.svelte";
 </script>
 
 <FreshPage />

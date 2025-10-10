@@ -1,5 +1,5 @@
 <script>
-  import FamilyCalendarModernPage from '$lib/pages/FamilyCalendarModernPage.svelte';
+  import FamilyCalendarModernPage from "$lib/components/FamilyCalendarModernPage.svelte";
 </script>
 
 <FamilyCalendarModernPage />

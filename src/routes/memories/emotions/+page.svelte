@@ -1,5 +1,5 @@
 <script>
-  import EmotionsPage from '$lib/pages/EmotionsPage.svelte';
+  import EmotionsPage from "$lib/components/EmotionsPage.svelte";
 </script>
 
 <EmotionsPage />

@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/home/reminders/+page.svelte";
+export { default as component } from "../../../../src/routes/home/family-calendar-modern/+page.svelte";

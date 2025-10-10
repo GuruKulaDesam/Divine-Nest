@@ -1,5 +1,5 @@
 <script>
-  import ValuePage from '$lib/pages/ValuePage.svelte';
+  import ValuePage from "$lib/components/ValuePage.svelte";
 </script>
 
 <ValuePage />

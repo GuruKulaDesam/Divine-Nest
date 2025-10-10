@@ -1,5 +1,5 @@
 <script>
-  import AssessmentPage from '$lib/pages/AssessmentPage.svelte';
+  import AssessmentPage from "$lib/components/AssessmentPage.svelte";
 </script>
 
 <AssessmentPage />

@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/divinity/+page.svelte";
+export { default as component } from "../../../../src/routes/directory/+page.svelte";

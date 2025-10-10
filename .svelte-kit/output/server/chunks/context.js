@@ -1,4 +1,5 @@
-import { b as run_all, d as define_property, D as DEV, c as deferred, n as noop, o as object_prototype, e as array_prototype, g as get_descriptor, h as get_prototype_of, i as is_array, j as is_extensible, k as index_of } from "./utils.js";
+import { D as DEV } from "./false.js";
+import { b as run_all, d as define_property, c as deferred, n as noop, o as object_prototype, e as array_prototype, g as get_descriptor, h as get_prototype_of, i as is_array, j as is_extensible, k as index_of } from "./utils2.js";
 import "clsx";
 function equals(value) {
   return value === this.v;

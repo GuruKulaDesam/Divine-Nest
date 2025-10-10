@@ -1,5 +1,5 @@
 <script>
-  import TemplePage from '$lib/pages/TemplePage.svelte';
+  import TemplePage from "$lib/components/TemplePage.svelte";
 </script>
 
 <TemplePage />
