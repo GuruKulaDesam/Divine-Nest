@@ -3,7 +3,7 @@
   import { goto } from "$app/navigation";
 
   function navigateBack() {
-    goto("/wisdom");
+    goto("/culture");
   }
 
   // Income Paths data

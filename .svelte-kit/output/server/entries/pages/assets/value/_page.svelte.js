@@ -1,7 +1,7 @@
 import "clsx";
 import { h as head, b as attr_class, d as attr, g as clsx, a as ensure_array_like, s as stringify, j as attr_style } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { e as escape_html } from "../../../../chunks/context.js";
+import { T as escape_html } from "../../../../chunks/context.js";
 function ValuePage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let filteredAssets, categoryTotals;

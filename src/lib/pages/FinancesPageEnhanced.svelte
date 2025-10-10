@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { currentRoute } from "../router.js";
+  import { page } from "$app/stores";
   import Icon from "@iconify/svelte";
 
   // Import existing components

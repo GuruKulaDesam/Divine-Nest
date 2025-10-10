@@ -257,9 +257,6 @@
 
         <!-- Clear Filters -->
         <div class="form-control">
-          <label class="label">
-            <span class="label-text opacity-0">Actions</span>
-          </label>
           <button
             on:click={() => {
               searchQuery = "";
@@ -342,8 +339,8 @@
                         <Icon icon="mdi:dots-vertical" class="w-4 h-4" />
                       </button>
                       <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a on:click={() => editMember(member)}>Edit</a></li>
-                        <li><a class="text-error" on:click={() => deleteMember(member.id)}>Delete</a></li>
+                        <li><button on:click={() => editMember(member)} class="btn btn-ghost">Edit</button></li>
+                        <li><button on:click={() => deleteMember(member.id)} class="btn btn-ghost text-error">Delete</button></li>
                       </ul>
                     </div>
                   </td>
@@ -509,26 +506,26 @@
         <form on:submit|preventDefault={updateMember} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="member-name" class="label">
                 <span class="label-text">Full Name *</span>
               </label>
-              <input type="text" bind:value={editingMember.name} placeholder="Enter full name" class="input input-bordered w-full" required />
+              <input id="member-name" type="text" bind:value={editingMember.name} placeholder="Enter full name" class="input input-bordered w-full" required />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="member-tamil-name" class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input type="text" bind:value={editingMember.tamilName} placeholder="தமிழ் பெயர்" class="input input-bordered w-full" />
+              <input id="member-tamil-name" type="text" bind:value={editingMember.tamilName} placeholder="தமிழ் பெயர்" class="input input-bordered w-full" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="member-relationship" class="label">
                 <span class="label-text">Relationship</span>
               </label>
-              <select bind:value={editingMember.relationship} class="select select-bordered w-full">
+              <select id="member-relationship" bind:value={editingMember.relationship} class="select select-bordered w-full">
                 <option value="">Select relationship</option>
                 {#each relationships as relationship}
                   <option value={relationship}>{relationship}</option>
@@ -537,49 +534,49 @@
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="member-age" class="label">
                 <span class="label-text">Age</span>
               </label>
-              <input type="number" bind:value={editingMember.age} placeholder="Age in years" class="input input-bordered w-full" min="1" max="120" />
+              <input id="member-age" type="number" bind:value={editingMember.age} placeholder="Age in years" class="input input-bordered w-full" min="1" max="120" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="member-phone" class="label">
                 <span class="label-text">Phone Number</span>
               </label>
-              <input type="tel" bind:value={editingMember.phone} placeholder="+91-98765-43210" class="input input-bordered w-full" />
+              <input id="member-phone" type="tel" bind:value={editingMember.phone} placeholder="+91-98765-43210" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="member-email" class="label">
                 <span class="label-text">Email</span>
               </label>
-              <input type="email" bind:value={editingMember.email} placeholder="member@example.com" class="input input-bordered w-full" />
+              <input id="member-email" type="email" bind:value={editingMember.email} placeholder="member@example.com" class="input input-bordered w-full" />
             </div>
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="member-address" class="label">
               <span class="label-text">Address</span>
             </label>
-            <textarea bind:value={editingMember.address} placeholder="Enter address" rows="2" class="textarea textarea-bordered w-full"></textarea>
+            <textarea id="member-address" bind:value={editingMember.address} placeholder="Enter address" rows="2" class="textarea textarea-bordered w-full"></textarea>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="member-occupation" class="label">
                 <span class="label-text">Occupation</span>
               </label>
-              <input type="text" bind:value={editingMember.occupation} placeholder="Job title or occupation" class="input input-bordered w-full" />
+              <input id="member-occupation" type="text" bind:value={editingMember.occupation} placeholder="Job title or occupation" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="member-blood-group" class="label">
                 <span class="label-text">Blood Group</span>
               </label>
-              <select bind:value={editingMember.bloodGroup} class="select select-bordered w-full">
+              <select id="member-blood-group" bind:value={editingMember.bloodGroup} class="select select-bordered w-full">
                 <option value="">Select blood group</option>
                 {#each bloodGroups as group}
                   <option value={group}>{group}</option>
@@ -590,17 +587,17 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="member-emergency-contact" class="label">
                 <span class="label-text">Emergency Contact</span>
               </label>
-              <input type="tel" bind:value={editingMember.emergencyContact} placeholder="+91-98765-43211" class="input input-bordered w-full" />
+              <input id="member-emergency-contact" type="tel" bind:value={editingMember.emergencyContact} placeholder="+91-98765-43211" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="member-status" class="label">
                 <span class="label-text">Status</span>
               </label>
-              <select bind:value={editingMember.status} class="select select-bordered w-full">
+              <select id="member-status" bind:value={editingMember.status} class="select select-bordered w-full">
                 {#each statuses as status}
                   <option value={status.id}>{status.name}</option>
                 {/each}
@@ -609,10 +606,10 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="member-notes" class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea bind:value={editingMember.notes} placeholder="Additional notes or information" rows="3" class="textarea textarea-bordered w-full"></textarea>
+            <textarea id="member-notes" bind:value={editingMember.notes} placeholder="Additional notes or information" rows="3" class="textarea textarea-bordered w-full"></textarea>
           </div>
 
           <div class="flex justify-end gap-3 pt-4">

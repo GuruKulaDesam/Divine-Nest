@@ -139,8 +139,6 @@ Language can be switched using the language switcher in the header.
 
 The app uses local JSON data files for all content:
 
-- `src/lib/data/users.js` - User management data
-- `src/lib/data/products.js` - Product catalog data
 - `src/lib/data/dashboard.js` - Dashboard statistics
 - `src/lib/data/gantt.js` - Project management data
 - `src/lib/data/notifications.js` - Notifications and messages

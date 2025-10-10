@@ -130,10 +130,10 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Search -->
         <div class="form-control">
-          <label class="label">
+          <label for="voice-log-search" class="label">
             <span class="label-text">{taLabels.search}</span>
           </label>
-          <input type="text" bind:value={searchQuery} placeholder="குரல் பதிவுகளை தேடு..." class="input input-bordered w-full" />
+          <input id="voice-log-search" type="text" bind:value={searchQuery} placeholder="குரல் பதிவுகளை தேடு..." class="input input-bordered w-full" />
         </div>
 
         <!-- Emotion Filter -->

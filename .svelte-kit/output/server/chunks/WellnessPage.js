@@ -1,6 +1,6 @@
-import { h as head, b as attr_class, s as stringify, a as ensure_array_like } from "./index2.js";
+import { h as head, b as attr_class, a as ensure_array_like, s as stringify } from "./index2.js";
 import "./wellness.js";
-import { e as escape_html } from "./context.js";
+import { T as escape_html } from "./context.js";
 function WellnessDashboard($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let stats = {};

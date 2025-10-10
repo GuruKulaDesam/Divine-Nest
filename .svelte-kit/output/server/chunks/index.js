@@ -1,5 +1,5 @@
 import { n as noop, b as run_all } from "./utils.js";
-import { S as safe_not_equal, T as subscribe_to_store } from "./utils3.js";
+import { V as safe_not_equal, W as subscribe_to_store } from "./context.js";
 const subscriber_queue = [];
 function readable(value, start) {
   return {

@@ -2,7 +2,7 @@
 
 export const index = 47;
 let component_cache;
-export const component = async () => component_cache ??= (await import('../entries/pages/gantt/_page.svelte.js')).default;
-export const imports = ["_app/immutable/nodes/47.CMpPevNF.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/vwNg4zDZ.js","_app/immutable/chunks/D17TB34f.js","_app/immutable/chunks/CoJeog3M.js","_app/immutable/chunks/CzCGRA_2.js","_app/immutable/chunks/CkvYQuga.js","_app/immutable/chunks/YnfMsfdI.js","_app/immutable/chunks/C-YpgGKv.js","_app/immutable/chunks/D0VxIX3N.js","_app/immutable/chunks/BJQBB4-K.js","_app/immutable/chunks/CFHZ0_TH.js","_app/immutable/chunks/aleVj_GK.js","_app/immutable/chunks/BQBbAM3R.js","_app/immutable/chunks/Cw7o17-n.js","_app/immutable/chunks/CtBz2LPi.js","_app/immutable/chunks/BU3oqONv.js","_app/immutable/chunks/B2ZXU26p.js"];
-export const stylesheets = ["_app/immutable/assets/GanttPage.BaJqrd28.css"];
+export const component = async () => component_cache ??= (await import('../entries/pages/education/studies/_page.svelte.js')).default;
+export const imports = ["_app/immutable/nodes/47.BQm_fKhh.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/69_IOA4Y.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/DlrJBDXQ.js","_app/immutable/chunks/B7bOZ5S9.js","_app/immutable/chunks/DIwmiGeX.js","_app/immutable/chunks/BpwsUEBk.js","_app/immutable/chunks/BUszLdvL.js","_app/immutable/chunks/5L-6EDXk.js","_app/immutable/chunks/BkU-PxQ3.js","_app/immutable/chunks/4B07Rhrk.js","_app/immutable/chunks/BeN61itl.js","_app/immutable/chunks/HaWL_7Wj.js","_app/immutable/chunks/DnAqKgy0.js","_app/immutable/chunks/Bfc47y5P.js","_app/immutable/chunks/CRzXd5be.js","_app/immutable/chunks/Cpj98o6Y.js","_app/immutable/chunks/BYESIgU4.js"];
+export const stylesheets = [];
 export const fonts = [];

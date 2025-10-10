@@ -1,6 +1,6 @@
 import { h as head, d as attr, a as ensure_array_like, b as attr_class, s as stringify } from "./index2.js";
 import { I as Icon } from "./Icon.js";
-import { e as escape_html } from "./context.js";
+import { T as escape_html } from "./context.js";
 function MaintenancePage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let filteredTasks, filteredAssets;

@@ -1,6 +1,9 @@
 <script>
   import { onMount } from "svelte";
+  import { page } from "$app/stores";
   import Icon from "@iconify/svelte";
+
+  // Import finance components
   import FamilyMemberCard from "../components/FamilyMemberCard.svelte";
   import RechargeTracker from "../components/RechargeTracker.svelte";
   import ExpenseLogger from "../components/ExpenseLogger.svelte";
@@ -8,9 +11,20 @@
   import { familyMembers, totalMonthlyRecharges, totalYearlyRenewals } from "../data/family.js";
   import { notificationService } from "../services/notificationService.js";
 
-  let activeTab = "overview";
+  let activeSection = "dashboard";
   let selectedMember = null;
-  let showMemberDetails = false;
+
+  // Calculate current section info
+  $: currentSection = FinanceSections.find((s) => s.id === activeSection);
+
+  function switchSection(sectionId) {
+    activeSection = sectionId;
+    window.history.pushState({}, "", `/finances/${sectionId}`);
+  }
+
+  function switchMember(memberId) {
+    selectedMember = memberId;
+  }
 
   // Quick stats
   $: totalFamilyBudget = familyMembers.reduce((sum, member) => sum + member.monthlyBudget, 0);
@@ -28,7 +42,6 @@
 
   function handleMemberClick(member) {
     selectedMember = member;
-    showMemberDetails = true;
   }
 
   function sendFamilyBudgetSummary() {
@@ -67,17 +80,76 @@
     a.click();
     window.URL.revokeObjectURL(url);
   }
+
+  // Finance Sections for navigation
+  const FinanceSections = [
+    {
+      id: "dashboard",
+      name: "Dashboard",
+      tamil: "டாஷ்போர்டு",
+      icon: "heroicons:home",
+      description: "Overview & Analytics",
+    },
+    {
+      id: "recharges",
+      name: "Recharges",
+      tamil: "ரீசார்ஜ்",
+      icon: "heroicons:device-phone-mobile",
+      description: "Monthly Bills & Renewals",
+    },
+    {
+      id: "expenses",
+      name: "Expenses",
+      tamil: "செலவுகள்",
+      icon: "heroicons:credit-card",
+      description: "Track Daily Expenses",
+    },
+    {
+      id: "budget",
+      name: "Budget",
+      tamil: "பட்ஜெட்",
+      icon: "heroicons:calculator",
+      description: "Budget Planning & Analysis",
+    },
+    {
+      id: "insurance",
+      name: "Insurance",
+      tamil: "காப்பீடு",
+      icon: "heroicons:shield-check",
+      description: "Insurance Management",
+    },
+    {
+      id: "investments",
+      name: "Investments",
+      tamil: "முதலீடுகள்",
+      icon: "heroicons:chart-line",
+      description: "Investment Tracking",
+    },
+  ];
+
+  onMount(() => {
+    document.title = "Family Finance Management Suite";
+  });
 </script>
 
-<div class="min-h-screen bg-gray-50">
-  <!-- Header -->
-  <div class="bg-white border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900">💰 Family Finances</h1>
-          <p class="text-sm text-gray-600">Manage family budget, expenses, and financial planning</p>
+<!-- Family Finance Management Suite Header -->
+<div class="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+  <div class="container mx-auto px-4 py-6">
+    <!-- Header Section -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center space-x-4">
+          <div class="bg-green-100 p-3 rounded-lg">
+            <Icon icon="heroicons:currency-rupee" class="w-8 h-8 text-green-600" />
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Family Finance Management Suite</h1>
+            <p class="text-lg text-gray-600">குடும்ப நிதி மேலாண்மை தொகுப்பு</p>
+            <p class="text-sm text-gray-500">Comprehensive financial planning for South Indian families</p>
+          </div>
         </div>
+
+        <!-- Action Buttons -->
         <div class="flex space-x-3">
           <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2" on:click={sendFamilyBudgetSummary}>
             <Icon icon="heroicons:paper-airplane" class="w-4 h-4" />
@@ -89,20 +161,19 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Navigation Tabs -->
-  <div class="bg-white border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav class="flex space-x-8" aria-label="Tabs">
-        {#each [{ id: "overview", name: "Overview", icon: "heroicons:home" }, { id: "family", name: "Family Members", icon: "heroicons:users" }, { id: "recharges", name: "Monthly Bills", icon: "heroicons:device-phone-mobile" }, { id: "expenses", name: "Expense Tracker", icon: "heroicons:receipt-percent" }, { id: "budget", name: "Budget Analytics", icon: "heroicons:chart-pie" }] as tab}
-          <button class="flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors {activeTab === tab.id ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" on:click={() => (activeTab = tab.id)}>
-            <Icon icon={tab.icon} class="w-4 h-4" />
-            <span>{tab.name}</span>
+      <!-- Section Navigation -->
+      <div class="flex flex-wrap gap-2">
+        {#each FinanceSections as section}
+          <button on:click={() => switchSection(section.id)} class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all {activeSection === section.id ? 'bg-green-500 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}">
+            <Icon icon={section.icon} class="w-5 h-5" />
+            <div class="text-left">
+              <div class="font-medium">{section.name}</div>
+              <div class="text-xs opacity-75">{section.tamil}</div>
+            </div>
           </button>
         {/each}
-      </nav>
+      </div>
     </div>
   </div>
 

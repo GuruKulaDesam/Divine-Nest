@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { currentRoute } from "../router.js";
+  import { page } from "$app/stores";
   import Icon from "@iconify/svelte";
 
   // Import kitchen components (we'll create these)
@@ -32,9 +32,9 @@
 
   // Handle URL-based section routing
   $: {
-    const path = $currentRoute;
-    if (path.startsWith("/kitchen/")) {
-      const section = path.split("/")[2];
+    const path = $page.url.pathname;
+    if (path.startsWith("/food/kitchen/")) {
+      const section = path.split("/")[3];
       if (section && KitchenSections.find((s) => s.id === section)) {
         activeSection = section;
       }
@@ -43,7 +43,7 @@
 
   function switchSection(sectionId) {
     activeSection = sectionId;
-    window.history.pushState({}, "", `/kitchen/${sectionId}`);
+    window.history.pushState({}, "", `/food/kitchen/${sectionId}`);
   }
 
   function switchProfile(profileId) {

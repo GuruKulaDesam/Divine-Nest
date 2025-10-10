@@ -1,8 +1,29 @@
 <script>
   import { onMount } from "svelte";
+  import { page } from "$app/stores";
   import Icon from "@iconify/svelte";
 
-  let currentSection = "overview";
+  let activeSection = "dashboard";
+
+  // Calculate current section info
+  $: currentSection = AssetSections.find((s) => s.id === activeSection);
+
+  // Handle URL-based section routing
+  $: {
+    const path = $page.url.pathname;
+    if (path.startsWith("/assets/")) {
+      const section = path.split("/")[2];
+      if (section && AssetSections.find((s) => s.id === section)) {
+        activeSection = section;
+      }
+    }
+  }
+
+  function switchSection(sectionId) {
+    activeSection = sectionId;
+    window.history.pushState({}, "", `/assets/${sectionId}`);
+  }
+
   let searchTerm = "";
   let selectedCategory = "all";
 
@@ -15,6 +36,59 @@
     { id: "heirlooms", label: "Heirloom & Legacy", icon: "heroicons:heart", color: "text-red-500" },
     { id: "movement", label: "Movement & Lending", icon: "heroicons:arrow-path", color: "text-indigo-500" },
     { id: "disposal", label: "Disposal & Recycling", icon: "heroicons:trash", color: "text-gray-500" },
+  ];
+
+  // Asset Sections for navigation
+  const AssetSections = [
+    {
+      id: "dashboard",
+      name: "Dashboard",
+      tamil: "டாஷ்போர்டு",
+      icon: "heroicons:home",
+      description: "Overview & Analytics",
+    },
+    {
+      id: "items",
+      name: "Items",
+      tamil: "பொருட்கள்",
+      icon: "heroicons:cube",
+      description: "Physical Assets",
+    },
+    {
+      id: "documents",
+      name: "Documents",
+      tamil: "ஆவணங்கள்",
+      icon: "heroicons:document-text",
+      description: "Ownership & Papers",
+    },
+    {
+      id: "maintenance",
+      name: "Maintenance",
+      tamil: "பராமரிப்பு",
+      icon: "heroicons:wrench-screwdriver",
+      description: "Service & Repairs",
+    },
+    {
+      id: "value",
+      name: "Value",
+      tamil: "மதிப்பு",
+      icon: "heroicons:currency-rupee",
+      description: "Asset Valuation",
+    },
+    {
+      id: "inventory",
+      name: "Inventory",
+      tamil: "சரக்கு",
+      icon: "heroicons:archive-box",
+      description: "Home Inventory",
+    },
+    {
+      id: "vehicles",
+      name: "Vehicles",
+      tamil: "வாகனங்கள்",
+      icon: "heroicons:truck",
+      description: "Vehicle Management",
+    },
   ];
 
   const assetCategories = [
@@ -67,6 +141,56 @@
     }
   }
 </script>
+
+<!-- Family Asset Management Suite Header -->
+<div class="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
+  <div class="container mx-auto px-4 py-6">
+    <!-- Header Section -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center space-x-4">
+          <div class="bg-purple-100 p-3 rounded-lg">
+            <Icon icon="heroicons:building-storefront" class="w-8 h-8 text-purple-600" />
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Family Asset Management Suite</h1>
+            <p class="text-lg text-gray-600">குடும்ப சொத்து மேலாண்மை தொகுப்பு</p>
+            <p class="text-sm text-gray-500">Comprehensive asset tracking for South Indian families</p>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="flex space-x-6">
+          <div class="text-center">
+            <div class="text-2xl font-bold text-purple-600">{totalAssets}</div>
+            <div class="text-sm text-gray-500">Total Assets</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-green-600">₹{totalValue.toLocaleString()}</div>
+            <div class="text-sm text-gray-500">Total Value</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-orange-600">{pendingMaintenance}</div>
+            <div class="text-sm text-gray-500">Pending Service</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Navigation -->
+      <div class="flex flex-wrap gap-2">
+        {#each AssetSections as section}
+          <button on:click={() => switchSection(section.id)} class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all {activeSection === section.id ? 'bg-purple-500 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}">
+            <Icon icon={section.icon} class="w-5 h-5" />
+            <div class="text-left">
+              <div class="font-medium">{section.name}</div>
+              <div class="text-xs opacity-75">{section.tamil}</div>
+            </div>
+          </button>
+        {/each}
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="space-y-6">
   <!-- Header -->

@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { currentRoute } from "../router.js";
+  import { page } from "$app/stores";
   import Icon from "@iconify/svelte";
 
   // Import education components (we'll create these)
@@ -19,7 +19,7 @@
 
   // Handle URL-based section routing
   $: {
-    const path = $currentRoute;
+    const path = $page.url.pathname;
     if (path.startsWith("/education/")) {
       const section = path.split("/")[2];
       if (section && EducationSections.find((s) => s.id === section)) {

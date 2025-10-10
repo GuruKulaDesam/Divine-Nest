@@ -1,6 +1,6 @@
 import { b as attr_class, a as ensure_array_like, d as attr, s as stringify } from "./index2.js";
 import { I as Icon } from "./Icon.js";
-import { e as escape_html } from "./context.js";
+import { T as escape_html } from "./context.js";
 function HouseholdPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let groceryList = [
@@ -132,5 +132,5 @@ function HouseholdPage($$renderer, $$props) {
   });
 }
 export {
-  HouseholdPage as default
+  HouseholdPage as H
 };

@@ -9,13 +9,21 @@
       "_environment.js"
     ]
   },
-  "_DeleteConfirmationModal.js": {
-    "file": "chunks/DeleteConfirmationModal.js",
-    "name": "DeleteConfirmationModal",
+  "_FestivalManager.js": {
+    "file": "chunks/FestivalManager.js",
+    "name": "FestivalManager",
     "imports": [
       "_index2.js",
-      "_utils.js",
-      "_runtime.js",
+      "_rituals.js",
+      "_context.js"
+    ]
+  },
+  "_HouseholdPage.js": {
+    "file": "chunks/HouseholdPage.js",
+    "name": "HouseholdPage",
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
       "_context.js"
     ]
   },
@@ -24,13 +32,21 @@
     "name": "Icon",
     "imports": [
       "_index2.js",
-      "_context.js",
-      "_functions.js"
+      "_context.js"
     ]
   },
   "_MaintenancePage.js": {
     "file": "chunks/MaintenancePage.js",
     "name": "MaintenancePage",
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "_MealsPage.js": {
+    "file": "chunks/MealsPage.js",
+    "name": "MealsPage",
     "imports": [
       "_index2.js",
       "_Icon.js",
@@ -85,7 +101,10 @@
   },
   "_context.js": {
     "file": "chunks/context.js",
-    "name": "context"
+    "name": "context",
+    "imports": [
+      "_utils.js"
+    ]
   },
   "_database.js": {
     "file": "chunks/database.js",
@@ -103,23 +122,18 @@
     "file": "chunks/exports.js",
     "name": "exports"
   },
-  "_functions.js": {
-    "file": "chunks/functions.js",
-    "name": "functions"
-  },
   "_index.js": {
     "file": "chunks/index.js",
     "name": "index",
     "imports": [
       "_utils.js",
-      "_utils3.js"
+      "_context.js"
     ]
   },
   "_index2.js": {
     "file": "chunks/index2.js",
     "name": "index",
     "imports": [
-      "_utils3.js",
       "_context.js"
     ]
   },
@@ -127,109 +141,22 @@
     "file": "chunks/internal.js",
     "name": "internal",
     "imports": [
-      "_utils3.js",
+      "_context.js",
       "_utils.js",
       "_index2.js",
-      "_context.js",
       "_environment.js"
     ]
   },
-  "_notes.js": {
-    "file": "chunks/notes.js",
-    "name": "notes",
+  "_reminders.js": {
+    "file": "chunks/reminders.js",
+    "name": "reminders",
     "imports": [
       "_index.js"
-    ]
-  },
-  "_notificationService.BwKCHQUH.css": {
-    "file": "_app/immutable/assets/notificationService.BwKCHQUH.css",
-    "src": "_notificationService.BwKCHQUH.css"
-  },
-  "_notificationService.js": {
-    "file": "chunks/notificationService.js",
-    "name": "notificationService",
-    "css": [
-      "_app/immutable/assets/notificationService.BwKCHQUH.css"
     ]
   },
   "_rituals.js": {
     "file": "chunks/rituals.js",
     "name": "rituals"
-  },
-  "_router.js": {
-    "file": "chunks/router.js",
-    "name": "router",
-    "imports": [
-      "_index.js"
-    ],
-    "dynamicImports": [
-      "src/lib/pages/HomePage.svelte",
-      "src/lib/pages/UsersPage.svelte",
-      "src/lib/pages/ProductsPage.svelte",
-      "src/lib/pages/AnalyticsPage.svelte",
-      "src/lib/pages/ProjectManagementPage.svelte",
-      "src/lib/pages/MapsPage.svelte",
-      "src/lib/pages/SchedulePage.svelte",
-      "src/lib/pages/ProfilePage.svelte",
-      "src/lib/pages/SettingsPage.svelte",
-      "src/lib/pages/LoginPage.svelte",
-      "src/lib/pages/LoginV2.svelte",
-      "src/lib/pages/LoginV3.svelte",
-      "src/lib/pages/RegisterPage.svelte",
-      "src/lib/pages/RegisterV2.svelte",
-      "src/lib/pages/RegisterV3.svelte",
-      "src/lib/pages/NotFoundPage.svelte",
-      "src/lib/pages/ChartsPage.svelte",
-      "src/lib/pages/GanttPage.svelte",
-      "src/lib/pages/FamilyCalendarModernPage.svelte",
-      "src/lib/pages/FamilyNotesModernPage.svelte",
-      "src/lib/pages/RemindersPage.svelte",
-      "src/lib/pages/FinancesPageEnhanced.svelte",
-      "src/lib/pages/EducationPage.svelte",
-      "src/lib/pages/KitchenPage.svelte",
-      "src/lib/pages/TamilPanchangamPage.svelte",
-      "src/lib/pages/HobbiesActivitiesPage.svelte",
-      "src/lib/pages/HouseholdPage.svelte",
-      "src/lib/pages/ContactsPage.svelte",
-      "src/lib/pages/EmergencyContactsPage.svelte",
-      "src/lib/pages/IssuesEmergencySituationsPage.svelte",
-      "src/lib/pages/IssuesUrgentPage.svelte",
-      "src/lib/pages/IssuesRepairsPage.svelte",
-      "src/lib/pages/IssuesMaintenancePage.svelte",
-      "src/lib/pages/IssuesUpgradesPage.svelte",
-      "src/lib/pages/RequestsPage.svelte",
-      "src/lib/pages/HealthPage.svelte",
-      "src/lib/pages/YogaExercisePage.svelte",
-      "src/lib/pages/HealthJournalPage.svelte",
-      "src/lib/pages/TravelPage.svelte",
-      "src/lib/pages/TripHistoryPage.svelte",
-      "src/lib/pages/LeisureCommunityPage.svelte",
-      "src/lib/pages/FamilyStoriesPage.svelte",
-      "src/lib/pages/LegacyMemoryPage.svelte",
-      "src/lib/pages/EmotionsFeelingsPage.svelte",
-      "src/lib/pages/FamilyGovernancePage.svelte",
-      "src/lib/pages/TemplePage.svelte",
-      "src/lib/pages/AssetsPage.svelte",
-      "src/lib/pages/AssetsItemsPage.svelte",
-      "src/lib/pages/AssetsValuePage.svelte",
-      "src/lib/pages/AssetsMaintenancePage.svelte",
-      "src/lib/pages/AssetsDocumentsPage.svelte",
-      "src/lib/pages/GroceryPage.svelte",
-      "src/lib/pages/LibraryPage.svelte",
-      "src/lib/pages/StudiesPage.svelte",
-      "src/lib/pages/LearningGoalsPage.svelte",
-      "src/lib/pages/GradesTrackerPage.svelte",
-      "src/lib/pages/AssistantPage.svelte",
-      "src/lib/pages/VoiceLogPage.svelte",
-      "src/lib/pages/TaskBoardPage.svelte",
-      "src/lib/pages/EventFeedPage.svelte",
-      "src/lib/pages/AutoChecklistPage.svelte",
-      "src/lib/pages/AmbientLogPage.svelte",
-      "src/lib/pages/FestivalCalendarPage.svelte",
-      "src/lib/pages/MantrasPage.svelte",
-      "src/lib/pages/WeatherPage.svelte",
-      "src/lib/pages/ViewModeTestPage.svelte"
-    ]
   },
   "_runtime.js": {
     "file": "chunks/runtime.js",
@@ -245,22 +172,21 @@
       "_utils2.js"
     ]
   },
-  "_shivo.js": {
-    "file": "chunks/shivo.js",
-    "name": "shivo",
-    "imports": [
-      "_index.js",
-      "_notes.js"
-    ],
-    "dynamicImports": [
-      "src/lib/ai/musicgen.ts"
-    ]
-  },
   "_state.svelte.js": {
     "file": "chunks/state.svelte.js",
     "name": "state.svelte",
     "imports": [
       "_utils.js"
+    ]
+  },
+  "_stores.js": {
+    "file": "chunks/stores.js",
+    "name": "stores",
+    "imports": [
+      "_context.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js"
     ]
   },
   "_theme.js": {
@@ -277,13 +203,6 @@
   "_utils2.js": {
     "file": "chunks/utils2.js",
     "name": "utils"
-  },
-  "_utils3.js": {
-    "file": "chunks/utils3.js",
-    "name": "utils",
-    "imports": [
-      "_utils.js"
-    ]
   },
   "_wellness.js": {
     "file": "chunks/wellness.js",
@@ -358,817 +277,6 @@
     "src": "src/lib/i18n/locales/ko.json",
     "isDynamicEntry": true
   },
-  "src/lib/pages/AmbientLogPage.svelte": {
-    "file": "chunks/AmbientLogPage.js",
-    "name": "AmbientLogPage",
-    "src": "src/lib/pages/AmbientLogPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/AnalyticsPage.svelte": {
-    "file": "chunks/AnalyticsPage.js",
-    "name": "AnalyticsPage",
-    "src": "src/lib/pages/AnalyticsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_index.js",
-      "_charts.js",
-      "_utils.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/AssetsDocumentsPage.svelte": {
-    "file": "chunks/AssetsDocumentsPage.js",
-    "name": "AssetsDocumentsPage",
-    "src": "src/lib/pages/AssetsDocumentsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/AssetsItemsPage.svelte": {
-    "file": "chunks/AssetsItemsPage.js",
-    "name": "AssetsItemsPage",
-    "src": "src/lib/pages/AssetsItemsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/AssetsMaintenancePage.svelte": {
-    "file": "chunks/AssetsMaintenancePage.js",
-    "name": "AssetsMaintenancePage",
-    "src": "src/lib/pages/AssetsMaintenancePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/AssetsPage.svelte": {
-    "file": "chunks/AssetsPage.js",
-    "name": "AssetsPage",
-    "src": "src/lib/pages/AssetsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/AssetsValuePage.svelte": {
-    "file": "chunks/AssetsValuePage.js",
-    "name": "AssetsValuePage",
-    "src": "src/lib/pages/AssetsValuePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/AssistantPage.svelte": {
-    "file": "chunks/AssistantPage.js",
-    "name": "AssistantPage",
-    "src": "src/lib/pages/AssistantPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_notes.js",
-      "_shivo.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/AssistantPage.RsRGrQuC.css"
-    ]
-  },
-  "src/lib/pages/AutoChecklistPage.svelte": {
-    "file": "chunks/AutoChecklistPage.js",
-    "name": "AutoChecklistPage",
-    "src": "src/lib/pages/AutoChecklistPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/ChartsPage.svelte": {
-    "file": "chunks/ChartsPage.js",
-    "name": "ChartsPage",
-    "src": "src/lib/pages/ChartsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_charts.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/ContactsPage.svelte": {
-    "file": "chunks/ContactsPage.js",
-    "name": "ContactsPage",
-    "src": "src/lib/pages/ContactsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_router.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/EducationPage.svelte": {
-    "file": "chunks/EducationPage.js",
-    "name": "EducationPage",
-    "src": "src/lib/pages/EducationPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js",
-      "_utils.js",
-      "_StudyPlanner.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/EmergencyContactsPage.svelte": {
-    "file": "chunks/EmergencyContactsPage.js",
-    "name": "EmergencyContactsPage",
-    "src": "src/lib/pages/EmergencyContactsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/EmotionsFeelingsPage.svelte": {
-    "file": "chunks/EmotionsFeelingsPage.js",
-    "name": "EmotionsFeelingsPage",
-    "src": "src/lib/pages/EmotionsFeelingsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/EventFeedPage.svelte": {
-    "file": "chunks/EventFeedPage.js",
-    "name": "EventFeedPage",
-    "src": "src/lib/pages/EventFeedPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/FamilyCalendarModernPage.svelte": {
-    "file": "chunks/FamilyCalendarModernPage.js",
-    "name": "FamilyCalendarModernPage",
-    "src": "src/lib/pages/FamilyCalendarModernPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_dexie-db.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/FamilyCalendarModernPage.DT6Wqh4O.css"
-    ]
-  },
-  "src/lib/pages/FamilyGovernancePage.svelte": {
-    "file": "chunks/FamilyGovernancePage.js",
-    "name": "FamilyGovernancePage",
-    "src": "src/lib/pages/FamilyGovernancePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/FamilyNotesModernPage.svelte": {
-    "file": "chunks/FamilyNotesModernPage.js",
-    "name": "FamilyNotesModernPage",
-    "src": "src/lib/pages/FamilyNotesModernPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_dexie-db.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/FamilyNotesModernPage.CY8MitOF.css"
-    ]
-  },
-  "src/lib/pages/FamilyStoriesPage.svelte": {
-    "file": "chunks/FamilyStoriesPage.js",
-    "name": "FamilyStoriesPage",
-    "src": "src/lib/pages/FamilyStoriesPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/FestivalCalendarPage.svelte": {
-    "file": "chunks/FestivalCalendarPage.js",
-    "name": "FestivalCalendarPage",
-    "src": "src/lib/pages/FestivalCalendarPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_rituals.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/FinancesPageEnhanced.svelte": {
-    "file": "chunks/FinancesPageEnhanced.js",
-    "name": "FinancesPageEnhanced",
-    "src": "src/lib/pages/FinancesPageEnhanced.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js",
-      "_theme.js",
-      "_notificationService.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/GanttPage.svelte": {
-    "file": "chunks/GanttPage.js",
-    "name": "GanttPage",
-    "src": "src/lib/pages/GanttPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_context.js",
-      "_index.js",
-      "_Icon.js"
-    ],
-    "css": [
-      "_app/immutable/assets/GanttPage.KFltRbrq.css"
-    ]
-  },
-  "src/lib/pages/GradesTrackerPage.svelte": {
-    "file": "chunks/GradesTrackerPage.js",
-    "name": "GradesTrackerPage",
-    "src": "src/lib/pages/GradesTrackerPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/GroceryPage.svelte": {
-    "file": "chunks/GroceryPage.js",
-    "name": "GroceryPage",
-    "src": "src/lib/pages/GroceryPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/HealthJournalPage.svelte": {
-    "file": "chunks/HealthJournalPage.js",
-    "name": "HealthJournalPage",
-    "src": "src/lib/pages/HealthJournalPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/HealthPage.svelte": {
-    "file": "chunks/HealthPage.js",
-    "name": "HealthPage",
-    "src": "src/lib/pages/HealthPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_Icon.js",
-      "_exports.js",
-      "_utils2.js",
-      "_state.svelte.js"
-    ]
-  },
-  "src/lib/pages/HobbiesActivitiesPage.svelte": {
-    "file": "chunks/HobbiesActivitiesPage.js",
-    "name": "HobbiesActivitiesPage",
-    "src": "src/lib/pages/HobbiesActivitiesPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/HomePage.svelte": {
-    "file": "chunks/HomePage.js",
-    "name": "HomePage",
-    "src": "src/lib/pages/HomePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_exports.js",
-      "_utils2.js",
-      "_state.svelte.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/HouseholdPage.svelte": {
-    "file": "chunks/HouseholdPage.js",
-    "name": "HouseholdPage",
-    "src": "src/lib/pages/HouseholdPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/IssuesEmergencySituationsPage.svelte": {
-    "file": "chunks/IssuesEmergencySituationsPage.js",
-    "name": "IssuesEmergencySituationsPage",
-    "src": "src/lib/pages/IssuesEmergencySituationsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/IssuesMaintenancePage.svelte": {
-    "file": "chunks/IssuesMaintenancePage.js",
-    "name": "IssuesMaintenancePage",
-    "src": "src/lib/pages/IssuesMaintenancePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/IssuesRepairsPage.svelte": {
-    "file": "chunks/IssuesRepairsPage.js",
-    "name": "IssuesRepairsPage",
-    "src": "src/lib/pages/IssuesRepairsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/IssuesUpgradesPage.svelte": {
-    "file": "chunks/IssuesUpgradesPage.js",
-    "name": "IssuesUpgradesPage",
-    "src": "src/lib/pages/IssuesUpgradesPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/IssuesUrgentPage.svelte": {
-    "file": "chunks/IssuesUrgentPage.js",
-    "name": "IssuesUrgentPage",
-    "src": "src/lib/pages/IssuesUrgentPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/KitchenPage.svelte": {
-    "file": "chunks/KitchenPage.js",
-    "name": "KitchenPage",
-    "src": "src/lib/pages/KitchenPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js",
-      "_context.js",
-      "_utils.js"
-    ]
-  },
-  "src/lib/pages/LearningGoalsPage.svelte": {
-    "file": "chunks/LearningGoalsPage.js",
-    "name": "LearningGoalsPage",
-    "src": "src/lib/pages/LearningGoalsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/LegacyMemoryPage.svelte": {
-    "file": "chunks/LegacyMemoryPage.js",
-    "name": "LegacyMemoryPage",
-    "src": "src/lib/pages/LegacyMemoryPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/LeisureCommunityPage.svelte": {
-    "file": "chunks/LeisureCommunityPage.js",
-    "name": "LeisureCommunityPage",
-    "src": "src/lib/pages/LeisureCommunityPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/LibraryPage.svelte": {
-    "file": "chunks/LibraryPage.js",
-    "name": "LibraryPage",
-    "src": "src/lib/pages/LibraryPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/LoginPage.svelte": {
-    "file": "chunks/LoginPage.js",
-    "name": "LoginPage",
-    "src": "src/lib/pages/LoginPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js"
-    ],
-    "css": [
-      "_app/immutable/assets/LoginPage.DHPaz5Ey.css"
-    ]
-  },
-  "src/lib/pages/LoginV2.svelte": {
-    "file": "chunks/LoginV2.js",
-    "name": "LoginV2",
-    "src": "src/lib/pages/LoginV2.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js"
-    ]
-  },
-  "src/lib/pages/LoginV3.svelte": {
-    "file": "chunks/LoginV3.js",
-    "name": "LoginV3",
-    "src": "src/lib/pages/LoginV3.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js"
-    ]
-  },
-  "src/lib/pages/MantrasPage.svelte": {
-    "file": "chunks/MantrasPage.js",
-    "name": "MantrasPage",
-    "src": "src/lib/pages/MantrasPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_wellness.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/MapsPage.svelte": {
-    "file": "chunks/MapsPage.js",
-    "name": "MapsPage",
-    "src": "src/lib/pages/MapsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/MapsPage.Bcmcxyve.css"
-    ]
-  },
-  "src/lib/pages/NotFoundPage.svelte": {
-    "file": "chunks/NotFoundPage.js",
-    "name": "NotFoundPage",
-    "src": "src/lib/pages/NotFoundPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_Icon.js",
-      "_router.js"
-    ]
-  },
-  "src/lib/pages/ProductsPage.svelte": {
-    "file": "chunks/ProductsPage.js",
-    "name": "ProductsPage",
-    "src": "src/lib/pages/ProductsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/ProfilePage.svelte": {
-    "file": "chunks/ProfilePage.js",
-    "name": "ProfilePage",
-    "src": "src/lib/pages/ProfilePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_DeleteConfirmationModal.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/ProjectManagementPage.svelte": {
-    "file": "chunks/ProjectManagementPage.js",
-    "name": "ProjectManagementPage",
-    "src": "src/lib/pages/ProjectManagementPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_DeleteConfirmationModal.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/RegisterPage.svelte": {
-    "file": "chunks/RegisterPage.js",
-    "name": "RegisterPage",
-    "src": "src/lib/pages/RegisterPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/RegisterPage.C3L4kyVC.css"
-    ]
-  },
-  "src/lib/pages/RegisterV2.svelte": {
-    "file": "chunks/RegisterV2.js",
-    "name": "RegisterV2",
-    "src": "src/lib/pages/RegisterV2.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/RegisterV3.svelte": {
-    "file": "chunks/RegisterV3.js",
-    "name": "RegisterV3",
-    "src": "src/lib/pages/RegisterV3.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_router.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/RemindersPage.svelte": {
-    "file": "chunks/RemindersPage.js",
-    "name": "RemindersPage",
-    "src": "src/lib/pages/RemindersPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_dexie-db.js",
-      "_index.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/RemindersPage.WwbklzdJ.css"
-    ]
-  },
-  "src/lib/pages/RequestsPage.svelte": {
-    "file": "chunks/RequestsPage.js",
-    "name": "RequestsPage",
-    "src": "src/lib/pages/RequestsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/SchedulePage.svelte": {
-    "file": "chunks/SchedulePage.js",
-    "name": "SchedulePage",
-    "src": "src/lib/pages/SchedulePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_runtime.js",
-      "_Icon.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/SchedulePage.JsaFuEy_.css"
-    ]
-  },
-  "src/lib/pages/SettingsPage.svelte": {
-    "file": "chunks/SettingsPage.js",
-    "name": "SettingsPage",
-    "src": "src/lib/pages/SettingsPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_theme.js",
-      "_background.js",
-      "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/SettingsPage.DG882AA1.css"
-    ]
-  },
-  "src/lib/pages/StudiesPage.svelte": {
-    "file": "chunks/StudiesPage.js",
-    "name": "StudiesPage",
-    "src": "src/lib/pages/StudiesPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js",
-      "_database.js"
-    ]
-  },
-  "src/lib/pages/TamilPanchangamPage.svelte": {
-    "file": "chunks/TamilPanchangamPage.js",
-    "name": "TamilPanchangamPage",
-    "src": "src/lib/pages/TamilPanchangamPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/TaskBoardPage.svelte": {
-    "file": "chunks/TaskBoardPage.js",
-    "name": "TaskBoardPage",
-    "src": "src/lib/pages/TaskBoardPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/TemplePage.svelte": {
-    "file": "chunks/TemplePage.js",
-    "name": "TemplePage",
-    "src": "src/lib/pages/TemplePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/TravelPage.svelte": {
-    "file": "chunks/TravelPage.js",
-    "name": "TravelPage",
-    "src": "src/lib/pages/TravelPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/TripHistoryPage.svelte": {
-    "file": "chunks/TripHistoryPage.js",
-    "name": "TripHistoryPage",
-    "src": "src/lib/pages/TripHistoryPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/UsersPage.svelte": {
-    "file": "chunks/UsersPage.js",
-    "name": "UsersPage",
-    "src": "src/lib/pages/UsersPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/ViewModeTestPage.svelte": {
-    "file": "chunks/ViewModeTestPage.js",
-    "name": "ViewModeTestPage",
-    "src": "src/lib/pages/ViewModeTestPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/VoiceLogPage.svelte": {
-    "file": "chunks/VoiceLogPage.js",
-    "name": "VoiceLogPage",
-    "src": "src/lib/pages/VoiceLogPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/lib/pages/WeatherPage.svelte": {
-    "file": "chunks/WeatherPage.js",
-    "name": "WeatherPage",
-    "src": "src/lib/pages/WeatherPage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_Icon.js"
-    ]
-  },
-  "src/lib/pages/YogaExercisePage.svelte": {
-    "file": "chunks/YogaExercisePage.js",
-    "name": "YogaExercisePage",
-    "src": "src/lib/pages/YogaExercisePage.svelte",
-    "isDynamicEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_database.js",
-      "_context.js"
-    ]
-  },
   "src/routes/+layout.svelte": {
     "file": "entries/pages/_layout.svelte.js",
     "name": "entries/pages/_layout.svelte",
@@ -1183,7 +291,9 @@
       "_utils2.js",
       "_context.js",
       "_state.svelte.js",
-      "_theme.js"
+      "_stores.js",
+      "_theme.js",
+      "_background.js"
     ],
     "dynamicImports": [
       "src/lib/i18n/locales/en.json",
@@ -1192,7 +302,7 @@
       "src/lib/i18n/locales/ko.json"
     ],
     "css": [
-      "_app/immutable/assets/_layout.C7uahwnf.css"
+      "_app/immutable/assets/_layout.12lRV0sA.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -1201,22 +311,7 @@
     "src": "src/routes/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_theme.js",
-      "_background.js",
-      "_database.js",
-      "_functions.js",
-      "_exports.js",
-      "_utils2.js",
-      "_state.svelte.js"
-    ]
-  },
-  "src/routes/analytics/+page.svelte": {
-    "file": "entries/pages/analytics/_page.svelte.js",
-    "name": "entries/pages/analytics/_page.svelte",
-    "src": "src/routes/analytics/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/AnalyticsPage.svelte"
+      "_MealsPage.js"
     ]
   },
   "src/routes/assets/+page.svelte": {
@@ -1225,7 +320,10 @@
     "src": "src/routes/assets/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/AssetsPage.svelte"
+      "_index2.js",
+      "_stores.js",
+      "_Icon.js",
+      "_context.js"
     ]
   },
   "src/routes/assets/documents/+page.svelte": {
@@ -1236,6 +334,27 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/assets/household/+page.svelte": {
+    "file": "entries/pages/assets/household/_page.svelte.js",
+    "name": "entries/pages/assets/household/_page.svelte",
+    "src": "src/routes/assets/household/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_HouseholdPage.js"
+    ]
+  },
+  "src/routes/assets/inventory/+page.svelte": {
+    "file": "entries/pages/assets/inventory/_page.svelte.js",
+    "name": "entries/pages/assets/inventory/_page.svelte",
+    "src": "src/routes/assets/inventory/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_runtime.js",
       "_context.js"
     ]
   },
@@ -1270,64 +389,10 @@
       "_context.js"
     ]
   },
-  "src/routes/assistant/+page.svelte": {
-    "file": "entries/pages/assistant/_page.svelte.js",
-    "name": "entries/pages/assistant/_page.svelte",
-    "src": "src/routes/assistant/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/AssistantPage.svelte"
-    ]
-  },
-  "src/routes/assistant/ambient-log/+page.svelte": {
-    "file": "entries/pages/assistant/ambient-log/_page.svelte.js",
-    "name": "entries/pages/assistant/ambient-log/_page.svelte",
-    "src": "src/routes/assistant/ambient-log/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/AmbientLogPage.svelte"
-    ]
-  },
-  "src/routes/assistant/auto-checklist/+page.svelte": {
-    "file": "entries/pages/assistant/auto-checklist/_page.svelte.js",
-    "name": "entries/pages/assistant/auto-checklist/_page.svelte",
-    "src": "src/routes/assistant/auto-checklist/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/AutoChecklistPage.svelte"
-    ]
-  },
-  "src/routes/assistant/event-feed/+page.svelte": {
-    "file": "entries/pages/assistant/event-feed/_page.svelte.js",
-    "name": "entries/pages/assistant/event-feed/_page.svelte",
-    "src": "src/routes/assistant/event-feed/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/EventFeedPage.svelte"
-    ]
-  },
-  "src/routes/assistant/task-board/+page.svelte": {
-    "file": "entries/pages/assistant/task-board/_page.svelte.js",
-    "name": "entries/pages/assistant/task-board/_page.svelte",
-    "src": "src/routes/assistant/task-board/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/TaskBoardPage.svelte"
-    ]
-  },
-  "src/routes/assistant/voice-log/+page.svelte": {
-    "file": "entries/pages/assistant/voice-log/_page.svelte.js",
-    "name": "entries/pages/assistant/voice-log/_page.svelte",
-    "src": "src/routes/assistant/voice-log/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/VoiceLogPage.svelte"
-    ]
-  },
-  "src/routes/budget/+page.svelte": {
-    "file": "entries/pages/budget/_page.svelte.js",
-    "name": "entries/pages/budget/_page.svelte",
-    "src": "src/routes/budget/+page.svelte",
+  "src/routes/assets/vehicles/+page.svelte": {
+    "file": "entries/pages/assets/vehicles/_page.svelte.js",
+    "name": "entries/pages/assets/vehicles/_page.svelte",
+    "src": "src/routes/assets/vehicles/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
@@ -1336,19 +401,10 @@
       "_context.js"
     ]
   },
-  "src/routes/charts/+page.svelte": {
-    "file": "entries/pages/charts/_page.svelte.js",
-    "name": "entries/pages/charts/_page.svelte",
-    "src": "src/routes/charts/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/ChartsPage.svelte"
-    ]
-  },
-  "src/routes/community/+page.svelte": {
-    "file": "entries/pages/community/_page.svelte.js",
-    "name": "entries/pages/community/_page.svelte",
-    "src": "src/routes/community/+page.svelte",
+  "src/routes/assistant/+page.svelte": {
+    "file": "entries/pages/assistant/_page.svelte.js",
+    "name": "entries/pages/assistant/_page.svelte",
+    "src": "src/routes/assistant/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
@@ -1356,13 +412,102 @@
       "_context.js"
     ]
   },
-  "src/routes/contacts/+page.svelte": {
-    "file": "entries/pages/contacts/_page.svelte.js",
-    "name": "entries/pages/contacts/_page.svelte",
-    "src": "src/routes/contacts/+page.svelte",
+  "src/routes/assistant/ambient-log/+page.svelte": {
+    "file": "entries/pages/assistant/ambient-log/_page.svelte.js",
+    "name": "entries/pages/assistant/ambient-log/_page.svelte",
+    "src": "src/routes/assistant/ambient-log/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/ContactsPage.svelte"
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/assistant/auto-checklist/+page.svelte": {
+    "file": "entries/pages/assistant/auto-checklist/_page.svelte.js",
+    "name": "entries/pages/assistant/auto-checklist/_page.svelte",
+    "src": "src/routes/assistant/auto-checklist/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/assistant/event-feed/+page.svelte": {
+    "file": "entries/pages/assistant/event-feed/_page.svelte.js",
+    "name": "entries/pages/assistant/event-feed/_page.svelte",
+    "src": "src/routes/assistant/event-feed/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/assistant/shivo-ai/+page.svelte": {
+    "file": "entries/pages/assistant/shivo-ai/_page.svelte.js",
+    "name": "entries/pages/assistant/shivo-ai/_page.svelte",
+    "src": "src/routes/assistant/shivo-ai/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_reminders.js",
+      "_utils.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/assistant/shivo-ai/agentic/+page.svelte": {
+    "file": "entries/pages/assistant/shivo-ai/agentic/_page.svelte.js",
+    "name": "entries/pages/assistant/shivo-ai/agentic/_page.svelte",
+    "src": "src/routes/assistant/shivo-ai/agentic/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_index.js",
+      "_reminders.js",
+      "_context.js"
+    ],
+    "dynamicImports": [
+      "src/lib/ai/musicgen.ts"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.D7VULv-0.css"
+    ]
+  },
+  "src/routes/assistant/shivo-music/+page.svelte": {
+    "file": "entries/pages/assistant/shivo-music/_page.svelte.js",
+    "name": "entries/pages/assistant/shivo-music/_page.svelte",
+    "src": "src/routes/assistant/shivo-music/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/assistant/task-board/+page.svelte": {
+    "file": "entries/pages/assistant/task-board/_page.svelte.js",
+    "name": "entries/pages/assistant/task-board/_page.svelte",
+    "src": "src/routes/assistant/task-board/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/assistant/voice-log/+page.svelte": {
+    "file": "entries/pages/assistant/voice-log/_page.svelte.js",
+    "name": "entries/pages/assistant/voice-log/_page.svelte",
+    "src": "src/routes/assistant/voice-log/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
     ]
   },
   "src/routes/culture/+page.svelte": {
@@ -1392,6 +537,36 @@
     ],
     "css": [
       "_app/immutable/assets/_page.B65hDk-V.css"
+    ]
+  },
+  "src/routes/culture/festival-calendar/+page.svelte": {
+    "file": "entries/pages/culture/festival-calendar/_page.svelte.js",
+    "name": "entries/pages/culture/festival-calendar/_page.svelte",
+    "src": "src/routes/culture/festival-calendar/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_FestivalManager.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/culture/kolam/+page.svelte": {
+    "file": "entries/pages/culture/kolam/_page.svelte.js",
+    "name": "entries/pages/culture/kolam/_page.svelte",
+    "src": "src/routes/culture/kolam/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js",
+      "_index.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.L4W1o_gJ.css"
     ]
   },
   "src/routes/culture/lifestyle-guide/+page.svelte": {
@@ -1477,10 +652,53 @@
       "_app/immutable/assets/_page.TKwxJPyG.css"
     ]
   },
-  "src/routes/directory/+page.svelte": {
-    "file": "entries/pages/directory/_page.svelte.js",
-    "name": "entries/pages/directory/_page.svelte",
-    "src": "src/routes/directory/+page.svelte",
+  "src/routes/divinity/+page.svelte": {
+    "file": "entries/pages/divinity/_page.svelte.js",
+    "name": "entries/pages/divinity/_page.svelte",
+    "src": "src/routes/divinity/+page.svelte",
+    "isEntry": true
+  },
+  "src/routes/divinity/mantras/+page.svelte": {
+    "file": "entries/pages/divinity/mantras/_page.svelte.js",
+    "name": "entries/pages/divinity/mantras/_page.svelte",
+    "src": "src/routes/divinity/mantras/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_wellness.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/divinity/rituals/+page.svelte": {
+    "file": "entries/pages/divinity/rituals/_page.svelte.js",
+    "name": "entries/pages/divinity/rituals/_page.svelte",
+    "src": "src/routes/divinity/rituals/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_stores.js",
+      "_Icon.js",
+      "_rituals.js",
+      "_context.js",
+      "_FestivalManager.js"
+    ]
+  },
+  "src/routes/divinity/tamil-panchangam/+page.svelte": {
+    "file": "entries/pages/divinity/tamil-panchangam/_page.svelte.js",
+    "name": "entries/pages/divinity/tamil-panchangam/_page.svelte",
+    "src": "src/routes/divinity/tamil-panchangam/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/divinity/temple/+page.svelte": {
+    "file": "entries/pages/divinity/temple/_page.svelte.js",
+    "name": "entries/pages/divinity/temple/_page.svelte",
+    "src": "src/routes/divinity/temple/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
@@ -1494,7 +712,12 @@
     "src": "src/routes/education/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/EducationPage.svelte"
+      "_index2.js",
+      "_stores.js",
+      "_Icon.js",
+      "_utils.js",
+      "_StudyPlanner.js",
+      "_context.js"
     ]
   },
   "src/routes/education/achievements/+page.svelte": {
@@ -1558,7 +781,31 @@
     "src": "src/routes/education/grades-tracker/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/GradesTrackerPage.svelte"
+      "_index2.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/education/learning-goals/+page.svelte": {
+    "file": "entries/pages/education/learning-goals/_page.svelte.js",
+    "name": "entries/pages/education/learning-goals/_page.svelte",
+    "src": "src/routes/education/learning-goals/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/education/library/+page.svelte": {
+    "file": "entries/pages/education/library/_page.svelte.js",
+    "name": "entries/pages/education/library/_page.svelte",
+    "src": "src/routes/education/library/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
     ]
   },
   "src/routes/education/mentors/+page.svelte": {
@@ -1605,83 +852,26 @@
       "_context.js"
     ]
   },
-  "src/routes/emergency/+page.svelte": {
-    "file": "entries/pages/emergency/_page.svelte.js",
-    "name": "entries/pages/emergency/_page.svelte",
-    "src": "src/routes/emergency/+page.svelte",
+  "src/routes/education/studies/+page.svelte": {
+    "file": "entries/pages/education/studies/_page.svelte.js",
+    "name": "entries/pages/education/studies/_page.svelte",
+    "src": "src/routes/education/studies/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_context.js",
+      "_database.js"
     ]
   },
-  "src/routes/emotions/+page.svelte": {
-    "file": "entries/pages/emotions/_page.svelte.js",
-    "name": "entries/pages/emotions/_page.svelte",
-    "src": "src/routes/emotions/+page.svelte",
+  "src/routes/education/study-plans/+page.svelte": {
+    "file": "entries/pages/education/study-plans/_page.svelte.js",
+    "name": "entries/pages/education/study-plans/_page.svelte",
+    "src": "src/routes/education/study-plans/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/expenses/+page.svelte": {
-    "file": "entries/pages/expenses/_page.svelte.js",
-    "name": "entries/pages/expenses/_page.svelte",
-    "src": "src/routes/expenses/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/family-calendar-modern/+page.svelte": {
-    "file": "entries/pages/family-calendar-modern/_page.svelte.js",
-    "name": "entries/pages/family-calendar-modern/_page.svelte",
-    "src": "src/routes/family-calendar-modern/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/FamilyCalendarModernPage.svelte"
-    ]
-  },
-  "src/routes/family-governance/+page.svelte": {
-    "file": "entries/pages/family-governance/_page.svelte.js",
-    "name": "entries/pages/family-governance/_page.svelte",
-    "src": "src/routes/family-governance/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/FamilyGovernancePage.svelte"
-    ]
-  },
-  "src/routes/family-notes-modern/+page.svelte": {
-    "file": "entries/pages/family-notes-modern/_page.svelte.js",
-    "name": "entries/pages/family-notes-modern/_page.svelte",
-    "src": "src/routes/family-notes-modern/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/FamilyNotesModernPage.svelte"
-    ]
-  },
-  "src/routes/family-stories/+page.svelte": {
-    "file": "entries/pages/family-stories/_page.svelte.js",
-    "name": "entries/pages/family-stories/_page.svelte",
-    "src": "src/routes/family-stories/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/FamilyStoriesPage.svelte"
-    ]
-  },
-  "src/routes/festival-calendar/+page.svelte": {
-    "file": "entries/pages/festival-calendar/_page.svelte.js",
-    "name": "entries/pages/festival-calendar/_page.svelte",
-    "src": "src/routes/festival-calendar/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/FestivalCalendarPage.svelte"
+      "_StudyPlanner.js"
     ]
   },
   "src/routes/finances/+page.svelte": {
@@ -1691,29 +881,226 @@
     "isEntry": true,
     "imports": [
       "_index2.js",
+      "_exports.js",
+      "_utils2.js",
+      "_context.js",
+      "_state.svelte.js",
       "_Icon.js",
       "_utils.js",
-      "_theme.js",
-      "_notificationService.js",
+      "_theme.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.BwKCHQUH.css"
+    ]
+  },
+  "src/routes/finances/budget/+page.svelte": {
+    "file": "entries/pages/finances/budget/_page.svelte.js",
+    "name": "entries/pages/finances/budget/_page.svelte",
+    "src": "src/routes/finances/budget/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_runtime.js",
       "_context.js"
     ]
   },
-  "src/routes/gantt/+page.svelte": {
-    "file": "entries/pages/gantt/_page.svelte.js",
-    "name": "entries/pages/gantt/_page.svelte",
-    "src": "src/routes/gantt/+page.svelte",
+  "src/routes/finances/expenses/+page.svelte": {
+    "file": "entries/pages/finances/expenses/_page.svelte.js",
+    "name": "entries/pages/finances/expenses/_page.svelte",
+    "src": "src/routes/finances/expenses/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/GanttPage.svelte"
+      "_index2.js",
+      "_Icon.js",
+      "_runtime.js",
+      "_context.js"
     ]
   },
-  "src/routes/grocery/+page.svelte": {
-    "file": "entries/pages/grocery/_page.svelte.js",
-    "name": "entries/pages/grocery/_page.svelte",
-    "src": "src/routes/grocery/+page.svelte",
+  "src/routes/finances/insurance/+page.svelte": {
+    "file": "entries/pages/finances/insurance/_page.svelte.js",
+    "name": "entries/pages/finances/insurance/_page.svelte",
+    "src": "src/routes/finances/insurance/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/GroceryPage.svelte"
+      "_index2.js",
+      "_Icon.js",
+      "_runtime.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/finances/investments/+page.svelte": {
+    "file": "entries/pages/finances/investments/_page.svelte.js",
+    "name": "entries/pages/finances/investments/_page.svelte",
+    "src": "src/routes/finances/investments/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_runtime.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/finances/recharges/+page.svelte": {
+    "file": "entries/pages/finances/recharges/_page.svelte.js",
+    "name": "entries/pages/finances/recharges/_page.svelte",
+    "src": "src/routes/finances/recharges/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_runtime.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/+page.svelte": {
+    "file": "entries/pages/food/_page.svelte.js",
+    "name": "entries/pages/food/_page.svelte",
+    "src": "src/routes/food/+page.svelte",
+    "isEntry": true
+  },
+  "src/routes/food/grocery/+page.svelte": {
+    "file": "entries/pages/food/grocery/_page.svelte.js",
+    "name": "entries/pages/food/grocery/_page.svelte",
+    "src": "src/routes/food/grocery/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/kitchen/+page.svelte": {
+    "file": "entries/pages/food/kitchen/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/_page.svelte",
+    "src": "src/routes/food/kitchen/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_HouseholdPage.js"
+    ]
+  },
+  "src/routes/food/kitchen/cleaning/+page.svelte": {
+    "file": "entries/pages/food/kitchen/cleaning/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/cleaning/_page.svelte",
+    "src": "src/routes/food/kitchen/cleaning/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/kitchen/dashboard/+page.svelte": {
+    "file": "entries/pages/food/kitchen/dashboard/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/dashboard/_page.svelte",
+    "src": "src/routes/food/kitchen/dashboard/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_stores.js",
+      "_Icon.js",
+      "_utils.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/kitchen/festivals/+page.svelte": {
+    "file": "entries/pages/food/kitchen/festivals/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/festivals/_page.svelte",
+    "src": "src/routes/food/kitchen/festivals/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/kitchen/fresh/+page.svelte": {
+    "file": "entries/pages/food/kitchen/fresh/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/fresh/_page.svelte",
+    "src": "src/routes/food/kitchen/fresh/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/kitchen/kids/+page.svelte": {
+    "file": "entries/pages/food/kitchen/kids/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/kids/_page.svelte",
+    "src": "src/routes/food/kitchen/kids/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/kitchen/vendors/+page.svelte": {
+    "file": "entries/pages/food/kitchen/vendors/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/vendors/_page.svelte",
+    "src": "src/routes/food/kitchen/vendors/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_VendorsPage.js"
+    ]
+  },
+  "src/routes/food/kitchen/wellness/+page.svelte": {
+    "file": "entries/pages/food/kitchen/wellness/_page.svelte.js",
+    "name": "entries/pages/food/kitchen/wellness/_page.svelte",
+    "src": "src/routes/food/kitchen/wellness/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_WellnessPage.js"
+    ]
+  },
+  "src/routes/food/meals/+page.svelte": {
+    "file": "entries/pages/food/meals/_page.svelte.js",
+    "name": "entries/pages/food/meals/_page.svelte",
+    "src": "src/routes/food/meals/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_MealsPage.js"
+    ]
+  },
+  "src/routes/food/pantry/+page.svelte": {
+    "file": "entries/pages/food/pantry/_page.svelte.js",
+    "name": "entries/pages/food/pantry/_page.svelte",
+    "src": "src/routes/food/pantry/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/recipes/+page.svelte": {
+    "file": "entries/pages/food/recipes/_page.svelte.js",
+    "name": "entries/pages/food/recipes/_page.svelte",
+    "src": "src/routes/food/recipes/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/food/recipes/traditional/+page.svelte": {
+    "file": "entries/pages/food/recipes/traditional/_page.svelte.js",
+    "name": "entries/pages/food/recipes/traditional/_page.svelte",
+    "src": "src/routes/food/recipes/traditional/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DPOKll8r.css"
     ]
   },
   "src/routes/health/+page.svelte": {
@@ -1722,7 +1109,9 @@
     "src": "src/routes/health/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/HealthPage.svelte"
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
     ]
   },
   "src/routes/health/beauty-guide/+page.svelte": {
@@ -1734,6 +1123,31 @@
       "_index2.js",
       "_Icon.js",
       "_context.js"
+    ]
+  },
+  "src/routes/health/hobbies-activities/+page.svelte": {
+    "file": "entries/pages/health/hobbies-activities/_page.svelte.js",
+    "name": "entries/pages/health/hobbies-activities/_page.svelte",
+    "src": "src/routes/health/hobbies-activities/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/health/journal/+page.svelte": {
+    "file": "entries/pages/health/journal/_page.svelte.js",
+    "name": "entries/pages/health/journal/_page.svelte",
+    "src": "src/routes/health/journal/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.C7QTrl3o.css"
     ]
   },
   "src/routes/health/period-tracker/+page.svelte": {
@@ -1750,64 +1164,19 @@
       "_rituals.js"
     ]
   },
-  "src/routes/hobbies-activities/+page.svelte": {
-    "file": "entries/pages/hobbies-activities/_page.svelte.js",
-    "name": "entries/pages/hobbies-activities/_page.svelte",
-    "src": "src/routes/hobbies-activities/+page.svelte",
+  "src/routes/health/wellness/+page.svelte": {
+    "file": "entries/pages/health/wellness/_page.svelte.js",
+    "name": "entries/pages/health/wellness/_page.svelte",
+    "src": "src/routes/health/wellness/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/HobbiesActivitiesPage.svelte"
+      "_WellnessPage.js"
     ]
   },
-  "src/routes/household/+page.svelte": {
-    "file": "entries/pages/household/_page.svelte.js",
-    "name": "entries/pages/household/_page.svelte",
-    "src": "src/routes/household/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/HouseholdPage.svelte"
-    ]
-  },
-  "src/routes/insurance/+page.svelte": {
-    "file": "entries/pages/insurance/_page.svelte.js",
-    "name": "entries/pages/insurance/_page.svelte",
-    "src": "src/routes/insurance/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/inventory/+page.svelte": {
-    "file": "entries/pages/inventory/_page.svelte.js",
-    "name": "entries/pages/inventory/_page.svelte",
-    "src": "src/routes/inventory/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/investments/+page.svelte": {
-    "file": "entries/pages/investments/_page.svelte.js",
-    "name": "entries/pages/investments/_page.svelte",
-    "src": "src/routes/investments/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_runtime.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/issues-emergency/+page.svelte": {
-    "file": "entries/pages/issues-emergency/_page.svelte.js",
-    "name": "entries/pages/issues-emergency/_page.svelte",
-    "src": "src/routes/issues-emergency/+page.svelte",
+  "src/routes/health/yoga/+page.svelte": {
+    "file": "entries/pages/health/yoga/_page.svelte.js",
+    "name": "entries/pages/health/yoga/_page.svelte",
+    "src": "src/routes/health/yoga/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
@@ -1816,33 +1185,29 @@
       "_context.js"
     ]
   },
-  "src/routes/journal/+page.svelte": {
-    "file": "entries/pages/journal/_page.svelte.js",
-    "name": "entries/pages/journal/_page.svelte",
-    "src": "src/routes/journal/+page.svelte",
+  "src/routes/home/+page.svelte": {
+    "file": "entries/pages/home/_page.svelte.js",
+    "name": "entries/pages/home/_page.svelte",
+    "src": "src/routes/home/+page.svelte",
+    "isEntry": true
+  },
+  "src/routes/home/contacts/+page.svelte": {
+    "file": "entries/pages/home/contacts/_page.svelte.js",
+    "name": "entries/pages/home/contacts/_page.svelte",
+    "src": "src/routes/home/contacts/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
+      "_stores.js",
       "_Icon.js",
+      "_database.js",
       "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/_page.C7QTrl3o.css"
     ]
   },
-  "src/routes/kitchen/+page.svelte": {
-    "file": "entries/pages/kitchen/_page.svelte.js",
-    "name": "entries/pages/kitchen/_page.svelte",
-    "src": "src/routes/kitchen/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/KitchenPage.svelte"
-    ]
-  },
-  "src/routes/kitchen/cleaning/+page.svelte": {
-    "file": "entries/pages/kitchen/cleaning/_page.svelte.js",
-    "name": "entries/pages/kitchen/cleaning/_page.svelte",
-    "src": "src/routes/kitchen/cleaning/+page.svelte",
+  "src/routes/home/contacts/directory/+page.svelte": {
+    "file": "entries/pages/home/contacts/directory/_page.svelte.js",
+    "name": "entries/pages/home/contacts/directory/_page.svelte",
+    "src": "src/routes/home/contacts/directory/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
@@ -1850,10 +1215,10 @@
       "_context.js"
     ]
   },
-  "src/routes/kitchen/festivals/+page.svelte": {
-    "file": "entries/pages/kitchen/festivals/_page.svelte.js",
-    "name": "entries/pages/kitchen/festivals/_page.svelte",
-    "src": "src/routes/kitchen/festivals/+page.svelte",
+  "src/routes/home/contacts/emergency/+page.svelte": {
+    "file": "entries/pages/home/contacts/emergency/_page.svelte.js",
+    "name": "entries/pages/home/contacts/emergency/_page.svelte",
+    "src": "src/routes/home/contacts/emergency/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
@@ -1861,210 +1226,204 @@
       "_context.js"
     ]
   },
-  "src/routes/kitchen/fresh/+page.svelte": {
-    "file": "entries/pages/kitchen/fresh/_page.svelte.js",
-    "name": "entries/pages/kitchen/fresh/_page.svelte",
-    "src": "src/routes/kitchen/fresh/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/kitchen/kids/+page.svelte": {
-    "file": "entries/pages/kitchen/kids/_page.svelte.js",
-    "name": "entries/pages/kitchen/kids/_page.svelte",
-    "src": "src/routes/kitchen/kids/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/kitchen/vendors/+page.svelte": {
-    "file": "entries/pages/kitchen/vendors/_page.svelte.js",
-    "name": "entries/pages/kitchen/vendors/_page.svelte",
-    "src": "src/routes/kitchen/vendors/+page.svelte",
+  "src/routes/home/contacts/vendors/+page.svelte": {
+    "file": "entries/pages/home/contacts/vendors/_page.svelte.js",
+    "name": "entries/pages/home/contacts/vendors/_page.svelte",
+    "src": "src/routes/home/contacts/vendors/+page.svelte",
     "isEntry": true,
     "imports": [
       "_VendorsPage.js"
     ]
   },
-  "src/routes/kitchen/wellness/+page.svelte": {
-    "file": "entries/pages/kitchen/wellness/_page.svelte.js",
-    "name": "entries/pages/kitchen/wellness/_page.svelte",
-    "src": "src/routes/kitchen/wellness/+page.svelte",
+  "src/routes/home/family-calendar-modern/+page.svelte": {
+    "file": "entries/pages/home/family-calendar-modern/_page.svelte.js",
+    "name": "entries/pages/home/family-calendar-modern/_page.svelte",
+    "src": "src/routes/home/family-calendar-modern/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_WellnessPage.js"
+      "_index2.js",
+      "_dexie-db.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DT6Wqh4O.css"
     ]
   },
-  "src/routes/kolam/+page.svelte": {
-    "file": "entries/pages/kolam/_page.svelte.js",
-    "name": "entries/pages/kolam/_page.svelte",
-    "src": "src/routes/kolam/+page.svelte",
+  "src/routes/home/family-notes-modern/+page.svelte": {
+    "file": "entries/pages/home/family-notes-modern/_page.svelte.js",
+    "name": "entries/pages/home/family-notes-modern/_page.svelte",
+    "src": "src/routes/home/family-notes-modern/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_dexie-db.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.CY8MitOF.css"
+    ]
+  },
+  "src/routes/home/members/+page.svelte": {
+    "file": "entries/pages/home/members/_page.svelte.js",
+    "name": "entries/pages/home/members/_page.svelte",
+    "src": "src/routes/home/members/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_exports.js",
-      "_utils2.js",
-      "_state.svelte.js",
+      "_index.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/home/reminders/+page.svelte": {
+    "file": "entries/pages/home/reminders/_page.svelte.js",
+    "name": "entries/pages/home/reminders/_page.svelte",
+    "src": "src/routes/home/reminders/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_dexie-db.js",
       "_index.js",
       "_context.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.L4W1o_gJ.css"
+      "_app/immutable/assets/_page.C3B5B3-u.css"
     ]
   },
-  "src/routes/learning-goals/+page.svelte": {
-    "file": "entries/pages/learning-goals/_page.svelte.js",
-    "name": "entries/pages/learning-goals/_page.svelte",
-    "src": "src/routes/learning-goals/+page.svelte",
+  "src/routes/home/schedule/+page.svelte": {
+    "file": "entries/pages/home/schedule/_page.svelte.js",
+    "name": "entries/pages/home/schedule/_page.svelte",
+    "src": "src/routes/home/schedule/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/LearningGoalsPage.svelte"
+      "_index2.js",
+      "_runtime.js",
+      "_Icon.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.JsaFuEy_.css"
     ]
   },
-  "src/routes/legacy/+page.svelte": {
-    "file": "entries/pages/legacy/_page.svelte.js",
-    "name": "entries/pages/legacy/_page.svelte",
-    "src": "src/routes/legacy/+page.svelte",
+  "src/routes/issues-emergency/+page.svelte": {
+    "file": "entries/pages/issues-emergency/_page.svelte.js",
+    "name": "entries/pages/issues-emergency/_page.svelte",
+    "src": "src/routes/issues-emergency/+page.svelte",
+    "isEntry": true
+  },
+  "src/routes/issues/+page.svelte": {
+    "file": "entries/pages/issues/_page.svelte.js",
+    "name": "entries/pages/issues/_page.svelte",
+    "src": "src/routes/issues/+page.svelte",
+    "isEntry": true
+  },
+  "src/routes/issues/emergency/+page.svelte": {
+    "file": "entries/pages/issues/emergency/_page.svelte.js",
+    "name": "entries/pages/issues/emergency/_page.svelte",
+    "src": "src/routes/issues/emergency/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
+      "_database.js",
       "_context.js"
     ]
   },
-  "src/routes/leisure/+page.svelte": {
-    "file": "entries/pages/leisure/_page.svelte.js",
-    "name": "entries/pages/leisure/_page.svelte",
-    "src": "src/routes/leisure/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/library/+page.svelte": {
-    "file": "entries/pages/library/_page.svelte.js",
-    "name": "entries/pages/library/_page.svelte",
-    "src": "src/routes/library/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/LibraryPage.svelte"
-    ]
-  },
-  "src/routes/lifeflow/+page.svelte": {
-    "file": "entries/pages/lifeflow/_page.svelte.js",
-    "name": "entries/pages/lifeflow/_page.svelte",
-    "src": "src/routes/lifeflow/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/maintenance/+page.svelte": {
-    "file": "entries/pages/maintenance/_page.svelte.js",
-    "name": "entries/pages/maintenance/_page.svelte",
-    "src": "src/routes/maintenance/+page.svelte",
+  "src/routes/issues/maintenance/+page.svelte": {
+    "file": "entries/pages/issues/maintenance/_page.svelte.js",
+    "name": "entries/pages/issues/maintenance/_page.svelte",
+    "src": "src/routes/issues/maintenance/+page.svelte",
     "isEntry": true,
     "imports": [
       "_MaintenancePage.js"
     ]
   },
-  "src/routes/mantras/+page.svelte": {
-    "file": "entries/pages/mantras/_page.svelte.js",
-    "name": "entries/pages/mantras/_page.svelte",
-    "src": "src/routes/mantras/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/MantrasPage.svelte"
-    ]
-  },
-  "src/routes/maps/+page.svelte": {
-    "file": "entries/pages/maps/_page.svelte.js",
-    "name": "entries/pages/maps/_page.svelte",
-    "src": "src/routes/maps/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/MapsPage.svelte"
-    ]
-  },
-  "src/routes/meals/+page.svelte": {
-    "file": "entries/pages/meals/_page.svelte.js",
-    "name": "entries/pages/meals/_page.svelte",
-    "src": "src/routes/meals/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/members/+page.svelte": {
-    "file": "entries/pages/members/_page.svelte.js",
-    "name": "entries/pages/members/_page.svelte",
-    "src": "src/routes/members/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_index.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/pantry/+page.svelte": {
-    "file": "entries/pages/pantry/_page.svelte.js",
-    "name": "entries/pages/pantry/_page.svelte",
-    "src": "src/routes/pantry/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
-    ]
-  },
-  "src/routes/products/+page.svelte": {
-    "file": "entries/pages/products/_page.svelte.js",
-    "name": "entries/pages/products/_page.svelte",
-    "src": "src/routes/products/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/ProductsPage.svelte"
-    ]
-  },
-  "src/routes/projects/+page.svelte": {
-    "file": "entries/pages/projects/_page.svelte.js",
-    "name": "entries/pages/projects/_page.svelte",
-    "src": "src/routes/projects/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/ProjectManagementPage.svelte"
-    ]
-  },
-  "src/routes/recharges/+page.svelte": {
-    "file": "entries/pages/recharges/_page.svelte.js",
-    "name": "entries/pages/recharges/_page.svelte",
-    "src": "src/routes/recharges/+page.svelte",
+  "src/routes/issues/projects/+page.svelte": {
+    "file": "entries/pages/issues/projects/_page.svelte.js",
+    "name": "entries/pages/issues/projects/_page.svelte",
+    "src": "src/routes/issues/projects/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
+      "_utils.js",
       "_context.js"
     ]
   },
-  "src/routes/recipes/+page.svelte": {
-    "file": "entries/pages/recipes/_page.svelte.js",
-    "name": "entries/pages/recipes/_page.svelte",
-    "src": "src/routes/recipes/+page.svelte",
+  "src/routes/issues/projects/gantt/+page.svelte": {
+    "file": "entries/pages/issues/projects/gantt/_page.svelte.js",
+    "name": "entries/pages/issues/projects/gantt/_page.svelte",
+    "src": "src/routes/issues/projects/gantt/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_context.js",
+      "_index.js",
+      "_Icon.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.KFltRbrq.css"
+    ]
+  },
+  "src/routes/issues/repairs/+page.svelte": {
+    "file": "entries/pages/issues/repairs/_page.svelte.js",
+    "name": "entries/pages/issues/repairs/_page.svelte",
+    "src": "src/routes/issues/repairs/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/issues/requests/+page.svelte": {
+    "file": "entries/pages/issues/requests/_page.svelte.js",
+    "name": "entries/pages/issues/requests/_page.svelte",
+    "src": "src/routes/issues/requests/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/issues/upgrades/+page.svelte": {
+    "file": "entries/pages/issues/upgrades/_page.svelte.js",
+    "name": "entries/pages/issues/upgrades/_page.svelte",
+    "src": "src/routes/issues/upgrades/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/issues/urgent/+page.svelte": {
+    "file": "entries/pages/issues/urgent/_page.svelte.js",
+    "name": "entries/pages/issues/urgent/_page.svelte",
+    "src": "src/routes/issues/urgent/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/memories/+page.svelte": {
+    "file": "entries/pages/memories/_page.svelte.js",
+    "name": "entries/pages/memories/_page.svelte",
+    "src": "src/routes/memories/+page.svelte",
+    "isEntry": true
+  },
+  "src/routes/memories/emotions/+page.svelte": {
+    "file": "entries/pages/memories/emotions/_page.svelte.js",
+    "name": "entries/pages/memories/emotions/_page.svelte",
+    "src": "src/routes/memories/emotions/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
@@ -2072,72 +1431,50 @@
       "_context.js"
     ]
   },
-  "src/routes/recipes/traditional/+page.svelte": {
-    "file": "entries/pages/recipes/traditional/_page.svelte.js",
-    "name": "entries/pages/recipes/traditional/_page.svelte",
-    "src": "src/routes/recipes/traditional/+page.svelte",
+  "src/routes/memories/family-governance/+page.svelte": {
+    "file": "entries/pages/memories/family-governance/_page.svelte.js",
+    "name": "entries/pages/memories/family-governance/_page.svelte",
+    "src": "src/routes/memories/family-governance/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_exports.js",
-      "_utils2.js",
-      "_state.svelte.js",
+      "_database.js",
       "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/_page.JWx3CZGT.css"
     ]
   },
-  "src/routes/reminders/+page.svelte": {
-    "file": "entries/pages/reminders/_page.svelte.js",
-    "name": "entries/pages/reminders/_page.svelte",
-    "src": "src/routes/reminders/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/RemindersPage.svelte"
-    ]
-  },
-  "src/routes/repairs/+page.svelte": {
-    "file": "entries/pages/repairs/_page.svelte.js",
-    "name": "entries/pages/repairs/_page.svelte",
-    "src": "src/routes/repairs/+page.svelte",
+  "src/routes/memories/family-stories/+page.svelte": {
+    "file": "entries/pages/memories/family-stories/_page.svelte.js",
+    "name": "entries/pages/memories/family-stories/_page.svelte",
+    "src": "src/routes/memories/family-stories/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "src/lib/pages/IssuesRepairsPage.svelte"
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
     ]
   },
-  "src/routes/requests/+page.svelte": {
-    "file": "entries/pages/requests/_page.svelte.js",
-    "name": "entries/pages/requests/_page.svelte",
-    "src": "src/routes/requests/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/RequestsPage.svelte"
-    ]
-  },
-  "src/routes/rituals/+page.svelte": {
-    "file": "entries/pages/rituals/_page.svelte.js",
-    "name": "entries/pages/rituals/_page.svelte",
-    "src": "src/routes/rituals/+page.svelte",
+  "src/routes/memories/legacy/+page.svelte": {
+    "file": "entries/pages/memories/legacy/_page.svelte.js",
+    "name": "entries/pages/memories/legacy/_page.svelte",
+    "src": "src/routes/memories/legacy/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "_rituals.js",
+      "_Icon.js",
       "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/_page.DZMMsx54.css"
     ]
   },
-  "src/routes/schedule/+page.svelte": {
-    "file": "entries/pages/schedule/_page.svelte.js",
-    "name": "entries/pages/schedule/_page.svelte",
-    "src": "src/routes/schedule/+page.svelte",
+  "src/routes/memories/lifeflow/+page.svelte": {
+    "file": "entries/pages/memories/lifeflow/_page.svelte.js",
+    "name": "entries/pages/memories/lifeflow/_page.svelte",
+    "src": "src/routes/memories/lifeflow/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/SchedulePage.svelte"
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
     ]
   },
   "src/routes/settings/+page.svelte": {
@@ -2146,83 +1483,43 @@
     "src": "src/routes/settings/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/SettingsPage.svelte"
-    ]
-  },
-  "src/routes/shivo-agentic/+page.svelte": {
-    "file": "entries/pages/shivo-agentic/_page.svelte.js",
-    "name": "entries/pages/shivo-agentic/_page.svelte",
-    "src": "src/routes/shivo-agentic/+page.svelte",
-    "isEntry": true,
-    "imports": [
       "_index2.js",
       "_Icon.js",
-      "_shivo.js",
+      "_runtime.js",
+      "_theme.js",
+      "_background.js",
       "_context.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.D7VULv-0.css"
+      "_app/immutable/assets/_page.DG882AA1.css"
     ]
   },
-  "src/routes/shivo-ai/+page.svelte": {
-    "file": "entries/pages/shivo-ai/_page.svelte.js",
-    "name": "entries/pages/shivo-ai/_page.svelte",
-    "src": "src/routes/shivo-ai/+page.svelte",
+  "src/routes/settings/analytics/+page.svelte": {
+    "file": "entries/pages/settings/analytics/_page.svelte.js",
+    "name": "entries/pages/settings/analytics/_page.svelte",
+    "src": "src/routes/settings/analytics/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_notes.js",
+      "_index.js",
+      "_charts.js",
       "_utils.js",
+      "_runtime.js",
       "_context.js"
     ]
   },
-  "src/routes/shivo-music/+page.svelte": {
-    "file": "entries/pages/shivo-music/_page.svelte.js",
-    "name": "entries/pages/shivo-music/_page.svelte",
-    "src": "src/routes/shivo-music/+page.svelte",
+  "src/routes/settings/analytics/charts/+page.svelte": {
+    "file": "entries/pages/settings/analytics/charts/_page.svelte.js",
+    "name": "entries/pages/settings/analytics/charts/_page.svelte",
+    "src": "src/routes/settings/analytics/charts/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
+      "_runtime.js",
+      "_charts.js",
       "_context.js"
-    ]
-  },
-  "src/routes/studies/+page.svelte": {
-    "file": "entries/pages/studies/_page.svelte.js",
-    "name": "entries/pages/studies/_page.svelte",
-    "src": "src/routes/studies/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/StudiesPage.svelte"
-    ]
-  },
-  "src/routes/study-plans/+page.svelte": {
-    "file": "entries/pages/study-plans/_page.svelte.js",
-    "name": "entries/pages/study-plans/_page.svelte",
-    "src": "src/routes/study-plans/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "_StudyPlanner.js"
-    ]
-  },
-  "src/routes/tamil-panchangam/+page.svelte": {
-    "file": "entries/pages/tamil-panchangam/_page.svelte.js",
-    "name": "entries/pages/tamil-panchangam/_page.svelte",
-    "src": "src/routes/tamil-panchangam/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/TamilPanchangamPage.svelte"
-    ]
-  },
-  "src/routes/temple/+page.svelte": {
-    "file": "entries/pages/temple/_page.svelte.js",
-    "name": "entries/pages/temple/_page.svelte",
-    "src": "src/routes/temple/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/TemplePage.svelte"
     ]
   },
   "src/routes/travel/+page.svelte": {
@@ -2231,86 +1528,59 @@
     "src": "src/routes/travel/+page.svelte",
     "isEntry": true,
     "imports": [
-      "src/lib/pages/TravelPage.svelte"
+      "_index2.js",
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
     ]
   },
-  "src/routes/trips/+page.svelte": {
-    "file": "entries/pages/trips/_page.svelte.js",
-    "name": "entries/pages/trips/_page.svelte",
-    "src": "src/routes/trips/+page.svelte",
+  "src/routes/travel/community/+page.svelte": {
+    "file": "entries/pages/travel/community/_page.svelte.js",
+    "name": "entries/pages/travel/community/_page.svelte",
+    "src": "src/routes/travel/community/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "src/lib/pages/TripHistoryPage.svelte"
+      "_Icon.js",
+      "_context.js"
     ]
   },
-  "src/routes/upgrades/+page.svelte": {
-    "file": "entries/pages/upgrades/_page.svelte.js",
-    "name": "entries/pages/upgrades/_page.svelte",
-    "src": "src/routes/upgrades/+page.svelte",
+  "src/routes/travel/leisure/+page.svelte": {
+    "file": "entries/pages/travel/leisure/_page.svelte.js",
+    "name": "entries/pages/travel/leisure/_page.svelte",
+    "src": "src/routes/travel/leisure/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "src/lib/pages/IssuesUpgradesPage.svelte"
+      "_Icon.js",
+      "_context.js"
     ]
   },
-  "src/routes/urgent/+page.svelte": {
-    "file": "entries/pages/urgent/_page.svelte.js",
-    "name": "entries/pages/urgent/_page.svelte",
-    "src": "src/routes/urgent/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index2.js",
-      "src/lib/pages/IssuesUrgentPage.svelte"
-    ]
-  },
-  "src/routes/users/+page.svelte": {
-    "file": "entries/pages/users/_page.svelte.js",
-    "name": "entries/pages/users/_page.svelte",
-    "src": "src/routes/users/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "src/lib/pages/UsersPage.svelte"
-    ]
-  },
-  "src/routes/vehicles/+page.svelte": {
-    "file": "entries/pages/vehicles/_page.svelte.js",
-    "name": "entries/pages/vehicles/_page.svelte",
-    "src": "src/routes/vehicles/+page.svelte",
+  "src/routes/travel/maps/+page.svelte": {
+    "file": "entries/pages/travel/maps/_page.svelte.js",
+    "name": "entries/pages/travel/maps/_page.svelte",
+    "src": "src/routes/travel/maps/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
       "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.Bcmcxyve.css"
     ]
   },
-  "src/routes/vendors/+page.svelte": {
-    "file": "entries/pages/vendors/_page.svelte.js",
-    "name": "entries/pages/vendors/_page.svelte",
-    "src": "src/routes/vendors/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_VendorsPage.js"
-    ]
-  },
-  "src/routes/wellness/+page.svelte": {
-    "file": "entries/pages/wellness/_page.svelte.js",
-    "name": "entries/pages/wellness/_page.svelte",
-    "src": "src/routes/wellness/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_WellnessPage.js"
-    ]
-  },
-  "src/routes/yoga/+page.svelte": {
-    "file": "entries/pages/yoga/_page.svelte.js",
-    "name": "entries/pages/yoga/_page.svelte",
-    "src": "src/routes/yoga/+page.svelte",
+  "src/routes/travel/trips/+page.svelte": {
+    "file": "entries/pages/travel/trips/_page.svelte.js",
+    "name": "entries/pages/travel/trips/_page.svelte",
+    "src": "src/routes/travel/trips/+page.svelte",
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "src/lib/pages/YogaExercisePage.svelte"
+      "_Icon.js",
+      "_database.js",
+      "_context.js"
     ]
   }
 }
