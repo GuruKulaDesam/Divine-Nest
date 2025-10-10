@@ -215,18 +215,259 @@
         </div>
       </div>
 
-      <!-- Background Toggle Button -->
-      <button
-        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
-        title="Toggle Background ({$background})"
-        on:click={() => {
-          homeSounds.playClick();
-          backgroundActions.toggle();
-        }}
-        on:mouseenter={handleHover}
-      >
-        <Icon icon="heroicons:photo" class="w-5 h-5" />
-      </button>
+      <!-- Background Toggle Dropdown -->
+      <div class="relative group">
+        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Background: {$background}" on:mouseenter={handleHover}>
+          <Icon icon="heroicons:photo" class="w-5 h-5" />
+        </button>
+
+        <!-- Background Dropdown -->
+        <div class="absolute right-0 top-full mt-2 w-56 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm max-h-80 overflow-y-auto">
+          <div class="p-2">
+            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Backgrounds</div>
+
+            <!-- Transparent -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'transparent' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("transparent");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-transparent border-2 border-gray-300 flex-shrink-0"></div>
+              <span>Transparent</span>
+              {#if $background === "transparent"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Mountain -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'mountain' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("mountain");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-t from-gray-400 to-gray-200 border border-gray-300 flex-shrink-0"></div>
+              <span>Mountain</span>
+              {#if $background === "mountain"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Nature -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'nature' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("nature");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-green-400 to-blue-500 border border-gray-300 flex-shrink-0"></div>
+              <span>Nature</span>
+              {#if $background === "nature"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Forest -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'forest' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("forest");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-green-600 to-green-800 border border-gray-300 flex-shrink-0"></div>
+              <span>Forest</span>
+              {#if $background === "forest"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Ocean -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'ocean' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("ocean");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-blue-800 border border-gray-300 flex-shrink-0"></div>
+              <span>Ocean</span>
+              {#if $background === "ocean"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Sunset -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'sunset' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("sunset");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 border border-gray-300 flex-shrink-0"></div>
+              <span>Sunset</span>
+              {#if $background === "sunset"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Dawn -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'dawn' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("dawn");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-pink-300 via-orange-200 to-yellow-200 border border-gray-300 flex-shrink-0"></div>
+              <span>Dawn</span>
+              {#if $background === "dawn"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Night -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'night' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("night");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-indigo-900 via-purple-900 to-black border border-gray-300 flex-shrink-0"></div>
+              <span>Night</span>
+              {#if $background === "night"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Desert -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'desert' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("desert");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 border border-gray-300 flex-shrink-0"></div>
+              <span>Desert</span>
+              {#if $background === "desert"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Snow -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'snow' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("snow");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-white via-blue-50 to-blue-100 border border-gray-300 flex-shrink-0"></div>
+              <span>Snow</span>
+              {#if $background === "snow"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Autumn -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'autumn' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("autumn");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-red-400 via-orange-500 to-yellow-600 border border-gray-300 flex-shrink-0"></div>
+              <span>Autumn</span>
+              {#if $background === "autumn"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Minimal -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'minimal' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("minimal");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 flex-shrink-0"></div>
+              <span>Minimal</span>
+              {#if $background === "minimal"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Dark -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'dark' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("dark");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-gray-800 to-black border border-gray-300 flex-shrink-0"></div>
+              <span>Dark</span>
+              {#if $background === "dark"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Light -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'light' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("light");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-white to-gray-100 border border-gray-300 flex-shrink-0"></div>
+              <span>Light</span>
+              {#if $background === "light"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Gradient -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$background === 'gradient' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                backgroundActions.set("gradient");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 border border-gray-300 flex-shrink-0"></div>
+              <span>Gradient</span>
+              {#if $background === "gradient"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- Settings Button -->
       <button

@@ -228,4 +228,53 @@
   .transparent-background {
     background: transparent !important;
   }
+
+  /* Additional background styles */
+  .forest-background {
+    background-image: linear-gradient(135deg, #0f5132 0%, #1e3a8a 100%);
+  }
+
+  .ocean-background {
+    background-image: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
+  }
+
+  .sunset-background {
+    background-image: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+  }
+
+  .dawn-background {
+    background-image: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #f59e0b 100%);
+  }
+
+  .night-background {
+    background-image: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+  }
+
+  .desert-background {
+    background-image: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #92400e 100%);
+  }
+
+  .snow-background {
+    background-image: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+  }
+
+  .autumn-background {
+    background-image: linear-gradient(135deg, #dc2626 0%, #ea580c 50%, #f59e0b 100%);
+  }
+
+  .minimal-background {
+    background-image: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+
+  .dark-background {
+    background-image: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+
+  .light-background {
+    background-image: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
+
+  .gradient-background {
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
 </style>
