@@ -88,8 +88,8 @@
     goto("/rituals");
   }
 
-  function navigateToWisdom() {
-    goto("/wisdom");
+  function navigateToCulture() {
+    goto("/culture");
   }
 </script>
 
@@ -273,13 +273,14 @@
       </div>
 
       <!-- 8. Wisdom Guide -->
-      <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 cursor-pointer" on:click={navigateToWisdom} on:keydown={(e) => e.key === "Enter" && navigateToWisdom()} role="button" tabindex="0">
+      <!-- 8. Culture Guide -->
+      <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 hover:shadow-xl transition-all duration-300 cursor-pointer" on:click={navigateToCulture} on:keydown={(e) => e.key === "Enter" && navigateToCulture()} role="button" tabindex="0">
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center space-x-3">
             <div class="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center">
               <Icon icon="heroicons:book-open" class="w-6 h-6 text-white" />
             </div>
-            <h2 class="text-xl font-semibold text-gray-800">Wisdom Guide</h2>
+            <h2 class="text-xl font-semibold text-gray-800">Culture Guide</h2>
           </div>
           <Icon icon="heroicons:chevron-right" class="w-5 h-5 text-gray-400" />
         </div>

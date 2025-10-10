@@ -313,36 +313,36 @@
             <h4 class="font-semibold text-amber-800 dark:text-amber-200 mb-4">Share a Family Story</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Story Title</label>
-                <input type="text" bind:value={newStory.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Give your story a memorable title" />
+                <label for="story-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Story Title</label>
+                <input id="story-title" type="text" bind:value={newStory.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Give your story a memorable title" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Storyteller</label>
-                <input type="text" bind:value={newStory.storyteller} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Who is sharing this story?" />
+                <label for="story-storyteller" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Storyteller</label>
+                <input id="story-storyteller" type="text" bind:value={newStory.storyteller} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Who is sharing this story?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-                <select bind:value={newStory.category} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="story-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+                <select id="story-category" bind:value={newStory.category} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   {#each storyCategories as category}
                     <option value={category.id}>{category.label}</option>
                   {/each}
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date/Period</label>
-                <input type="text" bind:value={newStory.date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="When did this happen? (e.g., 1985 or 'During my childhood')" />
+                <label for="story-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date/Period</label>
+                <input id="story-date" type="text" bind:value={newStory.date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="When did this happen? (e.g., 1985 or 'During my childhood')" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
-                <input type="text" bind:value={newStory.location} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Where did this story take place?" />
+                <label for="story-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+                <input id="story-location" type="text" bind:value={newStory.location} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Where did this story take place?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tags (comma separated)</label>
-                <input type="text" value={newStory.tags.join(", ")} on:input={(e) => (newStory.tags = e.target.value.split(",").map((tag) => tag.trim()))} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Tags to help find this story later" />
+                <label for="story-tags" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tags (comma separated)</label>
+                <input id="story-tags" type="text" value={newStory.tags.join(", ")} on:input={(e) => (newStory.tags = e.target.value.split(",").map((tag) => tag.trim()))} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Tags to help find this story later" />
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Story Content</label>
-                <textarea bind:value={newStory.content} rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Tell your story in detail. What happened? How did it feel? What did you learn?"></textarea>
+                <label for="story-content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Story Content</label>
+                <textarea id="story-content" bind:value={newStory.content} rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Tell your story in detail. What happened? How did it feel? What did you learn?"></textarea>
               </div>
             </div>
             <div class="flex space-x-3 mt-4">

@@ -18,4 +18,7 @@ function getInitialTheme() {
   }
   return THEMES.LIGHT;
 }
-writable(getInitialTheme());
+const theme = writable(getInitialTheme());
+export {
+  theme as t
+};

@@ -3,7 +3,7 @@
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { iosSounds } from "$lib/utils/sounds";
+  import { homeSounds } from "$lib/utils/sounds";
 
   const dispatch = createEventDispatcher();
 
@@ -19,7 +19,7 @@
     const tile = mainTiles.find((t) => t.id === tileId);
     if (tile && tile.subTiles.length > 1) {
       try {
-        iosSounds.playTap();
+        homeSounds.playTap();
       } catch (error) {
         console.warn("Sound playback failed:", error);
       }
@@ -164,7 +164,7 @@
   // Handle sub-tile navigation/action
   function navigateTo(subTile) {
     try {
-      iosSounds.playClick();
+      homeSounds.playClick();
     } catch (error) {
       console.warn("Sound playback failed:", error);
     }

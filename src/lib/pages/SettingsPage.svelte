@@ -2,6 +2,7 @@
   import Icon from "@iconify/svelte";
   import { motionInView, motionHover } from "$lib/utils/motion";
   import { _ } from "svelte-i18n";
+  import { theme, themeActions, THEMES } from "$lib/stores/theme.js";
 
   // AI Settings
   let aiSettings = {
@@ -44,16 +45,73 @@
     passwordChangeReminder: true,
   };
 
-  // Display Settings
+  // Display Settings - bind to actual theme store
   let displaySettings = {
-    theme: "auto", // 'light', 'dark', 'auto'
     language: "en",
     dateFormat: "MM/DD/YYYY",
     timeFormat: "12h",
     currency: "INR",
   };
 
-  // Timezone options
+  // Theme options with descriptions and previews
+  const themeOptions = [
+    {
+      value: THEMES.LIGHT,
+      label: "Light",
+      description: "Clean and bright interface",
+      icon: "heroicons:sun",
+      preview: "bg-white border-gray-200 text-gray-900",
+    },
+    {
+      value: THEMES.DARK,
+      label: "Dark",
+      description: "Easy on the eyes at night",
+      icon: "heroicons:moon",
+      preview: "bg-gray-900 border-gray-700 text-white",
+    },
+    {
+      value: THEMES.MINIMAL,
+      label: "Minimal",
+      description: "Simplified, distraction-free design",
+      icon: "heroicons:minus",
+      preview: "bg-gray-50 border-gray-300 text-gray-800",
+    },
+    {
+      value: THEMES.NATURE,
+      label: "Nature",
+      description: "Inspired by natural colors",
+      icon: "heroicons:leaf",
+      preview: "bg-green-50 border-green-200 text-green-800",
+    },
+    {
+      value: "modern",
+      label: "Modern",
+      description: "Contemporary design with gradients",
+      icon: "heroicons:sparkles",
+      preview: "bg-gradient-to-br from-blue-50 to-purple-50 border-purple-200 text-purple-800",
+    },
+    {
+      value: "ocean",
+      label: "Ocean",
+      description: "Calming blue tones",
+      icon: "heroicons:cloud",
+      preview: "bg-blue-50 border-blue-200 text-blue-800",
+    },
+    {
+      value: "sunset",
+      label: "Sunset",
+      description: "Warm orange and pink hues",
+      icon: "heroicons:sun",
+      preview: "bg-orange-50 border-orange-200 text-orange-800",
+    },
+    {
+      value: "forest",
+      label: "Forest",
+      description: "Earthy green palette",
+      icon: "heroicons:tree",
+      preview: "bg-emerald-50 border-emerald-200 text-emerald-800",
+    },
+  ]; // Timezone options
   const timezoneOptions = [
     { value: "UTC-12", label: "UTC-12 (Baker Island)" },
     { value: "UTC-11", label: "UTC-11 (American Samoa)" },
@@ -497,15 +555,32 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <!-- Theme Selector -->
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
                   {$_("settings.theme")}
                 </label>
-                <select bind:value={displaySettings.theme} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
-                  <option value="light">{$_("settings.light")}</option>
-                  <option value="dark">{$_("settings.dark")}</option>
-                  <option value="auto">{$_("settings.auto")}</option>
-                </select>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {#each themeOptions as themeOption}
+                    <button class="relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 {themeOption.preview} {$theme === themeOption.value ? 'ring-2 ring-purple-500 border-purple-500' : 'border-gray-200 dark:border-gray-600'}" on:click={() => themeActions.set(themeOption.value)}>
+                      <div class="flex flex-col items-center space-y-3">
+                        <Icon icon={themeOption.icon} class="w-8 h-8" />
+                        <div class="text-center">
+                          <h3 class="font-semibold text-sm">{themeOption.label}</h3>
+                          <p class="text-xs opacity-75 mt-1">{themeOption.description}</p>
+                        </div>
+                      </div>
+                      {#if $theme === themeOption.value}
+                        <div class="absolute top-2 right-2 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                          <Icon icon="heroicons:check" class="w-3 h-3 text-white" />
+                        </div>
+                      {/if}
+                    </button>
+                  {/each}
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-3">
+                  Current theme: <span class="font-medium capitalize">{$theme}</span>
+                </p>
               </div>
 
               <div>

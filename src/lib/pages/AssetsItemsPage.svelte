@@ -198,16 +198,16 @@
   <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label>
+        <label for="search-assets" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label>
         <div class="relative">
           <Icon icon="heroicons:magnifying-glass" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <input type="text" bind:value={searchTerm} placeholder="Search by name, brand, or Tamil name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
+          <input id="search-assets" type="text" bind:value={searchTerm} placeholder="Search by name, brand, or Tamil name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
         </div>
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-        <select bind:value={selectedCategory} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+        <label for="asset-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+        <select id="asset-category" bind:value={selectedCategory} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
           <option value="all">All Categories</option>
           {#each categories as category}
             <option value={category.id}>{category.name}</option>
@@ -216,8 +216,8 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
-        <select bind:value={selectedLocation} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+        <label for="asset-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+        <select id="asset-location" bind:value={selectedLocation} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
           <option value="all">All Locations</option>
           {#each locations as location}
             <option value={location}>{location}</option>
@@ -333,18 +333,18 @@
         <form on:submit|preventDefault={addAsset} class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Asset Name *</label>
-              <input type="text" bind:value={newAsset.name} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Samsung Refrigerator" />
+              <label for="modal-asset-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Asset Name *</label>
+              <input id="modal-asset-name" type="text" bind:value={newAsset.name} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Samsung Refrigerator" />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tamil Name</label>
-              <input type="text" bind:value={newAsset.tamilName} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., குளிர்சாதன பெட்டி" />
+              <label for="modal-asset-tamil-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tamil Name</label>
+              <input id="modal-asset-tamil-name" type="text" bind:value={newAsset.tamilName} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., குளிர்சாதன பெட்டி" />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category *</label>
-              <select bind:value={newAsset.category} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <label for="modal-asset-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category *</label>
+              <select id="modal-asset-category" bind:value={newAsset.category} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                 <option value="">Select Category</option>
                 {#each categories as category}
                   <option value={category.id}>{category.name}</option>
@@ -353,8 +353,8 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location *</label>
-              <select bind:value={newAsset.location} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <label for="modal-asset-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location *</label>
+              <select id="modal-asset-location" bind:value={newAsset.location} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                 <option value="">Select Location</option>
                 {#each locations as location}
                   <option value={location}>{location}</option>
@@ -363,28 +363,28 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Brand *</label>
-              <input type="text" bind:value={newAsset.brand} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Samsung, Honda" />
+              <label for="modal-asset-brand" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Brand *</label>
+              <input id="modal-asset-brand" type="text" bind:value={newAsset.brand} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., Samsung, Honda" />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Model</label>
-              <input type="text" bind:value={newAsset.model} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., RT28A3453S8" />
+              <label for="modal-asset-model" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Model</label>
+              <input id="modal-asset-model" type="text" bind:value={newAsset.model} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="e.g., RT28A3453S8" />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Purchase Date *</label>
-              <input type="date" bind:value={newAsset.purchaseDate} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
+              <label for="modal-asset-purchase-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Purchase Date *</label>
+              <input id="modal-asset-purchase-date" type="date" bind:value={newAsset.purchaseDate} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Purchase Price (₹) *</label>
-              <input type="number" bind:value={newAsset.purchasePrice} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="45000" />
+              <label for="modal-asset-purchase-price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Purchase Price (₹) *</label>
+              <input id="modal-asset-purchase-price" type="number" bind:value={newAsset.purchasePrice} required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="45000" />
             </div>
 
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Condition</label>
-              <select bind:value={newAsset.condition} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <label for="modal-asset-condition" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Condition</label>
+              <select id="modal-asset-condition" bind:value={newAsset.condition} class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                 <option value="excellent">Excellent</option>
                 <option value="good">Good</option>
                 <option value="fair">Fair</option>
@@ -393,8 +393,8 @@
             </div>
 
             <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
-              <textarea bind:value={newAsset.notes} rows="3" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Any additional notes about this asset..."></textarea>
+              <label for="modal-asset-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
+              <textarea id="modal-asset-notes" bind:value={newAsset.notes} rows="3" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" placeholder="Any additional notes about this asset..."></textarea>
             </div>
           </div>
 

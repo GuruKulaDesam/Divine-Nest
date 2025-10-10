@@ -31,8 +31,8 @@
         { label: "Family Members", path: "/members", icon: "heroicons:users" },
         { label: "Calendar", path: "/family-calendar-modern", icon: "heroicons:calendar-days" },
         { label: "Notes", path: "/family-notes-modern", icon: "heroicons:document-text" },
-        { label: "Reminders", path: "/reminders", icon: "heroicons:bell-alert" }
-      ]
+        { label: "Reminders", path: "/reminders", icon: "heroicons:bell-alert" },
+      ],
     },
     {
       key: "divinity",
@@ -46,8 +46,8 @@
         { label: "Rituals", path: "/rituals", icon: "heroicons:sparkles" },
         { label: "Temple Visits", path: "/temple", icon: "heroicons:building-storefront" },
         { label: "Festival Calendar", path: "/festival-calendar", icon: "heroicons:calendar" },
-        { label: "Mantras", path: "/mantras", icon: "heroicons:musical-note" }
-      ]
+        { label: "Mantras", path: "/mantras", icon: "heroicons:musical-note" },
+      ],
     },
     {
       key: "contacts",
@@ -60,8 +60,8 @@
         { label: "Personal Contacts", path: "/contacts", icon: "heroicons:phone" },
         { label: "Emergency Contacts", path: "/emergency", icon: "heroicons:exclamation-triangle" },
         { label: "Vendors & Services", path: "/vendors", icon: "heroicons:wrench" },
-        { label: "Service Directory", path: "/directory", icon: "heroicons:building-storefront" }
-      ]
+        { label: "Service Directory", path: "/directory", icon: "heroicons:building-storefront" },
+      ],
     },
     {
       key: "food",
@@ -81,8 +81,8 @@
         { label: "Cleaning Schedule", path: "/kitchen/cleaning", icon: "heroicons:sparkles" },
         { label: "Kitchen Vendors", path: "/kitchen/vendors", icon: "heroicons:truck" },
         { label: "Wellness Kitchen", path: "/kitchen/wellness", icon: "heroicons:heart" },
-        { label: "Festival Foods", path: "/kitchen/festivals", icon: "heroicons:cake" }
-      ]
+        { label: "Festival Foods", path: "/kitchen/festivals", icon: "heroicons:cake" },
+      ],
     },
     {
       key: "education",
@@ -106,8 +106,8 @@
         { label: "Studies & Exams", path: "/studies", icon: "heroicons:pencil" },
         { label: "Learning Goals", path: "/learning-goals", icon: "heroicons:light-bulb" },
         { label: "Study Plans", path: "/study-plans", icon: "heroicons:document-duplicate" },
-        { label: "Grades Tracker", path: "/education/grades-tracker", icon: "heroicons:chart-bar" }
-      ]
+        { label: "Grades Tracker", path: "/education/grades-tracker", icon: "heroicons:chart-bar" },
+      ],
     },
     {
       key: "assistant",
@@ -122,8 +122,8 @@
         { label: "Task Board", path: "/assistant/task-board", icon: "heroicons:clipboard-document-list" },
         { label: "Event Feed", path: "/assistant/event-feed", icon: "heroicons:rss" },
         { label: "Auto Checklist", path: "/assistant/auto-checklist", icon: "heroicons:check-circle" },
-        { label: "Ambient Log", path: "/assistant/ambient-log", icon: "heroicons:eye" }
-      ]
+        { label: "Ambient Log", path: "/assistant/ambient-log", icon: "heroicons:eye" },
+      ],
     },
     {
       key: "shivo-ai",
@@ -132,9 +132,7 @@
       path: "/shivo-ai",
       color: "text-orange-500",
       routes: ["/shivo-ai"],
-      subMenus: [
-        { label: "AI Assistant", path: "/shivo-ai", icon: "heroicons:sparkles" }
-      ]
+      subMenus: [{ label: "AI Assistant", path: "/shivo-ai", icon: "heroicons:sparkles" }],
     },
     {
       key: "shivo-music",
@@ -143,9 +141,7 @@
       path: "/shivo-music",
       color: "text-pink-500",
       routes: ["/shivo-music"],
-      subMenus: [
-        { label: "Music Companion", path: "/shivo-music", icon: "heroicons:musical-note" }
-      ]
+      subMenus: [{ label: "Music Companion", path: "/shivo-music", icon: "heroicons:musical-note" }],
     },
     {
       key: "health",
@@ -159,8 +155,8 @@
         { label: "Health Tracking", path: "/health", icon: "heroicons:shield-check" },
         { label: "Yoga & Exercise", path: "/yoga", icon: "heroicons:user" },
         { label: "Health Journal", path: "/journal", icon: "heroicons:pencil-square" },
-        { label: "Hobbies & Activities", path: "/hobbies-activities", icon: "heroicons:puzzle-piece" }
-      ]
+        { label: "Hobbies & Activities", path: "/hobbies-activities", icon: "heroicons:puzzle-piece" },
+      ],
     },
     {
       key: "finances",
@@ -175,8 +171,8 @@
         { label: "Expenses", path: "/expenses", icon: "heroicons:credit-card" },
         { label: "Budget", path: "/budget", icon: "heroicons:calculator" },
         { label: "Insurance", path: "/insurance", icon: "heroicons:shield-check" },
-        { label: "Investments", path: "/investments", icon: "heroicons:chart-line" }
-      ]
+        { label: "Investments", path: "/investments", icon: "heroicons:chart-line" },
+      ],
     },
     {
       key: "assets",
@@ -192,8 +188,8 @@
         { label: "Maintenance", path: "/assets/maintenance", icon: "heroicons:wrench-screwdriver" },
         { label: "Documents", path: "/assets/documents", icon: "heroicons:document-text" },
         { label: "Home Inventory", path: "/inventory", icon: "heroicons:archive-box" },
-        { label: "Vehicle Management", path: "/vehicles", icon: "heroicons:truck" }
-      ]
+        { label: "Vehicle Management", path: "/vehicles", icon: "heroicons:truck" },
+      ],
     },
     {
       key: "projects",
@@ -208,8 +204,8 @@
         { label: "Daily Schedule", path: "/schedule", icon: "heroicons:calendar-days" },
         { label: "Analytics Dashboard", path: "/analytics", icon: "heroicons:chart-bar" },
         { label: "Data Charts", path: "/charts", icon: "heroicons:chart-pie" },
-        { label: "Interactive Maps", path: "/maps", icon: "heroicons:map" }
-      ]
+        { label: "Interactive Maps", path: "/maps", icon: "heroicons:map" },
+      ],
     },
     {
       key: "issues",
@@ -224,8 +220,8 @@
         { label: "Repairs", path: "/repairs", icon: "heroicons:wrench-screwdriver" },
         { label: "Maintenance", path: "/maintenance", icon: "heroicons:cog" },
         { label: "Upgrades", path: "/upgrades", icon: "heroicons:arrow-trending-up" },
-        { label: "Service Requests", path: "/requests", icon: "heroicons:clipboard-document-list" }
-      ]
+        { label: "Service Requests", path: "/requests", icon: "heroicons:clipboard-document-list" },
+      ],
     },
     {
       key: "memories",
@@ -239,8 +235,8 @@
         { label: "Family Stories", path: "/family-stories", icon: "heroicons:book-open" },
         { label: "Legacy & Memory", path: "/legacy", icon: "heroicons:archive-box" },
         { label: "Emotions & Feelings", path: "/emotions", icon: "heroicons:face-smile" },
-        { label: "Family Governance", path: "/family-governance", icon: "heroicons:scale" }
-      ]
+        { label: "Family Governance", path: "/family-governance", icon: "heroicons:scale" },
+      ],
     },
     {
       key: "travel",
@@ -253,9 +249,9 @@
         { label: "Travel Planning", path: "/travel", icon: "heroicons:map-pin" },
         { label: "Trip History", path: "/trips", icon: "heroicons:globe-alt" },
         { label: "Leisure & Outings", path: "/leisure", icon: "heroicons:film" },
-        { label: "Community Events", path: "/community", icon: "heroicons:users" }
-      ]
-    }
+        { label: "Community Events", path: "/community", icon: "heroicons:users" },
+      ],
+    },
   ];
 
   // Check if current route belongs to a menu section
@@ -276,7 +272,7 @@
 
   // Auto-expand menu if current route belongs to it
   $: {
-    mainMenuItems.forEach(menuItem => {
+    mainMenuItems.forEach((menuItem) => {
       if (isMenuActive(menuItem) && !expandedMenus[menuItem.key]) {
         expandedMenus[menuItem.key] = true;
       }
@@ -336,7 +332,7 @@
         <div class="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-bounce glow-purple"></div>
       </div>
       <div class="flex items-center">
-        <span class="text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse whitespace-nowrap"> Home Manager </span>
+        <span class="text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse whitespace-nowrap"> Home Maker </span>
       </div>
     </div>
   </div>
@@ -359,10 +355,7 @@
           <Icon icon={menuItem.icon} class="w-5 h-5 mr-3 {menuItem.color}" />
           <span class="flex-1">{menuItem.title}</span>
           {#if menuItem.subMenus && menuItem.subMenus.length > 0}
-            <Icon
-              icon={expandedMenus[menuItem.key] ? "heroicons:chevron-down" : "heroicons:chevron-right"}
-              class="w-4 h-4 ml-2 transition-transform duration-200 {expandedMenus[menuItem.key] ? 'rotate-0' : ''}"
-            />
+            <Icon icon={expandedMenus[menuItem.key] ? "heroicons:chevron-down" : "heroicons:chevron-right"} class="w-4 h-4 ml-2 transition-transform duration-200 {expandedMenus[menuItem.key] ? 'rotate-0' : ''}" />
           {/if}
           {#if isMenuActive(menuItem)}
             <div class="ml-auto w-2 h-2 bg-white rounded-full animate-pulse"></div>
@@ -373,11 +366,7 @@
         {#if menuItem.subMenus && menuItem.subMenus.length > 0 && expandedMenus[menuItem.key]}
           <div class="ml-6 mt-2 space-y-1 animate-in slide-in-from-top-2 duration-200">
             {#each menuItem.subMenus as subMenu}
-              <a
-                href={subMenu.path}
-                class="w-full flex items-center px-4 py-2 text-xs font-medium rounded-lg transition-all duration-200 {isSubMenuActive(subMenu.path) ? 'bg-white/15 text-white border border-white/30 backdrop-blur-sm' : 'text-sidebar/80 hover:bg-white/5 hover:text-sidebar hover:backdrop-blur-sm'}"
-                on:click|preventDefault={() => handleSubMenuClick(subMenu.path, menuItem.key)}
-              >
+              <a href={subMenu.path} class="w-full flex items-center px-4 py-2 text-xs font-medium rounded-lg transition-all duration-200 {isSubMenuActive(subMenu.path) ? 'bg-white/15 text-white border border-white/30 backdrop-blur-sm' : 'text-sidebar/80 hover:bg-white/5 hover:text-sidebar hover:backdrop-blur-sm'}" on:click|preventDefault={() => handleSubMenuClick(subMenu.path, menuItem.key)}>
                 <Icon icon={subMenu.icon} class="w-4 h-4 mr-3 opacity-70" />
                 {subMenu.label}
                 {#if isSubMenuActive(subMenu.path)}

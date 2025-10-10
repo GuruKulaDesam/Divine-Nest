@@ -1,5 +1,5 @@
-// Sound utilities for iOS-like navigation sounds
-class IOSSounds {
+// Sound utilities for organic, home-like navigation sounds
+class HomeSounds {
   constructor() {
     this.audioContext = null;
     this.enabled = true;
@@ -13,7 +13,7 @@ class IOSSounds {
     return this.audioContext;
   }
 
-  // Generate iOS-like click sound
+  // Generate organic click sound - like a gentle bell or wooden click
   async playClick() {
     if (!this.enabled) return;
 
@@ -28,24 +28,24 @@ class IOSSounds {
       oscillator.connect(gainNode);
       gainNode.connect(ctx.destination);
 
-      // iOS-like click sound: short, clean, pleasant
-      oscillator.frequency.setValueAtTime(800, ctx.currentTime); // Higher frequency for click
-      oscillator.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.05);
+      // Organic click: warm, wooden sound
+      oscillator.frequency.setValueAtTime(600, ctx.currentTime); // Warm mid frequency
+      oscillator.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.08);
 
-      // Quick attack and decay
+      // Gentle attack and decay
       gainNode.gain.setValueAtTime(0, ctx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.01); // Quick attack
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08); // Fast decay
+      gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.02); // Soft attack
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15); // Gentle decay
 
       oscillator.start(ctx.currentTime);
-      oscillator.stop(ctx.currentTime + 0.08);
+      oscillator.stop(ctx.currentTime + 0.15);
 
     } catch (error) {
       console.warn('Could not play click sound:', error);
     }
   }
 
-  // Generate iOS-like tap sound (softer)
+  // Generate soft tap sound - like a gentle touch on fabric
   async playTap() {
     if (!this.enabled) return;
 
@@ -58,24 +58,24 @@ class IOSSounds {
       oscillator.connect(gainNode);
       gainNode.connect(ctx.destination);
 
-      // Softer tap sound
-      oscillator.frequency.setValueAtTime(600, ctx.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.03);
+      // Soft fabric-like tap sound
+      oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.05);
 
-      // Even softer than click
+      // Very gentle, like touching soft fabric
       gainNode.gain.setValueAtTime(0, ctx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 0.005);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+      gainNode.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
 
       oscillator.start(ctx.currentTime);
-      oscillator.stop(ctx.currentTime + 0.06);
+      oscillator.stop(ctx.currentTime + 0.08);
 
     } catch (error) {
       console.warn('Could not play tap sound:', error);
     }
   }
 
-  // Generate iOS-like pop sound for sub-menu items
+  // Generate gentle hover sound - like a soft breeze or leaf rustle
   async playPop() {
     if (!this.enabled) return;
 
@@ -88,18 +88,18 @@ class IOSSounds {
       oscillator.connect(gainNode);
       gainNode.connect(ctx.destination);
 
-      // Pop sound: quick rise and fall
-      oscillator.frequency.setValueAtTime(200, ctx.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.02);
-      oscillator.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.06);
+      // Gentle rustle sound: soft rise and fall
+      oscillator.frequency.setValueAtTime(150, ctx.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.03);
+      oscillator.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.08);
 
-      // Medium volume pop
+      // Very soft, natural volume
       gainNode.gain.setValueAtTime(0, ctx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.01);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+      gainNode.gain.linearRampToValueAtTime(0.04, ctx.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
 
       oscillator.start(ctx.currentTime);
-      oscillator.stop(ctx.currentTime + 0.08);
+      oscillator.stop(ctx.currentTime + 0.12);
 
     } catch (error) {
       console.warn('Could not play pop sound:', error);
@@ -119,4 +119,4 @@ class IOSSounds {
 }
 
 // Create global instance
-export const iosSounds = new IOSSounds();
+export const homeSounds = new HomeSounds();

@@ -1,91 +1,75 @@
 <script>
-  import { onMount } from 'svelte';
-  import Icon from '@iconify/svelte';
+  import { onMount } from "svelte";
+  import Icon from "@iconify/svelte";
 
   let recipes = [
     {
       id: 1,
-      name: 'Chicken Biryani',
-      nameTamil: 'கோழி பிரியாணி',
-      category: 'Main Course',
-      cuisine: 'Indian',
+      name: "Chicken Biryani",
+      nameTamil: "கோழி பிரியாணி",
+      category: "Main Course",
+      cuisine: "Indian",
       prepTime: 30,
       cookTime: 45,
       servings: 4,
-      difficulty: 'Medium',
-      ingredients: [
-        '500g chicken',
-        '2 cups basmati rice',
-        '2 onions',
-        '3 tomatoes',
-        'Spices (cumin, coriander, turmeric, garam masala)',
-        '2 tbsp oil',
-        'Salt to taste'
-      ],
-      instructions: '1. Marinate chicken with spices. 2. Cook rice. 3. Prepare masala. 4. Layer and cook.',
-      notes: 'Traditional South Indian style biryani',
-      status: 'Active'
+      difficulty: "Medium",
+      ingredients: ["500g chicken", "2 cups basmati rice", "2 onions", "3 tomatoes", "Spices (cumin, coriander, turmeric, garam masala)", "2 tbsp oil", "Salt to taste"],
+      instructions: "1. Marinate chicken with spices. 2. Cook rice. 3. Prepare masala. 4. Layer and cook.",
+      notes: "Traditional South Indian style biryani",
+      status: "Active",
     },
     {
       id: 2,
-      name: 'Vegetable Sambar',
-      nameTamil: 'காய்கறி சாம்பார்',
-      category: 'Main Course',
-      cuisine: 'South Indian',
+      name: "Vegetable Sambar",
+      nameTamil: "காய்கறி சாம்பார்",
+      category: "Main Course",
+      cuisine: "South Indian",
       prepTime: 15,
       cookTime: 25,
       servings: 6,
-      difficulty: 'Easy',
-      ingredients: [
-        '1 cup toor dal',
-        'Mixed vegetables (drumstick, brinjal, pumpkin)',
-        '2 tomatoes',
-        'Tamarind',
-        'Sambar powder',
-        'Salt to taste'
-      ],
-      instructions: '1. Cook dal. 2. Prepare vegetables. 3. Add tamarind and spices. 4. Simmer together.',
-      notes: 'Perfect with rice and ghee',
-      status: 'Active'
-    }
+      difficulty: "Easy",
+      ingredients: ["1 cup toor dal", "Mixed vegetables (drumstick, brinjal, pumpkin)", "2 tomatoes", "Tamarind", "Sambar powder", "Salt to taste"],
+      instructions: "1. Cook dal. 2. Prepare vegetables. 3. Add tamarind and spices. 4. Simmer together.",
+      notes: "Perfect with rice and ghee",
+      status: "Active",
+    },
   ];
 
   let filteredRecipes = [...recipes];
-  let searchQuery = '';
-  let selectedCategory = 'all';
-  let selectedCuisine = 'all';
-  let selectedDifficulty = 'all';
+  let searchQuery = "";
+  let selectedCategory = "all";
+  let selectedCuisine = "all";
+  let selectedDifficulty = "all";
   let showAddModal = false;
   let showEditModal = false;
   let editingRecipe = null;
 
   let newRecipe = {
-    name: '',
-    nameTamil: '',
-    category: '',
-    cuisine: '',
+    name: "",
+    nameTamil: "",
+    category: "",
+    cuisine: "",
     prepTime: 0,
     cookTime: 0,
     servings: 1,
-    difficulty: '',
-    ingredients: [''],
-    instructions: '',
-    notes: '',
-    status: 'Active'
+    difficulty: "",
+    ingredients: [""],
+    instructions: "",
+    notes: "",
+    status: "Active",
   };
 
-  const categories = ['Main Course', 'Appetizer', 'Dessert', 'Beverage', 'Snack', 'Breakfast'];
-  const cuisines = ['Indian', 'South Indian', 'North Indian', 'Chinese', 'Italian', 'Continental'];
-  const difficulties = ['Easy', 'Medium', 'Hard'];
-  const statuses = ['Active', 'Inactive'];
+  const categories = ["Main Course", "Appetizer", "Dessert", "Beverage", "Snack", "Breakfast"];
+  const cuisines = ["Indian", "South Indian", "North Indian", "Chinese", "Italian", "Continental"];
+  const difficulties = ["Easy", "Medium", "Hard"];
+  const statuses = ["Active", "Inactive"];
 
   $: {
-    filteredRecipes = recipes.filter(recipe => {
-      const matchesSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          recipe.nameTamil.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || recipe.category === selectedCategory;
-      const matchesCuisine = selectedCuisine === 'all' || recipe.cuisine === selectedCuisine;
-      const matchesDifficulty = selectedDifficulty === 'all' || recipe.difficulty === selectedDifficulty;
+    filteredRecipes = recipes.filter((recipe) => {
+      const matchesSearch = recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) || recipe.nameTamil.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === "all" || recipe.category === selectedCategory;
+      const matchesCuisine = selectedCuisine === "all" || recipe.cuisine === selectedCuisine;
+      const matchesDifficulty = selectedDifficulty === "all" || recipe.difficulty === selectedDifficulty;
       return matchesSearch && matchesCategory && matchesCuisine && matchesDifficulty;
     });
   }
@@ -94,7 +78,7 @@
     const recipe = {
       ...newRecipe,
       id: Date.now(),
-      ingredients: newRecipe.ingredients.filter(ing => ing.trim() !== '')
+      ingredients: newRecipe.ingredients.filter((ing) => ing.trim() !== ""),
     };
     recipes = [...recipes, recipe];
     resetNewRecipe();
@@ -107,11 +91,11 @@
   }
 
   function updateRecipe() {
-    const index = recipes.findIndex(r => r.id === editingRecipe.id);
+    const index = recipes.findIndex((r) => r.id === editingRecipe.id);
     if (index !== -1) {
       recipes[index] = {
         ...editingRecipe,
-        ingredients: editingRecipe.ingredients.filter(ing => ing.trim() !== '')
+        ingredients: editingRecipe.ingredients.filter((ing) => ing.trim() !== ""),
       };
       recipes = [...recipes];
     }
@@ -120,38 +104,38 @@
   }
 
   function deleteRecipe(id) {
-    if (confirm('Are you sure you want to delete this recipe?')) {
-      recipes = recipes.filter(r => r.id !== id);
+    if (confirm("Are you sure you want to delete this recipe?")) {
+      recipes = recipes.filter((r) => r.id !== id);
     }
   }
 
   function resetNewRecipe() {
     newRecipe = {
-      name: '',
-      nameTamil: '',
-      category: '',
-      cuisine: '',
+      name: "",
+      nameTamil: "",
+      category: "",
+      cuisine: "",
       prepTime: 0,
       cookTime: 0,
       servings: 1,
-      difficulty: '',
-      ingredients: [''],
-      instructions: '',
-      notes: '',
-      status: 'Active'
+      difficulty: "",
+      ingredients: [""],
+      instructions: "",
+      notes: "",
+      status: "Active",
     };
   }
 
   function addIngredient(recipe) {
-    if (recipe === 'new') {
-      newRecipe.ingredients = [...newRecipe.ingredients, ''];
+    if (recipe === "new") {
+      newRecipe.ingredients = [...newRecipe.ingredients, ""];
     } else {
-      editingRecipe.ingredients = [...editingRecipe.ingredients, ''];
+      editingRecipe.ingredients = [...editingRecipe.ingredients, ""];
     }
   }
 
   function removeIngredient(recipe, index) {
-    if (recipe === 'new') {
+    if (recipe === "new") {
       newRecipe.ingredients = newRecipe.ingredients.filter((_, i) => i !== index);
     } else {
       editingRecipe.ingredients = editingRecipe.ingredients.filter((_, i) => i !== index);
@@ -160,15 +144,19 @@
 
   function getDifficultyColor(difficulty) {
     switch (difficulty) {
-      case 'Easy': return 'bg-green-100 text-green-800';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800';
-      case 'Hard': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "Easy":
+        return "bg-green-100 text-green-800";
+      case "Medium":
+        return "bg-yellow-100 text-yellow-800";
+      case "Hard":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   }
 
   function getStatusColor(status) {
-    return status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
+    return status === "Active" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800";
   }
 </script>
 
@@ -179,13 +167,39 @@
       <h1 class="text-3xl font-bold text-base-content">Recipes</h1>
       <p class="text-base-content/70 mt-1">Manage your family recipes collection</p>
     </div>
-    <button
-      on:click={() => showAddModal = true}
-      class="btn btn-primary gap-2"
-    >
-      <Icon icon="mdi:plus" class="w-5 h-5" />
-      Add Recipe
-    </button>
+    <div class="flex gap-2">
+      <a href="/recipes/traditional" class="btn btn-outline btn-warning gap-2">
+        <Icon icon="heroicons:sparkles" class="w-5 h-5" />
+        Traditional Tamil Recipes
+      </a>
+      <button on:click={() => (showAddModal = true)} class="btn btn-primary gap-2">
+        <Icon icon="mdi:plus" class="w-5 h-5" />
+        Add Recipe
+      </button>
+    </div>
+  </div>
+
+  <!-- Traditional Recipes Highlight -->
+  <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+      <div class="flex-1">
+        <h2 class="text-xl font-bold text-amber-800 mb-2">🍲 பாட்டியின் சமையல் ஞானம்</h2>
+        <p class="text-amber-700 mb-4">Discover 25 traditional Tamil recipes from ancient family wisdom - medicine for body, peace for mind, love for family</p>
+        <div class="flex flex-wrap gap-2 text-sm">
+          <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Daily Sattvic Foods</span>
+          <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Fasting Foods</span>
+          <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Festival Foods</span>
+          <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Medicinal Foods</span>
+          <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Family Love Foods</span>
+        </div>
+      </div>
+      <div class="ml-6">
+        <a href="/recipes/traditional" class="btn btn-warning gap-2 shadow-lg hover:shadow-xl transition-all duration-300">
+          <Icon icon="heroicons:sparkles" class="w-5 h-5" />
+          Explore Traditional Recipes
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- Statistics -->
@@ -202,7 +216,7 @@
         <Icon icon="mdi:food-variant" class="w-8 h-8" />
       </div>
       <div class="stat-title">Categories</div>
-      <div class="stat-value text-secondary">{new Set(recipes.map(r => r.category)).size}</div>
+      <div class="stat-value text-secondary">{new Set(recipes.map((r) => r.category)).size}</div>
     </div>
     <div class="stat bg-base-100 shadow rounded-lg">
       <div class="stat-figure text-accent">
@@ -218,7 +232,7 @@
         <Icon icon="mdi:account-group" class="w-8 h-8" />
       </div>
       <div class="stat-title">Active Recipes</div>
-      <div class="stat-value text-info">{recipes.filter(r => r.status === 'Active').length}</div>
+      <div class="stat-value text-info">{recipes.filter((r) => r.status === "Active").length}</div>
     </div>
   </div>
 
@@ -230,12 +244,7 @@
         <label class="label">
           <span class="label-text">Search Recipes</span>
         </label>
-        <input
-          type="text"
-          bind:value={searchQuery}
-          placeholder="Search by name..."
-          class="input input-bordered"
-        />
+        <input type="text" bind:value={searchQuery} placeholder="Search by name..." class="input input-bordered" />
       </div>
 
       <!-- Category Filter -->
@@ -284,10 +293,10 @@
         </label>
         <button
           on:click={() => {
-            searchQuery = '';
-            selectedCategory = 'all';
-            selectedCuisine = 'all';
-            selectedDifficulty = 'all';
+            searchQuery = "";
+            selectedCategory = "all";
+            selectedCuisine = "all";
+            selectedDifficulty = "all";
           }}
           class="btn btn-outline btn-block"
         >
@@ -378,25 +387,14 @@
               <label class="label">
                 <span class="label-text">Recipe Name *</span>
               </label>
-              <input
-                type="text"
-                bind:value={newRecipe.name}
-                placeholder="Enter recipe name"
-                class="input input-bordered"
-                required
-              />
+              <input type="text" bind:value={newRecipe.name} placeholder="Enter recipe name" class="input input-bordered" required />
             </div>
 
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input
-                type="text"
-                bind:value={newRecipe.nameTamil}
-                placeholder="சமையல் பெயர்"
-                class="input input-bordered"
-              />
+              <input type="text" bind:value={newRecipe.nameTamil} placeholder="சமையல் பெயர்" class="input input-bordered" />
             </div>
           </div>
 
@@ -431,26 +429,14 @@
               <label class="label">
                 <span class="label-text">Prep Time (minutes)</span>
               </label>
-              <input
-                type="number"
-                bind:value={newRecipe.prepTime}
-                placeholder="30"
-                class="input input-bordered"
-                min="0"
-              />
+              <input type="number" bind:value={newRecipe.prepTime} placeholder="30" class="input input-bordered" min="0" />
             </div>
 
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Cook Time (minutes)</span>
               </label>
-              <input
-                type="number"
-                bind:value={newRecipe.cookTime}
-                placeholder="45"
-                class="input input-bordered"
-                min="0"
-              />
+              <input type="number" bind:value={newRecipe.cookTime} placeholder="45" class="input input-bordered" min="0" />
             </div>
           </div>
 
@@ -459,13 +445,7 @@
               <label class="label">
                 <span class="label-text">Servings</span>
               </label>
-              <input
-                type="number"
-                bind:value={newRecipe.servings}
-                placeholder="4"
-                class="input input-bordered"
-                min="1"
-              />
+              <input type="number" bind:value={newRecipe.servings} placeholder="4" class="input input-bordered" min="1" />
             </div>
 
             <div class="form-control">
@@ -498,27 +478,13 @@
             </label>
             {#each newRecipe.ingredients as ingredient, index}
               <div class="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  bind:value={newRecipe.ingredients[index]}
-                  placeholder="Enter ingredient"
-                  class="input input-bordered flex-1"
-                />
-                <button
-                  type="button"
-                  on:click={() => removeIngredient('new', index)}
-                  class="btn btn-ghost btn-sm"
-                  disabled={newRecipe.ingredients.length === 1}
-                >
+                <input type="text" bind:value={newRecipe.ingredients[index]} placeholder="Enter ingredient" class="input input-bordered flex-1" />
+                <button type="button" on:click={() => removeIngredient("new", index)} class="btn btn-ghost btn-sm" disabled={newRecipe.ingredients.length === 1}>
                   <Icon icon="mdi:minus" class="w-4 h-4" />
                 </button>
               </div>
             {/each}
-            <button
-              type="button"
-              on:click={() => addIngredient('new')}
-              class="btn btn-outline btn-sm gap-2"
-            >
+            <button type="button" on:click={() => addIngredient("new")} class="btn btn-outline btn-sm gap-2">
               <Icon icon="mdi:plus" class="w-4 h-4" />
               Add Ingredient
             </button>
@@ -528,24 +494,14 @@
             <label class="label">
               <span class="label-text">Instructions</span>
             </label>
-            <textarea
-              bind:value={newRecipe.instructions}
-              placeholder="Enter cooking instructions..."
-              rows="4"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea bind:value={newRecipe.instructions} placeholder="Enter cooking instructions..." rows="4" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="form-control">
             <label class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea
-              bind:value={newRecipe.notes}
-              placeholder="Additional notes or tips..."
-              rows="2"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea bind:value={newRecipe.notes} placeholder="Additional notes or tips..." rows="2" class="textarea textarea-bordered"></textarea>
           </div>
         </form>
       </div>
@@ -560,13 +516,7 @@
         >
           Cancel
         </button>
-        <button
-          on:click={addRecipe}
-          class="btn btn-primary"
-          disabled={!newRecipe.name.trim()}
-        >
-          Add Recipe
-        </button>
+        <button on:click={addRecipe} class="btn btn-primary" disabled={!newRecipe.name.trim()}> Add Recipe </button>
       </div>
     </div>
   </div>
@@ -587,25 +537,14 @@
               <label class="label">
                 <span class="label-text">Recipe Name *</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingRecipe.name}
-                placeholder="Enter recipe name"
-                class="input input-bordered"
-                required
-              />
+              <input type="text" bind:value={editingRecipe.name} placeholder="Enter recipe name" class="input input-bordered" required />
             </div>
 
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingRecipe.nameTamil}
-                placeholder="சமையல் பெயர்"
-                class="input input-bordered"
-              />
+              <input type="text" bind:value={editingRecipe.nameTamil} placeholder="சமையல் பெயர்" class="input input-bordered" />
             </div>
           </div>
 
@@ -640,26 +579,14 @@
               <label class="label">
                 <span class="label-text">Prep Time (minutes)</span>
               </label>
-              <input
-                type="number"
-                bind:value={editingRecipe.prepTime}
-                placeholder="30"
-                class="input input-bordered"
-                min="0"
-              />
+              <input type="number" bind:value={editingRecipe.prepTime} placeholder="30" class="input input-bordered" min="0" />
             </div>
 
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Cook Time (minutes)</span>
               </label>
-              <input
-                type="number"
-                bind:value={editingRecipe.cookTime}
-                placeholder="45"
-                class="input input-bordered"
-                min="0"
-              />
+              <input type="number" bind:value={editingRecipe.cookTime} placeholder="45" class="input input-bordered" min="0" />
             </div>
           </div>
 
@@ -668,13 +595,7 @@
               <label class="label">
                 <span class="label-text">Servings</span>
               </label>
-              <input
-                type="number"
-                bind:value={editingRecipe.servings}
-                placeholder="4"
-                class="input input-bordered"
-                min="1"
-              />
+              <input type="number" bind:value={editingRecipe.servings} placeholder="4" class="input input-bordered" min="1" />
             </div>
 
             <div class="form-control">
@@ -707,27 +628,13 @@
             </label>
             {#each editingRecipe.ingredients as ingredient, index}
               <div class="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  bind:value={editingRecipe.ingredients[index]}
-                  placeholder="Enter ingredient"
-                  class="input input-bordered flex-1"
-                />
-                <button
-                  type="button"
-                  on:click={() => removeIngredient('edit', index)}
-                  class="btn btn-ghost btn-sm"
-                  disabled={editingRecipe.ingredients.length === 1}
-                >
+                <input type="text" bind:value={editingRecipe.ingredients[index]} placeholder="Enter ingredient" class="input input-bordered flex-1" />
+                <button type="button" on:click={() => removeIngredient("edit", index)} class="btn btn-ghost btn-sm" disabled={editingRecipe.ingredients.length === 1}>
                   <Icon icon="mdi:minus" class="w-4 h-4" />
                 </button>
               </div>
             {/each}
-            <button
-              type="button"
-              on:click={() => addIngredient('edit')}
-              class="btn btn-outline btn-sm gap-2"
-            >
+            <button type="button" on:click={() => addIngredient("edit")} class="btn btn-outline btn-sm gap-2">
               <Icon icon="mdi:plus" class="w-4 h-4" />
               Add Ingredient
             </button>
@@ -737,24 +644,14 @@
             <label class="label">
               <span class="label-text">Instructions</span>
             </label>
-            <textarea
-              bind:value={editingRecipe.instructions}
-              placeholder="Enter cooking instructions..."
-              rows="4"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea bind:value={editingRecipe.instructions} placeholder="Enter cooking instructions..." rows="4" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="form-control">
             <label class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea
-              bind:value={editingRecipe.notes}
-              placeholder="Additional notes or tips..."
-              rows="2"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea bind:value={editingRecipe.notes} placeholder="Additional notes or tips..." rows="2" class="textarea textarea-bordered"></textarea>
           </div>
         </form>
       </div>
@@ -769,13 +666,7 @@
         >
           Cancel
         </button>
-        <button
-          on:click={updateRecipe}
-          class="btn btn-primary"
-          disabled={!editingRecipe.name.trim()}
-        >
-          Update Recipe
-        </button>
+        <button on:click={updateRecipe} class="btn btn-primary" disabled={!editingRecipe.name.trim()}> Update Recipe </button>
       </div>
     </div>
   </div>

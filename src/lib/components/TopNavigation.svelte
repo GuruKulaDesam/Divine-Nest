@@ -13,6 +13,7 @@
   import { getUnreadNotificationsCount, getUnreadMessagesCount } from "../data/notifications.js";
   import { _, isLoading } from "svelte-i18n";
   import { isAuthenticated, currentUser, authActions } from "../stores/auth.js";
+  import { homeSounds } from "$lib/utils/sounds";
 
   export let sidebarOpen = false;
 
@@ -343,17 +344,20 @@
   }
 
   function handleTileClick(path) {
+    homeSounds.playClick();
     goto(path);
   }
 
   // Header functions
   function toggleSidebar() {
+    homeSounds.playClick();
     sidebarOpen = !sidebarOpen;
     // Also dispatch the event for compatibility
     dispatch("toggleSidebar");
   }
 
   function toggleUserMenu() {
+    homeSounds.playClick();
     userMenuOpen = !userMenuOpen;
     notificationMenuOpen = false;
     messageMenuOpen = false;
@@ -366,12 +370,14 @@
   }
 
   function toggleNotificationMenu() {
+    homeSounds.playClick();
     notificationMenuOpen = !notificationMenuOpen;
     userMenuOpen = false;
     messageMenuOpen = false;
   }
 
   function toggleMessageMenu() {
+    homeSounds.playClick();
     messageMenuOpen = !messageMenuOpen;
     userMenuOpen = false;
     notificationMenuOpen = false;
@@ -393,27 +399,36 @@
   }
 
   function handleLogout() {
+    homeSounds.playClick();
     closeUserMenu();
     authActions.logout();
     goto("/auth/login");
   }
 
   function handleLogin() {
+    homeSounds.playClick();
     goto("/auth/login");
   }
 
   function handleRegister() {
+    homeSounds.playClick();
     goto("/auth/register");
   }
 
   function handleProfile() {
+    homeSounds.playClick();
     goto("/profile");
     closeUserMenu();
   }
 
   function handleSettings() {
+    homeSounds.playClick();
     goto("/settings");
     closeUserMenu();
+  }
+
+  function handleHover() {
+    homeSounds.playPop();
   }
 
   // Close menus when clicking outside
@@ -438,7 +453,7 @@
     <!-- Top row: Logo/Title + User actions -->
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center space-x-4">
-        <button class="lg:hidden p-2 rounded-md text-base-content/60 hover:text-base-content hover:bg-base-200/50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" on:click={toggleSidebar}>
+        <button class="lg:hidden p-2 rounded-md text-base-content/60 hover:text-base-content hover:bg-base-200/50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" on:click={toggleSidebar} on:mouseenter={handleHover}>
           <Icon icon="heroicons:bars-3" class="w-6 h-6" />
         </button>
         <h1 class="text-xl font-bold text-base-content">Family Management System</h1>
@@ -464,7 +479,7 @@
 
         <!-- Notifications -->
         <div class="relative notification-menu">
-          <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200/50 rounded-lg relative transition-colors duration-200 backdrop-blur-sm" on:click={toggleNotificationMenu} use:motionHover>
+          <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200/50 rounded-lg relative transition-colors duration-200 backdrop-blur-sm" on:click={toggleNotificationMenu} on:mouseenter={handleHover} use:motionHover>
             <Icon icon="heroicons:bell" class="w-5 h-5" />
             {#if unreadNotificationsCount > 0}
               <span class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-xs rounded-full flex items-center justify-center font-medium">
@@ -480,7 +495,7 @@
 
         <!-- Messages -->
         <div class="relative message-menu">
-          <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200/50 rounded-lg relative transition-colors duration-200 backdrop-blur-sm" on:click={toggleMessageMenu} use:motionHover>
+          <button class="p-2 text-base-content/60 hover:text-base-content hover:bg-base-200/50 rounded-lg relative transition-colors duration-200 backdrop-blur-sm" on:click={toggleMessageMenu} on:mouseenter={handleHover} use:motionHover>
             <Icon icon="heroicons:envelope" class="w-5 h-5" />
             {#if unreadMessagesCount > 0}
               <span class="absolute -top-1 -right-1 w-5 h-5 bg-warning text-white text-xs rounded-full flex items-center justify-center font-medium">
@@ -497,7 +512,7 @@
         <!-- User menu -->
         <div class="relative user-menu">
           {#if $isAuthenticated}
-            <button class="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200/50 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 backdrop-blur-sm" on:click={toggleUserMenu}>
+            <button class="flex items-center space-x-3 p-2 rounded-lg hover:bg-base-200/50 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 backdrop-blur-sm" on:click={toggleUserMenu} on:mouseenter={handleHover}>
               <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User avatar" class="h-8 w-8 rounded-full object-cover bg-base-200" />
               <div class="hidden md:block text-left">
                 <p class="text-sm font-medium text-base-content">John Doe</p>
@@ -506,7 +521,7 @@
               <Icon icon="heroicons:chevron-down" class="w-4 h-4 text-base-content/60" />
             </button>
           {:else}
-            <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-base-200/50 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 backdrop-blur-sm" on:click={toggleUserMenu}>
+            <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-base-200/50 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 backdrop-blur-sm" on:click={toggleUserMenu} on:mouseenter={handleHover}>
               <Icon icon="heroicons:user-circle" class="w-8 h-8 text-base-content/60" />
               <Icon icon="heroicons:chevron-down" class="w-4 h-4 text-base-content/60" />
             </button>
@@ -515,25 +530,25 @@
           {#if userMenuOpen}
             <div bind:this={dropdownElement} class="absolute right-0 mt-2 w-48 bg-base-100/90 backdrop-blur-sm rounded-lg shadow-lg border border-base-300/50 py-1 z-50">
               {#if $isAuthenticated}
-                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleProfile}>
+                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleProfile} on:mouseenter={handleHover}>
                   <Icon icon="heroicons:user-circle" class="w-4 h-4 mr-3" />
                   Profile
                 </button>
-                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleSettings}>
+                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleSettings} on:mouseenter={handleHover}>
                   <Icon icon="heroicons:cog-6-tooth" class="w-4 h-4 mr-3" />
                   Settings
                 </button>
                 <hr class="border-base-300/50 my-1" />
-                <button class="w-full flex items-center px-4 py-2 text-sm text-error hover:bg-base-200/50 transition-colors duration-200" on:click={handleLogout}>
+                <button class="w-full flex items-center px-4 py-2 text-sm text-error hover:bg-base-200/50 transition-colors duration-200" on:click={handleLogout} on:mouseenter={handleHover}>
                   <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3" />
                   Sign out
                 </button>
               {:else}
-                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleLogin}>
+                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleLogin} on:mouseenter={handleHover}>
                   <Icon icon="heroicons:arrow-right-on-rectangle" class="w-4 h-4 mr-3" />
                   Login
                 </button>
-                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleRegister}>
+                <button class="w-full flex items-center px-4 py-2 text-sm text-base-content hover:bg-base-200/50 transition-colors duration-200" on:click={handleRegister} on:mouseenter={handleHover}>
                   <Icon icon="heroicons:user-plus" class="w-4 h-4 mr-3" />
                   Register
                 </button>
@@ -547,7 +562,7 @@
     <!-- Navigation Tiles Grid -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-10 gap-3">
       {#each navigationTiles as tile}
-        <button class="group relative overflow-hidden rounded-xl bg-transparent border-2 {tile.borderColor} hover:bg-base-100/10 hover:shadow-lg hover:scale-105 backdrop-blur-sm" on:click={() => handleTileClick(tile.path)} use:motionHover>
+        <button class="group relative overflow-hidden rounded-xl bg-transparent border-2 {tile.borderColor} hover:bg-base-100/10 hover:shadow-lg hover:scale-105 backdrop-blur-sm" on:click={() => handleTileClick(tile.path)} on:mouseenter={handleHover} use:motionHover>
           <div class="p-4 text-center">
             <!-- Icon with gradient background -->
             <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br {tile.color} mb-3 shadow-sm">

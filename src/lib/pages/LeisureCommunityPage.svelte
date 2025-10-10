@@ -343,44 +343,44 @@
             <h4 class="font-semibold text-purple-800 dark:text-purple-200 mb-4">Record Leisure Activity</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Activity Title</label>
-                <input type="text" bind:value={newActivity.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What did you do for fun?" />
+                <label for="activity-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Activity Title</label>
+                <input id="activity-title" type="text" bind:value={newActivity.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What did you do for fun?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Activity Type</label>
-                <select bind:value={newActivity.type} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="activity-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Activity Type</label>
+                <select id="activity-type" bind:value={newActivity.type} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   {#each leisureTypes as type}
                     <option value={type.id}>{type.label}</option>
                   {/each}
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
-                <input type="date" bind:value={newActivity.date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                <label for="activity-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                <input id="activity-date" type="date" bind:value={newActivity.date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duration</label>
-                <input type="text" bind:value={newActivity.duration} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="2 hours, All day, etc." />
+                <label for="activity-duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duration</label>
+                <input id="activity-duration" type="text" bind:value={newActivity.duration} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="2 hours, All day, etc." />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
-                <input type="text" bind:value={newActivity.location} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Where did this happen?" />
+                <label for="activity-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+                <input id="activity-location" type="text" bind:value={newActivity.location} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Where did this happen?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cost (₹)</label>
-                <input type="number" bind:value={newActivity.cost} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="0" />
+                <label for="activity-cost" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cost (₹)</label>
+                <input id="activity-cost" type="number" bind:value={newActivity.cost} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="0" />
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                <textarea bind:value={newActivity.description} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe the activity in detail..."></textarea>
+                <label for="activity-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+                <textarea id="activity-description" bind:value={newActivity.description} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe the activity in detail..."></textarea>
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Memories & Highlights</label>
-                <textarea bind:value={newActivity.memories} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Share your favorite moments and memories..."></textarea>
+                <label for="activity-memories" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Memories & Highlights</label>
+                <textarea id="activity-memories" bind:value={newActivity.memories} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Share your favorite moments and memories..."></textarea>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Enjoyment Rating (1-5 stars)</label>
-                <input type="range" min="1" max="5" bind:value={newActivity.enjoyment_rating} class="w-full" />
+                <label for="activity-rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Enjoyment Rating (1-5 stars)</label>
+                <input id="activity-rating" type="range" min="1" max="5" bind:value={newActivity.enjoyment_rating} class="w-full" />
                 <div class="text-center mt-2">
                   <span class="text-2xl">{getStarRating(newActivity.enjoyment_rating)}</span>
                 </div>
@@ -477,40 +477,40 @@
             <h4 class="font-semibold text-green-800 dark:text-green-200 mb-4">Record Community Event</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Title</label>
-                <input type="text" bind:value={newEvent.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Name of the event..." />
+                <label for="event-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Title</label>
+                <input id="event-title" type="text" bind:value={newEvent.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Name of the event..." />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Type</label>
-                <select bind:value={newEvent.type} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="event-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Type</label>
+                <select id="event-type" bind:value={newEvent.type} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   {#each eventTypes as type}
                     <option value={type.id}>{type.label}</option>
                   {/each}
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Organizer</label>
-                <input type="text" bind:value={newEvent.organizer} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Who is organizing this event?" />
+                <label for="event-organizer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Organizer</label>
+                <input id="event-organizer" type="text" bind:value={newEvent.organizer} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Who is organizing this event?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
-                <input type="date" bind:value={newEvent.date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                <label for="event-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                <input id="event-date" type="date" bind:value={newEvent.date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time</label>
-                <input type="time" bind:value={newEvent.time} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                <label for="event-time" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time</label>
+                <input id="event-time" type="time" bind:value={newEvent.time} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
-                <input type="text" bind:value={newEvent.location} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Where is this happening?" />
+                <label for="event-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+                <input id="event-location" type="text" bind:value={newEvent.location} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Where is this happening?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Entry Fee (₹)</label>
-                <input type="number" bind:value={newEvent.entry_fee} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="0" />
+                <label for="event-fee" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Entry Fee (₹)</label>
+                <input id="event-fee" type="number" bind:value={newEvent.entry_fee} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="0" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Family Role</label>
-                <select bind:value={newEvent.role} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="event-role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Family Role</label>
+                <select id="event-role" bind:value={newEvent.role} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <option value="attendee">Attendee</option>
                   <option value="participant">Active Participant</option>
                   <option value="organizer">Organizer</option>
@@ -520,16 +520,16 @@
                 </select>
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Description</label>
-                <textarea bind:value={newEvent.description} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What is this event about?"></textarea>
+                <label for="event-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Description</label>
+                <textarea id="event-description" bind:value={newEvent.description} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What is this event about?"></textarea>
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Family Contribution</label>
-                <textarea bind:value={newEvent.contribution} rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="How is your family contributing to this event?"></textarea>
+                <label for="event-contribution" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Family Contribution</label>
+                <textarea id="event-contribution" bind:value={newEvent.contribution} rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="How is your family contributing to this event?"></textarea>
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cultural/Social Significance</label>
-                <textarea bind:value={newEvent.significance} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Why is this event important for the community?"></textarea>
+                <label for="event-significance" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cultural/Social Significance</label>
+                <textarea id="event-significance" bind:value={newEvent.significance} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Why is this event important for the community?"></textarea>
               </div>
               <div class="flex items-center space-x-2">
                 <input type="checkbox" id="registration" bind:checked={newEvent.registration_required} class="rounded border-gray-300 text-green-600 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50" />

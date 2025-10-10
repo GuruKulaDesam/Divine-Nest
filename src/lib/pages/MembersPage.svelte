@@ -1,93 +1,86 @@
 <script>
-  import Icon from '@iconify/svelte';
-  import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
+  import Icon from "@iconify/svelte";
+  import { onMount } from "svelte";
+  import { writable } from "svelte/store";
 
   // Reactive data
   let members = writable([
     {
       id: 1,
-      name: 'John Doe',
-      tamilName: 'ஜான் டோ',
-      relationship: 'Father',
+      name: "John Doe",
+      tamilName: "ஜான் டோ",
+      relationship: "Father",
       age: 45,
-      phone: '+91-98765-43210',
-      email: 'john@example.com',
-      address: '123 Main Street, City',
-      occupation: 'Engineer',
-      bloodGroup: 'O+',
-      emergencyContact: '+91-98765-43211',
-      status: 'active',
-      joinDate: '2023-01-15',
-      notes: 'Family head'
+      phone: "+91-98765-43210",
+      email: "john@example.com",
+      address: "123 Main Street, City",
+      occupation: "Engineer",
+      bloodGroup: "O+",
+      emergencyContact: "+91-98765-43211",
+      status: "active",
+      joinDate: "2023-01-15",
+      notes: "Family head",
     },
     {
       id: 2,
-      name: 'Jane Doe',
-      tamilName: 'ஜேன் டோ',
-      relationship: 'Mother',
+      name: "Jane Doe",
+      tamilName: "ஜேன் டோ",
+      relationship: "Mother",
       age: 42,
-      phone: '+91-98765-43212',
-      email: 'jane@example.com',
-      address: '123 Main Street, City',
-      occupation: 'Teacher',
-      bloodGroup: 'A+',
-      emergencyContact: '+91-98765-43213',
-      status: 'active',
-      joinDate: '2023-01-15',
-      notes: 'Homemaker'
-    }
+      phone: "+91-98765-43212",
+      email: "jane@example.com",
+      address: "123 Main Street, City",
+      occupation: "Teacher",
+      bloodGroup: "A+",
+      emergencyContact: "+91-98765-43213",
+      status: "active",
+      joinDate: "2023-01-15",
+      notes: "Homemaker",
+    },
   ]);
 
   let filteredMembers = writable([]);
-  let searchQuery = '';
-  let selectedStatus = 'all';
-  let selectedRelationship = 'all';
+  let searchQuery = "";
+  let selectedStatus = "all";
+  let selectedRelationship = "all";
   let showAddModal = false;
   let showEditModal = false;
   let editingMember = null;
 
   // Form data
   let newMember = {
-    name: '',
-    tamilName: '',
-    relationship: '',
-    age: '',
-    phone: '',
-    email: '',
-    address: '',
-    occupation: '',
-    bloodGroup: '',
-    emergencyContact: '',
-    status: 'active',
-    notes: ''
+    name: "",
+    tamilName: "",
+    relationship: "",
+    age: "",
+    phone: "",
+    email: "",
+    address: "",
+    occupation: "",
+    bloodGroup: "",
+    emergencyContact: "",
+    status: "active",
+    notes: "",
   };
 
   // Categories and options
-  const relationships = [
-    'Father', 'Mother', 'Son', 'Daughter', 'Brother', 'Sister',
-    'Grandfather', 'Grandmother', 'Uncle', 'Aunt', 'Cousin', 'Other'
-  ];
+  const relationships = ["Father", "Mother", "Son", "Daughter", "Brother", "Sister", "Grandfather", "Grandmother", "Uncle", "Aunt", "Cousin", "Other"];
 
-  const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
   const statuses = [
-    { id: 'active', name: 'Active', color: 'text-green-600 bg-green-100' },
-    { id: 'inactive', name: 'Inactive', color: 'text-gray-600 bg-gray-100' },
-    { id: 'pending', name: 'Pending', color: 'text-yellow-600 bg-yellow-100' }
+    { id: "active", name: "Active", color: "text-green-600 bg-green-100" },
+    { id: "inactive", name: "Inactive", color: "text-gray-600 bg-gray-100" },
+    { id: "pending", name: "Pending", color: "text-yellow-600 bg-yellow-100" },
   ];
 
   // Reactive filtering
   $: {
-    $filteredMembers = $members.filter(member => {
-      const matchesSearch = !searchQuery ||
-        member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        member.tamilName.includes(searchQuery) ||
-        member.phone.includes(searchQuery) ||
-        member.email.toLowerCase().includes(searchQuery.toLowerCase());
+    $filteredMembers = $members.filter((member) => {
+      const matchesSearch = !searchQuery || member.name.toLowerCase().includes(searchQuery.toLowerCase()) || member.tamilName.includes(searchQuery) || member.phone.includes(searchQuery) || member.email.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesStatus = selectedStatus === 'all' || member.status === selectedStatus;
-      const matchesRelationship = selectedRelationship === 'all' || member.relationship === selectedRelationship;
+      const matchesStatus = selectedStatus === "all" || member.status === selectedStatus;
+      const matchesRelationship = selectedRelationship === "all" || member.relationship === selectedRelationship;
 
       return matchesSearch && matchesStatus && matchesRelationship;
     });
@@ -95,9 +88,9 @@
 
   // Statistics
   $: totalMembers = $members.length;
-  $: activeMembers = $members.filter(m => m.status === 'active').length;
-  $: inactiveMembers = $members.filter(m => m.status === 'inactive').length;
-  $: pendingMembers = $members.filter(m => m.status === 'pending').length;
+  $: activeMembers = $members.filter((m) => m.status === "active").length;
+  $: inactiveMembers = $members.filter((m) => m.status === "inactive").length;
+  $: pendingMembers = $members.filter((m) => m.status === "pending").length;
 
   function addMember() {
     if (!newMember.name.trim()) return;
@@ -105,25 +98,25 @@
     const member = {
       ...newMember,
       id: Date.now(),
-      joinDate: new Date().toISOString().split('T')[0]
+      joinDate: new Date().toISOString().split("T")[0],
     };
 
-    members.update(m => [...m, member]);
+    members.update((m) => [...m, member]);
 
     // Reset form
     newMember = {
-      name: '',
-      tamilName: '',
-      relationship: '',
-      age: '',
-      phone: '',
-      email: '',
-      address: '',
-      occupation: '',
-      bloodGroup: '',
-      emergencyContact: '',
-      status: 'active',
-      notes: ''
+      name: "",
+      tamilName: "",
+      relationship: "",
+      age: "",
+      phone: "",
+      email: "",
+      address: "",
+      occupation: "",
+      bloodGroup: "",
+      emergencyContact: "",
+      status: "active",
+      notes: "",
     };
 
     showAddModal = false;
@@ -137,27 +130,25 @@
   function updateMember() {
     if (!editingMember.name.trim()) return;
 
-    members.update(m => m.map(member =>
-      member.id === editingMember.id ? editingMember : member
-    ));
+    members.update((m) => m.map((member) => (member.id === editingMember.id ? editingMember : member)));
 
     showEditModal = false;
     editingMember = null;
   }
 
   function deleteMember(id) {
-    if (confirm('Are you sure you want to delete this member?')) {
-      members.update(m => m.filter(member => member.id !== id));
+    if (confirm("Are you sure you want to delete this member?")) {
+      members.update((m) => m.filter((member) => member.id !== id));
     }
   }
 
   function getStatusColor(status) {
-    const statusObj = statuses.find(s => s.id === status);
-    return statusObj ? statusObj.color : 'text-gray-600 bg-gray-100';
+    const statusObj = statuses.find((s) => s.id === status);
+    return statusObj ? statusObj.color : "text-gray-600 bg-gray-100";
   }
 
   function formatDate(dateString) {
-    if (!dateString) return '';
+    if (!dateString) return "";
     return new Date(dateString).toLocaleDateString();
   }
 </script>
@@ -169,10 +160,7 @@
       <h1 class="text-3xl font-bold text-base-content">Members Management</h1>
       <p class="text-base-content/70 mt-1">Manage family and community members</p>
     </div>
-    <button
-      on:click={() => showAddModal = true}
-      class="btn btn-primary gap-2"
-    >
+    <button on:click={() => (showAddModal = true)} class="btn btn-primary gap-2">
       <Icon icon="mdi:account-plus" class="w-5 h-5" />
       Add Member
     </button>
@@ -235,23 +223,18 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <!-- Search -->
         <div class="form-control">
-          <label class="label">
+          <label for="search-members" class="label">
             <span class="label-text">Search Members</span>
           </label>
-          <input
-            type="text"
-            bind:value={searchQuery}
-            placeholder="Name, phone, email..."
-            class="input input-bordered w-full"
-          />
+          <input id="search-members" type="text" bind:value={searchQuery} placeholder="Name, phone, email..." class="input input-bordered w-full" />
         </div>
 
         <!-- Status Filter -->
         <div class="form-control">
-          <label class="label">
+          <label for="member-status" class="label">
             <span class="label-text">Status</span>
           </label>
-          <select bind:value={selectedStatus} class="select select-bordered w-full">
+          <select id="member-status" bind:value={selectedStatus} class="select select-bordered w-full">
             <option value="all">All Status</option>
             {#each statuses as status}
               <option value={status.id}>{status.name}</option>
@@ -261,10 +244,10 @@
 
         <!-- Relationship Filter -->
         <div class="form-control">
-          <label class="label">
+          <label for="member-relationship" class="label">
             <span class="label-text">Relationship</span>
           </label>
-          <select bind:value={selectedRelationship} class="select select-bordered w-full">
+          <select id="member-relationship" bind:value={selectedRelationship} class="select select-bordered w-full">
             <option value="all">All Relationships</option>
             {#each relationships as relationship}
               <option value={relationship}>{relationship}</option>
@@ -279,9 +262,9 @@
           </label>
           <button
             on:click={() => {
-              searchQuery = '';
-              selectedStatus = 'all';
-              selectedRelationship = 'all';
+              searchQuery = "";
+              selectedStatus = "all";
+              selectedRelationship = "all";
             }}
             class="btn btn-outline btn-block"
           >
@@ -349,7 +332,7 @@
                   </td>
                   <td>
                     <span class="badge {getStatusColor(member.status)}">
-                      {statuses.find(s => s.id === member.status)?.name}
+                      {statuses.find((s) => s.id === member.status)?.name}
                     </span>
                   </td>
                   <td>{formatDate(member.joinDate)}</td>
@@ -380,10 +363,7 @@
     <div class="bg-base-100 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
       <div class="flex items-center justify-between p-6 border-b">
         <h3 class="text-xl font-bold">Add New Member</h3>
-        <button
-          on:click={() => showAddModal = false}
-          class="btn btn-ghost btn-sm btn-circle"
-        >
+        <button on:click={() => (showAddModal = false)} class="btn btn-ghost btn-sm btn-circle">
           <Icon icon="mdi:close" class="w-5 h-5" />
         </button>
       </div>
@@ -392,37 +372,26 @@
         <form on:submit|preventDefault={addMember} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-name" class="label">
                 <span class="label-text">Full Name *</span>
               </label>
-              <input
-                type="text"
-                bind:value={newMember.name}
-                placeholder="Enter full name"
-                class="input input-bordered w-full"
-                required
-              />
+              <input id="modal-member-name" type="text" bind:value={newMember.name} placeholder="Enter full name" class="input input-bordered w-full" required />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-tamil-name" class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input
-                type="text"
-                bind:value={newMember.tamilName}
-                placeholder="தமிழ் பெயர்"
-                class="input input-bordered w-full"
-              />
+              <input id="modal-member-tamil-name" type="text" bind:value={newMember.tamilName} placeholder="தமிழ் பெயர்" class="input input-bordered w-full" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-relationship" class="label">
                 <span class="label-text">Relationship</span>
               </label>
-              <select bind:value={newMember.relationship} class="select select-bordered w-full">
+              <select id="modal-member-relationship" bind:value={newMember.relationship} class="select select-bordered w-full">
                 <option value="">Select relationship</option>
                 {#each relationships as relationship}
                   <option value={relationship}>{relationship}</option>
@@ -431,76 +400,49 @@
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-age" class="label">
                 <span class="label-text">Age</span>
               </label>
-              <input
-                type="number"
-                bind:value={newMember.age}
-                placeholder="Age in years"
-                class="input input-bordered w-full"
-                min="1"
-                max="120"
-              />
+              <input id="modal-member-age" type="number" bind:value={newMember.age} placeholder="Age in years" class="input input-bordered w-full" min="1" max="120" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-phone" class="label">
                 <span class="label-text">Phone Number</span>
               </label>
-              <input
-                type="tel"
-                bind:value={newMember.phone}
-                placeholder="+91-98765-43210"
-                class="input input-bordered w-full"
-              />
+              <input id="modal-member-phone" type="tel" bind:value={newMember.phone} placeholder="+91-98765-43210" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-email" class="label">
                 <span class="label-text">Email</span>
               </label>
-              <input
-                type="email"
-                bind:value={newMember.email}
-                placeholder="member@example.com"
-                class="input input-bordered w-full"
-              />
+              <input type="email" bind:value={newMember.email} placeholder="member@example.com" class="input input-bordered w-full" />
             </div>
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="modal-member-address" class="label">
               <span class="label-text">Address</span>
             </label>
-            <textarea
-              bind:value={newMember.address}
-              placeholder="Enter address"
-              rows="2"
-              class="textarea textarea-bordered w-full"
-            ></textarea>
+            <textarea id="modal-member-address" bind:value={newMember.address} placeholder="Enter address" rows="2" class="textarea textarea-bordered w-full"></textarea>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-occupation" class="label">
                 <span class="label-text">Occupation</span>
               </label>
-              <input
-                type="text"
-                bind:value={newMember.occupation}
-                placeholder="Job title or occupation"
-                class="input input-bordered w-full"
-              />
+              <input id="modal-member-occupation" type="text" bind:value={newMember.occupation} placeholder="Job title or occupation" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-blood-group" class="label">
                 <span class="label-text">Blood Group</span>
               </label>
-              <select bind:value={newMember.bloodGroup} class="select select-bordered w-full">
+              <select id="modal-member-blood-group" bind:value={newMember.bloodGroup} class="select select-bordered w-full">
                 <option value="">Select blood group</option>
                 {#each bloodGroups as group}
                   <option value={group}>{group}</option>
@@ -511,22 +453,17 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-emergency-contact" class="label">
                 <span class="label-text">Emergency Contact</span>
               </label>
-              <input
-                type="tel"
-                bind:value={newMember.emergencyContact}
-                placeholder="+91-98765-43211"
-                class="input input-bordered w-full"
-              />
+              <input id="modal-member-emergency-contact" type="tel" bind:value={newMember.emergencyContact} placeholder="+91-98765-43211" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="modal-member-status" class="label">
                 <span class="label-text">Status</span>
               </label>
-              <select bind:value={newMember.status} class="select select-bordered w-full">
+              <select id="modal-member-status" bind:value={newMember.status} class="select select-bordered w-full">
                 {#each statuses as status}
                   <option value={status.id}>{status.name}</option>
                 {/each}
@@ -535,31 +472,15 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="modal-member-notes" class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea
-              bind:value={newMember.notes}
-              placeholder="Additional notes or information"
-              rows="3"
-              class="textarea textarea-bordered w-full"
-            ></textarea>
+            <textarea id="modal-member-notes" bind:value={newMember.notes} placeholder="Additional notes or information" rows="3" class="textarea textarea-bordered w-full"></textarea>
           </div>
 
           <div class="flex justify-end gap-3 pt-4">
-            <button
-              type="button"
-              on:click={() => showAddModal = false}
-              class="btn btn-ghost"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              class="btn btn-primary"
-            >
-              Add Member
-            </button>
+            <button type="button" on:click={() => (showAddModal = false)} class="btn btn-ghost"> Cancel </button>
+            <button type="submit" class="btn btn-primary"> Add Member </button>
           </div>
         </form>
       </div>
@@ -591,25 +512,14 @@
               <label class="label">
                 <span class="label-text">Full Name *</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingMember.name}
-                placeholder="Enter full name"
-                class="input input-bordered w-full"
-                required
-              />
+              <input type="text" bind:value={editingMember.name} placeholder="Enter full name" class="input input-bordered w-full" required />
             </div>
 
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingMember.tamilName}
-                placeholder="தமிழ் பெயர்"
-                class="input input-bordered w-full"
-              />
+              <input type="text" bind:value={editingMember.tamilName} placeholder="தமிழ் பெயர்" class="input input-bordered w-full" />
             </div>
           </div>
 
@@ -630,14 +540,7 @@
               <label class="label">
                 <span class="label-text">Age</span>
               </label>
-              <input
-                type="number"
-                bind:value={editingMember.age}
-                placeholder="Age in years"
-                class="input input-bordered w-full"
-                min="1"
-                max="120"
-              />
+              <input type="number" bind:value={editingMember.age} placeholder="Age in years" class="input input-bordered w-full" min="1" max="120" />
             </div>
           </div>
 
@@ -646,24 +549,14 @@
               <label class="label">
                 <span class="label-text">Phone Number</span>
               </label>
-              <input
-                type="tel"
-                bind:value={editingMember.phone}
-                placeholder="+91-98765-43210"
-                class="input input-bordered w-full"
-              />
+              <input type="tel" bind:value={editingMember.phone} placeholder="+91-98765-43210" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Email</span>
               </label>
-              <input
-                type="email"
-                bind:value={editingMember.email}
-                placeholder="member@example.com"
-                class="input input-bordered w-full"
-              />
+              <input type="email" bind:value={editingMember.email} placeholder="member@example.com" class="input input-bordered w-full" />
             </div>
           </div>
 
@@ -671,12 +564,7 @@
             <label class="label">
               <span class="label-text">Address</span>
             </label>
-            <textarea
-              bind:value={editingMember.address}
-              placeholder="Enter address"
-              rows="2"
-              class="textarea textarea-bordered w-full"
-            ></textarea>
+            <textarea bind:value={editingMember.address} placeholder="Enter address" rows="2" class="textarea textarea-bordered w-full"></textarea>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -684,12 +572,7 @@
               <label class="label">
                 <span class="label-text">Occupation</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingMember.occupation}
-                placeholder="Job title or occupation"
-                class="input input-bordered w-full"
-              />
+              <input type="text" bind:value={editingMember.occupation} placeholder="Job title or occupation" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
@@ -710,12 +593,7 @@
               <label class="label">
                 <span class="label-text">Emergency Contact</span>
               </label>
-              <input
-                type="tel"
-                bind:value={editingMember.emergencyContact}
-                placeholder="+91-98765-43211"
-                class="input input-bordered w-full"
-              />
+              <input type="tel" bind:value={editingMember.emergencyContact} placeholder="+91-98765-43211" class="input input-bordered w-full" />
             </div>
 
             <div class="form-control">
@@ -734,12 +612,7 @@
             <label class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea
-              bind:value={editingMember.notes}
-              placeholder="Additional notes or information"
-              rows="3"
-              class="textarea textarea-bordered w-full"
-            ></textarea>
+            <textarea bind:value={editingMember.notes} placeholder="Additional notes or information" rows="3" class="textarea textarea-bordered w-full"></textarea>
           </div>
 
           <div class="flex justify-end gap-3 pt-4">
@@ -753,12 +626,7 @@
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              class="btn btn-primary"
-            >
-              Update Member
-            </button>
+            <button type="submit" class="btn btn-primary"> Update Member </button>
           </div>
         </form>
       </div>

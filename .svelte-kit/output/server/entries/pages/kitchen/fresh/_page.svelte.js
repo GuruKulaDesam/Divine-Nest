@@ -116,7 +116,7 @@ function FreshPage($$renderer, $$props) {
     };
     head($$renderer2, ($$renderer3) => {
       $$renderer3.title(($$renderer4) => {
-        $$renderer4.push(`<title>Fresh Items - Home Manager</title>`);
+        $$renderer4.push(`<title>Fresh Items - Home Maker</title>`);
       });
     });
     $$renderer2.push(`<div class="space-y-6"><div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"><div><h1 class="text-3xl font-bold text-base-content">Fresh Items</h1> <p class="text-base-content/70 mt-1">Manage fresh groceries and perishable items</p></div> <button class="btn btn-primary gap-2">`);

@@ -19,10 +19,6 @@
       "_context.js"
     ]
   },
-  "_FamilyNotes.tjeNrlKC.css": {
-    "file": "_app/immutable/assets/FamilyNotes.tjeNrlKC.css",
-    "src": "_FamilyNotes.tjeNrlKC.css"
-  },
   "_Icon.js": {
     "file": "chunks/Icon.js",
     "name": "Icon",
@@ -75,10 +71,6 @@
     "css": [
       "_app/immutable/assets/WellnessPage.4Ek67Xpg.css"
     ]
-  },
-  "_avatar.js": {
-    "file": "chunks/avatar.js",
-    "name": "avatar"
   },
   "_charts.js": {
     "file": "chunks/charts.js",
@@ -244,6 +236,17 @@
     "name": "shared",
     "imports": [
       "_utils2.js"
+    ]
+  },
+  "_shivo.js": {
+    "file": "chunks/shivo.js",
+    "name": "shivo",
+    "imports": [
+      "_index.js",
+      "_notes.js"
+    ],
+    "dynamicImports": [
+      "src/lib/ai/musicgen.ts"
     ]
   },
   "_state.svelte.js": {
@@ -438,10 +441,12 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
+      "_notes.js",
+      "_shivo.js",
       "_context.js"
     ],
     "css": [
-      "_app/immutable/assets/AssistantPage.D-JkzJfg.css"
+      "_app/immutable/assets/AssistantPage.RsRGrQuC.css"
     ]
   },
   "src/lib/pages/AutoChecklistPage.svelte": {
@@ -661,7 +666,10 @@
     "src": "src/lib/pages/HealthPage.svelte",
     "isDynamicEntry": true,
     "imports": [
-      "_Icon.js"
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js"
     ]
   },
   "src/lib/pages/HobbiesActivitiesPage.svelte": {
@@ -683,14 +691,10 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_avatar.js",
-      "_charts.js",
-      "_utils.js",
-      "_dexie-db.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js",
       "_context.js"
-    ],
-    "css": [
-      "_app/immutable/assets/FamilyNotes.tjeNrlKC.css"
     ]
   },
   "src/lib/pages/HouseholdPage.svelte": {
@@ -989,7 +993,7 @@
       "_context.js"
     ],
     "css": [
-      "_app/immutable/assets/RemindersPage.tpvbIiKk.css"
+      "_app/immutable/assets/RemindersPage.WwbklzdJ.css"
     ]
   },
   "src/lib/pages/RequestsPage.svelte": {
@@ -1028,6 +1032,7 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
+      "_theme.js",
       "_context.js"
     ],
     "css": [
@@ -1112,7 +1117,6 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_avatar.js",
       "_context.js"
     ]
   },
@@ -1170,7 +1174,8 @@
       "_exports.js",
       "_utils2.js",
       "_context.js",
-      "_state.svelte.js"
+      "_state.svelte.js",
+      "_theme.js"
     ],
     "dynamicImports": [
       "src/lib/i18n/locales/en.json",
@@ -1179,7 +1184,7 @@
       "src/lib/i18n/locales/ko.json"
     ],
     "css": [
-      "_app/immutable/assets/_layout.nbQNdaJo.css"
+      "_app/immutable/assets/_layout.Darkzmif.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -1191,11 +1196,9 @@
       "_theme.js",
       "_database.js",
       "_functions.js",
-      "_charts.js",
-      "_dexie-db.js"
-    ],
-    "css": [
-      "_app/immutable/assets/FamilyNotes.tjeNrlKC.css"
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js"
     ]
   },
   "src/routes/analytics/+page.svelte": {
@@ -1351,6 +1354,118 @@
     "isEntry": true,
     "imports": [
       "src/lib/pages/ContactsPage.svelte"
+    ]
+  },
+  "src/routes/culture/+page.svelte": {
+    "file": "entries/pages/culture/_page.svelte.js",
+    "name": "entries/pages/culture/_page.svelte",
+    "src": "src/routes/culture/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js"
+    ]
+  },
+  "src/routes/culture/daily-voice-guide/+page.svelte": {
+    "file": "entries/pages/culture/daily-voice-guide/_page.svelte.js",
+    "name": "entries/pages/culture/daily-voice-guide/_page.svelte",
+    "src": "src/routes/culture/daily-voice-guide/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_context.js",
+      "_state.svelte.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.B65hDk-V.css"
+    ]
+  },
+  "src/routes/culture/lifestyle-guide/+page.svelte": {
+    "file": "entries/pages/culture/lifestyle-guide/_page.svelte.js",
+    "name": "entries/pages/culture/lifestyle-guide/_page.svelte",
+    "src": "src/routes/culture/lifestyle-guide/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.B4qEhKVC.css"
+    ]
+  },
+  "src/routes/culture/places-to-visit/+page.svelte": {
+    "file": "entries/pages/culture/places-to-visit/_page.svelte.js",
+    "name": "entries/pages/culture/places-to-visit/_page.svelte",
+    "src": "src/routes/culture/places-to-visit/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_context.js",
+      "_state.svelte.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DBGWdaoi.css"
+    ]
+  },
+  "src/routes/culture/things-to-follow/+page.svelte": {
+    "file": "entries/pages/culture/things-to-follow/_page.svelte.js",
+    "name": "entries/pages/culture/things-to-follow/_page.svelte",
+    "src": "src/routes/culture/things-to-follow/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_context.js",
+      "_state.svelte.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.CmsCgPxp.css"
+    ]
+  },
+  "src/routes/culture/things-to-remember/+page.svelte": {
+    "file": "entries/pages/culture/things-to-remember/_page.svelte.js",
+    "name": "entries/pages/culture/things-to-remember/_page.svelte",
+    "src": "src/routes/culture/things-to-remember/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_context.js",
+      "_state.svelte.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.p-C0839-.css"
+    ]
+  },
+  "src/routes/culture/ways-to-live/+page.svelte": {
+    "file": "entries/pages/culture/ways-to-live/_page.svelte.js",
+    "name": "entries/pages/culture/ways-to-live/_page.svelte",
+    "src": "src/routes/culture/ways-to-live/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_context.js",
+      "_state.svelte.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.TKwxJPyG.css"
     ]
   },
   "src/routes/directory/+page.svelte": {
@@ -1601,6 +1716,31 @@
       "src/lib/pages/HealthPage.svelte"
     ]
   },
+  "src/routes/health/beauty-guide/+page.svelte": {
+    "file": "entries/pages/health/beauty-guide/_page.svelte.js",
+    "name": "entries/pages/health/beauty-guide/_page.svelte",
+    "src": "src/routes/health/beauty-guide/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_context.js"
+    ]
+  },
+  "src/routes/health/period-tracker/+page.svelte": {
+    "file": "entries/pages/health/period-tracker/_page.svelte.js",
+    "name": "entries/pages/health/period-tracker/_page.svelte",
+    "src": "src/routes/health/period-tracker/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_index.js",
+      "_utils.js",
+      "_context.js",
+      "_rituals.js"
+    ]
+  },
   "src/routes/hobbies-activities/+page.svelte": {
     "file": "entries/pages/hobbies-activities/_page.svelte.js",
     "name": "entries/pages/hobbies-activities/_page.svelte",
@@ -1750,6 +1890,24 @@
     "isEntry": true,
     "imports": [
       "_WellnessPage.js"
+    ]
+  },
+  "src/routes/kolam/+page.svelte": {
+    "file": "entries/pages/kolam/_page.svelte.js",
+    "name": "entries/pages/kolam/_page.svelte",
+    "src": "src/routes/kolam/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js",
+      "_index.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.L4W1o_gJ.css"
     ]
   },
   "src/routes/learning-goals/+page.svelte": {
@@ -1905,6 +2063,23 @@
       "_context.js"
     ]
   },
+  "src/routes/recipes/traditional/+page.svelte": {
+    "file": "entries/pages/recipes/traditional/_page.svelte.js",
+    "name": "entries/pages/recipes/traditional/_page.svelte",
+    "src": "src/routes/recipes/traditional/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_exports.js",
+      "_utils2.js",
+      "_state.svelte.js",
+      "_context.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.JWx3CZGT.css"
+    ]
+  },
   "src/routes/reminders/+page.svelte": {
     "file": "entries/pages/reminders/_page.svelte.js",
     "name": "entries/pages/reminders/_page.svelte",
@@ -1973,12 +2148,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_index.js",
-      "_notes.js",
+      "_shivo.js",
       "_context.js"
-    ],
-    "dynamicImports": [
-      "src/lib/ai/musicgen.ts"
     ],
     "css": [
       "_app/immutable/assets/_page.D7VULv-0.css"

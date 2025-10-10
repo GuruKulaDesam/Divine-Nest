@@ -97,9 +97,13 @@ function RecipesPage($$renderer, $$props) {
         return matchesSearch && matchesCategory && matchesCuisine && matchesDifficulty;
       });
     }
-    $$renderer2.push(`<div class="space-y-6"><div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"><div><h1 class="text-3xl font-bold text-base-content">Recipes</h1> <p class="text-base-content/70 mt-1">Manage your family recipes collection</p></div> <button class="btn btn-primary gap-2">`);
+    $$renderer2.push(`<div class="space-y-6"><div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"><div><h1 class="text-3xl font-bold text-base-content">Recipes</h1> <p class="text-base-content/70 mt-1">Manage your family recipes collection</p></div> <div class="flex gap-2"><a href="/recipes/traditional" class="btn btn-outline btn-warning gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:sparkles", class: "w-5 h-5" });
+    $$renderer2.push(`<!----> Traditional Tamil Recipes</a> <button class="btn btn-primary gap-2">`);
     Icon($$renderer2, { icon: "mdi:plus", class: "w-5 h-5" });
-    $$renderer2.push(`<!----> Add Recipe</button></div> <div class="grid grid-cols-1 md:grid-cols-4 gap-4"><div class="stat bg-base-100 shadow rounded-lg"><div class="stat-figure text-primary">`);
+    $$renderer2.push(`<!----> Add Recipe</button></div></div> <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-6 shadow-sm"><div class="flex items-center justify-between"><div class="flex-1"><h2 class="text-xl font-bold text-amber-800 mb-2">🍲 பாட்டியின் சமையல் ஞானம்</h2> <p class="text-amber-700 mb-4">Discover 25 traditional Tamil recipes from ancient family wisdom - medicine for body, peace for mind, love for family</p> <div class="flex flex-wrap gap-2 text-sm"><span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Daily Sattvic Foods</span> <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Fasting Foods</span> <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Festival Foods</span> <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Medicinal Foods</span> <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full">Family Love Foods</span></div></div> <div class="ml-6"><a href="/recipes/traditional" class="btn btn-warning gap-2 shadow-lg hover:shadow-xl transition-all duration-300">`);
+    Icon($$renderer2, { icon: "heroicons:sparkles", class: "w-5 h-5" });
+    $$renderer2.push(`<!----> Explore Traditional Recipes</a></div></div></div> <div class="grid grid-cols-1 md:grid-cols-4 gap-4"><div class="stat bg-base-100 shadow rounded-lg"><div class="stat-figure text-primary">`);
     Icon($$renderer2, { icon: "mdi:chef-hat", class: "w-8 h-8" });
     $$renderer2.push(`<!----></div> <div class="stat-title">Total Recipes</div> <div class="stat-value text-primary">${escape_html(recipes.length)}</div></div> <div class="stat bg-base-100 shadow rounded-lg"><div class="stat-figure text-secondary">`);
     Icon($$renderer2, { icon: "mdi:food-variant", class: "w-8 h-8" });

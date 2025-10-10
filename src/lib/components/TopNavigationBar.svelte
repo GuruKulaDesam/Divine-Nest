@@ -2,17 +2,24 @@
   import { createEventDispatcher } from "svelte";
   import Icon from "@iconify/svelte";
   import { page } from "$app/stores";
+  import { homeSounds } from "$lib/utils/sounds";
+  import { theme, themeActions, THEMES } from "$lib/stores/theme";
 
   const dispatch = createEventDispatcher();
 
   // Handle actions from ribbon - simplified for always-visible items
   function navigateTo(item) {
+    homeSounds.playClick();
     if (item.path) {
       // Use goto for navigation
       import("$app/navigation").then(({ goto }) => goto(item.path));
     } else if (item.action) {
       dispatch("action", { action: item.action, tile: item });
     }
+  }
+
+  function handleHover() {
+    homeSounds.playPop();
   }
 
   // Ribbon groups organized like Excel - always visible items
@@ -109,7 +116,7 @@
             <!-- Group Items - Always Visible -->
             <div class="flex items-center space-x-0.5">
               {#each group.items as item (item.label)}
-                <button class="group relative flex flex-col items-center justify-center w-12 h-10 rounded hover:bg-white/90 dark:hover:bg-gray-700/90 transition-all duration-150 border border-transparent hover:border-gray-300/60 dark:hover:border-gray-600/60 {isItemActive(item) ? 'bg-blue-50/90 dark:bg-blue-900/50 border-blue-200/70 dark:border-blue-800/70' : ''}" on:click={() => navigateTo(item)} title="{item.label}{item.shortcut ? ` (${item.shortcut})` : ''}" aria-label={item.label}>
+                <button class="group relative flex flex-col items-center justify-center w-12 h-10 rounded hover:bg-white/90 dark:hover:bg-gray-700/90 transition-all duration-150 border border-transparent hover:border-gray-300/60 dark:hover:border-gray-600/60 {isItemActive(item) ? 'bg-blue-50/90 dark:bg-blue-900/50 border-blue-200/70 dark:border-blue-800/70' : ''}" on:click={() => navigateTo(item)} on:mouseenter={handleHover} title="{item.label}{item.shortcut ? ` (${item.shortcut})` : ''}" aria-label={item.label}>
                   <div class="w-4 h-4 {group.textColor} group-hover:scale-110 transition-transform duration-200 mb-0.5">
                     <Icon icon={item.icon} class="w-full h-full" />
                   </div>
@@ -128,18 +135,47 @@
     <!-- Right Section: User Menu and Minimal Actions -->
     <div class="flex items-center space-x-2 flex-shrink-0">
       <!-- Search Button -->
-      <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Search (Ctrl+F)" on:click={() => dispatch("action", { action: "search" })}>
+      <button
+        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
+        title="Search (Ctrl+F)"
+        on:click={() => {
+          homeSounds.playClick();
+          dispatch("action", { action: "search" });
+        }}
+        on:mouseenter={handleHover}
+      >
         <Icon icon="heroicons:magnifying-glass" class="w-5 h-5" />
       </button>
 
+      <!-- Theme Toggle Button -->
+      <button
+        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
+        title="Toggle Theme ({$theme})"
+        on:click={() => {
+          homeSounds.playClick();
+          themeActions.toggle();
+        }}
+        on:mouseenter={handleHover}
+      >
+        <Icon icon="heroicons:swatch" class="w-5 h-5" />
+      </button>
+
       <!-- Settings Button -->
-      <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Settings (Ctrl+,)" on:click={() => dispatch("action", { action: "settings" })}>
+      <button
+        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
+        title="Settings (Ctrl+,)"
+        on:click={() => {
+          homeSounds.playClick();
+          dispatch("action", { action: "settings" });
+        }}
+        on:mouseenter={handleHover}
+      >
         <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5" />
       </button>
 
       <!-- User Menu -->
       <div class="relative group">
-        <button class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"> U </button>
+        <button class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105" on:mouseenter={handleHover}> U </button>
 
         <!-- User Dropdown -->
         <div class="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm">
@@ -148,9 +184,18 @@
             <div class="text-xs text-gray-500 dark:text-gray-400">user@example.com</div>
           </div>
           <div class="py-1">
-            <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150"> Profile Settings </button>
-            <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150"> Preferences </button>
-            <button class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150" on:click={() => dispatch("action", { action: "logout" })}> Sign Out </button>
+            <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}> Profile Settings </button>
+            <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}> Preferences </button>
+            <button
+              class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150"
+              on:click={() => {
+                homeSounds.playClick();
+                dispatch("action", { action: "logout" });
+              }}
+              on:mouseenter={handleHover}
+            >
+              Sign Out
+            </button>
           </div>
         </div>
       </div>
