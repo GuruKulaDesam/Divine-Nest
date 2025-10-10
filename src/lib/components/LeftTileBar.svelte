@@ -32,6 +32,10 @@
         { label: "Calendar", path: "/home/family-calendar-modern", icon: "heroicons:calendar-days" },
         { label: "Notes", path: "/home/family-notes-modern", icon: "heroicons:document-text" },
         { label: "Reminders", path: "/home/reminders", icon: "heroicons:bell-alert" },
+        { label: "Personal Contacts", path: "/home/contacts", icon: "heroicons:phone" },
+        { label: "Emergency Contacts", path: "/home/contacts/emergency", icon: "heroicons:exclamation-triangle" },
+        { label: "Vendors & Services", path: "/home/contacts/vendors", icon: "heroicons:wrench" },
+        { label: "Service Directory", path: "/home/contacts/directory", icon: "heroicons:building-storefront" },
       ],
     },
     {
@@ -50,21 +54,6 @@
         { label: "Temples", path: "/divinity/temple", icon: "heroicons:building-storefront" },
         { label: "Festivals", path: "/culture/festival-calendar", icon: "heroicons:calendar" },
         { label: "Mantras", path: "/divinity/mantras", icon: "heroicons:musical-note" },
-      ],
-    },
-    {
-      id: "contacts",
-      label: "Contacts",
-      icon: "heroicons:phone",
-      color: "from-green-500 to-green-600",
-      borderColor: "border-green-500/50",
-      textColor: "text-green-600 dark:text-green-400",
-      description: "People & Directory",
-      subTiles: [
-        { label: "Personal Contacts", path: "/home/contacts", icon: "heroicons:phone" },
-        { label: "Emergency Contacts", path: "/home/contacts/emergency", icon: "heroicons:exclamation-triangle" },
-        { label: "Vendors & Services", path: "/home/contacts/vendors", icon: "heroicons:wrench" },
-        { label: "Service Directory", path: "/home/contacts/directory", icon: "heroicons:building-storefront" },
       ],
     },
     {
@@ -94,7 +83,7 @@
     },
     {
       id: "education",
-      label: "Learn",
+      label: "Learning",
       icon: "heroicons:academic-cap",
       color: "from-indigo-500 to-indigo-600",
       borderColor: "border-indigo-500/50",

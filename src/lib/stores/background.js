@@ -11,7 +11,15 @@ export const BACKGROUNDS = {
   MINIMAL: 'minimal',
   DARK: 'dark',
   LIGHT: 'light',
-  GRADIENT: 'gradient'
+  GRADIENT: 'gradient',
+  FOREST: 'forest',
+  OCEAN: 'ocean',
+  SUNSET: 'sunset',
+  DAWN: 'dawn',
+  NIGHT: 'night',
+  DESERT: 'desert',
+  SNOW: 'snow',
+  AUTUMN: 'autumn'
 };
 
 // Get initial background from localStorage or default to mountain
@@ -100,6 +108,30 @@ function updateBackground(bg) {
       break;
     case BACKGROUNDS.GRADIENT:
       layout.classList.add('gradient-background');
+      break;
+    case BACKGROUNDS.FOREST:
+      layout.classList.add('forest-background');
+      break;
+    case BACKGROUNDS.OCEAN:
+      layout.classList.add('ocean-background');
+      break;
+    case BACKGROUNDS.SUNSET:
+      layout.classList.add('sunset-background');
+      break;
+    case BACKGROUNDS.DAWN:
+      layout.classList.add('dawn-background');
+      break;
+    case BACKGROUNDS.NIGHT:
+      layout.classList.add('night-background');
+      break;
+    case BACKGROUNDS.DESERT:
+      layout.classList.add('desert-background');
+      break;
+    case BACKGROUNDS.SNOW:
+      layout.classList.add('snow-background');
+      break;
+    case BACKGROUNDS.AUTUMN:
+      layout.classList.add('autumn-background');
       break;
   }
 }
