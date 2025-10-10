@@ -123,10 +123,10 @@
             <div class="flex items-center space-x-0.5">
               {#each group.items as item (item.label)}
                 <button class="group relative flex flex-col items-center justify-center w-12 h-10 rounded hover:bg-white/90 dark:hover:bg-gray-700/90 transition-all duration-150 border border-transparent hover:border-gray-300/60 dark:hover:border-gray-600/60 {isItemActive(item) ? 'bg-blue-50/90 dark:bg-blue-900/50 border-blue-200/70 dark:border-blue-800/70' : ''}" on:click={() => navigateTo(item)} on:mouseenter={handleHover} title="{item.label}{item.shortcut ? ` (${item.shortcut})` : ''}" aria-label={item.label}>
-                  <div class="w-4 h-4 {group.textColor} group-hover:scale-110 transition-transform duration-200 mb-0.5">
-                    <Icon icon={item.icon} class="w-full h-full" />
+                  <div class="w-5 h-5 {group.textColor} group-hover:scale-110 transition-transform duration-200 mb-0.5">
+                    <Icon icon={item.icon} class="w-full h-full" style="color: currentColor; fill: currentColor;" />
                   </div>
-                  <span class="text-[10px] font-medium text-gray-600 dark:text-gray-400 leading-tight text-center">{item.label.split(" ")[0]}</span>
+                  <span class="text-[10px] font-medium {$theme === 'transparent' ? 'text-white' : 'text-gray-600 dark:text-gray-400'} leading-tight text-center opacity-{$theme === 'transparent' ? '90' : '70'}">{item.label.split(" ")[0]}</span>
                   {#if isItemActive(item)}
                     <div class="absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-500 rounded-full"></div>
                   {/if}
@@ -150,13 +150,13 @@
         }}
         on:mouseenter={handleHover}
       >
-        <Icon icon="heroicons:magnifying-glass" class="w-5 h-5" />
+        <Icon icon="heroicons:magnifying-glass" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
       </button>
 
       <!-- Theme Toggle Dropdown -->
       <div class="relative group">
         <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Theme: {$theme}" on:mouseenter={handleHover}>
-          <Icon icon="heroicons:swatch" class="w-5 h-5" />
+          <Icon icon="heroicons:swatch" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
         </button>
 
         <!-- Theme Dropdown -->
@@ -218,7 +218,7 @@
       <!-- Background Toggle Dropdown -->
       <div class="relative group">
         <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Background: {$background}" on:mouseenter={handleHover}>
-          <Icon icon="heroicons:photo" class="w-5 h-5" />
+          <Icon icon="heroicons:photo" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
         </button>
 
         <!-- Background Dropdown -->

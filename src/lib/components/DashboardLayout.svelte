@@ -111,7 +111,7 @@
       {:else}
         <!-- Content pages with breadcrumb -->
         <div class="p-4 sm:p-6 lg:p-8 relative">
-          <div class="content-container rounded-3xl border-0 p-6 sm:p-8">
+          <div class="content-container rounded-[2rem] border-0 p-6 sm:p-8">
             <!-- Breadcrumb Navigation -->
             <div class="mb-6 flex items-center space-x-2 text-sm">
               <button on:click={() => goto("/")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
