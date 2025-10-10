@@ -33,9 +33,9 @@
       textColor: "text-emerald-600 dark:text-emerald-400",
       items: [
         { label: "Task", icon: "heroicons:clipboard-document-list", path: "/todo", shortcut: "Ctrl+T" },
-        { label: "Note", icon: "heroicons:document-text", path: "/family-notes-modern", shortcut: "Ctrl+N" },
-        { label: "Event", icon: "heroicons:calendar-days", path: "/family-calendar-modern", shortcut: "Ctrl+E" },
-        { label: "Reminder", icon: "heroicons:bell-alert", path: "/reminders", shortcut: "Ctrl+R" },
+        { label: "Note", icon: "heroicons:document-text", path: "/home/family-notes-modern", shortcut: "Ctrl+N" },
+        { label: "Event", icon: "heroicons:calendar-days", path: "/home/family-calendar-modern", shortcut: "Ctrl+E" },
+        { label: "Reminder", icon: "heroicons:bell-alert", path: "/home/reminders", shortcut: "Ctrl+R" },
       ],
     },
     {
@@ -153,18 +153,67 @@
         <Icon icon="heroicons:magnifying-glass" class="w-5 h-5" />
       </button>
 
-      <!-- Theme Toggle Button -->
-      <button
-        class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm"
-        title="Toggle Theme ({$theme})"
-        on:click={() => {
-          homeSounds.playClick();
-          themeActions.toggle();
-        }}
-        on:mouseenter={handleHover}
-      >
-        <Icon icon="heroicons:swatch" class="w-5 h-5" />
-      </button>
+      <!-- Theme Toggle Dropdown -->
+      <div class="relative group">
+        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Theme: {$theme}" on:mouseenter={handleHover}>
+          <Icon icon="heroicons:swatch" class="w-5 h-5" />
+        </button>
+
+        <!-- Theme Dropdown -->
+        <div class="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm">
+          <div class="p-2">
+            <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Viewing Mode</div>
+
+            <!-- Light Mode -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$theme === 'light' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                themeActions.set("light");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-gray-100 to-gray-200 border-2 border-gray-300 flex-shrink-0"></div>
+              <span>Light Mode</span>
+              {#if $theme === "light"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Dark Mode -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$theme === 'dark' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                themeActions.set("dark");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-900 border-2 border-gray-600 flex-shrink-0"></div>
+              <span>Dark Mode</span>
+              {#if $theme === "dark"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+
+            <!-- Transparent Mode -->
+            <button
+              class="w-full flex items-center gap-3 p-2 rounded-lg text-left text-sm transition-colors duration-200 {$theme === 'transparent' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}"
+              on:click={() => {
+                homeSounds.playClick();
+                themeActions.set("transparent");
+              }}
+              on:mouseenter={handleHover}
+            >
+              <div class="w-4 h-4 rounded-full bg-gradient-to-r from-blue-400 to-green-400 border-2 border-transparent flex-shrink-0 opacity-80"></div>
+              <span>Transparent Mode</span>
+              {#if $theme === "transparent"}
+                <Icon icon="heroicons:check" class="w-4 h-4 text-blue-600 dark:text-blue-400 ml-auto flex-shrink-0" />
+              {/if}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- Background Toggle Button -->
       <button

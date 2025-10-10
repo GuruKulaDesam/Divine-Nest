@@ -7,8 +7,7 @@ const browser = typeof window !== 'undefined';
 export const THEMES = {
   LIGHT: 'light',
   DARK: 'dark',
-  MINIMAL: 'minimal',
-  NATURE: 'nature'
+  TRANSPARENT: 'transparent'
 };
 
 // Get initial theme from localStorage or default to light

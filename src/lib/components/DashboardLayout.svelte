@@ -6,7 +6,7 @@
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { themeActions } from "$lib/stores/theme";
+  import { theme, themeActions } from "$lib/stores/theme";
   import { backgroundActions } from "$lib/stores/background";
 
   // Initialize stores
@@ -90,7 +90,7 @@
   }
 </script>
 
-<div class="flex h-screen bg-base-200 nature-background" data-theme="modern" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+<div class="flex h-screen {$theme === 'transparent' ? 'transparent-background' : 'bg-base-200'} nature-background" data-theme={$theme} style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
   <!-- Top Navigation Bar - Fixed overlay spanning full width -->
   <div class="fixed top-0 left-0 right-0 z-50">
     <TopNavigationBar on:action={handleTopNavAction} />
@@ -174,18 +174,29 @@
     pointer-events: none; /* Allow interactions to pass through */
   }
 
+  /* Transparent mode - no overlay, full mountain background visible */
+  [data-theme="transparent"] .nature-background::before {
+    display: none;
+  }
+
   .content-container {
     min-height: calc(100vh - 200px);
     transition: all 0.3s ease;
     position: relative;
     overflow-y: auto;
     z-index: 1;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--glass-border);
     border-radius: 32px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 40px var(--glass-shadow);
+  }
+
+  /* In transparent mode, content containers have light background */
+  [data-theme="transparent"] .content-container {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .scrollable-container {
@@ -211,5 +222,10 @@
 
   .scrollable-container::-webkit-scrollbar-thumb:hover {
     background: rgba(156, 163, 175, 0.5);
+  }
+
+  /* Transparent background class for transparent mode */
+  .transparent-background {
+    background: transparent !important;
   }
 </style>
