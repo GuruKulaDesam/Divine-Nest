@@ -46,7 +46,6 @@ declare module '$env/static/private' {
 	export const GEMINI_CLI_IDE_SERVER_PORT: string;
 	export const GEMINI_CLI_IDE_WORKSPACE_PATH: string;
 	export const GIT_ASKPASS: string;
-	export const GIT_PAGER: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
 	export const HOMEPATH: string;
@@ -168,7 +167,6 @@ declare module '$env/dynamic/private' {
 		GEMINI_CLI_IDE_SERVER_PORT: string;
 		GEMINI_CLI_IDE_WORKSPACE_PATH: string;
 		GIT_ASKPASS: string;
-		GIT_PAGER: string;
 		HOME: string;
 		HOMEDRIVE: string;
 		HOMEPATH: string;

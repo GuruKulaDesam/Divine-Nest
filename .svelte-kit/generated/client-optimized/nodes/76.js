@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/health/period-tracker/+page.svelte";
+export { default as component } from "../../../../src/routes/food/recipes/+page.svelte";

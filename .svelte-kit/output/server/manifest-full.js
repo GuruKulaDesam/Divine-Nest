@@ -10,7 +10,7 @@ return {
 	assets: new Set([]),
 	mimeTypes: {},
 	_: {
-		client: {start:"_app/immutable/entry/start.BLBO3z1j.js",app:"_app/immutable/entry/app.Bq7vhDoD.js",imports:["_app/immutable/entry/start.BLBO3z1j.js","_app/immutable/chunks/BS_byXze.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/DM9dGe5p.js","_app/immutable/chunks/DWPppJ2y.js","_app/immutable/entry/app.Bq7vhDoD.js","_app/immutable/chunks/Dp1pzeXC.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/Dn4D4y7S.js","_app/immutable/chunks/BnR7P2hC.js","_app/immutable/chunks/C4FjXvtf.js","_app/immutable/chunks/zUXBVMR_.js","_app/immutable/chunks/BFUbdx6v.js","_app/immutable/chunks/DWPppJ2y.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.BHC4Vjar.js",app:"_app/immutable/entry/app.Cu47iS9k.js",imports:["_app/immutable/entry/start.BHC4Vjar.js","_app/immutable/chunks/BG_FPMg6.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/BkKonBUD.js","_app/immutable/chunks/DWPppJ2y.js","_app/immutable/entry/app.Cu47iS9k.js","_app/immutable/chunks/Dp1pzeXC.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/Dn4D4y7S.js","_app/immutable/chunks/BnR7P2hC.js","_app/immutable/chunks/C4FjXvtf.js","_app/immutable/chunks/zUXBVMR_.js","_app/immutable/chunks/BFUbdx6v.js","_app/immutable/chunks/DWPppJ2y.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),
@@ -138,7 +138,19 @@ return {
 			__memo(() => import('./nodes/123.js')),
 			__memo(() => import('./nodes/124.js')),
 			__memo(() => import('./nodes/125.js')),
-			__memo(() => import('./nodes/126.js'))
+			__memo(() => import('./nodes/126.js')),
+			__memo(() => import('./nodes/127.js')),
+			__memo(() => import('./nodes/128.js')),
+			__memo(() => import('./nodes/129.js')),
+			__memo(() => import('./nodes/130.js')),
+			__memo(() => import('./nodes/131.js')),
+			__memo(() => import('./nodes/132.js')),
+			__memo(() => import('./nodes/133.js')),
+			__memo(() => import('./nodes/134.js')),
+			__memo(() => import('./nodes/135.js')),
+			__memo(() => import('./nodes/136.js')),
+			__memo(() => import('./nodes/137.js')),
+			__memo(() => import('./nodes/138.js'))
 		],
 		remotes: {
 			
@@ -292,731 +304,815 @@ return {
 				endpoint: null
 			},
 			{
+				id: "/culture/festival-foods",
+				pattern: /^\/culture\/festival-foods\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 23 },
+				endpoint: null
+			},
+			{
 				id: "/culture/kolam",
 				pattern: /^\/culture\/kolam\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 23 },
+				page: { layouts: [0,], errors: [1,], leaf: 24 },
 				endpoint: null
 			},
 			{
 				id: "/culture/lifestyle-guide",
 				pattern: /^\/culture\/lifestyle-guide\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 24 },
+				page: { layouts: [0,], errors: [1,], leaf: 25 },
 				endpoint: null
 			},
 			{
 				id: "/culture/places-to-visit",
 				pattern: /^\/culture\/places-to-visit\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 25 },
+				page: { layouts: [0,], errors: [1,], leaf: 26 },
 				endpoint: null
 			},
 			{
 				id: "/culture/things-to-follow",
 				pattern: /^\/culture\/things-to-follow\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 26 },
+				page: { layouts: [0,], errors: [1,], leaf: 27 },
 				endpoint: null
 			},
 			{
 				id: "/culture/things-to-remember",
 				pattern: /^\/culture\/things-to-remember\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 27 },
+				page: { layouts: [0,], errors: [1,], leaf: 28 },
 				endpoint: null
 			},
 			{
 				id: "/culture/ways-to-live",
 				pattern: /^\/culture\/ways-to-live\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 28 },
+				page: { layouts: [0,], errors: [1,], leaf: 29 },
 				endpoint: null
 			},
 			{
 				id: "/directory",
 				pattern: /^\/directory\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 29 },
+				page: { layouts: [0,], errors: [1,], leaf: 30 },
 				endpoint: null
 			},
 			{
 				id: "/divinity",
 				pattern: /^\/divinity\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 30 },
+				page: { layouts: [0,], errors: [1,], leaf: 31 },
 				endpoint: null
 			},
 			{
 				id: "/divinity/mantras",
 				pattern: /^\/divinity\/mantras\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 31 },
+				page: { layouts: [0,], errors: [1,], leaf: 32 },
 				endpoint: null
 			},
 			{
 				id: "/divinity/panchangam",
 				pattern: /^\/divinity\/panchangam\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 32 },
+				page: { layouts: [0,], errors: [1,], leaf: 33 },
 				endpoint: null
 			},
 			{
 				id: "/divinity/rituals",
 				pattern: /^\/divinity\/rituals\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 33 },
+				page: { layouts: [0,], errors: [1,], leaf: 34 },
 				endpoint: null
 			},
 			{
 				id: "/divinity/temple",
 				pattern: /^\/divinity\/temple\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 34 },
+				page: { layouts: [0,], errors: [1,], leaf: 35 },
 				endpoint: null
 			},
 			{
 				id: "/education",
 				pattern: /^\/education\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 35 },
+				page: { layouts: [0,], errors: [1,], leaf: 36 },
 				endpoint: null
 			},
 			{
 				id: "/education/achievements",
 				pattern: /^\/education\/achievements\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 36 },
+				page: { layouts: [0,], errors: [1,], leaf: 37 },
 				endpoint: null
 			},
 			{
 				id: "/education/archive",
 				pattern: /^\/education\/archive\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 37 },
+				page: { layouts: [0,], errors: [1,], leaf: 38 },
 				endpoint: null
 			},
 			{
 				id: "/education/assessment",
 				pattern: /^\/education\/assessment\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 38 },
+				page: { layouts: [0,], errors: [1,], leaf: 39 },
 				endpoint: null
 			},
 			{
 				id: "/education/courses",
 				pattern: /^\/education\/courses\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 39 },
+				page: { layouts: [0,], errors: [1,], leaf: 40 },
 				endpoint: null
 			},
 			{
 				id: "/education/curriculum",
 				pattern: /^\/education\/curriculum\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 40 },
+				page: { layouts: [0,], errors: [1,], leaf: 41 },
 				endpoint: null
 			},
 			{
 				id: "/education/grades-tracker",
 				pattern: /^\/education\/grades-tracker\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 41 },
+				page: { layouts: [0,], errors: [1,], leaf: 42 },
 				endpoint: null
 			},
 			{
 				id: "/education/learning-goals",
 				pattern: /^\/education\/learning-goals\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 42 },
+				page: { layouts: [0,], errors: [1,], leaf: 43 },
 				endpoint: null
 			},
 			{
 				id: "/education/library",
 				pattern: /^\/education\/library\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 43 },
+				page: { layouts: [0,], errors: [1,], leaf: 44 },
 				endpoint: null
 			},
 			{
 				id: "/education/mentors",
 				pattern: /^\/education\/mentors\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 44 },
+				page: { layouts: [0,], errors: [1,], leaf: 45 },
 				endpoint: null
 			},
 			{
 				id: "/education/planner",
 				pattern: /^\/education\/planner\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 45 },
+				page: { layouts: [0,], errors: [1,], leaf: 46 },
 				endpoint: null
 			},
 			{
 				id: "/education/quiz",
 				pattern: /^\/education\/quiz\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 46 },
+				page: { layouts: [0,], errors: [1,], leaf: 47 },
 				endpoint: null
 			},
 			{
 				id: "/education/students",
 				pattern: /^\/education\/students\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 47 },
+				page: { layouts: [0,], errors: [1,], leaf: 48 },
 				endpoint: null
 			},
 			{
 				id: "/education/studies",
 				pattern: /^\/education\/studies\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 48 },
+				page: { layouts: [0,], errors: [1,], leaf: 49 },
 				endpoint: null
 			},
 			{
 				id: "/education/study-plans",
 				pattern: /^\/education\/study-plans\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 49 },
+				page: { layouts: [0,], errors: [1,], leaf: 50 },
 				endpoint: null
 			},
 			{
 				id: "/expenses",
 				pattern: /^\/expenses\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 50 },
+				page: { layouts: [0,], errors: [1,], leaf: 51 },
 				endpoint: null
 			},
 			{
 				id: "/finances",
 				pattern: /^\/finances\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 51 },
+				page: { layouts: [0,], errors: [1,], leaf: 52 },
 				endpoint: null
 			},
 			{
 				id: "/finances/budget",
 				pattern: /^\/finances\/budget\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 52 },
+				page: { layouts: [0,], errors: [1,], leaf: 53 },
 				endpoint: null
 			},
 			{
 				id: "/finances/expenses",
 				pattern: /^\/finances\/expenses\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 53 },
+				page: { layouts: [0,], errors: [1,], leaf: 54 },
+				endpoint: null
+			},
+			{
+				id: "/finances/expenses/emotional",
+				pattern: /^\/finances\/expenses\/emotional\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 55 },
+				endpoint: null
+			},
+			{
+				id: "/finances/expenses/forecasting",
+				pattern: /^\/finances\/expenses\/forecasting\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 56 },
+				endpoint: null
+			},
+			{
+				id: "/finances/expenses/goals",
+				pattern: /^\/finances\/expenses\/goals\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 57 },
+				endpoint: null
+			},
+			{
+				id: "/finances/expenses/ledger",
+				pattern: /^\/finances\/expenses\/ledger\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 58 },
 				endpoint: null
 			},
 			{
 				id: "/finances/insurance",
 				pattern: /^\/finances\/insurance\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 54 },
+				page: { layouts: [0,], errors: [1,], leaf: 59 },
 				endpoint: null
 			},
 			{
 				id: "/finances/investments",
 				pattern: /^\/finances\/investments\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 55 },
+				page: { layouts: [0,], errors: [1,], leaf: 60 },
+				endpoint: null
+			},
+			{
+				id: "/finances/loans",
+				pattern: /^\/finances\/loans\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 61 },
 				endpoint: null
 			},
 			{
 				id: "/finances/recharges",
 				pattern: /^\/finances\/recharges\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 56 },
+				page: { layouts: [0,], errors: [1,], leaf: 62 },
 				endpoint: null
 			},
 			{
 				id: "/food",
 				pattern: /^\/food\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 57 },
+				page: { layouts: [0,], errors: [1,], leaf: 63 },
 				endpoint: null
 			},
 			{
 				id: "/food/grocery",
 				pattern: /^\/food\/grocery\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 58 },
+				page: { layouts: [0,], errors: [1,], leaf: 64 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen",
 				pattern: /^\/food\/kitchen\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 59 },
+				page: { layouts: [0,], errors: [1,], leaf: 65 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/cleaning",
 				pattern: /^\/food\/kitchen\/cleaning\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 60 },
+				page: { layouts: [0,], errors: [1,], leaf: 66 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/dashboard",
 				pattern: /^\/food\/kitchen\/dashboard\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 61 },
+				page: { layouts: [0,], errors: [1,], leaf: 67 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/festivals",
 				pattern: /^\/food\/kitchen\/festivals\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 62 },
+				page: { layouts: [0,], errors: [1,], leaf: 68 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/fresh",
 				pattern: /^\/food\/kitchen\/fresh\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 63 },
+				page: { layouts: [0,], errors: [1,], leaf: 69 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/kids",
 				pattern: /^\/food\/kitchen\/kids\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 64 },
+				page: { layouts: [0,], errors: [1,], leaf: 70 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/meals",
 				pattern: /^\/food\/kitchen\/meals\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 65 },
+				page: { layouts: [0,], errors: [1,], leaf: 71 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/vendors",
 				pattern: /^\/food\/kitchen\/vendors\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 66 },
+				page: { layouts: [0,], errors: [1,], leaf: 72 },
 				endpoint: null
 			},
 			{
 				id: "/food/kitchen/wellness",
 				pattern: /^\/food\/kitchen\/wellness\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 67 },
+				page: { layouts: [0,], errors: [1,], leaf: 73 },
 				endpoint: null
 			},
 			{
 				id: "/food/meals",
 				pattern: /^\/food\/meals\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 68 },
+				page: { layouts: [0,], errors: [1,], leaf: 74 },
 				endpoint: null
 			},
 			{
 				id: "/food/pantry",
 				pattern: /^\/food\/pantry\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 69 },
+				page: { layouts: [0,], errors: [1,], leaf: 75 },
 				endpoint: null
 			},
 			{
 				id: "/food/recipes",
 				pattern: /^\/food\/recipes\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 70 },
+				page: { layouts: [0,], errors: [1,], leaf: 76 },
 				endpoint: null
 			},
 			{
 				id: "/food/recipes/traditional",
 				pattern: /^\/food\/recipes\/traditional\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 71 },
+				page: { layouts: [0,], errors: [1,], leaf: 77 },
 				endpoint: null
 			},
 			{
 				id: "/health",
 				pattern: /^\/health\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 72 },
+				page: { layouts: [0,], errors: [1,], leaf: 78 },
 				endpoint: null
 			},
 			{
 				id: "/health/beauty-guide",
 				pattern: /^\/health\/beauty-guide\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 73 },
+				page: { layouts: [0,], errors: [1,], leaf: 79 },
 				endpoint: null
 			},
 			{
 				id: "/health/hobbies-activities",
 				pattern: /^\/health\/hobbies-activities\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 74 },
+				page: { layouts: [0,], errors: [1,], leaf: 80 },
 				endpoint: null
 			},
 			{
 				id: "/health/journal",
 				pattern: /^\/health\/journal\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 75 },
+				page: { layouts: [0,], errors: [1,], leaf: 81 },
 				endpoint: null
 			},
 			{
 				id: "/health/period-tracker",
 				pattern: /^\/health\/period-tracker\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 76 },
+				page: { layouts: [0,], errors: [1,], leaf: 82 },
+				endpoint: null
+			},
+			{
+				id: "/health/wellness-kitchen",
+				pattern: /^\/health\/wellness-kitchen\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 84 },
 				endpoint: null
 			},
 			{
 				id: "/health/wellness",
 				pattern: /^\/health\/wellness\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 77 },
+				page: { layouts: [0,], errors: [1,], leaf: 83 },
 				endpoint: null
 			},
 			{
 				id: "/health/yoga",
 				pattern: /^\/health\/yoga\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 78 },
+				page: { layouts: [0,], errors: [1,], leaf: 85 },
 				endpoint: null
 			},
 			{
 				id: "/home",
 				pattern: /^\/home\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 79 },
+				page: { layouts: [0,], errors: [1,], leaf: 86 },
+				endpoint: null
+			},
+			{
+				id: "/home/checklist",
+				pattern: /^\/home\/checklist\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 87 },
 				endpoint: null
 			},
 			{
 				id: "/home/contacts",
 				pattern: /^\/home\/contacts\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 80 },
+				page: { layouts: [0,], errors: [1,], leaf: 88 },
 				endpoint: null
 			},
 			{
 				id: "/home/contacts/directory",
 				pattern: /^\/home\/contacts\/directory\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 81 },
+				page: { layouts: [0,], errors: [1,], leaf: 89 },
 				endpoint: null
 			},
 			{
 				id: "/home/contacts/emergency",
 				pattern: /^\/home\/contacts\/emergency\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 82 },
+				page: { layouts: [0,], errors: [1,], leaf: 90 },
 				endpoint: null
 			},
 			{
 				id: "/home/contacts/vendors",
 				pattern: /^\/home\/contacts\/vendors\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 83 },
+				page: { layouts: [0,], errors: [1,], leaf: 91 },
 				endpoint: null
 			},
 			{
 				id: "/home/family-calendar-modern",
 				pattern: /^\/home\/family-calendar-modern\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 84 },
+				page: { layouts: [0,], errors: [1,], leaf: 92 },
 				endpoint: null
 			},
 			{
 				id: "/home/family-notes-modern",
 				pattern: /^\/home\/family-notes-modern\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 85 },
+				page: { layouts: [0,], errors: [1,], leaf: 93 },
 				endpoint: null
 			},
 			{
 				id: "/home/home-services",
 				pattern: /^\/home\/home-services\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 86 },
+				page: { layouts: [0,], errors: [1,], leaf: 94 },
 				endpoint: null
 			},
 			{
 				id: "/home/household",
 				pattern: /^\/home\/household\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 87 },
+				page: { layouts: [0,], errors: [1,], leaf: 95 },
 				endpoint: null
 			},
 			{
 				id: "/home/members",
 				pattern: /^\/home\/members\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 88 },
+				page: { layouts: [0,], errors: [1,], leaf: 96 },
 				endpoint: null
 			},
 			{
 				id: "/home/reminders",
 				pattern: /^\/home\/reminders\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 89 },
+				page: { layouts: [0,], errors: [1,], leaf: 97 },
 				endpoint: null
 			},
 			{
 				id: "/home/schedule",
 				pattern: /^\/home\/schedule\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 90 },
+				page: { layouts: [0,], errors: [1,], leaf: 98 },
+				endpoint: null
+			},
+			{
+				id: "/home/wishlist",
+				pattern: /^\/home\/wishlist\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 99 },
 				endpoint: null
 			},
 			{
 				id: "/inventory",
 				pattern: /^\/inventory\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 91 },
+				page: { layouts: [0,], errors: [1,], leaf: 100 },
 				endpoint: null
 			},
 			{
 				id: "/issues",
 				pattern: /^\/issues\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 92 },
+				page: { layouts: [0,], errors: [1,], leaf: 101 },
 				endpoint: null
 			},
 			{
 				id: "/issues/dashboard",
 				pattern: /^\/issues\/dashboard\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 93 },
+				page: { layouts: [0,], errors: [1,], leaf: 102 },
 				endpoint: null
 			},
 			{
 				id: "/issues/emergency",
 				pattern: /^\/issues\/emergency\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 94 },
+				page: { layouts: [0,], errors: [1,], leaf: 103 },
 				endpoint: null
 			},
 			{
 				id: "/issues/maintenance",
 				pattern: /^\/issues\/maintenance\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 95 },
+				page: { layouts: [0,], errors: [1,], leaf: 104 },
 				endpoint: null
 			},
 			{
 				id: "/issues/projects",
 				pattern: /^\/issues\/projects\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 96 },
+				page: { layouts: [0,], errors: [1,], leaf: 105 },
 				endpoint: null
 			},
 			{
 				id: "/issues/projects/gantt",
 				pattern: /^\/issues\/projects\/gantt\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 97 },
+				page: { layouts: [0,], errors: [1,], leaf: 106 },
 				endpoint: null
 			},
 			{
 				id: "/issues/repairs",
 				pattern: /^\/issues\/repairs\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 98 },
+				page: { layouts: [0,], errors: [1,], leaf: 107 },
 				endpoint: null
 			},
 			{
 				id: "/issues/requests",
 				pattern: /^\/issues\/requests\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 99 },
+				page: { layouts: [0,], errors: [1,], leaf: 108 },
 				endpoint: null
 			},
 			{
 				id: "/issues/upgrades",
 				pattern: /^\/issues\/upgrades\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 100 },
+				page: { layouts: [0,], errors: [1,], leaf: 109 },
 				endpoint: null
 			},
 			{
 				id: "/issues/urgent",
 				pattern: /^\/issues\/urgent\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 101 },
+				page: { layouts: [0,], errors: [1,], leaf: 110 },
 				endpoint: null
 			},
 			{
 				id: "/library",
 				pattern: /^\/library\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 102 },
+				page: { layouts: [0,], errors: [1,], leaf: 111 },
 				endpoint: null
 			},
 			{
 				id: "/lifeflow",
 				pattern: /^\/lifeflow\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 103 },
+				page: { layouts: [0,], errors: [1,], leaf: 112 },
 				endpoint: null
 			},
 			{
 				id: "/meals",
 				pattern: /^\/meals\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 104 },
+				page: { layouts: [0,], errors: [1,], leaf: 113 },
 				endpoint: null
 			},
 			{
 				id: "/members",
 				pattern: /^\/members\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 105 },
+				page: { layouts: [0,], errors: [1,], leaf: 114 },
 				endpoint: null
 			},
 			{
 				id: "/memories",
 				pattern: /^\/memories\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 106 },
+				page: { layouts: [0,], errors: [1,], leaf: 115 },
 				endpoint: null
 			},
 			{
 				id: "/memories/emotions",
 				pattern: /^\/memories\/emotions\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 107 },
+				page: { layouts: [0,], errors: [1,], leaf: 116 },
 				endpoint: null
 			},
 			{
 				id: "/memories/family-governance",
 				pattern: /^\/memories\/family-governance\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 108 },
+				page: { layouts: [0,], errors: [1,], leaf: 117 },
 				endpoint: null
 			},
 			{
 				id: "/memories/family-stories",
 				pattern: /^\/memories\/family-stories\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 109 },
+				page: { layouts: [0,], errors: [1,], leaf: 118 },
 				endpoint: null
 			},
 			{
 				id: "/memories/legacy",
 				pattern: /^\/memories\/legacy\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 110 },
+				page: { layouts: [0,], errors: [1,], leaf: 119 },
 				endpoint: null
 			},
 			{
 				id: "/memories/lifeflow",
 				pattern: /^\/memories\/lifeflow\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 111 },
+				page: { layouts: [0,], errors: [1,], leaf: 120 },
 				endpoint: null
 			},
 			{
 				id: "/pantry",
 				pattern: /^\/pantry\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 112 },
+				page: { layouts: [0,], errors: [1,], leaf: 121 },
 				endpoint: null
 			},
 			{
 				id: "/property",
 				pattern: /^\/property\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 113 },
+				page: { layouts: [0,], errors: [1,], leaf: 122 },
 				endpoint: null
 			},
 			{
 				id: "/recipes",
 				pattern: /^\/recipes\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 114 },
+				page: { layouts: [0,], errors: [1,], leaf: 123 },
 				endpoint: null
 			},
 			{
 				id: "/settings",
 				pattern: /^\/settings\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 115 },
+				page: { layouts: [0,], errors: [1,], leaf: 124 },
 				endpoint: null
 			},
 			{
 				id: "/settings/analytics",
 				pattern: /^\/settings\/analytics\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 116 },
+				page: { layouts: [0,], errors: [1,], leaf: 125 },
 				endpoint: null
 			},
 			{
 				id: "/settings/analytics/charts",
 				pattern: /^\/settings\/analytics\/charts\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 117 },
+				page: { layouts: [0,], errors: [1,], leaf: 126 },
 				endpoint: null
 			},
 			{
 				id: "/study-plans",
 				pattern: /^\/study-plans\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 118 },
+				page: { layouts: [0,], errors: [1,], leaf: 127 },
 				endpoint: null
 			},
 			{
 				id: "/todo",
 				pattern: /^\/todo\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 119 },
+				page: { layouts: [0,], errors: [1,], leaf: 128 },
+				endpoint: null
+			},
+			{
+				id: "/trackers",
+				pattern: /^\/trackers\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 129 },
+				endpoint: null
+			},
+			{
+				id: "/trackers/[tracker]",
+				pattern: /^\/trackers\/([^/]+?)\/?$/,
+				params: [{"name":"tracker","optional":false,"rest":false,"chained":false}],
+				page: { layouts: [0,], errors: [1,], leaf: 130 },
 				endpoint: null
 			},
 			{
 				id: "/travel",
 				pattern: /^\/travel\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 120 },
+				page: { layouts: [0,], errors: [1,], leaf: 131 },
+				endpoint: null
+			},
+			{
+				id: "/travel/checklist",
+				pattern: /^\/travel\/checklist\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 132 },
 				endpoint: null
 			},
 			{
 				id: "/travel/community",
 				pattern: /^\/travel\/community\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 121 },
+				page: { layouts: [0,], errors: [1,], leaf: 133 },
 				endpoint: null
 			},
 			{
 				id: "/travel/leisure",
 				pattern: /^\/travel\/leisure\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 122 },
+				page: { layouts: [0,], errors: [1,], leaf: 134 },
 				endpoint: null
 			},
 			{
 				id: "/travel/maps",
 				pattern: /^\/travel\/maps\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 123 },
+				page: { layouts: [0,], errors: [1,], leaf: 135 },
 				endpoint: null
 			},
 			{
 				id: "/travel/trips",
 				pattern: /^\/travel\/trips\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 124 },
+				page: { layouts: [0,], errors: [1,], leaf: 136 },
 				endpoint: null
 			},
 			{
 				id: "/vehicles",
 				pattern: /^\/vehicles\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 125 },
+				page: { layouts: [0,], errors: [1,], leaf: 137 },
 				endpoint: null
 			},
 			{
 				id: "/wellness",
 				pattern: /^\/wellness\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 126 },
+				page: { layouts: [0,], errors: [1,], leaf: 138 },
 				endpoint: null
 			}
 		],
