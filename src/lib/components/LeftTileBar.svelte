@@ -11,6 +11,10 @@
   let hoveredTile = null;
   let hoveredTileElement = null;
 
+  // State for expanded sidebar
+  let expandedSidebar = false;
+  let currentSection = null;
+
   // Main navigation tiles (single column layout)
   const mainTiles = [
     {
@@ -23,11 +27,11 @@
       description: "Dashboard & Overview",
       subTiles: [
         { label: "Dashboard", path: "/", icon: "heroicons:home" },
-        { label: "Household", path: "/household", icon: "heroicons:squares-2x2" },
-        { label: "Family Members", path: "/members", icon: "heroicons:users" },
-        { label: "Calendar", path: "/family-calendar-modern", icon: "heroicons:calendar-days" },
-        { label: "Notes", path: "/family-notes-modern", icon: "heroicons:document-text" },
-        { label: "Reminders", path: "/reminders", icon: "heroicons:bell-alert" },
+        { label: "Household", path: "/home/household", icon: "heroicons:squares-2x2" },
+        { label: "Family Members", path: "/home/members", icon: "heroicons:users" },
+        { label: "Calendar", path: "/home/family-calendar-modern", icon: "heroicons:calendar-days" },
+        { label: "Notes", path: "/home/family-notes-modern", icon: "heroicons:document-text" },
+        { label: "Reminders", path: "/home/reminders", icon: "heroicons:bell-alert" },
       ],
     },
     {
@@ -38,11 +42,13 @@
       borderColor: "border-orange-500/50",
       textColor: "text-orange-600 dark:text-orange-400",
       description: "Spiritual & Religious",
+      routes: ["/divinity", "/divinity/panchangam", "/divinity/rituals", "/divinity/temple", "/divinity/mantras"],
       subTiles: [
-        { label: "Tamil Panchangam", path: "/divinity/panchangam", icon: "heroicons:sun" },
+        { label: "Dashboard", path: "/divinity", icon: "heroicons:sun" },
+        { label: "Panchangam", path: "/divinity/panchangam", icon: "heroicons:sun" },
         { label: "Rituals", path: "/divinity/rituals", icon: "heroicons:sparkles" },
-        { label: "Temple Visits", path: "/divinity/temple", icon: "heroicons:building-storefront" },
-        { label: "Festival Calendar", path: "/divinity/festival-calendar", icon: "heroicons:calendar" },
+        { label: "Temples", path: "/divinity/temple", icon: "heroicons:building-storefront" },
+        { label: "Festivals", path: "/culture/festival-calendar", icon: "heroicons:calendar" },
         { label: "Mantras", path: "/divinity/mantras", icon: "heroicons:musical-note" },
       ],
     },
@@ -55,10 +61,10 @@
       textColor: "text-green-600 dark:text-green-400",
       description: "People & Directory",
       subTiles: [
-        { label: "Personal Contacts", path: "/contacts", icon: "heroicons:phone" },
-        { label: "Emergency Contacts", path: "/contacts/emergency", icon: "heroicons:exclamation-triangle" },
-        { label: "Vendors & Services", path: "/contacts/vendors", icon: "heroicons:wrench" },
-        { label: "Service Directory", path: "/contacts/directory", icon: "heroicons:building-storefront" },
+        { label: "Personal Contacts", path: "/home/contacts", icon: "heroicons:phone" },
+        { label: "Emergency Contacts", path: "/home/contacts/emergency", icon: "heroicons:exclamation-triangle" },
+        { label: "Vendors & Services", path: "/home/contacts/vendors", icon: "heroicons:wrench" },
+        { label: "Service Directory", path: "/home/contacts/directory", icon: "heroicons:building-storefront" },
       ],
     },
     {
@@ -70,14 +76,20 @@
       textColor: "text-orange-600 dark:text-orange-400",
       description: "Meals & Recipes",
       subTiles: [
-        { label: "Meals & Planning", path: "/meals", icon: "heroicons:calendar-days" },
-        { label: "Recipes", path: "/recipes", icon: "heroicons:book-open" },
-        { label: "Grocery & Pantry", path: "/grocery", icon: "heroicons:shopping-cart" },
+        { label: "Dashboard", path: "/food", icon: "heroicons:utensils" },
+        { label: "Meals & Planning", path: "/food/meals", icon: "heroicons:calendar-days" },
+        { label: "Recipes", path: "/food/recipes", icon: "heroicons:book-open" },
+        { label: "Traditional Recipes", path: "/food/recipes/traditional", icon: "heroicons:document-text" },
+        { label: "Grocery & Pantry", path: "/food/grocery", icon: "heroicons:shopping-cart" },
         { label: "Pantry Management", path: "/pantry", icon: "heroicons:archive-box" },
         { label: "Kitchen Dashboard", path: "/food/kitchen", icon: "heroicons:home" },
         { label: "Fresh Items", path: "/food/kitchen/fresh", icon: "heroicons:leaf" },
         { label: "Kids Meals", path: "/food/kitchen/kids", icon: "heroicons:user-group" },
+        { label: "Kitchen Meals", path: "/food/kitchen/meals", icon: "heroicons:utensils" },
         { label: "Cleaning Schedule", path: "/food/kitchen/cleaning", icon: "heroicons:sparkles" },
+        { label: "Kitchen Vendors", path: "/food/kitchen/vendors", icon: "heroicons:truck" },
+        { label: "Wellness Kitchen", path: "/food/kitchen/wellness", icon: "heroicons:heart" },
+        { label: "Festival Foods", path: "/food/kitchen/festivals", icon: "heroicons:cake" },
       ],
     },
     {
@@ -174,11 +186,107 @@
         { label: "Vehicle Management", path: "/vehicles", icon: "heroicons:truck" },
       ],
     },
+    {
+      id: "culture",
+      label: "Culture",
+      icon: "heroicons:globe-asia-australia",
+      color: "from-amber-500 to-amber-600",
+      borderColor: "border-amber-500/50",
+      textColor: "text-amber-600 dark:text-amber-400",
+      description: "Traditions & Heritage",
+      subTiles: [
+        { label: "Culture Dashboard", path: "/culture", icon: "heroicons:globe-asia-australia" },
+        { label: "Festival Calendar", path: "/culture/festival-calendar", icon: "heroicons:calendar" },
+        { label: "Things to Follow", path: "/culture/things-to-follow", icon: "heroicons:checklist" },
+        { label: "Things to Remember", path: "/culture/things-to-remember", icon: "heroicons:light-bulb" },
+        { label: "Daily Voice Guide", path: "/culture/daily-voice-guide", icon: "heroicons:microphone" },
+        { label: "Lifestyle Guide", path: "/culture/lifestyle-guide", icon: "heroicons:home" },
+        { label: "Places to Visit", path: "/culture/places-to-visit", icon: "heroicons:map-pin" },
+        { label: "Kolam Patterns", path: "/culture/kolam", icon: "heroicons:sparkles" },
+      ],
+    },
+    {
+      id: "travel",
+      label: "Travel",
+      icon: "heroicons:map",
+      color: "from-cyan-500 to-cyan-600",
+      borderColor: "border-cyan-500/50",
+      textColor: "text-cyan-600 dark:text-cyan-400",
+      description: "Trips & Journeys",
+      subTiles: [
+        { label: "Travel Dashboard", path: "/travel", icon: "heroicons:map" },
+        { label: "Trip History", path: "/travel/trips", icon: "heroicons:calendar-days" },
+        { label: "Community", path: "/travel/community", icon: "heroicons:users" },
+        { label: "Leisure", path: "/travel/leisure", icon: "heroicons:sparkles" },
+      ],
+    },
+    {
+      id: "issues",
+      label: "Issues",
+      icon: "heroicons:exclamation-triangle",
+      color: "from-red-500 to-red-600",
+      borderColor: "border-red-500/50",
+      textColor: "text-red-600 dark:text-red-400",
+      description: "Problems & Maintenance",
+      subTiles: [
+        { label: "Issues Dashboard", path: "/issues", icon: "heroicons:exclamation-triangle" },
+        { label: "Urgent Issues", path: "/issues/urgent", icon: "heroicons:bolt" },
+        { label: "Repairs", path: "/issues/repairs", icon: "heroicons:wrench-screwdriver" },
+        { label: "Upgrades", path: "/issues/upgrades", icon: "heroicons:arrow-trending-up" },
+        { label: "Projects", path: "/issues/projects", icon: "heroicons:clipboard-document-list" },
+        { label: "Maintenance", path: "/issues/maintenance", icon: "heroicons:cog" },
+        { label: "Requests", path: "/issues/requests", icon: "heroicons:chat-bubble-left-right" },
+      ],
+    },
+    {
+      id: "memories",
+      label: "Memories",
+      icon: "heroicons:photo",
+      color: "from-rose-500 to-rose-600",
+      borderColor: "border-rose-500/50",
+      textColor: "text-rose-600 dark:text-rose-400",
+      description: "Family History & Stories",
+      subTiles: [
+        { label: "Memories Dashboard", path: "/memories", icon: "heroicons:photo" },
+        { label: "Family Stories", path: "/memories/family-stories", icon: "heroicons:book-open" },
+        { label: "Legacy", path: "/memories/legacy", icon: "heroicons:shield-check" },
+        { label: "Family Governance", path: "/memories/family-governance", icon: "heroicons:scale" },
+        { label: "Lifeflow", path: "/memories/lifeflow", icon: "heroicons:arrows-right-left" },
+      ],
+    },
   ];
 
   // Check if current route belongs to a tile section
   function isTileActive(tile) {
     return tile.subTiles.some((subTile) => $page.url.pathname === subTile.path);
+  }
+
+  // Get current section based on active route
+  $: currentSectionData = mainTiles.find((tile) => isTileActive(tile));
+
+  // Handle tile click - toggle sidebar expansion
+  function handleTileClick(tileId, event) {
+    event.preventDefault();
+    const tile = mainTiles.find((t) => t.id === tileId);
+
+    if (tile) {
+      // If clicking the same tile, toggle sidebar
+      if (currentSection === tileId && expandedSidebar) {
+        expandedSidebar = false;
+        currentSection = null;
+      } else {
+        // Expand sidebar and set current section
+        expandedSidebar = true;
+        currentSection = tileId;
+      }
+
+      // Play sound
+      try {
+        homeSounds.playClick();
+      } catch (error) {
+        console.warn("Sound playback failed:", error);
+      }
+    }
   }
 
   // Handle mouse enter on tile
@@ -241,6 +349,15 @@
     hoveredTileElement = null;
   }
 
+  // Handle hover sound effect
+  function handleHover() {
+    try {
+      homeSounds.playTap();
+    } catch (error) {
+      console.warn("Sound playback failed:", error);
+    }
+  }
+
   // Calculate popup position
   function getPopupPosition() {
     if (!hoveredTileElement) return { top: 0, left: 0 };
@@ -272,51 +389,106 @@
   }
 </script>
 
-<div class="left-tile-bar flex flex-col w-20 h-screen bg-transparent backdrop-blur-sm relative z-10 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);">
-  <div class="p-2">
-    <!-- Single Column Main Tiles -->
-    <div class="flex flex-col gap-2">
-      {#each mainTiles as tile (tile.id)}
-        <div class="relative">
-          <button
-            class="tile-button group relative w-full aspect-square rounded-xl border-0 transition-all duration-300 hover:shadow-lg hover:scale-105"
-            on:mouseenter={(e) => handleTileMouseEnter(tile.id, e)}
-            on:mouseleave={handleTileMouseLeave}
-            on:click={() => {
-              // If tile has only one sub-item, navigate directly
-              if (tile.subTiles.length === 1) {
-                navigateTo(tile.subTiles[0].path);
-              } else {
-                // For tiles with multiple sub-items, navigate to the first one
-                navigateTo(tile.subTiles[0].path);
-              }
-            }}
-          >
-            <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
+<div class="left-tile-bar flex h-screen bg-transparent backdrop-blur-sm relative z-10 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);">
+  <!-- Main Navigation Tiles -->
+  <div class="w-20 flex flex-col">
+    <div class="p-2">
+      <!-- Single Column Main Tiles -->
+      <div class="flex flex-col gap-2">
+        {#each mainTiles as tile (tile.id)}
+          <div class="relative">
+            <button class="tile-button group relative w-full aspect-square rounded-xl border-0 transition-all duration-300 hover:shadow-lg hover:scale-105 {currentSection === tile.id ? 'ring-2 ring-primary ring-offset-2 ring-offset-base-100' : ''}" on:mouseenter={(e) => handleTileMouseEnter(tile.id, e)} on:mouseleave={handleTileMouseLeave} on:click={(e) => handleTileClick(tile.id, e)}>
+              <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
 
-            <div class="relative flex flex-col items-center justify-center h-full p-2">
-              <div class="w-6 h-6 mb-1 {tile.textColor} group-hover:scale-110 transition-transform duration-300">
-                <Icon icon={tile.icon} class="w-full h-full" />
+              <div class="relative flex flex-col items-center justify-center h-full p-2">
+                <div class="w-6 h-6 mb-1 {tile.textColor} group-hover:scale-110 transition-transform duration-300">
+                  <Icon icon={tile.icon} class="w-full h-full" />
+                </div>
+                <div class="text-[10px] font-medium text-base-content group-hover:text-primary transition-colors duration-300 text-center leading-tight">
+                  {tile.label}
+                </div>
+                {#if isTileActive(tile)}
+                  <div class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                {/if}
               </div>
-              <div class="text-[10px] font-medium text-base-content group-hover:text-primary transition-colors duration-300 text-center leading-tight">
-                {tile.label}
-              </div>
-              {#if isTileActive(tile)}
-                <div class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-              {/if}
-            </div>
-          </button>
-        </div>
-      {/each}
+            </button>
+          </div>
+        {/each}
+      </div>
     </div>
   </div>
 
-  <!-- Hover Popup Menu -->
-  {#if hoveredTile}
+  <!-- Expanded Sidebar Menu -->
+  {#if expandedSidebar && currentSection}
+    {@const activeTile = mainTiles.find((t) => t.id === currentSection)}
+    {#if activeTile}
+      <div class="w-80 bg-base-100/95 backdrop-blur-xl border-l border-base-300/50 shadow-2xl flex flex-col max-h-full overflow-hidden">
+        <!-- Header -->
+        <div class="p-4 border-b border-base-300/30">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 {activeTile.textColor}">
+                <Icon icon={activeTile.icon} class="w-full h-full" />
+              </div>
+              <div>
+                <h3 class="font-semibold text-base-content text-lg">{activeTile.label}</h3>
+                <p class="text-sm text-base-content/70">{activeTile.description}</p>
+              </div>
+            </div>
+            <button
+              class="btn btn-ghost btn-sm btn-circle"
+              on:click={() => {
+                expandedSidebar = false;
+                currentSection = null;
+              }}
+              on:mouseenter={handleHover}
+            >
+              <Icon icon="heroicons:x-mark" class="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Menu Content -->
+        <div class="flex-1 overflow-y-auto">
+          <!-- Main Category Button -->
+          <div class="p-4">
+            <button class="w-full flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r {activeTile.color} text-white cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-105 mb-4" on:click={() => navigateTo(activeTile.subTiles[0].path)} on:mouseenter={handleHover}>
+              <Icon icon={activeTile.icon} class="text-lg" />
+              <div>
+                <div class="font-medium">{activeTile.label} Dashboard</div>
+                <div class="text-xs opacity-90">{activeTile.description}</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- Sub-items for current section -->
+          <div class="px-4 pb-4">
+            <h4 class="text-sm font-medium text-base-content/60 mb-3 uppercase tracking-wide">Navigation</h4>
+            <div class="space-y-1">
+              {#each activeTile.subTiles as subTile (subTile.path)}
+                <button class="w-full flex items-center gap-3 p-3 rounded-lg text-left text-sm transition-colors duration-200 hover:bg-base-200/50 {subTile.path === $page.url.pathname ? 'bg-primary/10 text-primary font-medium border-l-2 border-primary' : 'text-base-content hover:text-primary'}" on:click={() => navigateTo(subTile.path)} on:mouseenter={handleHover}>
+                  <div class="w-5 h-5 {activeTile.textColor} flex-shrink-0">
+                    <Icon icon={subTile.icon} class="w-full h-full" />
+                  </div>
+                  <span class="flex-1 truncate">{subTile.label}</span>
+                  {#if subTile.path === $page.url.pathname}
+                    <Icon icon="heroicons:check" class="w-4 h-4 text-primary flex-shrink-0" />
+                  {/if}
+                </button>
+              {/each}
+            </div>
+          </div>
+        </div>
+      </div>
+    {/if}
+  {/if}
+
+  <!-- Hover Popup Menu (when sidebar is not expanded) -->
+  {#if hoveredTile && !expandedSidebar}
     {@const activeTile = mainTiles.find((t) => t.id === hoveredTile)}
     {#if activeTile && activeTile.subTiles.length > 1}
       {@const popupPos = getPopupPosition()}
-      <div class="fixed z-50 bg-transparent backdrop-blur-xl border-0 rounded-lg shadow-2xl py-2 min-w-48" style="top: {popupPos.top}px; left: {popupPos.left}px;" role="menu" tabindex="-1" on:mouseenter={handlePopupMouseEnter} on:mouseleave={handlePopupMouseLeave}>
+      <div class="fixed z-50 bg-base-100/95 backdrop-blur-xl border border-base-300/50 rounded-lg shadow-2xl py-2 min-w-48" style="top: {popupPos.top}px; left: {popupPos.left}px;" role="menu" tabindex="-1" on:mouseenter={handlePopupMouseEnter} on:mouseleave={handlePopupMouseLeave}>
         <div class="px-3 py-2 border-b border-base-300/30">
           <h3 class="font-medium text-base-content text-sm flex items-center gap-2">
             <div class="w-4 h-4 {activeTile.textColor}">
