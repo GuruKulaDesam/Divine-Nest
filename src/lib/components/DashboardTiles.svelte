@@ -20,11 +20,11 @@
       path: "/home",
       subTiles: [
         { label: "Dashboard", path: "/", icon: "heroicons:home" },
-        { label: "Household", path: "/household", icon: "heroicons:squares-2x2" },
-        { label: "Family Members", path: "/members", icon: "heroicons:users" },
-        { label: "Calendar", path: "/family-calendar-modern", icon: "heroicons:calendar-days" },
-        { label: "Notes", path: "/family-notes-modern", icon: "heroicons:document-text" },
-        { label: "Reminders", path: "/reminders", icon: "heroicons:bell-alert" },
+        { label: "Household", path: "/home/household", icon: "heroicons:squares-2x2" },
+        { label: "Family Members", path: "/home/members", icon: "heroicons:users" },
+        { label: "Calendar", path: "/home/family-calendar-modern", icon: "heroicons:calendar-days" },
+        { label: "Notes", path: "/home/family-notes-modern", icon: "heroicons:document-text" },
+        { label: "Reminders", path: "/home/reminders", icon: "heroicons:bell-alert" },
       ],
     },
     {
@@ -37,11 +37,11 @@
       description: "Spiritual & Religious",
       path: "/divinity",
       subTiles: [
-        { label: "Tamil Panchangam", path: "/tamil-panchangam", icon: "heroicons:sun" },
-        { label: "Rituals", path: "/rituals", icon: "heroicons:sparkles" },
-        { label: "Temple Visits", path: "/temple", icon: "heroicons:building-storefront" },
-        { label: "Festival Calendar", path: "/festival-calendar", icon: "heroicons:calendar" },
-        { label: "Mantras", path: "/mantras", icon: "heroicons:musical-note" },
+        { label: "Tamil Panchangam", path: "/divinity/panchangam", icon: "heroicons:sun" },
+        { label: "Rituals", path: "/divinity/rituals", icon: "heroicons:sparkles" },
+        { label: "Temple Visits", path: "/divinity/temple", icon: "heroicons:building-storefront" },
+        { label: "Festival Calendar", path: "/culture/festival-calendar", icon: "heroicons:calendar" },
+        { label: "Mantras", path: "/divinity/mantras", icon: "heroicons:musical-note" },
       ],
     },
     {
@@ -54,10 +54,10 @@
       description: "People & Directory",
       path: "/contacts",
       subTiles: [
-        { label: "Personal Contacts", path: "/contacts", icon: "heroicons:phone" },
-        { label: "Emergency Contacts", path: "/emergency", icon: "heroicons:exclamation-triangle" },
-        { label: "Vendors & Services", path: "/vendors", icon: "heroicons:wrench" },
-        { label: "Service Directory", path: "/directory", icon: "heroicons:building-storefront" },
+        { label: "Personal Contacts", path: "/home/contacts", icon: "heroicons:phone" },
+        { label: "Emergency Contacts", path: "/home/contacts/emergency", icon: "heroicons:exclamation-triangle" },
+        { label: "Vendors & Services", path: "/home/contacts/vendors", icon: "heroicons:wrench" },
+        { label: "Service Directory", path: "/home/contacts/directory", icon: "heroicons:building-storefront" },
       ],
     },
     {
@@ -70,11 +70,11 @@
       description: "Meals & Recipes",
       path: "/food",
       subTiles: [
-        { label: "Meals & Planning", path: "/meals", icon: "heroicons:calendar-days" },
-        { label: "Recipes", path: "/recipes", icon: "heroicons:book-open" },
-        { label: "Grocery & Pantry", path: "/grocery", icon: "heroicons:shopping-cart" },
+        { label: "Meals & Planning", path: "/food/meals", icon: "heroicons:calendar-days" },
+        { label: "Recipes", path: "/food/recipes", icon: "heroicons:book-open" },
+        { label: "Grocery & Pantry", path: "/food/grocery", icon: "heroicons:shopping-cart" },
         { label: "Pantry Management", path: "/pantry", icon: "heroicons:archive-box" },
-        { label: "Kitchen Dashboard", path: "/kitchen", icon: "heroicons:home" },
+        { label: "Kitchen Dashboard", path: "/food/kitchen", icon: "heroicons:home" },
         { label: "Fresh Items", path: "/kitchen/fresh", icon: "heroicons:leaf" },
         { label: "Kids Meals", path: "/kitchen/kids", icon: "heroicons:user-group" },
         { label: "Cleaning Schedule", path: "/kitchen/cleaning", icon: "heroicons:sparkles" },
@@ -249,7 +249,7 @@
 
     <div class="flex gap-6">
       <!-- Vertical Sidebar -->
-      <div class="w-80 flex-shrink-0">
+      <div class="w-48 flex-shrink-0">
         <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
           <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
             <Icon icon="heroicons:squares-2x2" class="text-indigo-500" />
@@ -594,15 +594,15 @@
                 <Icon icon="heroicons:clipboard-document-list" class="text-xl" />
                 <span class="text-sm font-medium">Add Task</span>
               </button>
-              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/family-notes-modern")} on:mouseenter={handleHover}>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/family-notes-modern")} on:mouseenter={handleHover}>
                 <Icon icon="heroicons:document-text" class="text-xl" />
                 <span class="text-sm font-medium">New Note</span>
               </button>
-              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/family-calendar-modern")} on:mouseenter={handleHover}>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/family-calendar-modern")} on:mouseenter={handleHover}>
                 <Icon icon="heroicons:calendar-days" class="text-xl" />
                 <span class="text-sm font-medium">Schedule</span>
               </button>
-              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/reminders")} on:mouseenter={handleHover}>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/reminders")} on:mouseenter={handleHover}>
                 <Icon icon="heroicons:bell-alert" class="text-xl" />
                 <span class="text-sm font-medium">Set Reminder</span>
               </button>
