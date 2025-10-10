@@ -1,7 +1,7 @@
-import { d as attr, a as ensure_array_like, b as attr_class, s as stringify, j as attr_style, l as bind_props } from "./index2.js";
-import { k as fallback } from "./utils.js";
+import { d as attr, a as ensure_array_like, b as attr_class, s as stringify, j as attr_style, k as bind_props } from "./index2.js";
+import { f as fallback } from "./utils.js";
 import { I as Icon } from "./Icon.js";
-import { e as escape_html } from "./context.js";
+import { T as escape_html } from "./context.js";
 const StudentProfiles = {
   thambi: {
     id: "thambi",

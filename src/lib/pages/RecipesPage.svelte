@@ -241,18 +241,18 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       <!-- Search -->
       <div class="form-control">
-        <label class="label">
+        <label for="recipe-search" class="label">
           <span class="label-text">Search Recipes</span>
         </label>
-        <input type="text" bind:value={searchQuery} placeholder="Search by name..." class="input input-bordered" />
+        <input id="recipe-search" type="text" bind:value={searchQuery} placeholder="Search by name..." class="input input-bordered" />
       </div>
 
       <!-- Category Filter -->
       <div class="form-control">
-        <label class="label">
+        <label for="recipe-category" class="label">
           <span class="label-text">Category</span>
         </label>
-        <select bind:value={selectedCategory} class="select select-bordered">
+        <select id="recipe-category" bind:value={selectedCategory} class="select select-bordered">
           <option value="all">All Categories</option>
           {#each categories as category}
             <option value={category}>{category}</option>
@@ -262,10 +262,10 @@
 
       <!-- Cuisine Filter -->
       <div class="form-control">
-        <label class="label">
+        <label for="recipe-cuisine" class="label">
           <span class="label-text">Cuisine</span>
         </label>
-        <select bind:value={selectedCuisine} class="select select-bordered">
+        <select id="recipe-cuisine" bind:value={selectedCuisine} class="select select-bordered">
           <option value="all">All Cuisines</option>
           {#each cuisines as cuisine}
             <option value={cuisine}>{cuisine}</option>
@@ -275,10 +275,10 @@
 
       <!-- Difficulty Filter -->
       <div class="form-control">
-        <label class="label">
+        <label for="recipe-difficulty" class="label">
           <span class="label-text">Difficulty</span>
         </label>
-        <select bind:value={selectedDifficulty} class="select select-bordered">
+        <select id="recipe-difficulty" bind:value={selectedDifficulty} class="select select-bordered">
           <option value="all">All Levels</option>
           {#each difficulties as difficulty}
             <option value={difficulty}>{difficulty}</option>
@@ -288,9 +288,6 @@
 
       <!-- Clear Filters -->
       <div class="form-control">
-        <label class="label">
-          <span class="label-text opacity-0">Actions</span>
-        </label>
         <button
           on:click={() => {
             searchQuery = "";
@@ -323,8 +320,8 @@
                 <Icon icon="mdi:dots-vertical" class="w-5 h-5" />
               </button>
               <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a on:click={() => editRecipe(recipe)}>Edit</a></li>
-                <li><a class="text-error" on:click={() => deleteRecipe(recipe.id)}>Delete</a></li>
+                <li><button on:click={() => editRecipe(recipe)} class="btn btn-ghost">Edit</button></li>
+                <li><button on:click={() => deleteRecipe(recipe.id)} class="btn btn-ghost text-error">Delete</button></li>
               </ul>
             </div>
           </div>
@@ -384,26 +381,26 @@
         <form on:submit|preventDefault={addRecipe} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-name" class="label">
                 <span class="label-text">Recipe Name *</span>
               </label>
-              <input type="text" bind:value={newRecipe.name} placeholder="Enter recipe name" class="input input-bordered" required />
+              <input id="new-recipe-name" type="text" bind:value={newRecipe.name} placeholder="Enter recipe name" class="input input-bordered" required />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-tamil-name" class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input type="text" bind:value={newRecipe.nameTamil} placeholder="சமையல் பெயர்" class="input input-bordered" />
+              <input id="new-recipe-tamil-name" type="text" bind:value={newRecipe.nameTamil} placeholder="சமையல் பெயர்" class="input input-bordered" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-category" class="label">
                 <span class="label-text">Category</span>
               </label>
-              <select bind:value={newRecipe.category} class="select select-bordered">
+              <select id="new-recipe-category" bind:value={newRecipe.category} class="select select-bordered">
                 <option value="">Select Category</option>
                 {#each categories as category}
                   <option value={category}>{category}</option>
@@ -412,10 +409,10 @@
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-cuisine" class="label">
                 <span class="label-text">Cuisine</span>
               </label>
-              <select bind:value={newRecipe.cuisine} class="select select-bordered">
+              <select id="new-recipe-cuisine" bind:value={newRecipe.cuisine} class="select select-bordered">
                 <option value="">Select Cuisine</option>
                 {#each cuisines as cuisine}
                   <option value={cuisine}>{cuisine}</option>
@@ -426,33 +423,33 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-prep-time" class="label">
                 <span class="label-text">Prep Time (minutes)</span>
               </label>
-              <input type="number" bind:value={newRecipe.prepTime} placeholder="30" class="input input-bordered" min="0" />
+              <input id="new-recipe-prep-time" type="number" bind:value={newRecipe.prepTime} placeholder="30" class="input input-bordered" min="0" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-cook-time" class="label">
                 <span class="label-text">Cook Time (minutes)</span>
               </label>
-              <input type="number" bind:value={newRecipe.cookTime} placeholder="45" class="input input-bordered" min="0" />
+              <input id="new-recipe-cook-time" type="number" bind:value={newRecipe.cookTime} placeholder="45" class="input input-bordered" min="0" />
             </div>
           </div>
 
           <div class="grid grid-cols-3 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-servings" class="label">
                 <span class="label-text">Servings</span>
               </label>
-              <input type="number" bind:value={newRecipe.servings} placeholder="4" class="input input-bordered" min="1" />
+              <input id="new-recipe-servings" type="number" bind:value={newRecipe.servings} placeholder="4" class="input input-bordered" min="1" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-difficulty" class="label">
                 <span class="label-text">Difficulty</span>
               </label>
-              <select bind:value={newRecipe.difficulty} class="select select-bordered">
+              <select id="new-recipe-difficulty" bind:value={newRecipe.difficulty} class="select select-bordered">
                 <option value="">Select Difficulty</option>
                 {#each difficulties as difficulty}
                   <option value={difficulty}>{difficulty}</option>
@@ -461,10 +458,10 @@
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="new-recipe-status" class="label">
                 <span class="label-text">Status</span>
               </label>
-              <select bind:value={newRecipe.status} class="select select-bordered">
+              <select id="new-recipe-status" bind:value={newRecipe.status} class="select select-bordered">
                 {#each statuses as status}
                   <option value={status}>{status}</option>
                 {/each}
@@ -473,7 +470,7 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="new-recipe-ingredients" class="label">
               <span class="label-text">Ingredients</span>
             </label>
             {#each newRecipe.ingredients as ingredient, index}
@@ -491,17 +488,17 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="new-recipe-instructions" class="label">
               <span class="label-text">Instructions</span>
             </label>
-            <textarea bind:value={newRecipe.instructions} placeholder="Enter cooking instructions..." rows="4" class="textarea textarea-bordered"></textarea>
+            <textarea id="new-recipe-instructions" bind:value={newRecipe.instructions} placeholder="Enter cooking instructions..." rows="4" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="new-recipe-notes" class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea bind:value={newRecipe.notes} placeholder="Additional notes or tips..." rows="2" class="textarea textarea-bordered"></textarea>
+            <textarea id="new-recipe-notes" bind:value={newRecipe.notes} placeholder="Additional notes or tips..." rows="2" class="textarea textarea-bordered"></textarea>
           </div>
         </form>
       </div>
@@ -534,26 +531,26 @@
         <form on:submit|preventDefault={updateRecipe} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-name" class="label">
                 <span class="label-text">Recipe Name *</span>
               </label>
-              <input type="text" bind:value={editingRecipe.name} placeholder="Enter recipe name" class="input input-bordered" required />
+              <input id="edit-recipe-name" type="text" bind:value={editingRecipe.name} placeholder="Enter recipe name" class="input input-bordered" required />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-tamil-name" class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input type="text" bind:value={editingRecipe.nameTamil} placeholder="சமையல் பெயர்" class="input input-bordered" />
+              <input id="edit-recipe-tamil-name" type="text" bind:value={editingRecipe.nameTamil} placeholder="சமையல் பெயர்" class="input input-bordered" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-category" class="label">
                 <span class="label-text">Category</span>
               </label>
-              <select bind:value={editingRecipe.category} class="select select-bordered">
+              <select id="edit-recipe-category" bind:value={editingRecipe.category} class="select select-bordered">
                 <option value="">Select Category</option>
                 {#each categories as category}
                   <option value={category}>{category}</option>
@@ -562,10 +559,10 @@
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-cuisine" class="label">
                 <span class="label-text">Cuisine</span>
               </label>
-              <select bind:value={editingRecipe.cuisine} class="select select-bordered">
+              <select id="edit-recipe-cuisine" bind:value={editingRecipe.cuisine} class="select select-bordered">
                 <option value="">Select Cuisine</option>
                 {#each cuisines as cuisine}
                   <option value={cuisine}>{cuisine}</option>
@@ -576,33 +573,33 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-prep-time" class="label">
                 <span class="label-text">Prep Time (minutes)</span>
               </label>
-              <input type="number" bind:value={editingRecipe.prepTime} placeholder="30" class="input input-bordered" min="0" />
+              <input id="edit-recipe-prep-time" type="number" bind:value={editingRecipe.prepTime} placeholder="30" class="input input-bordered" min="0" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-cook-time" class="label">
                 <span class="label-text">Cook Time (minutes)</span>
               </label>
-              <input type="number" bind:value={editingRecipe.cookTime} placeholder="45" class="input input-bordered" min="0" />
+              <input id="edit-recipe-cook-time" type="number" bind:value={editingRecipe.cookTime} placeholder="45" class="input input-bordered" min="0" />
             </div>
           </div>
 
           <div class="grid grid-cols-3 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-servings" class="label">
                 <span class="label-text">Servings</span>
               </label>
-              <input type="number" bind:value={editingRecipe.servings} placeholder="4" class="input input-bordered" min="1" />
+              <input id="edit-recipe-servings" type="number" bind:value={editingRecipe.servings} placeholder="4" class="input input-bordered" min="1" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-difficulty" class="label">
                 <span class="label-text">Difficulty</span>
               </label>
-              <select bind:value={editingRecipe.difficulty} class="select select-bordered">
+              <select id="edit-recipe-difficulty" bind:value={editingRecipe.difficulty} class="select select-bordered">
                 <option value="">Select Difficulty</option>
                 {#each difficulties as difficulty}
                   <option value={difficulty}>{difficulty}</option>
@@ -611,10 +608,10 @@
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="edit-recipe-status" class="label">
                 <span class="label-text">Status</span>
               </label>
-              <select bind:value={editingRecipe.status} class="select select-bordered">
+              <select id="edit-recipe-status" bind:value={editingRecipe.status} class="select select-bordered">
                 {#each statuses as status}
                   <option value={status}>{status}</option>
                 {/each}
@@ -623,7 +620,7 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="edit-recipe-ingredients" class="label">
               <span class="label-text">Ingredients</span>
             </label>
             {#each editingRecipe.ingredients as ingredient, index}
@@ -641,14 +638,14 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="edit-recipe-instructions" class="label">
               <span class="label-text">Instructions</span>
             </label>
-            <textarea bind:value={editingRecipe.instructions} placeholder="Enter cooking instructions..." rows="4" class="textarea textarea-bordered"></textarea>
+            <textarea id="edit-recipe-instructions" bind:value={editingRecipe.instructions} placeholder="Enter cooking instructions..." rows="4" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="edit-recipe-notes" class="label">
               <span class="label-text">Notes</span>
             </label>
             <textarea bind:value={editingRecipe.notes} placeholder="Additional notes or tips..." rows="2" class="textarea textarea-bordered"></textarea>

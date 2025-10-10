@@ -97,6 +97,11 @@
     <div class="flex items-center space-x-4 flex-shrink-0">
       <!-- App Title -->
       <div class="flex items-center space-x-2">
+        <!-- Logo Text -->
+        <div class="flex flex-col items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 rounded-xl shadow-lg p-1">
+          <span class="text-xs font-bold text-white leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்</span>
+          <span class="text-xs font-bold text-white leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">வழி</span>
+        </div>
         <div class="flex flex-col">
           <span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80">தமிழச்சி இல்லம்</span>
           <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80">Home Maker</span>
@@ -280,6 +285,23 @@
     .ribbon-group {
       min-width: 50px;
     }
+  }
+
+  /* Logo visibility based on theme */
+  :global(.logo-light) {
+    display: block;
+  }
+
+  :global(.logo-dark) {
+    display: none;
+  }
+
+  :global([data-theme="dark"] .logo-light) {
+    display: none;
+  }
+
+  :global([data-theme="dark"] .logo-dark) {
+    display: block;
   }
 
   @media (max-width: 768px) {

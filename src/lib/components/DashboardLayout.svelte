@@ -90,7 +90,7 @@
   }
 </script>
 
-<div class="flex h-screen bg-base-200 nature-background" data-theme="modern">
+<div class="flex h-screen bg-base-200 nature-background" data-theme="modern" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
   <!-- Top Navigation Bar - Fixed overlay spanning full width -->
   <div class="fixed top-0 left-0 right-0 z-50">
     <TopNavigationBar on:action={handleTopNavAction} />
@@ -120,7 +120,7 @@
               </button>
               <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
               <span class="text-gray-600 dark:text-gray-300 capitalize">
-                {currentPath.split("/").filter(Boolean).join(" › ")}
+                {currentPath.startsWith("/home/") ? currentPath.replace("/home/", "").split("/").filter(Boolean).join(" › ") : currentPath.split("/").filter(Boolean).join(" › ")}
               </span>
             </div>
 
@@ -152,51 +152,16 @@
 </div>
 
 <style>
-  .mountain-background {
-    position: relative;
-    overflow: hidden;
-    background-image: url("/Cover.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-
   .nature-background {
     position: relative;
     overflow: hidden;
-    background-image: url("/background.svg");
+    background-image: var(--background-png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
 
-  .minimal-background {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  }
-
-  .dark-background {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  }
-
-  .light-background {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  }
-
-  .gradient-background {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  }
-
-  .mountain-background::before,
   .nature-background::before {
     content: "";
     position: absolute;
@@ -221,25 +186,6 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 32px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Dark theme content container */
-  [data-theme="dark"] .content-container {
-    background: rgba(31, 41, 55, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  }
-
-  /* Minimal theme content container */
-  [data-theme="minimal"] .content-container {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  /* Nature theme content container */
-  [data-theme="nature"] .content-container {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(34, 197, 94, 0.2);
   }
 
   .scrollable-container {

@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/assistant/auto-checklist/+page.svelte";
+export { default as component } from "../../../../src/routes/assistant/+page.svelte";

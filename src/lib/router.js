@@ -3,20 +3,12 @@ import { writable } from 'svelte/store';
 // Lazy-loaded page components for better performance
 const lazyPages = {
   HomePage: () => import('./pages/HomePage.svelte'),
-  UsersPage: () => import('./pages/UsersPage.svelte'),
-  ProductsPage: () => import('./pages/ProductsPage.svelte'),
   AnalyticsPage: () => import('./pages/AnalyticsPage.svelte'),
   ProjectManagementPage: () => import('./pages/ProjectManagementPage.svelte'),
   MapsPage: () => import('./pages/MapsPage.svelte'),
   SchedulePage: () => import('./pages/SchedulePage.svelte'),
   ProfilePage: () => import('./pages/ProfilePage.svelte'),
   SettingsPage: () => import('./pages/SettingsPage.svelte'),
-  LoginPage: () => import('./pages/LoginPage.svelte'),
-  LoginV2: () => import('./pages/LoginV2.svelte'),
-  LoginV3: () => import('./pages/LoginV3.svelte'),
-  RegisterPage: () => import('./pages/RegisterPage.svelte'),
-  RegisterV2: () => import('./pages/RegisterV2.svelte'),
-  RegisterV3: () => import('./pages/RegisterV3.svelte'),
   NotFoundPage: () => import('./pages/NotFoundPage.svelte'),
   ChartsPage: () => import('./pages/ChartsPage.svelte'),
   GanttPage: () => import('./pages/GanttPage.svelte'),
@@ -66,8 +58,7 @@ const lazyPages = {
   AmbientLogPage: () => import('./pages/AmbientLogPage.svelte'),
   FestivalCalendarPage: () => import('./pages/FestivalCalendarPage.svelte'),
   MantrasPage: () => import('./pages/MantrasPage.svelte'),
-  WeatherPage: () => import('./pages/WeatherPage.svelte'),
-  ViewModeTestPage: () => import('./pages/ViewModeTestPage.svelte')
+  WeatherPage: () => import('./pages/WeatherPage.svelte')
 };
 
 // Cache for loaded components
@@ -83,7 +74,7 @@ const performanceMetrics = {
 };
 
 // Create stores for routing
-const currentRoute = writable(window.location.pathname);
+const currentRoute = writable(typeof window !== 'undefined' ? window.location.pathname : '/');
 const navigationHistory = writable([]);
 const currentComponent = writable(null); // Start with null for lazy loading
 const isNavigating = writable(false);
@@ -92,8 +83,6 @@ const navigationQueue = writable([]);
 // Define routes
 const routes = {
   '/': 'HomePage',
-  '/users': 'UsersPage',
-  '/products': 'ProductsPage',
   '/analytics': 'AnalyticsPage',
   '/projects': 'ProjectManagementPage',
   '/gantt': 'GanttPage',
@@ -101,13 +90,6 @@ const routes = {
   '/schedule': 'SchedulePage',
   '/profile': 'ProfilePage',
   '/settings': 'SettingsPage',
-  '/view-mode-test': 'HomePage',
-  '/auth/login': 'LoginPage',
-  '/auth/login-v2': 'LoginV2',
-  '/auth/login-v3': 'LoginV3',
-  '/auth/register': 'RegisterPage',
-  '/auth/register-v2': 'RegisterV2',
-  '/auth/register-v3': 'RegisterV3',
   '/charts': 'ChartsPage',
   '/family-calendar-modern': 'FamilyCalendarModernPage',
   '/family-notes-modern': 'FamilyNotesModernPage',

@@ -5,11 +5,13 @@ import { I as Icon } from "../../chunks/Icon.js";
 import "@sveltejs/kit/internal";
 import "../../chunks/exports.js";
 import "../../chunks/utils2.js";
-import { g as getContext, e as escape_html } from "../../chunks/context.js";
+import { T as escape_html } from "../../chunks/context.js";
 import "clsx";
 import "@sveltejs/kit/internal/server";
 import "../../chunks/state.svelte.js";
-import { t as theme } from "../../chunks/theme.js";
+import { p as page } from "../../chunks/stores.js";
+import { t as theme, a as themeActions } from "../../chunks/theme.js";
+import { b as background, a as backgroundActions } from "../../chunks/background.js";
 const languages = {
   en: {
     name: "English",
@@ -81,27 +83,6 @@ new Promise(async (resolve) => {
     resolve(true);
   }
 });
-const getStores = () => {
-  const stores$1 = getContext("__svelte__");
-  return {
-    /** @type {typeof page} */
-    page: {
-      subscribe: stores$1.page.subscribe
-    },
-    /** @type {typeof navigating} */
-    navigating: {
-      subscribe: stores$1.navigating.subscribe
-    },
-    /** @type {typeof updated} */
-    updated: stores$1.updated
-  };
-};
-const page = {
-  subscribe(fn) {
-    const store = getStores().page;
-    return store.subscribe(fn);
-  }
-};
 function LeftTileBar($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
@@ -154,27 +135,27 @@ function LeftTileBar($$renderer, $$props) {
         subTiles: [
           {
             label: "Tamil Panchangam",
-            path: "/tamil-panchangam",
+            path: "/divinity/panchangam",
             icon: "heroicons:sun"
           },
           {
             label: "Rituals",
-            path: "/rituals",
+            path: "/divinity/rituals",
             icon: "heroicons:sparkles"
           },
           {
             label: "Temple Visits",
-            path: "/temple",
+            path: "/divinity/temple",
             icon: "heroicons:building-storefront"
           },
           {
             label: "Festival Calendar",
-            path: "/festival-calendar",
+            path: "/divinity/festival-calendar",
             icon: "heroicons:calendar"
           },
           {
             label: "Mantras",
-            path: "/mantras",
+            path: "/divinity/mantras",
             icon: "heroicons:musical-note"
           }
         ]
@@ -195,17 +176,17 @@ function LeftTileBar($$renderer, $$props) {
           },
           {
             label: "Emergency Contacts",
-            path: "/emergency",
+            path: "/contacts/emergency",
             icon: "heroicons:exclamation-triangle"
           },
           {
             label: "Vendors & Services",
-            path: "/vendors",
+            path: "/contacts/vendors",
             icon: "heroicons:wrench"
           },
           {
             label: "Service Directory",
-            path: "/directory",
+            path: "/contacts/directory",
             icon: "heroicons:building-storefront"
           }
         ]
@@ -241,22 +222,22 @@ function LeftTileBar($$renderer, $$props) {
           },
           {
             label: "Kitchen Dashboard",
-            path: "/kitchen",
+            path: "/food/kitchen",
             icon: "heroicons:home"
           },
           {
             label: "Fresh Items",
-            path: "/kitchen/fresh",
+            path: "/food/kitchen/fresh",
             icon: "heroicons:leaf"
           },
           {
             label: "Kids Meals",
-            path: "/kitchen/kids",
+            path: "/food/kitchen/kids",
             icon: "heroicons:user-group"
           },
           {
             label: "Cleaning Schedule",
-            path: "/kitchen/cleaning",
+            path: "/food/kitchen/cleaning",
             icon: "heroicons:sparkles"
           }
         ]
@@ -317,17 +298,17 @@ function LeftTileBar($$renderer, $$props) {
           },
           {
             label: "Family Library",
-            path: "/library",
+            path: "/education/library",
             icon: "heroicons:book-open"
           },
           {
             label: "Studies & Exams",
-            path: "/studies",
+            path: "/education/studies",
             icon: "heroicons:pencil"
           },
           {
             label: "Learning Goals",
-            path: "/learning-goals",
+            path: "/education/learning-goals",
             icon: "heroicons:light-bulb"
           }
         ]
@@ -383,7 +364,7 @@ function LeftTileBar($$renderer, $$props) {
           },
           {
             label: "Shivo Agentic",
-            path: "/shivo-agentic",
+            path: "/shivo-ai/agentic",
             icon: "heroicons:robot"
           }
         ]
@@ -398,28 +379,28 @@ function LeftTileBar($$renderer, $$props) {
         description: "Wellness & Fitness",
         subTiles: [
           {
-            label: "Wellness Dashboard",
-            path: "/wellness",
+            label: "Health Dashboard",
+            path: "/health",
             icon: "heroicons:heart"
           },
           {
-            label: "Health Tracking",
-            path: "/health",
+            label: "Wellness Tracking",
+            path: "/health/wellness",
             icon: "heroicons:shield-check"
           },
           {
             label: "Yoga & Exercise",
-            path: "/yoga",
+            path: "/health/yoga",
             icon: "heroicons:user"
           },
           {
             label: "Health Journal",
-            path: "/journal",
+            path: "/health/journal",
             icon: "heroicons:pencil-square"
           },
           {
             label: "Hobbies & Activities",
-            path: "/hobbies-activities",
+            path: "/health/hobbies-activities",
             icon: "heroicons:puzzle-piece"
           }
         ]
@@ -440,27 +421,27 @@ function LeftTileBar($$renderer, $$props) {
           },
           {
             label: "Recharges",
-            path: "/recharges",
+            path: "/finances/recharges",
             icon: "heroicons:device-phone-mobile"
           },
           {
             label: "Expenses",
-            path: "/expenses",
+            path: "/finances/expenses",
             icon: "heroicons:credit-card"
           },
           {
             label: "Budget",
-            path: "/budget",
+            path: "/finances/budget",
             icon: "heroicons:calculator"
           },
           {
             label: "Insurance",
-            path: "/insurance",
+            path: "/finances/insurance",
             icon: "heroicons:shield-check"
           },
           {
             label: "Investments",
-            path: "/investments",
+            path: "/finances/investments",
             icon: "heroicons:chart-line"
           }
         ]
@@ -508,47 +489,6 @@ function LeftTileBar($$renderer, $$props) {
             label: "Vehicle Management",
             path: "/vehicles",
             icon: "heroicons:truck"
-          }
-        ]
-      },
-      {
-        id: "projects",
-        label: "Projects",
-        icon: "heroicons:clipboard-document-list",
-        color: "from-cyan-500 to-cyan-600",
-        borderColor: "border-cyan-500/50",
-        textColor: "text-cyan-600 dark:text-cyan-400",
-        description: "Management & Tasks",
-        subTiles: [
-          {
-            label: "Project Management",
-            path: "/projects",
-            icon: "heroicons:clipboard-document-list"
-          },
-          {
-            label: "Gantt Chart",
-            path: "/gantt",
-            icon: "heroicons:chart-bar"
-          },
-          {
-            label: "Daily Schedule",
-            path: "/schedule",
-            icon: "heroicons:calendar-days"
-          },
-          {
-            label: "Analytics Dashboard",
-            path: "/analytics",
-            icon: "heroicons:chart-bar"
-          },
-          {
-            label: "Data Charts",
-            path: "/charts",
-            icon: "heroicons:chart-pie"
-          },
-          {
-            label: "Interactive Maps",
-            path: "/maps",
-            icon: "heroicons:map"
           }
         ]
       }
@@ -719,7 +659,7 @@ function TopNavigationBar($$renderer, $$props) {
     function isItemActive(item) {
       return store_get($$store_subs ??= {}, "$page", page).url.pathname === item.path;
     }
-    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-transparent backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30 shadow-sm z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-2 min-h-[60px] max-w-full svelte-1qkqwru"><div class="flex items-center space-x-4 flex-shrink-0 svelte-1qkqwru"><div class="flex items-center space-x-2 svelte-1qkqwru"><div class="flex flex-col svelte-1qkqwru"><span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">Home Maker</span></div></div></div> <div class="flex-1 flex justify-center mx-4 svelte-1qkqwru"><div class="flex items-stretch overflow-x-auto svelte-1qkqwru"><!--[-->`);
+    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-transparent backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30 shadow-sm z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-2 min-h-[60px] max-w-full svelte-1qkqwru"><div class="flex items-center space-x-4 flex-shrink-0 svelte-1qkqwru"><div class="flex items-center space-x-2 svelte-1qkqwru"><div class="flex flex-col items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 rounded-xl shadow-lg p-1 svelte-1qkqwru"><span class="text-xs font-bold text-white leading-tight svelte-1qkqwru" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்</span> <span class="text-xs font-bold text-white leading-tight svelte-1qkqwru" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">வழி</span></div> <div class="flex flex-col svelte-1qkqwru"><span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">Home Maker</span></div></div></div> <div class="flex-1 flex justify-center mx-4 svelte-1qkqwru"><div class="flex items-stretch overflow-x-auto svelte-1qkqwru"><!--[-->`);
     const each_array = ensure_array_like(ribbonGroups);
     for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
       let group = each_array[$$index_1];
@@ -747,6 +687,8 @@ function TopNavigationBar($$renderer, $$props) {
     Icon($$renderer2, { icon: "heroicons:magnifying-glass", class: "w-5 h-5" });
     $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru"${attr("title", `Toggle Theme (${stringify(store_get($$store_subs ??= {}, "$theme", theme))})`)}>`);
     Icon($$renderer2, { icon: "heroicons:swatch", class: "w-5 h-5" });
+    $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru"${attr("title", `Toggle Background (${stringify(store_get($$store_subs ??= {}, "$background", background))})`)}>`);
+    Icon($$renderer2, { icon: "heroicons:photo", class: "w-5 h-5" });
     $$renderer2.push(`<!----></button> <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru" title="Settings (Ctrl+,)">`);
     Icon($$renderer2, { icon: "heroicons:cog-6-tooth", class: "w-5 h-5" });
     $$renderer2.push(`<!----></button> <div class="relative group svelte-1qkqwru"><button class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 svelte-1qkqwru">U</button> <div class="absolute right-0 top-full mt-2 w-48 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm svelte-1qkqwru"><div class="p-3 border-b border-gray-200 dark:border-gray-700 svelte-1qkqwru"><div class="text-sm font-medium text-gray-900 dark:text-white svelte-1qkqwru">User Name</div> <div class="text-xs text-gray-500 dark:text-gray-400 svelte-1qkqwru">user@example.com</div></div> <div class="py-1 svelte-1qkqwru"><button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 svelte-1qkqwru">Profile Settings</button> <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 svelte-1qkqwru">Preferences</button> <button class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150 svelte-1qkqwru">Sign Out</button></div></div></div></div></div></div>`);
@@ -1392,8 +1334,10 @@ function DashboardLayout($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
     let currentPath;
+    themeActions.init();
+    backgroundActions.init();
     currentPath = store_get($$store_subs ??= {}, "$page", page).url.pathname;
-    $$renderer2.push(`<div class="flex h-screen bg-base-200 mountain-background svelte-b38hhi" data-theme="modern"><div class="fixed top-0 left-0 right-0 z-50">`);
+    $$renderer2.push(`<div class="flex h-screen bg-base-200 nature-background svelte-b38hhi" data-theme="modern" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=2070&amp;q=80')"><div class="fixed top-0 left-0 right-0 z-50">`);
     TopNavigationBar($$renderer2);
     $$renderer2.push(`<!----></div> <div class="flex-shrink-0 pt-32">`);
     LeftTileBar($$renderer2);
@@ -1410,7 +1354,7 @@ function DashboardLayout($$renderer, $$props) {
         icon: "heroicons:chevron-right",
         class: "w-4 h-4 text-gray-400"
       });
-      $$renderer2.push(`<!----> <span class="text-gray-600 dark:text-gray-300 capitalize">${escape_html(currentPath.split("/").filter(Boolean).join(" › "))}</span></div> <!--[-->`);
+      $$renderer2.push(`<!----> <span class="text-gray-600 dark:text-gray-300 capitalize">${escape_html(currentPath.startsWith("/home/") ? currentPath.replace("/home/", "").split("/").filter(Boolean).join(" › ") : currentPath.split("/").filter(Boolean).join(" › "))}</span></div> <!--[-->`);
       slot($$renderer2, $$props, "default", {});
       $$renderer2.push(`<!--]--></div></div>`);
     }

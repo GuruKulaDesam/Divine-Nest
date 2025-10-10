@@ -356,7 +356,7 @@
   }
 </script>
 
-<div class="reminders-page min-h-screen nature-background p-6">
+<div class="reminders-page min-h-screen nature-background p-6" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
     <div class="text-center mb-8">
@@ -564,7 +564,7 @@
   .nature-background {
     position: relative;
     overflow: hidden;
-    background-image: url("/background.svg");
+    background-image: var(--background-svg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/assistant/ambient-log/+page.svelte";
+export { default as component } from "../../../../src/routes/assets/vehicles/+page.svelte";

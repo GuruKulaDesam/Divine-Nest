@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/charts/+page.svelte";
+export { default as component } from "../../../../src/routes/assistant/shivo-ai/agentic/+page.svelte";

@@ -300,20 +300,20 @@
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label for="voice-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       {$_("settings.voice")}
                     </label>
-                    <select bind:value={aiSettings.voice} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    <select id="voice-select" bind:value={aiSettings.voice} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                       <option value="female">{$_("settings.female")}</option>
                       <option value="male">{$_("settings.male")}</option>
                       <option value="neutral">{$_("settings.neutral")}</option>
                     </select>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label for="language-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       {$_("settings.language")}
                     </label>
-                    <select bind:value={aiSettings.language} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    <select id="language-select" bind:value={aiSettings.language} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                       <option value="ta-IN">தமிழ் (Tamil)</option>
                       <option value="en-IN">English (India)</option>
                       <option value="hi-IN">हिंदी (Hindi)</option>
@@ -329,10 +329,10 @@
                 </h3>
                 <div class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label for="wake-words-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       {$_("settings.wake_words_list")}
                     </label>
-                    <input type="text" bind:value={aiSettings.wakeWordsString} placeholder={$_("settings.wake_words_placeholder")} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+                    <input id="wake-words-input" type="text" bind:value={aiSettings.wakeWordsString} placeholder={$_("settings.wake_words_placeholder")} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                       {$_("settings.wake_words_help")}
                     </p>
@@ -353,10 +353,10 @@
                 </h3>
                 <div class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label for="response-style-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       {$_("settings.response_style")}
                     </label>
-                    <select bind:value={aiSettings.responseStyle} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                    <select id="response-style-select" bind:value={aiSettings.responseStyle} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                       <option value="helpful">{$_("settings.helpful")}</option>
                       <option value="concise">{$_("settings.concise")}</option>
                       <option value="detailed">{$_("settings.detailed")}</option>
@@ -386,28 +386,28 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="full-name-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.full_name")}
                 </label>
-                <input type="text" bind:value={profileSettings.name} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+                <input id="full-name-input" type="text" bind:value={profileSettings.name} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="email-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.email")}
                 </label>
-                <input type="email" bind:value={profileSettings.email} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+                <input id="email-input" type="email" bind:value={profileSettings.email} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="role-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.role")}
                 </label>
-                <input type="text" bind:value={profileSettings.role} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+                <input id="role-input" type="text" bind:value={profileSettings.role} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="timezone-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.timezone")}
                 </label>
-                <select bind:value={profileSettings.timezone} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                <select id="timezone-select" bind:value={profileSettings.timezone} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                   {#each timezoneOptions as option}
                     <option value={option.value}>{option.label}</option>
                   {/each}
@@ -551,10 +551,10 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="session-timeout-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.session_timeout")}
                 </label>
-                <select bind:value={securitySettings.sessionTimeout} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                <select id="session-timeout-select" bind:value={securitySettings.sessionTimeout} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                   <option value={15}>15 {$_("common.minutes")}</option>
                   <option value={30}>30 {$_("common.minutes")}</option>
                   <option value={60}>1 {$_("common.hour")}</option>
@@ -590,9 +590,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- Theme Selector -->
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+                <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
                   {$_("settings.theme")}
-                </label>
+                </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {#each themeOptions as themeOption}
                     <button class="relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 {themeOption.preview} {$theme === themeOption.value ? 'ring-2 ring-purple-500 border-purple-500' : 'border-gray-200 dark:border-gray-600'}" on:click={() => themeActions.set(themeOption.value)}>
@@ -618,7 +618,7 @@
 
               <!-- Background Selector -->
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4"> Background </label>
+                <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Background</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {#each backgroundOptions as bgOption}
                     <button class="relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 {bgOption.preview} {$background === bgOption.value ? 'ring-2 ring-blue-500 border-blue-500' : 'border-gray-200 dark:border-gray-600'}" on:click={() => backgroundActions.set(bgOption.value)}>
@@ -643,10 +643,10 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="display-language-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.language")}
                 </label>
-                <select bind:value={displaySettings.language} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                <select id="display-language-select" bind:value={displaySettings.language} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                   {#each languageOptions as option}
                     <option value={option.value}>{option.label}</option>
                   {/each}
@@ -654,10 +654,10 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="date-format-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.date_format")}
                 </label>
-                <select bind:value={displaySettings.dateFormat} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                <select id="date-format-select" bind:value={displaySettings.dateFormat} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                   <option value="MM/DD/YYYY">MM/DD/YYYY</option>
                   <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                   <option value="YYYY-MM-DD">YYYY-MM-DD</option>
@@ -665,20 +665,20 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="time-format-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.time_format")}
                 </label>
-                <select bind:value={displaySettings.timeFormat} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                <select id="time-format-select" bind:value={displaySettings.timeFormat} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                   <option value="12h">12 {$_("common.hour")}</option>
                   <option value="24h">24 {$_("common.hour")}</option>
                 </select>
               </div>
 
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label for="currency-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.currency")}
                 </label>
-                <select bind:value={displaySettings.currency} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                <select id="currency-select" bind:value={displaySettings.currency} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                   <option value="INR">₹ {$_("settings.indian_rupee")}</option>
                   <option value="USD">$ {$_("settings.us_dollar")}</option>
                   <option value="EUR">€ {$_("settings.euro")}</option>

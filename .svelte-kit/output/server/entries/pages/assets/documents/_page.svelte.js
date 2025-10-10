@@ -1,7 +1,7 @@
 import "clsx";
 import { h as head, d as attr, a as ensure_array_like, b as attr_class, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { e as escape_html } from "../../../../chunks/context.js";
+import { T as escape_html } from "../../../../chunks/context.js";
 function DocumentsPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let filteredDocuments;

@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/budget/+page.svelte";
+export { default as component } from "../../../../src/routes/assistant/shivo-ai/+page.svelte";

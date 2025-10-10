@@ -17,10 +17,10 @@
     /* scrollbar-width and scrollbar-color removed for better browser compatibility */
   }
 
-  /* Webkit scrollbar styling */
+  /* Webkit scrollbar styling - Thin and transparent */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
   }
 
   ::-webkit-scrollbar-track {
@@ -28,12 +28,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--bc) / 0.3);
-    border-radius: 3px;
+    background: hsl(var(--bc) / 0.2);
+    border-radius: 2px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--bc) / 0.5);
+    background: hsl(var(--bc) / 0.4);
   }
 
   ::-webkit-scrollbar-corner {

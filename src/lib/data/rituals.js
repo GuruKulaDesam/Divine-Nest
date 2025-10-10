@@ -313,6 +313,79 @@ export async function getRitualsStats() {
   };
 }
 
+// Rituals Sections for navigation
+export const RitualsSections = [
+  {
+    id: "overview",
+    name: "Spiritual Overview",
+    tamil: "ஆன்மீக கண்ணோட்டம்",
+    icon: "heroicons:sparkles",
+    color: "orange"
+  },
+  {
+    id: "tracker",
+    name: "Ritual Tracker",
+    tamil: "சடங்கு கண்காணிப்பு",
+    icon: "heroicons:check-circle",
+    color: "amber"
+  },
+  {
+    id: "temple",
+    name: "Temple Planner",
+    tamil: "கோயில் திட்டமிடல்",
+    icon: "heroicons:building-storefront",
+    color: "red"
+  },
+  {
+    id: "festivals",
+    name: "Festival Manager",
+    tamil: "விழா மேலாளர்",
+    icon: "heroicons:calendar-days",
+    color: "purple"
+  },
+  {
+    id: "mantras",
+    name: "Mantras & Prayers",
+    tamil: "மந்திரங்கள் & பிரார்த்தனைகள்",
+    icon: "heroicons:musical-note",
+    color: "indigo"
+  }
+];
+
+// Family Members for rituals
+export const FamilyMembers = {
+  family: {
+    name: "Family",
+    tamil: "குடும்பம்",
+    role: "All members"
+  },
+  amma: {
+    name: "Amma",
+    tamil: "அம்மா",
+    role: "Primary performer"
+  },
+  appa: {
+    name: "Appa",
+    tamil: "அப்பா",
+    role: "Family head"
+  },
+  paati: {
+    name: "Paati",
+    tamil: "பாட்டி",
+    role: "Elder guidance"
+  },
+  thambi: {
+    name: "Thambi",
+    tamil: "தம்பி",
+    role: "Young learner"
+  },
+  akka: {
+    name: "Akka",
+    tamil: "அக்கா",
+    role: "Assistant"
+  }
+};
+
 // Get rituals for today
 export async function getTodaysRituals() {
   const today = new Date();
