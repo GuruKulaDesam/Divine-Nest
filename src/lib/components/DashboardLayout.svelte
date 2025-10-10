@@ -90,14 +90,19 @@
   }
 </script>
 
-<div class="flex h-screen {$theme === 'transparent' ? 'transparent-background' : 'bg-base-200'} nature-background" data-theme={$theme} style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
-  <!-- Top Navigation Bar - Fixed overlay spanning full width -->
-  <div class="fixed top-0 left-0 right-0 z-50">
-    <TopNavigationBar on:action={handleTopNavAction} />
-  </div>
+<div class="relative flex h-screen bg-base-200" data-theme={$theme}>
+  <!-- Background Layer - Behind everything -->
+  <div class="fixed inset-0 {$theme === 'transparent' ? 'transparent-background' : ''} nature-background z-0" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"></div>
 
-  <!-- Left Container - Positioned below top nav -->
-  <div class="flex-shrink-0 pt-32">
+  <!-- Content Layer - Above background -->
+  <div class="relative z-10 flex w-full">
+    <!-- Top Navigation Bar - Fixed overlay spanning full width -->
+    <div class="fixed top-0 left-0 right-0 z-50">
+      <TopNavigationBar on:action={handleTopNavAction} />
+    </div>
+
+    <!-- Left Container - Positioned below top nav -->
+    <div class="flex-shrink-0 pt-32">
     <LeftTileBar />
   </div>
 
@@ -149,7 +154,8 @@
       </svg>
     </a>
   </div>
-</div>
+  </div> <!-- End content layer -->
+</div> <!-- End main container -->
 
 <style>
   .nature-background {
