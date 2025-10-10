@@ -354,7 +354,7 @@
     const rect = hoveredTileElement.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const popupWidth = 192; // min-w-48 = 192px
+    const popupWidth = 144; // min-w-36 = 144px
     const popupHeight = 200; // approximate height
 
     // Position popup to the right of the tile by default
@@ -411,7 +411,7 @@
   {#if expandedSidebar && currentSection}
     {@const activeTile = mainTiles.find((t) => t.id === currentSection)}
     {#if activeTile}
-      <div class="w-48 bg-base-100/95 backdrop-blur-xl border-l border-base-300/50 shadow-2xl flex flex-col max-h-full overflow-hidden">
+      <div class="w-60 bg-base-100/95 backdrop-blur-xl border-l border-base-300/50 shadow-2xl flex flex-col max-h-full overflow-hidden">
         <!-- Header -->
         <div class="p-4 border-b border-base-300/30">
           <div class="flex items-center justify-between">
