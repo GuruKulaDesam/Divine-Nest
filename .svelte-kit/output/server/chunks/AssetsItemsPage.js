@@ -178,19 +178,20 @@ function AssetsItemsPage($$renderer, $$props) {
     Icon($$renderer2, { icon: "heroicons:cube", class: "w-8 h-8" });
     $$renderer2.push(`<!----></div> <div><h1 class="text-3xl font-bold text-gray-900 dark:text-white">Physical Assets</h1> <p class="text-gray-600 dark:text-gray-300">Complete inventory of all household items</p></div></div> <button class="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-blue-600 transition-all shadow-lg flex items-center space-x-2">`);
     Icon($$renderer2, { icon: "heroicons:plus", class: "w-5 h-5" });
-    $$renderer2.push(`<!----> <span>Add Asset</span></button></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700"><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label> <div class="relative">`);
+    $$renderer2.push(`<!----> <span>Add Asset</span></button></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700"><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="search-assets" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Assets</label> <div class="relative">`);
     Icon($$renderer2, {
       icon: "heroicons:magnifying-glass",
       class: "absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
     });
-    $$renderer2.push(`<!----> <input type="text"${attr(
+    $$renderer2.push(`<!----> <input id="search-assets" type="text"${attr(
       "value",
       // Add asset logic would go here
       // Reset form
       searchTerm
-    )} placeholder="Search by name, brand, or Tamil name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"/></div></div> <div><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label> `);
+    )} placeholder="Search by name, brand, or Tamil name..." class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"/></div></div> <div><label for="asset-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label> `);
     $$renderer2.select(
       {
+        id: "asset-category",
         value: selectedCategory,
         class: "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
       },
@@ -209,9 +210,10 @@ function AssetsItemsPage($$renderer, $$props) {
         $$renderer3.push(`<!--]-->`);
       }
     );
-    $$renderer2.push(`</div> <div><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label> `);
+    $$renderer2.push(`</div> <div><label for="asset-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label> `);
     $$renderer2.select(
       {
+        id: "asset-location",
         value: selectedLocation,
         class: "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
       },

@@ -338,40 +338,40 @@
             <h4 class="font-semibold text-indigo-800 dark:text-indigo-200 mb-4">Preserve Family Legacy</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
-                <input type="text" bind:value={newLegacyItem.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Name this legacy item" />
+                <label for="legacy-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
+                <input id="legacy-title" type="text" bind:value={newLegacyItem.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Name this legacy item" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
-                <select bind:value={newLegacyItem.type} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="legacy-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
+                <select id="legacy-type" bind:value={newLegacyItem.type} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   {#each legacyTypes as type}
                     <option value={type.id}>{type.label}</option>
                   {/each}
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Significance</label>
-                <select bind:value={newLegacyItem.significance} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="legacy-significance" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Significance</label>
+                <select id="legacy-significance" bind:value={newLegacyItem.significance} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
                   <option value="high">High</option>
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Keeper</label>
-                <input type="text" bind:value={newLegacyItem.keeper} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Who currently maintains this?" />
+                <label for="legacy-keeper" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Keeper</label>
+                <input id="legacy-keeper" type="text" bind:value={newLegacyItem.keeper} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Who currently maintains this?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date/Period Originated</label>
-                <input type="text" bind:value={newLegacyItem.dateOriginated} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="When did this originate?" />
+                <label for="legacy-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date/Period Originated</label>
+                <input id="legacy-date" type="text" bind:value={newLegacyItem.dateOriginated} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="When did this originate?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tags</label>
-                <input type="text" value={newLegacyItem.tags.join(", ")} on:input={(e) => (newLegacyItem.tags = e.target.value.split(",").map((tag) => tag.trim()))} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Tags for categorization" />
+                <label for="legacy-tags" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tags</label>
+                <input id="legacy-tags" type="text" value={newLegacyItem.tags.join(", ")} on:input={(e) => (newLegacyItem.tags = e.target.value.split(",").map((tag) => tag.trim()))} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Tags for categorization" />
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Content/Description</label>
-                <textarea bind:value={newLegacyItem.content} rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe this legacy item in detail..."></textarea>
+                <label for="legacy-content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Content/Description</label>
+                <textarea id="legacy-content" bind:value={newLegacyItem.content} rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe this legacy item in detail..."></textarea>
               </div>
             </div>
             <div class="flex space-x-3 mt-4">

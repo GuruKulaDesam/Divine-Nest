@@ -3,19 +3,21 @@
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import { homeSounds } from "$lib/utils/sounds";
 
   const dispatch = createEventDispatcher();
 
   // Main navigation tiles (same as LeftTileBar)
   const mainTiles = [
     {
-      id: "dashboard",
+      id: "home",
       label: "Home",
       icon: "heroicons:home",
       color: "from-blue-500 to-blue-600",
       borderColor: "border-blue-500/50",
       textColor: "text-blue-600 dark:text-blue-400",
       description: "Dashboard & Overview",
+      path: "/home",
       subTiles: [
         { label: "Dashboard", path: "/", icon: "heroicons:home" },
         { label: "Household", path: "/household", icon: "heroicons:squares-2x2" },
@@ -33,6 +35,7 @@
       borderColor: "border-orange-500/50",
       textColor: "text-orange-600 dark:text-orange-400",
       description: "Spiritual & Religious",
+      path: "/divinity",
       subTiles: [
         { label: "Tamil Panchangam", path: "/tamil-panchangam", icon: "heroicons:sun" },
         { label: "Rituals", path: "/rituals", icon: "heroicons:sparkles" },
@@ -49,6 +52,7 @@
       borderColor: "border-green-500/50",
       textColor: "text-green-600 dark:text-green-400",
       description: "People & Directory",
+      path: "/contacts",
       subTiles: [
         { label: "Personal Contacts", path: "/contacts", icon: "heroicons:phone" },
         { label: "Emergency Contacts", path: "/emergency", icon: "heroicons:exclamation-triangle" },
@@ -64,6 +68,7 @@
       borderColor: "border-orange-400/50",
       textColor: "text-orange-600 dark:text-orange-400",
       description: "Meals & Recipes",
+      path: "/food",
       subTiles: [
         { label: "Meals & Planning", path: "/meals", icon: "heroicons:calendar-days" },
         { label: "Recipes", path: "/recipes", icon: "heroicons:book-open" },
@@ -76,13 +81,14 @@
       ],
     },
     {
-      id: "education",
+      id: "learn",
       label: "Learn",
       icon: "heroicons:academic-cap",
       color: "from-indigo-500 to-indigo-600",
       borderColor: "border-indigo-500/50",
       textColor: "text-indigo-600 dark:text-indigo-400",
       description: "Education & Study",
+      path: "/learn",
       subTiles: [
         { label: "Education Dashboard", path: "/education", icon: "heroicons:academic-cap" },
         { label: "Students", path: "/education/students", icon: "heroicons:users" },
@@ -106,6 +112,7 @@
       borderColor: "border-purple-500/50",
       textColor: "text-purple-600 dark:text-purple-400",
       description: "AI & Automation",
+      path: "/assistant",
       subTiles: [
         { label: "Assistant Dashboard", path: "/assistant", icon: "heroicons:chat-bubble-left-right" },
         { label: "Voice Log", path: "/assistant/voice-log", icon: "heroicons:microphone" },
@@ -126,6 +133,7 @@
       borderColor: "border-pink-500/50",
       textColor: "text-pink-600 dark:text-pink-400",
       description: "Wellness & Fitness",
+      path: "/health",
       subTiles: [
         { label: "Wellness Dashboard", path: "/wellness", icon: "heroicons:heart" },
         { label: "Health Tracking", path: "/health", icon: "heroicons:shield-check" },
@@ -142,6 +150,7 @@
       borderColor: "border-emerald-500/50",
       textColor: "text-emerald-600 dark:text-emerald-400",
       description: "Money & Budget",
+      path: "/finances",
       subTiles: [
         { label: "Finance Dashboard", path: "/finances", icon: "heroicons:currency-rupee" },
         { label: "Recharges", path: "/recharges", icon: "heroicons:device-phone-mobile" },
@@ -159,6 +168,7 @@
       borderColor: "border-emerald-500/50",
       textColor: "text-emerald-600 dark:text-emerald-400",
       description: "Property & Vehicles",
+      path: "/assets",
       subTiles: [
         { label: "Asset Overview", path: "/assets", icon: "heroicons:building-storefront" },
         { label: "Asset Items", path: "/assets/items", icon: "heroicons:archive-box" },
@@ -177,6 +187,7 @@
       borderColor: "border-cyan-500/50",
       textColor: "text-cyan-600 dark:text-cyan-400",
       description: "Management & Tasks",
+      path: "/projects",
       subTiles: [
         { label: "Project Management", path: "/projects", icon: "heroicons:clipboard-document-list" },
         { label: "Gantt Chart", path: "/gantt", icon: "heroicons:chart-bar" },
@@ -188,96 +199,433 @@
     },
   ];
 
-  // Flatten all sub-tiles from main tiles
-  const allSubTiles = mainTiles.flatMap((mainTile) =>
-    mainTile.subTiles.map((subTile) => ({
-      ...subTile,
-      color: mainTile.color,
-      textColor: mainTile.textColor,
-      parentId: mainTile.id,
-    }))
-  );
+  // Get current active section based on URL
+  $: currentSection = getCurrentSection($page.url.pathname);
+  $: currentSectionData = mainTiles.find((tile) => tile.id === currentSection);
 
-  // Get the currently active main tile based on current path
-  $: activeMainTile = mainTiles.find((tile) => tile.subTiles.some((subTile) => $page.url.pathname === subTile.path));
+  function getCurrentSection(pathname) {
+    // Check if we're on a main section page
+    const mainSection = mainTiles.find((tile) => tile.path === pathname);
+    if (mainSection) return mainSection.id;
 
-  // Get sub-tiles for the active main tile only with unique icon colors
-  $: activeSubTiles = activeMainTile
-    ? activeMainTile.subTiles.map((subTile, index) => {
-        // Create complementary icon colors for each tile with better contrast
-        const iconColors = ["text-blue-600", "text-green-600", "text-purple-600", "text-orange-600", "text-pink-600", "text-indigo-600", "text-red-600", "text-teal-600", "text-amber-600", "text-cyan-600", "text-emerald-600", "text-violet-600"];
-        return {
-          ...subTile,
-          color: activeMainTile.color,
-          borderColor: activeMainTile.borderColor,
-          textColor: activeMainTile.textColor,
-          parentId: activeMainTile.id,
-          iconColor: iconColors[index % iconColors.length],
-        };
-      })
-    : [];
+    // Check if we're on a sub-page and find its parent
+    for (const tile of mainTiles) {
+      if (tile.subTiles.some((sub) => sub.path === pathname)) {
+        return tile.id;
+      }
+    }
+
+    // Default to home if nothing matches
+    return "home";
+  }
+
+  // Navigate to a tile path
+  function navigateTo(path) {
+    homeSounds.playClick();
+    goto(path);
+  }
+
+  // Handle hover sound
+  function handleHover() {
+    homeSounds.playPop();
+  }
 
   // Check if a tile path is currently active
   function isTileActive(tilePath) {
     return $page.url.pathname === tilePath;
   }
-
-  // Navigate to a tile path
-  function navigateTo(path) {
-    goto(path);
-  }
 </script>
 
-<div class="dashboard-tiles w-full">
-  <!-- Dashboard Tiles as Tabs with Title Integration -->
-  <div class="flex flex-wrap gap-2 p-6 border-b border-gray-300">
-    <!-- Title Section as Part of Tab Layout -->
-    {#if $page.url.pathname === "/"}
-      <div class="flex items-center space-x-4 pr-6 border-r border-gray-300 mr-4">
-        <div>
-          <h1 class="text-xl font-bold text-gray-900 dark:text-white">இல்லற வழிகாட்டி | Home Management Dashboard</h1>
-          <p class="text-xs text-gray-500 dark:text-gray-400">October 10, 2025</p>
-        </div>
-        <button class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-sm">
-          <Icon icon="heroicons:plus" class="w-4 h-4 mr-1 inline" />
-          Quick Add
-        </button>
-      </div>
-    {/if}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+        <Icon icon="heroicons:home" class="text-indigo-600" />
+        🏠 Home Management Dashboard
+      </h1>
+      <p class="text-gray-600 text-lg">Manage your household, family, and daily activities</p>
+    </div>
 
-    <!-- Horizontal Tabs -->
-    {#each activeSubTiles as tile (tile.path)}
-      <button class="tab-button group relative px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 {isTileActive(tile.path) ? 'bg-gray-200 text-gray-900 shadow-lg' : 'bg-transparent text-gray-700 hover:bg-gray-100'} border border-gray-300 hover:border-gray-400 hover:shadow-md" on:click={() => navigateTo(tile.path)}>
-        <div class="flex items-center space-x-2">
-          <div class="w-5 h-5 {tile.iconColor} group-hover:scale-110 transition-transform duration-300">
-            <Icon icon={tile.icon} class="w-full h-full" />
+    <div class="flex gap-6">
+      <!-- Vertical Sidebar -->
+      <div class="w-80 flex-shrink-0">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <Icon icon="heroicons:squares-2x2" class="text-indigo-500" />
+            {currentSectionData?.label || "Home"} Menu
+          </h3>
+          <div class="space-y-2">
+            {#if currentSectionData}
+              <!-- Main Category Button -->
+              <button class="w-full flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r {currentSectionData.color} text-white cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-105 mb-4" on:click={() => navigateTo(currentSectionData.path)} on:mouseenter={handleHover}>
+                <Icon icon={currentSectionData.icon} class="text-lg" />
+                <div>
+                  <div class="font-medium">{currentSectionData.label}</div>
+                  <div class="text-xs opacity-90">{currentSectionData.description}</div>
+                </div>
+              </button>
+
+              <!-- Sub-items for current section -->
+              <div class="space-y-1">
+                {#each currentSectionData.subTiles as subTile (subTile.path)}
+                  <button class="w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200 {isTileActive(subTile.path) ? 'bg-indigo-50 text-indigo-700 font-medium' : ''}" on:click={() => navigateTo(subTile.path)} on:mouseenter={handleHover}>
+                    <Icon icon={subTile.icon} class="text-base flex-shrink-0" />
+                    <span class="truncate">{subTile.label}</span>
+                  </button>
+                {/each}
+              </div>
+            {/if}
+
+            <!-- Other main categories (for navigation) -->
+            <div class="mt-6 pt-4 border-t border-gray-200">
+              <h4 class="text-sm font-medium text-gray-500 mb-3">Other Sections</h4>
+              <div class="space-y-1">
+                {#each mainTiles.filter((tile) => tile.id !== currentSection) as tile (tile.id)}
+                  <button class="w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors duration-200" on:click={() => navigateTo(tile.path)} on:mouseenter={handleHover}>
+                    <Icon icon={tile.icon} class="text-base flex-shrink-0" />
+                    <span class="truncate">{tile.label}</span>
+                  </button>
+                {/each}
+              </div>
+            </div>
           </div>
-          <span class="text-sm font-medium whitespace-nowrap">
-            {tile.label}
-          </span>
-          {#if isTileActive(tile.path)}
-            <div class="w-2 h-2 bg-gray-900 rounded-full animate-pulse"></div>
-          {/if}
         </div>
-      </button>
-    {/each}
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="flex-1">
+        <!-- Overview Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-4">
+              <Icon icon="heroicons:users" class="text-blue-500 text-2xl" />
+              <span class="text-2xl font-bold text-blue-600">6</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600">Family Members</h3>
+            <p class="text-xs text-gray-500 mt-1">Active in household</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-4">
+              <Icon icon="heroicons:clipboard-document-list" class="text-green-500 text-2xl" />
+              <span class="text-2xl font-bold text-green-600">12</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600">Active Tasks</h3>
+            <p class="text-xs text-gray-500 mt-1">Pending completion</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-4">
+              <Icon icon="heroicons:bell-alert" class="text-orange-500 text-2xl" />
+              <span class="text-2xl font-bold text-orange-600">3</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600">Reminders</h3>
+            <p class="text-xs text-gray-500 mt-1">Due today</p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200">
+            <div class="flex items-center justify-between mb-4">
+              <Icon icon="heroicons:calendar-days" class="text-purple-500 text-2xl" />
+              <span class="text-2xl font-bold text-purple-600">2</span>
+            </div>
+            <h3 class="text-sm font-medium text-gray-600">Events</h3>
+            <p class="text-xs text-gray-500 mt-1">This week</p>
+          </div>
+        </div>
+
+        <!-- Financial Overview -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:currency-rupee" class="text-emerald-500" />
+              Monthly Budget
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Spent</span>
+                <span class="font-semibold text-gray-800">₹45,230</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-emerald-500 h-2 rounded-full" style="width: 75%"></div>
+              </div>
+              <div class="flex justify-between items-center text-xs text-gray-500">
+                <span>75% of ₹60,000</span>
+                <span>₹14,770 remaining</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:credit-card" class="text-blue-500" />
+              Recent Expenses
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Grocery</span>
+                <span class="font-semibold text-gray-800">₹2,450</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Utilities</span>
+                <span class="font-semibold text-gray-800">₹1,200</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Transportation</span>
+                <span class="font-semibold text-gray-800">₹800</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:chart-line" class="text-purple-500" />
+              Savings Goal
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Emergency Fund</span>
+                <span class="font-semibold text-gray-800">₹2.5L / ₹5L</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-purple-500 h-2 rounded-full" style="width: 50%"></div>
+              </div>
+              <div class="text-xs text-gray-500">50% complete • ₹2.5L saved</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Household & Family Overview -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <!-- Recent Activity -->
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:clock" class="text-blue-500" />
+              Recent Activity
+            </h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="p-2 bg-blue-100 rounded-lg">
+                  <Icon icon="heroicons:document-text" class="text-blue-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">Family notes updated</p>
+                  <p class="text-xs text-gray-600">2 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="p-2 bg-green-100 rounded-lg">
+                  <Icon icon="heroicons:clipboard-document-list" class="text-green-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">New task added</p>
+                  <p class="text-xs text-gray-600">4 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="p-2 bg-orange-100 rounded-lg">
+                  <Icon icon="heroicons:bell-alert" class="text-orange-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">Reminder set</p>
+                  <p class="text-xs text-gray-600">6 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="p-2 bg-pink-100 rounded-lg">
+                  <Icon icon="heroicons:heart" class="text-pink-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">Health check completed</p>
+                  <p class="text-xs text-gray-600">1 day ago</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Family Health Overview -->
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:heart" class="text-pink-500" />
+              Family Health
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span class="text-sm font-medium text-gray-800">All family members healthy</span>
+                </div>
+                <Icon icon="heroicons:check-circle" class="text-green-500" />
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-blue-600">4</div>
+                  <div class="text-xs text-gray-600">Exercise sessions</div>
+                  <div class="text-xs text-gray-500">This week</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-orange-600">2</div>
+                  <div class="text-xs text-gray-600">Doctor visits</div>
+                  <div class="text-xs text-gray-500">Scheduled</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Events & Maintenance -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <!-- Upcoming Events -->
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:calendar-days" class="text-indigo-500" />
+              Upcoming Events
+            </h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                <div class="p-2 bg-blue-100 rounded-lg">
+                  <Icon icon="heroicons:calendar" class="text-blue-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">Family Dinner</p>
+                  <p class="text-xs text-gray-600">Tomorrow, 7:00 PM</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                <div class="p-2 bg-purple-100 rounded-lg">
+                  <Icon icon="heroicons:sparkles" class="text-purple-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">Pongal Festival</p>
+                  <p class="text-xs text-gray-600">Jan 15, All day</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
+                <div class="p-2 bg-orange-100 rounded-lg">
+                  <Icon icon="heroicons:academic-cap" class="text-orange-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">School Parent Meeting</p>
+                  <p class="text-xs text-gray-600">Jan 18, 10:00 AM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Household Maintenance -->
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:wrench-screwdriver" class="text-amber-500" />
+              Maintenance Due
+            </h3>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <span class="text-sm font-medium text-gray-800">Car Service</span>
+                </div>
+                <span class="text-xs text-red-600 font-medium">Overdue</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <span class="text-sm font-medium text-gray-800">Water Filter Change</span>
+                </div>
+                <span class="text-xs text-yellow-600 font-medium">Due soon</span>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span class="text-sm font-medium text-gray-800">Garden Maintenance</span>
+                </div>
+                <span class="text-xs text-green-600 font-medium">Next week</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity and Quick Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Recent Activity -->
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:clock" class="text-blue-500" />
+              Recent Activity
+            </h3>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="p-2 bg-blue-100 rounded-lg">
+                  <Icon icon="heroicons:document-text" class="text-blue-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">Family notes updated</p>
+                  <p class="text-xs text-gray-600">2 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="p-2 bg-green-100 rounded-lg">
+                  <Icon icon="heroicons:clipboard-document-list" class="text-green-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">New task added</p>
+                  <p class="text-xs text-gray-600">4 hours ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                <div class="p-2 bg-orange-100 rounded-lg">
+                  <Icon icon="heroicons:bell-alert" class="text-orange-600 text-sm" />
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-800">Reminder set</p>
+                  <p class="text-xs text-gray-600">6 hours ago</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Icon icon="heroicons:bolt" class="text-purple-500" />
+              Quick Actions
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/todo")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:clipboard-document-list" class="text-xl" />
+                <span class="text-sm font-medium">Add Task</span>
+              </button>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/family-notes-modern")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:document-text" class="text-xl" />
+                <span class="text-sm font-medium">New Note</span>
+              </button>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/family-calendar-modern")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:calendar-days" class="text-xl" />
+                <span class="text-sm font-medium">Schedule</span>
+              </button>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/reminders")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:bell-alert" class="text-xl" />
+                <span class="text-sm font-medium">Set Reminder</span>
+              </button>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/wellness")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:heart" class="text-xl" />
+                <span class="text-sm font-medium">Health Check</span>
+              </button>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/expenses")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:credit-card" class="text-xl" />
+                <span class="text-sm font-medium">Add Expense</span>
+              </button>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/grocery")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:shopping-cart" class="text-xl" />
+                <span class="text-sm font-medium">Grocery List</span>
+              </button>
+              <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/assistant")} on:mouseenter={handleHover}>
+                <Icon icon="heroicons:chat-bubble-left-right" class="text-xl" />
+                <span class="text-sm font-medium">AI Assistant</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<style>
-  .tab-button {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .tab-button:hover {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(0, 0, 0, 0.2);
-  }
-
-  .tab-button:active {
-    transform: translateY(0);
-  }
-</style>

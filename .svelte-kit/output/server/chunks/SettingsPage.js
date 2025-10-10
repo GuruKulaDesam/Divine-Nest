@@ -1,6 +1,7 @@
 import { c as store_get, b as attr_class, d as attr, u as unsubscribe_stores, s as stringify } from "./index2.js";
 import { I as Icon } from "./Icon.js";
 import { a as $format } from "./runtime.js";
+import "./theme.js";
 import { e as escape_html } from "./context.js";
 function SettingsPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {

@@ -398,8 +398,8 @@
 
             <!-- Mood Selection -->
             <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Mood</label>
-              <div class="grid grid-cols-4 md:grid-cols-8 gap-2">
+              <label for="mood-selection" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Mood</label>
+              <div id="mood-selection" class="grid grid-cols-4 md:grid-cols-8 gap-2">
                 {#each moods as mood}
                   <button class="p-3 rounded-lg border-2 transition-all duration-200 {newMoodEntry.mood === mood.id ? 'border-pink-500 bg-pink-100 dark:bg-pink-900' : 'border-gray-200 dark:border-gray-600 hover:border-pink-300 dark:hover:border-pink-600'}" on:click={() => (newMoodEntry.mood = mood.id)}>
                     <div class="text-2xl mb-1">{mood.emoji}</div>
@@ -411,10 +411,10 @@
 
             <!-- Intensity Slider -->
             <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label for="mood-intensity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Intensity: {newMoodEntry.intensity}/10
               </label>
-              <input type="range" min="1" max="10" bind:value={newMoodEntry.intensity} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+              <input id="mood-intensity" type="range" min="1" max="10" bind:value={newMoodEntry.intensity} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
               <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
                 <span>Mild</span>
                 <span>Moderate</span>
@@ -424,8 +424,8 @@
 
             <!-- Triggers -->
             <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">What triggered this feeling?</label>
-              <div class="flex flex-wrap gap-2 mb-2">
+              <label for="mood-triggers" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">What triggered this feeling?</label>
+              <div id="mood-triggers" class="flex flex-wrap gap-2 mb-2">
                 {#each commonTriggers as trigger}
                   <button
                     class="px-3 py-1 text-sm rounded-full border transition-colors {newMoodEntry.triggers.includes(trigger) ? 'bg-pink-500 text-white border-pink-500' : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-pink-100 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600'}"
@@ -445,14 +445,14 @@
 
             <!-- Notes -->
             <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Additional Notes</label>
-              <textarea bind:value={newMoodEntry.notes} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe what happened or how you're feeling..."></textarea>
+              <label for="mood-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Additional Notes</label>
+              <textarea id="mood-notes" bind:value={newMoodEntry.notes} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe what happened or how you're feeling..."></textarea>
             </div>
 
             <!-- Gratitude -->
             <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gratitude (What are you thankful for today?)</label>
-              <input type="text" bind:value={newMoodEntry.gratitude} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="I'm grateful for..." />
+              <label for="mood-gratitude" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gratitude (What are you thankful for today?)</label>
+              <input id="mood-gratitude" type="text" bind:value={newMoodEntry.gratitude} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="I'm grateful for..." />
             </div>
 
             <div class="flex space-x-3">

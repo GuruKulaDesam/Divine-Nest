@@ -2,7 +2,7 @@
 
 export const index = 43;
 let component_cache;
-export const component = async () => component_cache ??= (await import('../entries/pages/hobbies-activities/_page.svelte.js')).default;
-export const imports = ["_app/immutable/nodes/43.BtMudZCn.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/DW9ov6mQ.js","_app/immutable/chunks/DFw88cu1.js","_app/immutable/chunks/DQQ79izR.js","_app/immutable/chunks/BKdxYII_.js","_app/immutable/chunks/CtMEnX0n.js","_app/immutable/chunks/BTPm-04w.js","_app/immutable/chunks/-87vorbC.js","_app/immutable/chunks/DDIA5LkU.js","_app/immutable/chunks/Bfc47y5P.js","_app/immutable/chunks/BNOMXApT.js","_app/immutable/chunks/kCJPNK6s.js","_app/immutable/chunks/DVcQJeT9.js","_app/immutable/chunks/Ban245yS.js","_app/immutable/chunks/BZRUnIUX.js"];
-export const stylesheets = [];
+export const component = async () => component_cache ??= (await import('../entries/pages/family-notes-modern/_page.svelte.js')).default;
+export const imports = ["_app/immutable/nodes/43.CIKJXe3R.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/vwNg4zDZ.js","_app/immutable/chunks/D17TB34f.js","_app/immutable/chunks/C-jo8xBb.js","_app/immutable/chunks/BQBbAM3R.js","_app/immutable/chunks/CzCGRA_2.js","_app/immutable/chunks/Cw7o17-n.js","_app/immutable/chunks/CFHZ0_TH.js","_app/immutable/chunks/aleVj_GK.js","_app/immutable/chunks/YnfMsfdI.js","_app/immutable/chunks/DKif01VT.js","_app/immutable/chunks/CRzXd5be.js","_app/immutable/chunks/Cpj98o6Y.js"];
+export const stylesheets = ["_app/immutable/assets/FamilyNotesModernPage.CY8MitOF.css"];
 export const fonts = [];

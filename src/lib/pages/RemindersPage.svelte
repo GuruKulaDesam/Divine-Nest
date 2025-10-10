@@ -543,6 +543,11 @@
   .mountain-background {
     position: relative;
     overflow: hidden;
+    background-image: url("/Cover.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   .mountain-background::before {
@@ -552,31 +557,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at top, rgba(135, 206, 235, 0.3) 0%, transparent 50%), linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-    opacity: 0.5;
-    z-index: -1;
-  }
-
-  /* Mountain silhouettes */
-  .mountain-background::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: linear-gradient(45deg, transparent 30%, #2d3748 30%, #2d3748 35%, transparent 35%), linear-gradient(135deg, transparent 20%, #1a202c 20%, #1a202c 25%, transparent 25%), linear-gradient(90deg, transparent 10%, #0f1419 10%, #0f1419 15%, transparent 15%);
-    background-size:
-      100% 100%,
-      80% 80%,
-      60% 60%;
-    background-position:
-      0% 100%,
-      20% 100%,
-      40% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    z-index: -1;
+    background: rgba(0, 0, 0, 0.3); /* Dark overlay for better text readability */
+    z-index: 0;
   }
   .reminders-page {
     /* Transparent background with gradient border */

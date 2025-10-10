@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
+  import { goto } from "$app/navigation";
 
   let healthMetrics = null;
   let loading = true;
@@ -20,6 +21,14 @@
       loading = false;
     }, 1000);
   });
+
+  function navigateToPeriodTracker() {
+    goto("/health/period-tracker");
+  }
+
+  function navigateToBeautyGuide() {
+    goto("/health/beauty-guide");
+  }
 </script>
 
 <div class="p-6">
@@ -111,6 +120,33 @@
         <div class="text-3xl font-bold text-gray-900 dark:text-white">{healthMetrics.weight}kg</div>
         <div class="text-sm text-blue-600 dark:text-blue-400">-0.5kg this week</div>
       </div>
+    </div>
+
+    <!-- Women's Health Features -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <!-- Period Tracker -->
+      <button on:click={navigateToPeriodTracker} class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-xl p-6 text-left transition-all transform hover:scale-105">
+        <div class="flex items-center space-x-4">
+          <Icon icon="heroicons:heart" class="w-12 h-12" />
+          <div>
+            <h3 class="text-xl font-bold mb-1">மாதர் விடுமுறை நாள்</h3>
+            <p class="text-sm opacity-90">Period Tracker</p>
+            <p class="text-xs opacity-75 mt-2">Track cycles, get insights, and follow traditional wisdom</p>
+          </div>
+        </div>
+      </button>
+
+      <!-- Beauty Guide -->
+      <button on:click={navigateToBeautyGuide} class="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white rounded-xl p-6 text-left transition-all transform hover:scale-105">
+        <div class="flex items-center space-x-4">
+          <Icon icon="heroicons:sparkles" class="w-12 h-12" />
+          <div>
+            <h3 class="text-xl font-bold mb-1">அழகு வழிகாட்டி</h3>
+            <p class="text-sm opacity-90">Beauty Guide</p>
+            <p class="text-xs opacity-75 mt-2">Traditional Tamil beauty wisdom and modern tips</p>
+          </div>
+        </div>
+      </button>
     </div>
 
     <!-- Health Insights -->

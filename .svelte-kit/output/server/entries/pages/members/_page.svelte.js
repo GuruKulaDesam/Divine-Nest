@@ -109,9 +109,10 @@ function MembersPage($$renderer, $$props) {
     Icon($$renderer2, { icon: "mdi:account-off", class: "w-8 h-8 opacity-80" });
     $$renderer2.push(`<!----></div></div></div> <div class="card bg-gradient-to-br from-yellow-500 to-yellow-600 text-white shadow-lg"><div class="card-body p-4"><div class="flex items-center justify-between"><div><p class="text-yellow-100 text-sm">Pending</p> <p class="text-2xl font-bold">${escape_html(pendingMembers)}</p></div> `);
     Icon($$renderer2, { icon: "mdi:account-clock", class: "w-8 h-8 opacity-80" });
-    $$renderer2.push(`<!----></div></div></div></div> <div class="card bg-base-100 shadow-lg"><div class="card-body p-6"><div class="grid grid-cols-1 md:grid-cols-4 gap-4"><div class="form-control"><label class="label"><span class="label-text">Search Members</span></label> <input type="text"${attr("value", searchQuery)} placeholder="Name, phone, email..." class="input input-bordered w-full"/></div> <div class="form-control"><label class="label"><span class="label-text">Status</span></label> `);
+    $$renderer2.push(`<!----></div></div></div></div> <div class="card bg-base-100 shadow-lg"><div class="card-body p-6"><div class="grid grid-cols-1 md:grid-cols-4 gap-4"><div class="form-control"><label for="search-members" class="label"><span class="label-text">Search Members</span></label> <input id="search-members" type="text"${attr("value", searchQuery)} placeholder="Name, phone, email..." class="input input-bordered w-full"/></div> <div class="form-control"><label for="member-status" class="label"><span class="label-text">Status</span></label> `);
     $$renderer2.select(
       {
+        id: "member-status",
         value: selectedStatus,
         class: "select select-bordered w-full"
       },
@@ -130,9 +131,10 @@ function MembersPage($$renderer, $$props) {
         $$renderer3.push(`<!--]-->`);
       }
     );
-    $$renderer2.push(`</div> <div class="form-control"><label class="label"><span class="label-text">Relationship</span></label> `);
+    $$renderer2.push(`</div> <div class="form-control"><label for="member-relationship" class="label"><span class="label-text">Relationship</span></label> `);
     $$renderer2.select(
       {
+        id: "member-relationship",
         value: selectedRelationship,
         class: "select select-bordered w-full"
       },

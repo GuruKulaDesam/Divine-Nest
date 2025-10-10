@@ -1,78 +1,72 @@
 <script>
-  import { onMount } from 'svelte';
-  import Icon from '@iconify/svelte';
+  import { onMount } from "svelte";
+  import Icon from "@iconify/svelte";
 
   let lifeflowItems = [
     {
       id: 1,
-      name: 'Morning Meditation',
-      tamilName: 'காலை தியானம்',
-      category: 'Spiritual',
-      duration: '30 minutes',
-      frequency: 'Daily',
-      location: 'Home Temple',
-      status: 'Active',
-      description: 'Daily morning meditation practice',
-      notes: 'Focus on breathing and mindfulness'
+      name: "Morning Meditation",
+      tamilName: "காலை தியானம்",
+      category: "Spiritual",
+      duration: "30 minutes",
+      frequency: "Daily",
+      location: "Home Temple",
+      status: "Active",
+      description: "Daily morning meditation practice",
+      notes: "Focus on breathing and mindfulness",
     },
     {
       id: 2,
-      name: 'Evening Walk',
-      tamilName: 'மாலை நடை',
-      category: 'Physical',
-      duration: '45 minutes',
-      frequency: 'Daily',
-      location: 'Park',
-      status: 'Active',
-      description: 'Evening walk for physical health',
-      notes: 'Walk at moderate pace'
-    }
+      name: "Evening Walk",
+      tamilName: "மாலை நடை",
+      category: "Physical",
+      duration: "45 minutes",
+      frequency: "Daily",
+      location: "Park",
+      status: "Active",
+      description: "Evening walk for physical health",
+      notes: "Walk at moderate pace",
+    },
   ];
 
   let filteredItems = [...lifeflowItems];
-  let searchQuery = '';
-  let selectedCategory = 'all';
-  let selectedStatus = 'all';
+  let searchQuery = "";
+  let selectedCategory = "all";
+  let selectedStatus = "all";
   let showAddModal = false;
   let showEditModal = false;
   let editingItem = null;
 
   let newItem = {
-    name: '',
-    tamilName: '',
-    category: '',
-    duration: '',
-    frequency: '',
-    location: '',
-    status: 'Active',
-    description: '',
-    notes: ''
+    name: "",
+    tamilName: "",
+    category: "",
+    duration: "",
+    frequency: "",
+    location: "",
+    status: "Active",
+    description: "",
+    notes: "",
   };
 
   const categories = [
-    { id: 'all', name: 'All Categories', tamil: 'அனைத்து வகைகள்' },
-    { id: 'spiritual', name: 'Spiritual', tamil: 'ஆன்மீக' },
-    { id: 'physical', name: 'Physical', tamil: 'உடல்' },
-    { id: 'mental', name: 'Mental', tamil: 'மன' },
-    { id: 'social', name: 'Social', tamil: 'சமூக' },
-    { id: 'creative', name: 'Creative', tamil: 'படைப்பு' }
+    { id: "all", name: "All Categories", tamil: "அனைத்து வகைகள்" },
+    { id: "spiritual", name: "Spiritual", tamil: "ஆன்மீக" },
+    { id: "physical", name: "Physical", tamil: "உடல்" },
+    { id: "mental", name: "Mental", tamil: "மன" },
+    { id: "social", name: "Social", tamil: "சமூக" },
+    { id: "creative", name: "Creative", tamil: "படைப்பு" },
   ];
 
-  const frequencies = [
-    'Daily', 'Weekly', 'Monthly', 'Occasional', 'Seasonal'
-  ];
+  const frequencies = ["Daily", "Weekly", "Monthly", "Occasional", "Seasonal"];
 
-  const statuses = [
-    'Active', 'Inactive', 'Completed', 'Paused'
-  ];
+  const statuses = ["Active", "Inactive", "Completed", "Paused"];
 
   function filterItems() {
-    filteredItems = lifeflowItems.filter(item => {
-      const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.tamilName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || item.category.toLowerCase() === selectedCategory;
-      const matchesStatus = selectedStatus === 'all' || item.status === selectedStatus;
+    filteredItems = lifeflowItems.filter((item) => {
+      const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.tamilName.toLowerCase().includes(searchQuery.toLowerCase()) || item.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === "all" || item.category.toLowerCase() === selectedCategory;
+      const matchesStatus = selectedStatus === "all" || item.status === selectedStatus;
       return matchesSearch && matchesCategory && matchesStatus;
     });
   }
@@ -90,22 +84,22 @@
       name: newItem.name.trim(),
       tamilName: newItem.tamilName.trim(),
       description: newItem.description.trim(),
-      notes: newItem.notes.trim()
+      notes: newItem.notes.trim(),
     };
 
     lifeflowItems = [...lifeflowItems, item];
     filteredItems = [...lifeflowItems];
 
     newItem = {
-      name: '',
-      tamilName: '',
-      category: '',
-      duration: '',
-      frequency: '',
-      location: '',
-      status: 'Active',
-      description: '',
-      notes: ''
+      name: "",
+      tamilName: "",
+      category: "",
+      duration: "",
+      frequency: "",
+      location: "",
+      status: "Active",
+      description: "",
+      notes: "",
     };
 
     showAddModal = false;
@@ -119,40 +113,38 @@
   function updateItem() {
     if (!editingItem.name.trim()) return;
 
-    lifeflowItems = lifeflowItems.map(item =>
-      item.id === editingItem.id ? { ...editingItem } : item
-    );
+    lifeflowItems = lifeflowItems.map((item) => (item.id === editingItem.id ? { ...editingItem } : item));
     filteredItems = [...lifeflowItems];
     showEditModal = false;
     editingItem = null;
   }
 
   function deleteItem(id) {
-    if (confirm('Are you sure you want to delete this lifeflow activity?')) {
-      lifeflowItems = lifeflowItems.filter(item => item.id !== id);
+    if (confirm("Are you sure you want to delete this lifeflow activity?")) {
+      lifeflowItems = lifeflowItems.filter((item) => item.id !== id);
       filteredItems = [...lifeflowItems];
     }
   }
 
   function getCategoryColor(category) {
     const colors = {
-      'Spiritual': 'bg-purple-100 text-purple-800',
-      'Physical': 'bg-green-100 text-green-800',
-      'Mental': 'bg-blue-100 text-blue-800',
-      'Social': 'bg-orange-100 text-orange-800',
-      'Creative': 'bg-pink-100 text-pink-800'
+      Spiritual: "bg-purple-100 text-purple-800",
+      Physical: "bg-green-100 text-green-800",
+      Mental: "bg-blue-100 text-blue-800",
+      Social: "bg-orange-100 text-orange-800",
+      Creative: "bg-pink-100 text-pink-800",
     };
-    return colors[category] || 'bg-gray-100 text-gray-800';
+    return colors[category] || "bg-gray-100 text-gray-800";
   }
 
   function getStatusColor(status) {
     const colors = {
-      'Active': 'bg-green-100 text-green-800',
-      'Inactive': 'bg-gray-100 text-gray-800',
-      'Completed': 'bg-blue-100 text-blue-800',
-      'Paused': 'bg-yellow-100 text-yellow-800'
+      Active: "bg-green-100 text-green-800",
+      Inactive: "bg-gray-100 text-gray-800",
+      Completed: "bg-blue-100 text-blue-800",
+      Paused: "bg-yellow-100 text-yellow-800",
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || "bg-gray-100 text-gray-800";
   }
 
   onMount(() => {
@@ -167,10 +159,7 @@
       <h1 class="text-3xl font-bold text-base-content">Lifeflow Activities</h1>
       <p class="text-base-content/70 mt-1">Manage your daily life activities and routines</p>
     </div>
-    <button
-      on:click={() => showAddModal = true}
-      class="btn btn-primary gap-2"
-    >
+    <button on:click={() => (showAddModal = true)} class="btn btn-primary gap-2">
       <Icon icon="mdi:plus" class="w-5 h-5" />
       Add Activity
     </button>
@@ -192,7 +181,7 @@
       </div>
       <div class="stat-title">Active</div>
       <div class="stat-value text-success">
-        {lifeflowItems.filter(item => item.status === 'Active').length}
+        {lifeflowItems.filter((item) => item.status === "Active").length}
       </div>
     </div>
 
@@ -202,7 +191,7 @@
       </div>
       <div class="stat-title">Daily</div>
       <div class="stat-value text-info">
-        {lifeflowItems.filter(item => item.frequency === 'Daily').length}
+        {lifeflowItems.filter((item) => item.frequency === "Daily").length}
       </div>
     </div>
 
@@ -212,7 +201,7 @@
       </div>
       <div class="stat-title">Spiritual</div>
       <div class="stat-value text-warning">
-        {lifeflowItems.filter(item => item.category === 'Spiritual').length}
+        {lifeflowItems.filter((item) => item.category === "Spiritual").length}
       </div>
     </div>
   </div>
@@ -222,23 +211,18 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <!-- Search -->
       <div class="form-control">
-        <label class="label">
+        <label for="lifeflow-search" class="label">
           <span class="label-text">Search Activities</span>
         </label>
-        <input
-          type="text"
-          bind:value={searchQuery}
-          placeholder="Search by name or description..."
-          class="input input-bordered"
-        />
+        <input id="lifeflow-search" type="text" bind:value={searchQuery} placeholder="Search by name or description..." class="input input-bordered" />
       </div>
 
       <!-- Category Filter -->
       <div class="form-control">
-        <label class="label">
+        <label for="lifeflow-category-filter" class="label">
           <span class="label-text">Category</span>
         </label>
-        <select bind:value={selectedCategory} class="select select-bordered">
+        <select id="lifeflow-category-filter" bind:value={selectedCategory} class="select select-bordered">
           {#each categories as category}
             <option value={category.id}>{category.name}</option>
           {/each}
@@ -247,10 +231,10 @@
 
       <!-- Status Filter -->
       <div class="form-control">
-        <label class="label">
+        <label for="lifeflow-status-filter" class="label">
           <span class="label-text">Status</span>
         </label>
-        <select bind:value={selectedStatus} class="select select-bordered">
+        <select id="lifeflow-status-filter" bind:value={selectedStatus} class="select select-bordered">
           <option value="all">All Status</option>
           {#each statuses as status}
             <option value={status}>{status}</option>
@@ -265,9 +249,9 @@
         </label>
         <button
           on:click={() => {
-            searchQuery = '';
-            selectedCategory = 'all';
-            selectedStatus = 'all';
+            searchQuery = "";
+            selectedCategory = "all";
+            selectedStatus = "all";
           }}
           class="btn btn-outline gap-2"
         >
@@ -353,10 +337,7 @@
       <div class="p-6">
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-xl font-bold">Add Lifeflow Activity</h3>
-          <button
-            on:click={() => showAddModal = false}
-            class="btn btn-ghost btn-sm"
-          >
+          <button on:click={() => (showAddModal = false)} class="btn btn-ghost btn-sm">
             <Icon icon="mdi:close" class="w-5 h-5" />
           </button>
         </div>
@@ -364,37 +345,26 @@
         <form on:submit|preventDefault={addItem} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="lifeflow-activity-name" class="label">
                 <span class="label-text">Activity Name *</span>
               </label>
-              <input
-                type="text"
-                bind:value={newItem.name}
-                placeholder="Enter activity name"
-                class="input input-bordered"
-                required
-              />
+              <input id="lifeflow-activity-name" type="text" bind:value={newItem.name} placeholder="Enter activity name" class="input input-bordered" required />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="lifeflow-tamil-name" class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input
-                type="text"
-                bind:value={newItem.tamilName}
-                placeholder="தமிழ் பெயர்"
-                class="input input-bordered"
-              />
+              <input id="lifeflow-tamil-name" type="text" bind:value={newItem.tamilName} placeholder="தமிழ் பெயர்" class="input input-bordered" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="lifeflow-category" class="label">
                 <span class="label-text">Category</span>
               </label>
-              <select bind:value={newItem.category} class="select select-bordered">
+              <select id="lifeflow-category" bind:value={newItem.category} class="select select-bordered">
                 <option value="">Select Category</option>
                 {#each categories.slice(1) as category}
                   <option value={category.name}>{category.name}</option>
@@ -403,10 +373,10 @@
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="lifeflow-status" class="label">
                 <span class="label-text">Status</span>
               </label>
-              <select bind:value={newItem.status} class="select select-bordered">
+              <select id="lifeflow-status" bind:value={newItem.status} class="select select-bordered">
                 {#each statuses as status}
                   <option value={status}>{status}</option>
                 {/each}
@@ -416,22 +386,17 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div class="form-control">
-              <label class="label">
+              <label for="lifeflow-duration" class="label">
                 <span class="label-text">Duration</span>
               </label>
-              <input
-                type="text"
-                bind:value={newItem.duration}
-                placeholder="e.g., 30 minutes"
-                class="input input-bordered"
-              />
+              <input id="lifeflow-duration" type="text" bind:value={newItem.duration} placeholder="e.g., 30 minutes" class="input input-bordered" />
             </div>
 
             <div class="form-control">
-              <label class="label">
+              <label for="lifeflow-frequency" class="label">
                 <span class="label-text">Frequency</span>
               </label>
-              <select bind:value={newItem.frequency} class="select select-bordered">
+              <select id="lifeflow-frequency" bind:value={newItem.frequency} class="select select-bordered">
                 <option value="">Select Frequency</option>
                 {#each frequencies as freq}
                   <option value={freq}>{freq}</option>
@@ -441,52 +406,29 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="lifeflow-location" class="label">
               <span class="label-text">Location</span>
             </label>
-            <input
-              type="text"
-              bind:value={newItem.location}
-              placeholder="Where do you do this activity?"
-              class="input input-bordered"
-            />
+            <input id="lifeflow-location" type="text" bind:value={newItem.location} placeholder="Where do you do this activity?" class="input input-bordered" />
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="lifeflow-description" class="label">
               <span class="label-text">Description</span>
             </label>
-            <textarea
-              bind:value={newItem.description}
-              placeholder="Describe this activity"
-              rows="3"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea id="lifeflow-description" bind:value={newItem.description} placeholder="Describe this activity" rows="3" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="lifeflow-notes" class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea
-              bind:value={newItem.notes}
-              placeholder="Additional notes or instructions"
-              rows="2"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea id="lifeflow-notes" bind:value={newItem.notes} placeholder="Additional notes or instructions" rows="2" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="flex justify-end gap-3 mt-6">
-            <button
-              type="button"
-              on:click={() => showAddModal = false}
-              class="btn btn-outline"
-            >
-              Cancel
-            </button>
-            <button type="submit" class="btn btn-primary">
-              Add Activity
-            </button>
+            <button type="button" on:click={() => (showAddModal = false)} class="btn btn-outline"> Cancel </button>
+            <button type="submit" class="btn btn-primary"> Add Activity </button>
           </div>
         </form>
       </div>
@@ -501,10 +443,7 @@
       <div class="p-6">
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-xl font-bold">Edit Lifeflow Activity</h3>
-          <button
-            on:click={() => showEditModal = false}
-            class="btn btn-ghost btn-sm"
-          >
+          <button on:click={() => (showEditModal = false)} class="btn btn-ghost btn-sm">
             <Icon icon="mdi:close" class="w-5 h-5" />
           </button>
         </div>
@@ -515,25 +454,14 @@
               <label class="label">
                 <span class="label-text">Activity Name *</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingItem.name}
-                placeholder="Enter activity name"
-                class="input input-bordered"
-                required
-              />
+              <input type="text" bind:value={editingItem.name} placeholder="Enter activity name" class="input input-bordered" required />
             </div>
 
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Tamil Name</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingItem.tamilName}
-                placeholder="தமிழ் பெயர்"
-                class="input input-bordered"
-              />
+              <input type="text" bind:value={editingItem.tamilName} placeholder="தமிழ் பெயர்" class="input input-bordered" />
             </div>
           </div>
 
@@ -567,12 +495,7 @@
               <label class="label">
                 <span class="label-text">Duration</span>
               </label>
-              <input
-                type="text"
-                bind:value={editingItem.duration}
-                placeholder="e.g., 30 minutes"
-                class="input input-bordered"
-              />
+              <input type="text" bind:value={editingItem.duration} placeholder="e.g., 30 minutes" class="input input-bordered" />
             </div>
 
             <div class="form-control">
@@ -592,49 +515,26 @@
             <label class="label">
               <span class="label-text">Location</span>
             </label>
-            <input
-              type="text"
-              bind:value={editingItem.location}
-              placeholder="Where do you do this activity?"
-              class="input input-bordered"
-            />
+            <input type="text" bind:value={editingItem.location} placeholder="Where do you do this activity?" class="input input-bordered" />
           </div>
 
           <div class="form-control">
             <label class="label">
               <span class="label-text">Description</span>
             </label>
-            <textarea
-              bind:value={editingItem.description}
-              placeholder="Describe this activity"
-              rows="3"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea bind:value={editingItem.description} placeholder="Describe this activity" rows="3" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="form-control">
             <label class="label">
               <span class="label-text">Notes</span>
             </label>
-            <textarea
-              bind:value={editingItem.notes}
-              placeholder="Additional notes or instructions"
-              rows="2"
-              class="textarea textarea-bordered"
-            ></textarea>
+            <textarea bind:value={editingItem.notes} placeholder="Additional notes or instructions" rows="2" class="textarea textarea-bordered"></textarea>
           </div>
 
           <div class="flex justify-end gap-3 mt-6">
-            <button
-              type="button"
-              on:click={() => showEditModal = false}
-              class="btn btn-outline"
-            >
-              Cancel
-            </button>
-            <button type="submit" class="btn btn-primary">
-              Update Activity
-            </button>
+            <button type="button" on:click={() => (showEditModal = false)} class="btn btn-outline"> Cancel </button>
+            <button type="submit" class="btn btn-primary"> Update Activity </button>
           </div>
         </form>
       </div>

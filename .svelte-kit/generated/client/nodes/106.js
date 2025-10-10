@@ -1,0 +1,1 @@
+export { default as component } from "../../../../src/routes/wisdom/places-to-visit/+page.svelte";

@@ -3,6 +3,12 @@
   import TopNavigationBar from "./TopNavigationBar.svelte";
   import DashboardTiles from "./DashboardTiles.svelte";
   import FloatingActionButtons from "./FloatingActionButtons.svelte";
+  import Icon from "@iconify/svelte";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+
+  // Reactive statement for current path
+  $: currentPath = $page.url.pathname;
 
   // Handle actions from the top navigation bar (right tiles)
   function handleTopNavAction(event) {
@@ -85,21 +91,38 @@
   </div>
 
   <!-- Left Container - Positioned below top nav -->
-  <div class="flex-shrink-0 pt-20">
+  <div class="flex-shrink-0 pt-24">
     <LeftTileBar />
   </div>
 
   <!-- Middle Container -->
-  <div class="flex-1 flex flex-col overflow-hidden pt-20">
+  <div class="flex-1 flex flex-col overflow-hidden pt-24">
     <!-- Main content area -->
     <main class="flex-1 scrollable-container bg-transparent">
-      <div class="p-4 sm:p-6 lg:p-8 relative">
-        <div class="content-container rounded-3xl bg-gray-100 shadow-2xl border-0 p-6 sm:p-8">
-          <!-- Dashboard Tiles for current page -->
-          <DashboardTiles />
-          <slot />
+      {#if currentPath === "/"}
+        <!-- Full dashboard layout with sidebar for home page -->
+        <DashboardTiles />
+      {:else}
+        <!-- Content pages with breadcrumb -->
+        <div class="p-4 sm:p-6 lg:p-8 relative">
+          <div class="content-container rounded-3xl border-0 p-6 sm:p-8">
+            <!-- Breadcrumb Navigation -->
+            <div class="mb-6 flex items-center space-x-2 text-sm">
+              <button on:click={() => goto("/")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                <Icon icon="heroicons:home" class="w-4 h-4" />
+                <span>Home</span>
+              </button>
+              <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+              <span class="text-gray-600 dark:text-gray-300 capitalize">
+                {currentPath.split("/").filter(Boolean).join(" › ")}
+              </span>
+            </div>
+
+            <!-- Page content -->
+            <slot />
+          </div>
         </div>
-      </div>
+      {/if}
     </main>
   </div>
 
@@ -126,6 +149,11 @@
   .mountain-background {
     position: relative;
     overflow: hidden;
+    background-image: url("/Cover.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   .mountain-background::before {
@@ -135,54 +163,41 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at top, rgba(135, 206, 235, 0.3) 0%, transparent 50%), linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-    opacity: 0.5;
-    z-index: -1;
+    background: rgba(0, 0, 0, 0.3); /* Dark overlay for better text readability */
+    z-index: 0;
+    pointer-events: none; /* Allow interactions to pass through */
   }
 
   .content-container {
     min-height: calc(100vh - 200px);
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    z-index: 1;
   }
 
-  .content-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border-radius: 1.5rem;
-    z-index: -1;
+  .scrollable-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1;
   }
 
-  .content-container:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  /* Ensure proper scrolling for the main content */
+  .scrollable-container::-webkit-scrollbar {
+    width: 6px;
   }
 
-  /* Mountain silhouettes */
-  .mountain-background::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: linear-gradient(45deg, transparent 30%, #2d3748 30%, #2d3748 35%, transparent 35%), linear-gradient(135deg, transparent 20%, #1a202c 20%, #1a202c 25%, transparent 25%), linear-gradient(90deg, transparent 10%, #0f1419 10%, #0f1419 15%, transparent 15%);
-    background-size:
-      100% 100%,
-      80% 80%,
-      60% 60%;
-    background-position:
-      0% 100%,
-      20% 100%,
-      40% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    z-index: -1;
+  .scrollable-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollable-container::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.3);
+    border-radius: 3px;
+  }
+
+  .scrollable-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.5);
   }
 </style>

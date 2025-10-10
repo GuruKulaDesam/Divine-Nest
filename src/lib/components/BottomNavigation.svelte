@@ -2,6 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import Icon from "@iconify/svelte";
   import { currentRoute, isNavigating } from "../router.js";
+  import { homeSounds } from "$lib/utils/sounds";
 
   const dispatch = createEventDispatcher();
 
@@ -58,7 +59,12 @@
   ];
 
   function navigateTo(path) {
+    homeSounds.playClick();
     dispatch("navigate", { path });
+  }
+
+  function handleHover() {
+    homeSounds.playPop();
   }
 
   function isActive(item) {
@@ -70,7 +76,7 @@
 <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50 md:hidden">
   <div class="flex items-center justify-around px-2 py-2">
     {#each bottomNavItems as item}
-      <button class="flex flex-col items-center justify-center p-2 rounded-lg min-w-0 flex-1 {isActive(item) ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'}" on:click={() => navigateTo(item.path)} aria-label={item.label}>
+      <button class="flex flex-col items-center justify-center p-2 rounded-lg min-w-0 flex-1 {isActive(item) ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'}" on:click={() => navigateTo(item.path)} on:mouseenter={handleHover} aria-label={item.label}>
         <Icon icon={item.icon} class="w-6 h-6 mb-1" />
         <span class="text-xs font-medium truncate">{item.label}</span>
       </button>

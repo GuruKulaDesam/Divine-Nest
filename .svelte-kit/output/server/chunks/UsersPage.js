@@ -1,8 +1,12 @@
 import { c as store_get, a as ensure_array_like, b as attr_class, s as stringify, d as attr, u as unsubscribe_stores } from "./index2.js";
 import { I as Icon } from "./Icon.js";
 import { a as $format } from "./runtime.js";
-import { g as generateUserAvatar } from "./avatar.js";
 import { e as escape_html } from "./context.js";
+function generateUserAvatar(user, style = "avataaars") {
+  user.name || user.email || "User";
+  const randomSeed = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  return `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${encodeURIComponent(randomSeed)}&backgroundColor=b6e3f4&size=128`;
+}
 const users = [
   {
     id: 1,

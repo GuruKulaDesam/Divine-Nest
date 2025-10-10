@@ -393,36 +393,36 @@ Based on the principles of:
             <h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-4">Create New Family Rule</h4>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rule Title</label>
-                <input type="text" bind:value={newRule.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What is this rule about?" />
+                <label for="rule-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rule Title</label>
+                <input id="rule-title" type="text" bind:value={newRule.title} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What is this rule about?" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
-                <select bind:value={newRule.category} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="rule-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+                <select id="rule-category" bind:value={newRule.category} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   {#each ruleCategories as category}
                     <option value={category.id}>{category.label}</option>
                   {/each}
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Importance</label>
-                <select bind:value={newRule.importance} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <label for="rule-importance" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Importance</label>
+                <select id="rule-importance" bind:value={newRule.importance} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
                   <option value="high">High</option>
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Effective Date</label>
-                <input type="date" bind:value={newRule.effective_date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                <label for="rule-effective-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Effective Date</label>
+                <input id="rule-effective-date" type="date" bind:value={newRule.effective_date} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rule Description</label>
-                <textarea bind:value={newRule.description} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe the rule in detail..."></textarea>
+                <label for="rule-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rule Description</label>
+                <textarea id="rule-description" bind:value={newRule.description} rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Describe the rule in detail..."></textarea>
               </div>
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Consequences (if any)</label>
-                <textarea bind:value={newRule.consequences} rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What happens if this rule is not followed?"></textarea>
+                <label for="rule-consequences" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Consequences (if any)</label>
+                <textarea id="rule-consequences" bind:value={newRule.consequences} rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="What happens if this rule is not followed?"></textarea>
               </div>
             </div>
             <div class="flex space-x-3 mt-4">

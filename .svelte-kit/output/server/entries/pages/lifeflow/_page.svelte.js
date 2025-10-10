@@ -53,20 +53,20 @@ function LifeflowPage($$renderer, $$props) {
     }
     function getCategoryColor(category) {
       const colors = {
-        "Spiritual": "bg-purple-100 text-purple-800",
-        "Physical": "bg-green-100 text-green-800",
-        "Mental": "bg-blue-100 text-blue-800",
-        "Social": "bg-orange-100 text-orange-800",
-        "Creative": "bg-pink-100 text-pink-800"
+        Spiritual: "bg-purple-100 text-purple-800",
+        Physical: "bg-green-100 text-green-800",
+        Mental: "bg-blue-100 text-blue-800",
+        Social: "bg-orange-100 text-orange-800",
+        Creative: "bg-pink-100 text-pink-800"
       };
       return colors[category] || "bg-gray-100 text-gray-800";
     }
     function getStatusColor(status) {
       const colors = {
-        "Active": "bg-green-100 text-green-800",
-        "Inactive": "bg-gray-100 text-gray-800",
-        "Completed": "bg-blue-100 text-blue-800",
-        "Paused": "bg-yellow-100 text-yellow-800"
+        Active: "bg-green-100 text-green-800",
+        Inactive: "bg-gray-100 text-gray-800",
+        Completed: "bg-blue-100 text-blue-800",
+        Paused: "bg-yellow-100 text-yellow-800"
       };
       return colors[status] || "bg-gray-100 text-gray-800";
     }
@@ -83,33 +83,47 @@ function LifeflowPage($$renderer, $$props) {
     Icon($$renderer2, { icon: "mdi:calendar-clock", class: "w-8 h-8" });
     $$renderer2.push(`<!----></div> <div class="stat-title">Daily</div> <div class="stat-value text-info">${escape_html(lifeflowItems.filter((item) => item.frequency === "Daily").length)}</div></div> <div class="stat bg-base-100 shadow rounded-box"><div class="stat-figure text-warning">`);
     Icon($$renderer2, { icon: "mdi:meditation", class: "w-8 h-8" });
-    $$renderer2.push(`<!----></div> <div class="stat-title">Spiritual</div> <div class="stat-value text-warning">${escape_html(lifeflowItems.filter((item) => item.category === "Spiritual").length)}</div></div></div> <div class="bg-base-100 p-4 rounded-box shadow"><div class="grid grid-cols-1 md:grid-cols-4 gap-4"><div class="form-control"><label class="label"><span class="label-text">Search Activities</span></label> <input type="text"${attr("value", searchQuery)} placeholder="Search by name or description..." class="input input-bordered"/></div> <div class="form-control"><label class="label"><span class="label-text">Category</span></label> `);
-    $$renderer2.select({ value: selectedCategory, class: "select select-bordered" }, ($$renderer3) => {
-      $$renderer3.push(`<!--[-->`);
-      const each_array = ensure_array_like(categories);
-      for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
-        let category = each_array[$$index];
-        $$renderer3.option({ value: category.id }, ($$renderer4) => {
-          $$renderer4.push(`${escape_html(category.name)}`);
-        });
+    $$renderer2.push(`<!----></div> <div class="stat-title">Spiritual</div> <div class="stat-value text-warning">${escape_html(lifeflowItems.filter((item) => item.category === "Spiritual").length)}</div></div></div> <div class="bg-base-100 p-4 rounded-box shadow"><div class="grid grid-cols-1 md:grid-cols-4 gap-4"><div class="form-control"><label for="lifeflow-search" class="label"><span class="label-text">Search Activities</span></label> <input id="lifeflow-search" type="text"${attr("value", searchQuery)} placeholder="Search by name or description..." class="input input-bordered"/></div> <div class="form-control"><label for="lifeflow-category-filter" class="label"><span class="label-text">Category</span></label> `);
+    $$renderer2.select(
+      {
+        id: "lifeflow-category-filter",
+        value: selectedCategory,
+        class: "select select-bordered"
+      },
+      ($$renderer3) => {
+        $$renderer3.push(`<!--[-->`);
+        const each_array = ensure_array_like(categories);
+        for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
+          let category = each_array[$$index];
+          $$renderer3.option({ value: category.id }, ($$renderer4) => {
+            $$renderer4.push(`${escape_html(category.name)}`);
+          });
+        }
+        $$renderer3.push(`<!--]-->`);
       }
-      $$renderer3.push(`<!--]-->`);
-    });
-    $$renderer2.push(`</div> <div class="form-control"><label class="label"><span class="label-text">Status</span></label> `);
-    $$renderer2.select({ value: selectedStatus, class: "select select-bordered" }, ($$renderer3) => {
-      $$renderer3.option({ value: "all" }, ($$renderer4) => {
-        $$renderer4.push(`All Status`);
-      });
-      $$renderer3.push(`<!--[-->`);
-      const each_array_1 = ensure_array_like(statuses);
-      for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
-        let status = each_array_1[$$index_1];
-        $$renderer3.option({ value: status }, ($$renderer4) => {
-          $$renderer4.push(`${escape_html(status)}`);
+    );
+    $$renderer2.push(`</div> <div class="form-control"><label for="lifeflow-status-filter" class="label"><span class="label-text">Status</span></label> `);
+    $$renderer2.select(
+      {
+        id: "lifeflow-status-filter",
+        value: selectedStatus,
+        class: "select select-bordered"
+      },
+      ($$renderer3) => {
+        $$renderer3.option({ value: "all" }, ($$renderer4) => {
+          $$renderer4.push(`All Status`);
         });
+        $$renderer3.push(`<!--[-->`);
+        const each_array_1 = ensure_array_like(statuses);
+        for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
+          let status = each_array_1[$$index_1];
+          $$renderer3.option({ value: status }, ($$renderer4) => {
+            $$renderer4.push(`${escape_html(status)}`);
+          });
+        }
+        $$renderer3.push(`<!--]-->`);
       }
-      $$renderer3.push(`<!--]-->`);
-    });
+    );
     $$renderer2.push(`</div> <div class="form-control"><label class="label"><span class="label-text opacity-0">Actions</span></label> <button class="btn btn-outline gap-2">`);
     Icon($$renderer2, { icon: "mdi:filter-off", class: "w-4 h-4" });
     $$renderer2.push(`<!----> Clear Filters</button></div></div></div> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!--[-->`);
