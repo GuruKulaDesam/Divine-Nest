@@ -249,7 +249,7 @@
 
     <div class="flex gap-6">
       <!-- Vertical Sidebar -->
-      <div class="w-48 flex-shrink-0">
+      <div class="w-60 flex-shrink-0">
         <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
           <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
             <Icon icon="heroicons:squares-2x2" class="text-indigo-500" />

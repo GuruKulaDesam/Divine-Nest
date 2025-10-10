@@ -285,7 +285,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <div class="flex gap-6">
       <!-- Enhanced Sidebar Navigation -->
-      <div class="w-48 space-y-1">
+      <div class="w-60 space-y-1">
         <div class="bg-white rounded-lg shadow-sm border p-4 mb-4">
           <h3 class="font-semibold text-gray-900 mb-3">Finance Sections</h3>
           <div class="text-sm text-gray-600 mb-3">Complete financial management for Tamil families</div>
