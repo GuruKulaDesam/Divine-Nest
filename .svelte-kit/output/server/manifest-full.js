@@ -6,11 +6,11 @@ function __memo(fn) {
 
 return {
 	appDir: "_app",
-	appPath: "Divine-Nest/?/_app",
+	appPath: "Divine-Nest/_app",
 	assets: new Set([]),
 	mimeTypes: {},
 	_: {
-		client: {start:"_app/immutable/entry/start.Bw3Ihxum.js",app:"_app/immutable/entry/app.D0DVgPmG.js",imports:["_app/immutable/entry/start.Bw3Ihxum.js","_app/immutable/chunks/C11exIVZ.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/zYgbgurY.js","_app/immutable/chunks/DWPppJ2y.js","_app/immutable/chunks/BVEgw-fk.js","_app/immutable/entry/app.D0DVgPmG.js","_app/immutable/chunks/Dp1pzeXC.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/Dn4D4y7S.js","_app/immutable/chunks/BnR7P2hC.js","_app/immutable/chunks/C4FjXvtf.js","_app/immutable/chunks/zUXBVMR_.js","_app/immutable/chunks/BFUbdx6v.js","_app/immutable/chunks/DWPppJ2y.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.DANRx_A_.js",app:"_app/immutable/entry/app.DPgxcsff.js",imports:["_app/immutable/entry/start.DANRx_A_.js","_app/immutable/chunks/DZokG6rw.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/BPLdtKPh.js","_app/immutable/chunks/DWPppJ2y.js","_app/immutable/chunks/DVPIqJZq.js","_app/immutable/entry/app.DPgxcsff.js","_app/immutable/chunks/Dp1pzeXC.js","_app/immutable/chunks/CirWT1vm.js","_app/immutable/chunks/DIeogL5L.js","_app/immutable/chunks/Bzak7iHL.js","_app/immutable/chunks/39fK5dpH.js","_app/immutable/chunks/Dn4D4y7S.js","_app/immutable/chunks/BnR7P2hC.js","_app/immutable/chunks/C4FjXvtf.js","_app/immutable/chunks/zUXBVMR_.js","_app/immutable/chunks/BFUbdx6v.js","_app/immutable/chunks/DWPppJ2y.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),

@@ -20,7 +20,7 @@ const config = {
 			strict: true
 		}),
 		paths: {
-			base: '/Divine-Nest/?'
+			base: '/Divine-Nest'
 		},
 		prerender: {
 			entries: ['*']
