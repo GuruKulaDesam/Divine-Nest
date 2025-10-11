@@ -1,7 +1,7 @@
 import "clsx";
 import { b as attr_class, a as ensure_array_like, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function TemplePage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let temples = [

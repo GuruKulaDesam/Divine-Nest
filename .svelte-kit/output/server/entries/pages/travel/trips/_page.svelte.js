@@ -2,7 +2,7 @@ import "clsx";
 import { a as ensure_array_like, b as attr_class, s as stringify, h as head } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import "../../../../chunks/database.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function TripHistoryPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let currentTab = "trips";

@@ -1,8 +1,10 @@
-import "clsx";
-import { a as ensure_array_like } from "../../../../chunks/index2.js";
+import { a as ensure_array_like, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import "../../../../chunks/runtime.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { b as base } from "../../../../chunks/server.js";
+import "@sveltejs/kit/internal/server";
+import { a as attr } from "../../../../chunks/attributes.js";
 function ExpensesPage($$renderer) {
   let filteredExpenses;
   let expenses = [
@@ -151,8 +153,15 @@ function ExpensesPage($$renderer) {
   }
   $$renderer.push(`<!--]-->`);
 }
-function _page($$renderer) {
-  ExpensesPage($$renderer);
+function _page($$renderer, $$props) {
+  $$renderer.component(($$renderer2) => {
+    ExpensesPage($$renderer2);
+    $$renderer2.push(`<!----> <div class="mt-6 flex flex-col gap-2"><a${attr("href", `${stringify(base)}/finances/expenses/parse-upi-sms`)} class="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200 transition">Try UPI SMS Parser Demo</a> <button class="inline-block bg-green-100 text-green-800 px-4 py-2 rounded hover:bg-green-200 transition">Import UPI SMS (Build History)</button></div> `);
+    {
+      $$renderer2.push("<!--[!-->");
+    }
+    $$renderer2.push(`<!--]-->`);
+  });
 }
 export {
   _page as default

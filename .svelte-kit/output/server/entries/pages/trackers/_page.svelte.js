@@ -4,7 +4,7 @@ import "../../../chunks/runtime.js";
 import "@sveltejs/kit/internal";
 import "../../../chunks/exports.js";
 import "../../../chunks/utils.js";
-import { T as escape_html } from "../../../chunks/context.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
 import "clsx";
 import "@sveltejs/kit/internal/server";
 import "../../../chunks/state.svelte.js";
@@ -213,7 +213,7 @@ function _page($$renderer, $$props) {
     const each_array = ensure_array_like(tier1Trackers);
     for (let index = 0, $$length = each_array.length; index < $$length; index++) {
       let tracker = each_array[index];
-      $$renderer2.push(`<div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md"><div class="absolute top-0 right-0 w-16 h-16 opacity-10 group-hover:opacity-20 transition-opacity duration-500 animate-spin-slow">`);
+      $$renderer2.push(`<div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md" role="button" tabindex="0"><div class="absolute top-0 right-0 w-16 h-16 opacity-10 group-hover:opacity-20 transition-opacity duration-500 animate-spin-slow">`);
       Icon($$renderer2, { icon: tracker.icon, class: "w-full h-full text-primary" });
       $$renderer2.push(`<!----></div> <div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(tracker.color.replace("from-", "from-").replace("to-", "to-"))}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`)}></div> <div class="relative"><div class="flex items-center justify-between mb-4"><div class="flex items-center space-x-3"><div${attr_class(`w-12 h-12 bg-gradient-to-br ${stringify(tracker.color)} rounded-xl flex items-center justify-center shadow-lg`)}>`);
       Icon($$renderer2, { icon: tracker.icon, class: "w-6 h-6 text-white" });
@@ -225,7 +225,7 @@ function _page($$renderer, $$props) {
     const each_array_1 = ensure_array_like(tier2Trackers);
     for (let index = 0, $$length = each_array_1.length; index < $$length; index++) {
       let tracker = each_array_1[index];
-      $$renderer2.push(`<div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md"><div class="absolute top-0 right-0 w-16 h-16 opacity-10 group-hover:opacity-20 transition-opacity duration-500 animate-spin-slow">`);
+      $$renderer2.push(`<div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md" role="button" tabindex="0"><div class="absolute top-0 right-0 w-16 h-16 opacity-10 group-hover:opacity-20 transition-opacity duration-500 animate-spin-slow">`);
       Icon($$renderer2, { icon: tracker.icon, class: "w-full h-full text-primary" });
       $$renderer2.push(`<!----></div> <div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(tracker.color.replace("from-", "from-").replace("to-", "to-"))}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl`)}></div> <div class="relative"><div class="flex items-center justify-between mb-4"><div class="flex items-center space-x-3"><div${attr_class(`w-12 h-12 bg-gradient-to-br ${stringify(tracker.color)} rounded-xl flex items-center justify-center shadow-lg`)}>`);
       Icon($$renderer2, { icon: tracker.icon, class: "w-6 h-6 text-white" });

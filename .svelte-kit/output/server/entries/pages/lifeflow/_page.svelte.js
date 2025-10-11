@@ -1,7 +1,8 @@
 import "clsx";
 import Dexie from "dexie";
-import { b as attr_class, d as attr, a as ensure_array_like, s as stringify } from "../../../chunks/index2.js";
-import { T as escape_html } from "../../../chunks/context.js";
+import { b as attr_class, a as ensure_array_like, s as stringify } from "../../../chunks/index2.js";
+import { a as attr } from "../../../chunks/attributes.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
 const lifeflowDB = new Dexie("LifeFlowDB");
 lifeflowDB.version(1).stores({
   // Emotional Health tracking

@@ -2,7 +2,7 @@ import "clsx";
 import { c as store_get, a as ensure_array_like, b as attr_class, s as stringify, u as unsubscribe_stores } from "../../../chunks/index2.js";
 import { p as page } from "../../../chunks/stores.js";
 import { I as Icon } from "../../../chunks/Icon.js";
-import { T as escape_html } from "../../../chunks/context.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
 function AssetsPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;

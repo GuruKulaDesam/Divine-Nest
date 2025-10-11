@@ -1,7 +1,8 @@
-import { U as getContext, T as escape_html } from "../../chunks/context.js";
+import { e as escape_html } from "../../chunks/escaping.js";
 import "clsx";
 import "../../chunks/state.svelte.js";
 import { s as stores } from "../../chunks/client.js";
+import { T as getContext } from "../../chunks/context.js";
 ({
   check: stores.updated.check
 });

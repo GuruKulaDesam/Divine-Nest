@@ -1,8 +1,8 @@
 import "clsx";
-import { a as ensure_array_like, s as stringify, b as attr_class, j as attr_style } from "../../../../chunks/index2.js";
+import { a as ensure_array_like, s as stringify, b as attr_class, f as attr_style } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import "../../../../chunks/runtime.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function BudgetPage($$renderer) {
   let budgets = [
     {

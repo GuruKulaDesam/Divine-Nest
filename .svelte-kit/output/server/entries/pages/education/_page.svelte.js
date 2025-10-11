@@ -1,8 +1,8 @@
-import { b as attr_class, j as attr_style, a as ensure_array_like, s as stringify, h as head } from "../../../chunks/index2.js";
+import { b as attr_class, f as attr_style, a as ensure_array_like, s as stringify, h as head } from "../../../chunks/index2.js";
 import { I as Icon } from "../../../chunks/Icon.js";
 import "../../../chunks/runtime.js";
 import "../../../chunks/education.js";
-import { T as escape_html } from "../../../chunks/context.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
 function EducationDashboard($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let stats = {};

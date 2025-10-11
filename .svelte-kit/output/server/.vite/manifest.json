@@ -6,7 +6,8 @@
     "isEntry": true,
     "imports": [
       "_internal.js",
-      "_environment.js"
+      "_environment.js",
+      "_server.js"
     ]
   },
   "_DirectoryDashboard.js": {
@@ -15,7 +16,8 @@
     "imports": [
       "_index2.js",
       "_database.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "_FestivalsPage.js": {
@@ -24,7 +26,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "_HouseholdPage.js": {
@@ -33,7 +36,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "_Icon.js": {
@@ -50,7 +54,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "_MealsPage.js": {
@@ -59,7 +64,7 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "_VendorsPage.js": {
@@ -80,7 +85,7 @@
     "imports": [
       "_index2.js",
       "_wellness.js",
-      "_context.js"
+      "_escaping.js"
     ],
     "css": [
       "_app/immutable/assets/WellnessDashboard.4Ek67Xpg.css"
@@ -92,6 +97,13 @@
     "imports": [
       "_index2.js",
       "_WellnessDashboard.js"
+    ]
+  },
+  "_attributes.js": {
+    "file": "chunks/attributes.js",
+    "name": "attributes",
+    "imports": [
+      "_escaping.js"
     ]
   },
   "_background.js": {
@@ -139,6 +151,10 @@
     "file": "chunks/environment.js",
     "name": "environment"
   },
+  "_escaping.js": {
+    "file": "chunks/escaping.js",
+    "name": "escaping"
+  },
   "_exports.js": {
     "file": "chunks/exports.js",
     "name": "exports"
@@ -163,7 +179,9 @@
     "file": "chunks/index2.js",
     "name": "index",
     "imports": [
-      "_context.js"
+      "_context.js",
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "_internal.js": {
@@ -173,7 +191,8 @@
       "_context.js",
       "_utils2.js",
       "_index2.js",
-      "_environment.js"
+      "_environment.js",
+      "_server.js"
     ]
   },
   "_reminders.js": {
@@ -193,6 +212,10 @@
     "imports": [
       "_index.js"
     ]
+  },
+  "_server.js": {
+    "file": "chunks/server.js",
+    "name": "server"
   },
   "_shared.js": {
     "file": "chunks/shared.js",
@@ -246,6 +269,7 @@
       "_shared.js",
       "_utils2.js",
       "_false.js",
+      "_server.js",
       "_environment.js"
     ]
   },
@@ -255,9 +279,10 @@
     "src": "node_modules/@sveltejs/kit/src/runtime/components/svelte-5/error.svelte",
     "isEntry": true,
     "imports": [
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js",
-      "_client.js"
+      "_client.js",
+      "_context.js"
     ]
   },
   "node_modules/@sveltejs/kit/src/runtime/server/index.js": {
@@ -267,7 +292,7 @@
     "isEntry": true,
     "imports": [
       "_false.js",
-      "_environment.js",
+      "_server.js",
       "_exports.js",
       "_utils.js",
       "_index.js",
@@ -317,11 +342,12 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js",
       "_stores.js",
       "_theme.js",
-      "_background.js"
+      "_background.js",
+      "_attributes.js"
     ],
     "dynamicImports": [
       "src/lib/i18n/locales/en.json",
@@ -330,7 +356,7 @@
       "src/lib/i18n/locales/ko.json"
     ],
     "css": [
-      "_app/immutable/assets/_layout.2S1HXM5-.css"
+      "_app/immutable/assets/_layout.BcpTW3_V.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -351,7 +377,7 @@
       "_index2.js",
       "_stores.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/assets/documents/+page.svelte": {
@@ -362,7 +388,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/assets/household/+page.svelte": {
@@ -383,7 +410,8 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/assets/items/+page.svelte": {
@@ -394,7 +422,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/assets/maintenance/+page.svelte": {
@@ -414,7 +443,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/assets/vehicles/+page.svelte": {
@@ -426,7 +456,7 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/assistant/+page.svelte": {
@@ -437,7 +467,7 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/assistant/ambient-log/+page.svelte": {
@@ -448,7 +478,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/assistant/auto-checklist/+page.svelte": {
@@ -459,7 +490,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/assistant/event-feed/+page.svelte": {
@@ -470,7 +502,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/assistant/shivo-ai/+page.svelte": {
@@ -483,7 +516,7 @@
       "_Icon.js",
       "_reminders.js",
       "_utils2.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/assistant/shivo-ai/agentic/+page.svelte": {
@@ -496,7 +529,7 @@
       "_Icon.js",
       "_index.js",
       "_reminders.js",
-      "_context.js"
+      "_escaping.js"
     ],
     "dynamicImports": [
       "src/lib/ai/musicgen.ts"
@@ -513,7 +546,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/assistant/task-board/+page.svelte": {
@@ -524,7 +558,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/assistant/voice-log/+page.svelte": {
@@ -535,7 +570,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/culture/+page.svelte": {
@@ -560,7 +596,7 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js"
     ],
     "css": [
@@ -576,7 +612,7 @@
       "_index2.js",
       "_Icon.js",
       "_rituals.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/culture/festival-foods/+page.svelte": {
@@ -598,9 +634,10 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
       "_index.js",
-      "_context.js"
+      "_escaping.js"
     ],
     "css": [
       "_app/immutable/assets/_page.L4W1o_gJ.css"
@@ -631,7 +668,7 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js"
     ],
     "css": [
@@ -648,7 +685,7 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js"
     ],
     "css": [
@@ -665,7 +702,7 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js"
     ],
     "css": [
@@ -682,7 +719,7 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js"
     ],
     "css": [
@@ -704,6 +741,18 @@
     "src": "src/routes/divinity/+page.svelte",
     "isEntry": true
   },
+  "src/routes/divinity/drikpanchangam/+page.svelte": {
+    "file": "entries/pages/divinity/drikpanchangam/_page.svelte.js",
+    "name": "entries/pages/divinity/drikpanchangam/_page.svelte",
+    "src": "src/routes/divinity/drikpanchangam/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js",
+      "_Icon.js",
+      "_escaping.js",
+      "_attributes.js"
+    ]
+  },
   "src/routes/divinity/mantras/+page.svelte": {
     "file": "entries/pages/divinity/mantras/_page.svelte.js",
     "name": "entries/pages/divinity/mantras/_page.svelte",
@@ -713,7 +762,8 @@
       "_index2.js",
       "_Icon.js",
       "_wellness.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/divinity/panchangam/+page.svelte": {
@@ -722,9 +772,8 @@
     "src": "src/routes/divinity/panchangam/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_index2.js",
-      "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/divinity/rituals/+page.svelte": {
@@ -735,7 +784,7 @@
     "imports": [
       "_index2.js",
       "_rituals.js",
-      "_context.js"
+      "_escaping.js"
     ],
     "css": [
       "_app/immutable/assets/_page.DZMMsx54.css"
@@ -749,7 +798,7 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/education/+page.svelte": {
@@ -762,7 +811,7 @@
       "_Icon.js",
       "_runtime.js",
       "_education.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/education/achievements/+page.svelte": {
@@ -773,7 +822,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/archive/+page.svelte": {
@@ -784,7 +834,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/education/assessment/+page.svelte": {
@@ -795,7 +846,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/courses/+page.svelte": {
@@ -806,7 +858,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/curriculum/+page.svelte": {
@@ -817,7 +870,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/grades-tracker/+page.svelte": {
@@ -827,7 +881,7 @@
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/education/learning-goals/+page.svelte": {
@@ -839,7 +893,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/library/+page.svelte": {
@@ -850,7 +905,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/mentors/+page.svelte": {
@@ -861,7 +917,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/education/planner/+page.svelte": {
@@ -872,7 +929,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/quiz/+page.svelte": {
@@ -883,7 +941,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/students/+page.svelte": {
@@ -894,7 +953,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/education/studies/+page.svelte": {
@@ -906,7 +966,8 @@
       "_index2.js",
       "_Icon.js",
       "_education.js",
-      "_context.js",
+      "_escaping.js",
+      "_attributes.js",
       "_database.js"
     ]
   },
@@ -919,7 +980,8 @@
       "_index2.js",
       "_utils2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/expenses/+page.svelte": {
@@ -930,7 +992,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/finances/+page.svelte": {
@@ -942,11 +1005,12 @@
       "_index2.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js",
       "_Icon.js",
       "_utils2.js",
-      "_theme.js"
+      "_theme.js",
+      "_attributes.js"
     ],
     "css": [
       "_app/immutable/assets/_page.BwKCHQUH.css"
@@ -961,7 +1025,7 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/finances/expenses/+page.svelte": {
@@ -973,7 +1037,9 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js",
+      "_server.js",
+      "_attributes.js"
     ]
   },
   "src/routes/finances/expenses/emotional/+page.svelte": {
@@ -987,8 +1053,9 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/finances/expenses/forecasting/+page.svelte": {
@@ -1002,8 +1069,9 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/finances/expenses/goals/+page.svelte": {
@@ -1017,8 +1085,9 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/finances/expenses/ledger/+page.svelte": {
@@ -1032,8 +1101,21 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
+    ]
+  },
+  "src/routes/finances/expenses/parse-upi-sms/+page.svelte": {
+    "file": "entries/pages/finances/expenses/parse-upi-sms/_page.svelte.js",
+    "name": "entries/pages/finances/expenses/parse-upi-sms/_page.svelte",
+    "src": "src/routes/finances/expenses/parse-upi-sms/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_escaping.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.zRro53t8.css"
     ]
   },
   "src/routes/finances/insurance/+page.svelte": {
@@ -1045,7 +1127,7 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/finances/investments/+page.svelte": {
@@ -1057,7 +1139,7 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/finances/loans/+page.svelte": {
@@ -1071,8 +1153,9 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/finances/recharges/+page.svelte": {
@@ -1084,7 +1167,7 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/food/+page.svelte": {
@@ -1102,7 +1185,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/food/kitchen/+page.svelte": {
@@ -1122,7 +1206,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/food/kitchen/dashboard/+page.svelte": {
@@ -1135,7 +1220,8 @@
       "_stores.js",
       "_Icon.js",
       "_utils2.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/food/kitchen/festivals/+page.svelte": {
@@ -1155,7 +1241,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/food/kitchen/kids/+page.svelte": {
@@ -1166,7 +1253,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/food/kitchen/meals/+page.svelte": {
@@ -1215,7 +1303,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/food/recipes/+page.svelte": {
@@ -1226,7 +1315,9 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_server.js",
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/food/recipes/traditional/+page.svelte": {
@@ -1239,8 +1330,9 @@
       "_Icon.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ],
     "css": [
       "_app/immutable/assets/_page.DPOKll8r.css"
@@ -1254,7 +1346,7 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/health/beauty-guide/+page.svelte": {
@@ -1265,7 +1357,7 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/health/hobbies-activities/+page.svelte": {
@@ -1276,7 +1368,7 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/health/journal/+page.svelte": {
@@ -1287,7 +1379,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ],
     "css": [
       "_app/immutable/assets/_page.CzNKTyJp.css"
@@ -1303,8 +1396,9 @@
       "_Icon.js",
       "_index.js",
       "_utils2.js",
-      "_context.js",
-      "_rituals.js"
+      "_escaping.js",
+      "_rituals.js",
+      "_attributes.js"
     ]
   },
   "src/routes/health/wellness-kitchen/+page.svelte": {
@@ -1334,7 +1428,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/home/+page.svelte": {
@@ -1346,7 +1440,7 @@
       "_index2.js",
       "_database.js",
       "_home.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/home/checklist/+page.svelte": {
@@ -1360,8 +1454,9 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/home/contacts/+page.svelte": {
@@ -1374,7 +1469,8 @@
       "_stores.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/home/contacts/directory/+page.svelte": {
@@ -1385,7 +1481,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/home/contacts/emergency/+page.svelte": {
@@ -1396,7 +1493,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/home/contacts/vendors/+page.svelte": {
@@ -1416,7 +1514,8 @@
     "imports": [
       "_index2.js",
       "_dexie-db.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ],
     "css": [
       "_app/immutable/assets/_page.DT6Wqh4O.css"
@@ -1430,7 +1529,8 @@
     "imports": [
       "_index2.js",
       "_dexie-db.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ],
     "css": [
       "_app/immutable/assets/_page.CY8MitOF.css"
@@ -1444,7 +1544,7 @@
     "imports": [
       "_index2.js",
       "_home.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/home/household/+page.svelte": {
@@ -1455,7 +1555,9 @@
     "imports": [
       "_index2.js",
       "_home.js",
-      "_context.js"
+      "_server.js",
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/home/members/+page.svelte": {
@@ -1467,7 +1569,8 @@
       "_index2.js",
       "_Icon.js",
       "_index.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/home/reminders/+page.svelte": {
@@ -1479,7 +1582,8 @@
       "_index2.js",
       "_dexie-db.js",
       "_index.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ],
     "css": [
       "_app/immutable/assets/_page.ThXpEWQE.css"
@@ -1494,7 +1598,8 @@
       "_index2.js",
       "_runtime.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ],
     "css": [
       "_app/immutable/assets/_page.snBpB0je.css"
@@ -1511,8 +1616,9 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/inventory/+page.svelte": {
@@ -1524,7 +1630,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/issues/+page.svelte": {
@@ -1548,7 +1655,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/issues/maintenance/+page.svelte": {
@@ -1570,7 +1677,8 @@
       "_Icon.js",
       "_runtime.js",
       "_utils2.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/issues/projects/gantt/+page.svelte": {
@@ -1582,6 +1690,8 @@
       "_index2.js",
       "_context.js",
       "_index.js",
+      "_escaping.js",
+      "_attributes.js",
       "_Icon.js"
     ],
     "css": [
@@ -1597,7 +1707,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/issues/requests/+page.svelte": {
@@ -1609,7 +1720,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/issues/upgrades/+page.svelte": {
@@ -1621,7 +1732,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/issues/urgent/+page.svelte": {
@@ -1633,7 +1745,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/library/+page.svelte": {
@@ -1645,7 +1758,8 @@
       "_index2.js",
       "_Icon.js",
       "_education.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/lifeflow/+page.svelte": {
@@ -1655,7 +1769,8 @@
     "isEntry": true,
     "imports": [
       "_index2.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/meals/+page.svelte": {
@@ -1667,7 +1782,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/members/+page.svelte": {
@@ -1679,7 +1794,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/memories/+page.svelte": {
@@ -1696,7 +1811,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/memories/family-governance/+page.svelte": {
@@ -1708,7 +1824,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/memories/family-stories/+page.svelte": {
@@ -1720,7 +1836,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/memories/legacy/+page.svelte": {
@@ -1731,7 +1847,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/memories/lifeflow/+page.svelte": {
@@ -1742,7 +1859,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/pantry/+page.svelte": {
@@ -1754,7 +1872,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/property/+page.svelte": {
@@ -1765,7 +1884,7 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/recipes/+page.svelte": {
@@ -1777,7 +1896,8 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_attributes.js",
+      "_escaping.js"
     ]
   },
   "src/routes/settings/+page.svelte": {
@@ -1791,7 +1911,8 @@
       "_runtime.js",
       "_theme.js",
       "_background.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ],
     "css": [
       "_app/immutable/assets/_page.CmreTHpQ.css"
@@ -1806,10 +1927,11 @@
       "_index2.js",
       "_Icon.js",
       "_index.js",
+      "_attributes.js",
       "_charts.js",
       "_utils2.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/settings/analytics/charts/+page.svelte": {
@@ -1822,7 +1944,8 @@
       "_Icon.js",
       "_runtime.js",
       "_charts.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/study-plans/+page.svelte": {
@@ -1834,7 +1957,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/todo/+page.svelte": {
@@ -1859,7 +1982,7 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
-      "_context.js",
+      "_escaping.js",
       "_state.svelte.js"
     ]
   },
@@ -1875,7 +1998,8 @@
       "_stores.js",
       "_client.js",
       "_index.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/travel/+page.svelte": {
@@ -1887,7 +2011,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/travel/checklist/+page.svelte": {
@@ -1901,8 +2025,9 @@
       "_runtime.js",
       "_exports.js",
       "_utils.js",
+      "_attributes.js",
       "_state.svelte.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/travel/community/+page.svelte": {
@@ -1913,7 +2038,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/travel/leisure/+page.svelte": {
@@ -1924,7 +2050,8 @@
     "imports": [
       "_index2.js",
       "_Icon.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ]
   },
   "src/routes/travel/maps/+page.svelte": {
@@ -1936,7 +2063,8 @@
       "_index2.js",
       "_Icon.js",
       "_runtime.js",
-      "_context.js"
+      "_escaping.js",
+      "_attributes.js"
     ],
     "css": [
       "_app/immutable/assets/_page.DqP25eMc.css"
@@ -1951,7 +2079,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/vehicles/+page.svelte": {
@@ -1963,7 +2091,7 @@
       "_index2.js",
       "_Icon.js",
       "_database.js",
-      "_context.js"
+      "_escaping.js"
     ]
   },
   "src/routes/wellness/+page.svelte": {

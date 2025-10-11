@@ -1,13 +1,14 @@
 import "clsx";
-import { a as ensure_array_like, b as attr_class, d as attr, j as attr_style, s as stringify, c as store_get, u as unsubscribe_stores, l as store_set } from "../../../../chunks/index2.js";
+import { a as ensure_array_like, b as attr_class, f as attr_style, s as stringify, c as store_get, u as unsubscribe_stores, j as store_set } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import "@sveltejs/kit/internal";
 import "../../../../chunks/exports.js";
 import "../../../../chunks/utils.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 import "@sveltejs/kit/internal/server";
 import "../../../../chunks/state.svelte.js";
 import { w as writable } from "../../../../chunks/index.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 const initialState = {
   currentPattern: null,
   strokes: [],
@@ -173,7 +174,7 @@ function SampleGallery($$renderer, $$props) {
     const each_array = ensure_array_like(filteredPatterns);
     for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
       let pattern = each_array[$$index];
-      $$renderer2.push(`<button class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer text-left w-full" role="button" tabindex="0"><div class="flex items-start justify-between mb-2"><div><h4 class="font-medium text-gray-900">${escape_html(pattern.name)}</h4> <p class="text-sm text-gray-600">${escape_html(pattern.tamilName)}</p></div> <span${attr_class(`px-2 py-1 rounded-full text-xs font-medium ${stringify(getDifficultyColor(pattern.difficulty))}`)}>${escape_html(pattern.difficulty)}</span></div> <div class="w-full h-24 bg-gray-50 rounded border flex items-center justify-center mb-2"><div class="text-center text-gray-400">`);
+      $$renderer2.push(`<button class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer text-left w-full" tabindex="0"><div class="flex items-start justify-between mb-2"><div><h4 class="font-medium text-gray-900">${escape_html(pattern.name)}</h4> <p class="text-sm text-gray-600">${escape_html(pattern.tamilName)}</p></div> <span${attr_class(`px-2 py-1 rounded-full text-xs font-medium ${stringify(getDifficultyColor(pattern.difficulty))}`)}>${escape_html(pattern.difficulty)}</span></div> <div class="w-full h-24 bg-gray-50 rounded border flex items-center justify-center mb-2"><div class="text-center text-gray-400">`);
       Icon($$renderer2, { icon: "heroicons:photo", class: "w-8 h-8 mx-auto mb-1" });
       $$renderer2.push(`<!----> <div class="text-xs">Pattern Preview</div></div></div> <div class="flex items-center justify-between text-xs text-gray-500"><span>${escape_html(pattern.strokes)} strokes</span> <span>${escape_html(pattern.category)}</span></div> `);
       if (store_get($$store_subs ??= {}, "$kolamStore", kolamStore).currentPattern?.id === pattern.id) {

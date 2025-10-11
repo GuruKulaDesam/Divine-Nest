@@ -1,9 +1,10 @@
 import "clsx";
-import { b as attr_class, a as ensure_array_like, j as attr_style, s as stringify, g as clsx, k as bind_props, c as store_get, u as unsubscribe_stores } from "../../../../../chunks/index2.js";
+import { b as attr_class, a as ensure_array_like, f as attr_style, s as stringify, g as bind_props, c as store_get, u as unsubscribe_stores } from "../../../../../chunks/index2.js";
 import { p as page } from "../../../../../chunks/stores.js";
 import { I as Icon } from "../../../../../chunks/Icon.js";
 import { f as fallback } from "../../../../../chunks/utils2.js";
-import { T as escape_html } from "../../../../../chunks/context.js";
+import { e as escape_html } from "../../../../../chunks/escaping.js";
+import { c as clsx } from "../../../../../chunks/attributes.js";
 const PantryCategories = {
   staples: {
     name: "Staples",

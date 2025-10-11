@@ -1,5 +1,5 @@
 import "clsx";
-import { h as head, c as store_get, b as attr_class, a as ensure_array_like, s as stringify, u as unsubscribe_stores, j as attr_style, d as attr } from "../../../../chunks/index2.js";
+import { h as head, c as store_get, b as attr_class, a as ensure_array_like, s as stringify, u as unsubscribe_stores, f as attr_style } from "../../../../chunks/index2.js";
 import { a as $format } from "../../../../chunks/runtime.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -7,7 +7,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 function SchedulePage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;

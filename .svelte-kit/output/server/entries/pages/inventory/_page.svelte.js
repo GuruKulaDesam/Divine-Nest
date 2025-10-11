@@ -1,7 +1,8 @@
-import { b as attr_class, d as attr, a as ensure_array_like, s as stringify } from "../../../chunks/index2.js";
+import { b as attr_class, a as ensure_array_like, s as stringify } from "../../../chunks/index2.js";
 import { I as Icon } from "../../../chunks/Icon.js";
 import "../../../chunks/database.js";
-import { T as escape_html } from "../../../chunks/context.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
+import { a as attr } from "../../../chunks/attributes.js";
 function _page($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let currentTab = "kitchen";

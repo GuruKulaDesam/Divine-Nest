@@ -1,6 +1,6 @@
 import "clsx";
-import { b as attr_class, d as attr, k as bind_props, g as clsx, j as attr_style, s as stringify, a as ensure_array_like, h as head, c as store_get, u as unsubscribe_stores, n as spread_props } from "../../../../../chunks/index2.js";
-import { T as escape_html, U as getContext, S as setContext } from "../../../../../chunks/context.js";
+import { b as attr_class, g as bind_props, f as attr_style, s as stringify, a as ensure_array_like, h as head, c as store_get, u as unsubscribe_stores, l as spread_props } from "../../../../../chunks/index2.js";
+import { T as getContext, S as setContext } from "../../../../../chunks/context.js";
 import { w as writable } from "../../../../../chunks/index.js";
 import { uid, locale, getDuodecade, dateToString, setEnv } from "@svar-ui/lib-dom";
 import { en } from "@svar-ui/core-locales";
@@ -9,7 +9,9 @@ import { en as en$2 } from "@svar-ui/gantt-locales";
 import { EventBusRouter } from "@svar-ui/lib-state";
 import { normalizeDates, grid, defaultTaskTypes, defaultColumns, DataStore as DataStore$1 } from "@svar-ui/gantt-store";
 import { getRenderValue, getValue, isCommunity, getPrintCellStyle, getPrintFilterValue, getHeaderFooterPrintColumns, getPrintColumns, DataStore } from "@svar-ui/grid-store";
+import { e as escape_html } from "../../../../../chunks/escaping.js";
 import { en as en$1 } from "@svar-ui/grid-locales";
+import { a as attr, c as clsx } from "../../../../../chunks/attributes.js";
 import { h as html, o as onDestroy, I as Icon$1 } from "../../../../../chunks/Icon.js";
 import { format } from "date-fns";
 function TextArea($$renderer, $$props) {

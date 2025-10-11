@@ -1,7 +1,8 @@
 import "clsx";
-import { a as ensure_array_like, j as attr_style, s as stringify, b as attr_class, d as attr } from "../../../../chunks/index2.js";
+import { a as ensure_array_like, f as attr_style, s as stringify, b as attr_class } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 function LibraryPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let filteredBooks;

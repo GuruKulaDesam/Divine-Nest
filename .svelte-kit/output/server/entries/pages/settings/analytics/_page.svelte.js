@@ -1,8 +1,9 @@
 import "clsx";
-import { b as attr_class, k as bind_props, s as stringify, c as store_get, m as attributes, a as ensure_array_like, d as attr, u as unsubscribe_stores } from "../../../../chunks/index2.js";
+import { b as attr_class, g as bind_props, s as stringify, c as store_get, k as attributes, a as ensure_array_like, u as unsubscribe_stores } from "../../../../chunks/index2.js";
 import { o as onDestroy, t as tick, I as Icon } from "../../../../chunks/Icon.js";
 import "dequal";
 import { d as derived, g as get, w as writable, r as readable } from "../../../../chunks/index.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 import { getLocalTimeZone, CalendarDateTime, CalendarDate, ZonedDateTime, parseZonedDateTime, parseDateTime, parseDate, toCalendar, getDayOfWeek, DateFormatter, startOfMonth, endOfMonth, isSameMonth, isSameDay, isToday } from "@internationalized/date";
 import { nanoid } from "nanoid/non-secure";
 import { flip, offset, shift, arrow, size, autoUpdate, computePosition } from "@floating-ui/dom";
@@ -11,7 +12,7 @@ import { Chart, registerables } from "chart.js";
 import { c as chartColors, s as sampleData } from "../../../../chunks/charts.js";
 import { f as fallback } from "../../../../chunks/utils2.js";
 import { a as $format } from "../../../../chunks/runtime.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function chunk(arr, size2) {
   const result = [];
   for (let i = 0; i < arr.length; i += size2) {

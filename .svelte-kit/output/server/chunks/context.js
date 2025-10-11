@@ -1595,22 +1595,6 @@ const STATUS_MASK = -7169;
 function set_signal_status(signal, status) {
   signal.f = signal.f & STATUS_MASK | status;
 }
-const ATTR_REGEX = /[&"<]/g;
-const CONTENT_REGEX = /[&<]/g;
-function escape_html(value, is_attr) {
-  const str = String(value ?? "");
-  const pattern = is_attr ? ATTR_REGEX : CONTENT_REGEX;
-  pattern.lastIndex = 0;
-  let escaped = "";
-  let last = 0;
-  while (pattern.test(str)) {
-    const i = pattern.lastIndex - 1;
-    const ch = str[i];
-    escaped += str.substring(last, i) + (ch === "&" ? "&amp;" : ch === '"' ? "&quot;" : "&lt;");
-    last = i + 1;
-  }
-  return escaped + str.substring(last);
-}
 function subscribe_to_store(store, run, invalidate) {
   if (store == null) {
     run(void 0);
@@ -1667,7 +1651,7 @@ function get_parent_context(ssr_context2) {
   return null;
 }
 export {
-  pop as $,
+  ELEMENT_PRESERVE_ATTRIBUTE_CASE as $,
   EFFECT_PRESERVED as A,
   Batch as B,
   COMMENT_NODE as C,
@@ -1687,18 +1671,17 @@ export {
   flushSync as Q,
   mutable_source as R,
   setContext as S,
-  escape_html as T,
-  getContext as U,
-  safe_not_equal as V,
-  subscribe_to_store as W,
-  STALE_REACTION as X,
-  set_ssr_context as Y,
-  ssr_context as Z,
-  push as _,
+  getContext as T,
+  safe_not_equal as U,
+  subscribe_to_store as V,
+  STALE_REACTION as W,
+  set_ssr_context as X,
+  ssr_context as Y,
+  push as Z,
+  pop as _,
   HYDRATION_END as a,
-  ELEMENT_PRESERVE_ATTRIBUTE_CASE as a0,
-  ELEMENT_IS_INPUT as a1,
-  ELEMENT_IS_NAMESPACED as a2,
+  ELEMENT_IS_INPUT as a0,
+  ELEMENT_IS_NAMESPACED as a1,
   HYDRATION_START as b,
   HYDRATION_START_ELSE as c,
   get as d,

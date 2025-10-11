@@ -1,17 +1,18 @@
-import { a as ensure_array_like, b as attr_class, s as stringify, c as store_get, u as unsubscribe_stores, d as attr, f as slot } from "../../chunks/index2.js";
+import { a as ensure_array_like, b as attr_class, s as stringify, c as store_get, u as unsubscribe_stores, d as slot } from "../../chunks/index2.js";
 import { w as writable } from "../../chunks/index.js";
 import { $ as $locale, r as registerLocaleLoader, i as init, w as waitLocale } from "../../chunks/runtime.js";
 import { I as Icon } from "../../chunks/Icon.js";
 import "@sveltejs/kit/internal";
 import "../../chunks/exports.js";
 import "../../chunks/utils.js";
-import { T as escape_html } from "../../chunks/context.js";
+import { e as escape_html } from "../../chunks/escaping.js";
 import "clsx";
 import "@sveltejs/kit/internal/server";
 import "../../chunks/state.svelte.js";
 import { p as page } from "../../chunks/stores.js";
 import { t as theme, a as themeActions } from "../../chunks/theme.js";
 import { b as background, a as backgroundActions } from "../../chunks/background.js";
+import { a as attr } from "../../chunks/attributes.js";
 const languages = {
   en: {
     name: "English",
@@ -156,6 +157,7 @@ function LeftTileBar($$renderer, $$props) {
         routes: [
           "/divinity",
           "/divinity/panchangam",
+          "/divinity/drikpanchangam",
           "/divinity/rituals",
           "/divinity/temple",
           "/divinity/mantras"
@@ -166,6 +168,11 @@ function LeftTileBar($$renderer, $$props) {
             label: "Panchangam",
             path: "/divinity/panchangam",
             icon: "heroicons:sun"
+          },
+          {
+            label: "திரிக் பஞ்சாங்கம்",
+            path: "/divinity/drikpanchangam",
+            icon: "heroicons:calendar-days"
           },
           {
             label: "Rituals",
@@ -721,48 +728,26 @@ function TopNavigationBar($$renderer, $$props) {
     var $$store_subs;
     const requestCategories = [
       {
-        id: "urgents",
-        title: "Urgents",
+        id: "issues",
+        title: "Issues",
         icon: "heroicons:exclamation-triangle",
         color: "from-red-500 to-red-600",
         borderColor: "border-red-400",
         bgColor: "bg-red-50 dark:bg-red-900/20",
         textColor: "text-red-700 dark:text-red-300",
-        metric: "3",
-        path: "/issues/urgent"
+        metric: "10",
+        path: "/issues"
       },
       {
-        id: "repairs",
-        title: "Repairs",
-        icon: "heroicons:wrench-screwdriver",
-        color: "from-orange-500 to-orange-600",
-        borderColor: "border-orange-400",
-        bgColor: "bg-orange-50 dark:bg-orange-900/20",
-        textColor: "text-orange-700 dark:text-orange-300",
-        metric: "7",
-        path: "/issues/repairs"
-      },
-      {
-        id: "inventory",
-        title: "Inventory",
-        icon: "heroicons:archive-box",
-        color: "from-yellow-500 to-yellow-600",
-        borderColor: "border-yellow-400",
-        bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
-        textColor: "text-yellow-700 dark:text-yellow-300",
-        metric: "8",
-        path: "/inventory"
-      },
-      {
-        id: "maintenance",
-        title: "Maintenance",
+        id: "requests",
+        title: "Requests",
         icon: "heroicons:cog-6-tooth",
         color: "from-blue-500 to-blue-600",
         borderColor: "border-blue-400",
         bgColor: "bg-blue-50 dark:bg-blue-900/20",
         textColor: "text-blue-700 dark:text-blue-300",
-        metric: "12",
-        path: "/issues/maintenance"
+        metric: "17",
+        path: "/issues/requests"
       },
       {
         id: "expenses",
@@ -829,35 +814,13 @@ function TopNavigationBar($$renderer, $$props) {
         textColor: "text-pink-700 dark:text-pink-300",
         metric: "6",
         path: "/home/family-calendar-modern"
-      },
-      {
-        id: "upgrades",
-        title: "Upgrades",
-        icon: "heroicons:arrow-trending-up",
-        color: "from-green-500 to-green-600",
-        borderColor: "border-green-400",
-        bgColor: "bg-green-50 dark:bg-green-900/20",
-        textColor: "text-green-700 dark:text-green-300",
-        metric: "5",
-        path: "/issues/upgrades"
-      },
-      {
-        id: "assets",
-        title: "Assets",
-        icon: "heroicons:building-office",
-        color: "from-amber-500 to-amber-600",
-        borderColor: "border-amber-400",
-        bgColor: "bg-amber-50 dark:bg-amber-900/20",
-        textColor: "text-amber-700 dark:text-amber-300",
-        metric: "₹2.5L",
-        path: "/assets"
       }
     ];
-    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-white/10 dark:bg-gray-900/20 border-b border-white/20 dark:border-gray-700/30 z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/5 via-transparent to-white/5 svelte-1qkqwru"><div class="flex flex-col items-center space-y-2 flex-shrink-0 svelte-1qkqwru"><div class="relative flex items-center justify-center w-28 h-16 overflow-hidden shadow-lg rounded-lg svelte-1qkqwru" style="clip-path: polygon(50% 0%, 55% 15%, 70% 5%, 75% 25%, 90% 15%, 95% 35%, 100% 25%, 90% 45%, 100% 55%, 85% 65%, 95% 75%, 75% 85%, 85% 95%, 65% 90%, 50% 100%, 35% 90%, 15% 95%, 25% 85%, 5% 75%, 15% 65%, 0% 55%, 10% 45%, 0% 25%, 5% 35%, 10% 15%, 25% 25%, 30% 5%, 45% 15%);"><div class="absolute inset-0 bg-gradient-to-br from-pink-300 via-pink-400 to-pink-500 rounded-lg svelte-1qkqwru"></div> <div class="absolute inset-0 bg-gradient-to-t from-pink-600/60 via-transparent to-pink-200/40 svelte-1qkqwru"></div> <span class="text-sm font-bold text-white leading-tight relative z-10 drop-shadow-lg svelte-1qkqwru" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(255,255,255,0.4); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்வழி</span></div> <div class="flex flex-col items-center text-center svelte-1qkqwru"><span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">Home Maker</span></div></div> <div class="flex-1 flex justify-center mx-6 svelte-1qkqwru"><div class="grid grid-cols-12 grid-rows-1 gap-2 max-w-full svelte-1qkqwru"><!--[-->`);
+    $$renderer2.push(`<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-white/10 dark:bg-gray-900/20 border-b border-white/20 dark:border-gray-700/30 z-50 svelte-1qkqwru"><div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/5 via-transparent to-white/5 svelte-1qkqwru"><div class="flex flex-col items-center space-y-2 flex-shrink-0 svelte-1qkqwru"><div class="relative flex items-center justify-center w-28 h-16 overflow-hidden shadow-lg rounded-lg svelte-1qkqwru" style="clip-path: polygon(50% 0%, 55% 15%, 70% 5%, 75% 25%, 90% 15%, 95% 35%, 100% 25%, 90% 45%, 100% 55%, 85% 65%, 95% 75%, 75% 85%, 85% 95%, 65% 90%, 50% 100%, 35% 90%, 15% 95%, 25% 85%, 5% 75%, 15% 65%, 0% 55%, 10% 45%, 0% 25%, 5% 35%, 10% 15%, 25% 25%, 30% 5%, 45% 15%);"><div class="absolute inset-0 bg-gradient-to-br from-pink-300 via-pink-400 to-pink-500 rounded-lg svelte-1qkqwru"></div> <div class="absolute inset-0 bg-gradient-to-t from-pink-600/60 via-transparent to-pink-200/40 svelte-1qkqwru"></div> <span class="text-sm font-bold text-white leading-tight relative z-10 drop-shadow-lg svelte-1qkqwru" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(255,255,255,0.4); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்வழி</span></div> <div class="flex flex-col items-center text-center svelte-1qkqwru"><span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">தமிழச்சி இல்லம்</span> <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80 svelte-1qkqwru">Home Maker</span></div></div> <div class="flex-1 flex justify-center mx-6 svelte-1qkqwru"><div class="flex justify-center gap-4 max-w-full svelte-1qkqwru"><!--[-->`);
     const each_array = ensure_array_like(requestCategories);
     for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
       let category = each_array[$$index];
-      $$renderer2.push(`<button type="button"${attr_class(`group relative bg-transparent border border-dashed ${stringify(category.borderColor)} rounded-lg pt-2.5 pb-3 px-2 aspect-square cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-0.5 hover:rotate-1 flex flex-col items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2`, "svelte-1qkqwru")}><div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(category.color)} opacity-0 group-hover:opacity-20 rounded-md transition-all duration-300 group-hover:animate-pulse`, "svelte-1qkqwru")}></div> <div class="relative z-10 flex flex-col items-center justify-center h-full text-center w-full svelte-1qkqwru"><div class="mb-2 svelte-1qkqwru"><div class="bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-full shadow-sm transition-all duration-300 svelte-1qkqwru"><span${attr_class(`text-[19.8px] font-sans font-bold ${stringify(category.textColor)} group-hover:scale-110 transition-transform duration-300`, "svelte-1qkqwru")} style="font-family: 'Segoe UI', 'Helvetica Neue', 'DIN Alternate', sans-serif;">${escape_html(category.metric)}</span></div></div> <div class="mt-2 svelte-1qkqwru"><span class="font-medium text-gray-900 dark:text-white text-xs leading-tight block transition-colors duration-300 svelte-1qkqwru">${escape_html(category.title)}</span></div></div> <div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(category.color)} opacity-0 group-active:opacity-30 rounded-lg transition-opacity duration-150 pointer-events-none`, "svelte-1qkqwru")}></div></button>`);
+      $$renderer2.push(`<button type="button" class="group relative bg-transparent border border-white/30 dark:border-gray-600/50 rounded-lg pt-2.5 pb-3 px-2 aspect-square cursor-pointer transition-all duration-300 hover:scale-105 flex flex-col items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 svelte-1qkqwru"><div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(category.color)} opacity-0 group-hover:opacity-20 rounded-md transition-all duration-300 group-hover:animate-pulse`, "svelte-1qkqwru")}></div> <div class="relative z-10 flex flex-col items-center justify-center h-full text-center w-full svelte-1qkqwru"><div class="mb-2 svelte-1qkqwru"><div class="bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-full transition-all duration-300 svelte-1qkqwru"><span${attr_class(`text-[19.8px] font-sans font-bold ${stringify(category.textColor)} group-hover:scale-110 transition-transform duration-300`, "svelte-1qkqwru")} style="font-family: 'Segoe UI', 'Helvetica Neue', 'DIN Alternate', sans-serif;">${escape_html(category.metric)}</span></div></div> <div class="mt-2 svelte-1qkqwru"><span class="font-medium text-gray-900 dark:text-white text-xs leading-tight block transition-colors duration-300 svelte-1qkqwru">${escape_html(category.title)}</span></div></div> <div${attr_class(`absolute inset-0 bg-gradient-to-br ${stringify(category.color)} opacity-0 group-active:opacity-30 rounded-lg transition-opacity duration-150 pointer-events-none`, "svelte-1qkqwru")}></div></button>`);
     }
     $$renderer2.push(`<!--]--></div></div> <div class="flex items-center flex-shrink-0 svelte-1qkqwru"><div class="relative group svelte-1qkqwru"><button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm svelte-1qkqwru" title="Menu">`);
     Icon($$renderer2, {
@@ -914,592 +877,668 @@ function TopNavigationBar($$renderer, $$props) {
 }
 function DashboardTiles($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
-    var $$store_subs;
-    let currentSection, currentSectionData;
-    const mainTiles = [
+    let dailyTasks = [
       {
-        id: "home",
-        label: "Home",
-        icon: "heroicons:home",
-        color: "from-blue-500 to-blue-600",
-        borderColor: "border-blue-500/50",
-        textColor: "text-blue-600 dark:text-blue-400",
-        description: "Dashboard & Overview",
-        path: "/home",
-        subTiles: [
-          { label: "Dashboard", path: "/", icon: "heroicons:home" },
-          {
-            label: "Household",
-            path: "/home/household",
-            icon: "heroicons:squares-2x2"
-          },
-          {
-            label: "Family Members",
-            path: "/home/members",
-            icon: "heroicons:users"
-          },
-          {
-            label: "Calendar",
-            path: "/home/family-calendar-modern",
-            icon: "heroicons:calendar-days"
-          },
-          {
-            label: "Notes",
-            path: "/home/family-notes-modern",
-            icon: "heroicons:document-text"
-          },
-          {
-            label: "Reminders",
-            path: "/home/reminders",
-            icon: "heroicons:bell-alert"
-          }
-        ]
+        id: 1,
+        task: "Prepare breakfast for children",
+        priority: "high",
+        assigned: "நான்",
+        status: "completed",
+        dueTime: "7:00 AM",
+        icon: "heroicons:cake"
       },
       {
-        id: "divinity",
-        label: "Divinity",
-        icon: "heroicons:sparkles",
-        color: "from-orange-500 to-orange-600",
-        borderColor: "border-orange-500/50",
-        textColor: "text-orange-600 dark:text-orange-400",
-        description: "Spiritual & Religious",
-        path: "/divinity",
-        subTiles: [
-          {
-            label: "Tamil Panchangam",
-            path: "/divinity/panchangam",
-            icon: "heroicons:sun"
-          },
-          {
-            label: "Rituals",
-            path: "/divinity/rituals",
-            icon: "heroicons:sparkles"
-          },
-          {
-            label: "Temple Visits",
-            path: "/divinity/temple",
-            icon: "heroicons:building-storefront"
-          },
-          {
-            label: "Festival Calendar",
-            path: "/culture/festival-calendar",
-            icon: "heroicons:calendar"
-          },
-          {
-            label: "Mantras",
-            path: "/divinity/mantras",
-            icon: "heroicons:musical-note"
-          }
-        ]
+        id: 2,
+        task: "Pack school lunch",
+        priority: "high",
+        assigned: "நான்",
+        status: "in-progress",
+        dueTime: "8:00 AM",
+        icon: "heroicons:shopping-bag"
       },
       {
-        id: "contacts",
-        label: "Contacts",
-        icon: "heroicons:phone",
-        color: "from-green-500 to-green-600",
-        borderColor: "border-green-500/50",
-        textColor: "text-green-600 dark:text-green-400",
-        description: "People & Directory",
-        path: "/contacts",
-        subTiles: [
-          {
-            label: "Personal Contacts",
-            path: "/home/contacts",
-            icon: "heroicons:phone"
-          },
-          {
-            label: "Emergency Contacts",
-            path: "/home/contacts/emergency",
-            icon: "heroicons:exclamation-triangle"
-          },
-          {
-            label: "Vendors & Services",
-            path: "/home/contacts/vendors",
-            icon: "heroicons:wrench"
-          },
-          {
-            label: "Service Directory",
-            path: "/home/contacts/directory",
-            icon: "heroicons:building-storefront"
-          }
-        ]
+        id: 3,
+        task: "Clean kitchen after dinner",
+        priority: "medium",
+        assigned: "மகள்",
+        status: "pending",
+        dueTime: "9:00 PM",
+        icon: "heroicons:sparkles"
       },
       {
-        id: "food",
-        label: "Food",
-        icon: "heroicons:cake",
-        color: "from-orange-400 to-orange-500",
-        borderColor: "border-orange-400/50",
-        textColor: "text-orange-600 dark:text-orange-400",
-        description: "Meals & Recipes",
-        path: "/food",
-        subTiles: [
-          {
-            label: "Meals & Planning",
-            path: "/food/meals",
-            icon: "heroicons:calendar-days"
-          },
-          {
-            label: "Recipes",
-            path: "/food/recipes",
-            icon: "heroicons:book-open"
-          },
-          {
-            label: "Grocery & Pantry",
-            path: "/food/grocery",
-            icon: "heroicons:shopping-cart"
-          },
-          {
-            label: "Pantry Management",
-            path: "/pantry",
-            icon: "heroicons:archive-box"
-          },
-          {
-            label: "Kitchen Dashboard",
-            path: "/food/kitchen",
-            icon: "heroicons:home"
-          },
-          {
-            label: "Fresh Items",
-            path: "/kitchen/fresh",
-            icon: "heroicons:leaf"
-          },
-          {
-            label: "Kids Meals",
-            path: "/kitchen/kids",
-            icon: "heroicons:user-group"
-          },
-          {
-            label: "Cleaning Schedule",
-            path: "/kitchen/cleaning",
-            icon: "heroicons:sparkles"
-          }
-        ]
+        id: 4,
+        task: "Water garden plants",
+        priority: "low",
+        assigned: "மகன்",
+        status: "pending",
+        dueTime: "6:00 PM",
+        icon: "heroicons:beaker"
       },
       {
-        id: "learn",
-        label: "Learn",
-        icon: "heroicons:academic-cap",
-        color: "from-indigo-500 to-indigo-600",
-        borderColor: "border-indigo-500/50",
-        textColor: "text-indigo-600 dark:text-indigo-400",
-        description: "Education & Study",
-        path: "/learn",
-        subTiles: [
-          {
-            label: "Education Dashboard",
-            path: "/education",
-            icon: "heroicons:academic-cap"
-          },
-          {
-            label: "Students",
-            path: "/education/students",
-            icon: "heroicons:users"
-          },
-          {
-            label: "Curriculum",
-            path: "/education/curriculum",
-            icon: "heroicons:book-open"
-          },
-          {
-            label: "Planner",
-            path: "/education/planner",
-            icon: "heroicons:calendar-days"
-          },
-          {
-            label: "Quiz",
-            path: "/education/quiz",
-            icon: "heroicons:question-mark-circle"
-          },
-          {
-            label: "Assessment",
-            path: "/education/assessment",
-            icon: "heroicons:clipboard-document-check"
-          },
-          {
-            label: "Courses",
-            path: "/education/courses",
-            icon: "heroicons:academic-cap"
-          },
-          {
-            label: "Mentors",
-            path: "/education/mentors",
-            icon: "heroicons:user-group"
-          },
-          {
-            label: "Achievements",
-            path: "/education/achievements",
-            icon: "heroicons:trophy"
-          },
-          {
-            label: "Family Library",
-            path: "/library",
-            icon: "heroicons:book-open"
-          },
-          {
-            label: "Studies & Exams",
-            path: "/studies",
-            icon: "heroicons:pencil"
-          },
-          {
-            label: "Learning Goals",
-            path: "/learning-goals",
-            icon: "heroicons:light-bulb"
-          }
-        ]
-      },
-      {
-        id: "assistant",
-        label: "Assistant",
-        icon: "heroicons:chat-bubble-left-right",
-        color: "from-purple-500 to-purple-600",
-        borderColor: "border-purple-500/50",
-        textColor: "text-purple-600 dark:text-purple-400",
-        description: "AI & Automation",
-        path: "/assistant",
-        subTiles: [
-          {
-            label: "Assistant Dashboard",
-            path: "/assistant",
-            icon: "heroicons:chat-bubble-left-right"
-          },
-          {
-            label: "Voice Log",
-            path: "/assistant/voice-log",
-            icon: "heroicons:microphone"
-          },
-          {
-            label: "Task Board",
-            path: "/assistant/task-board",
-            icon: "heroicons:clipboard-document-list"
-          },
-          {
-            label: "Event Feed",
-            path: "/assistant/event-feed",
-            icon: "heroicons:rss"
-          },
-          {
-            label: "Auto Checklist",
-            path: "/assistant/auto-checklist",
-            icon: "heroicons:check-circle"
-          },
-          {
-            label: "Ambient Log",
-            path: "/assistant/ambient-log",
-            icon: "heroicons:eye"
-          },
-          {
-            label: "AI Assistant",
-            path: "/shivo-ai",
-            icon: "heroicons:sparkles"
-          },
-          {
-            label: "Music Companion",
-            path: "/shivo-music",
-            icon: "heroicons:musical-note"
-          },
-          {
-            label: "Agentic AI",
-            path: "/shivo-agentic",
-            icon: "heroicons:robot"
-          }
-        ]
-      },
-      {
-        id: "health",
-        label: "Health",
-        icon: "heroicons:heart",
-        color: "from-pink-500 to-pink-600",
-        borderColor: "border-pink-500/50",
-        textColor: "text-pink-600 dark:text-pink-400",
-        description: "Wellness & Fitness",
-        path: "/health",
-        subTiles: [
-          {
-            label: "Wellness Dashboard",
-            path: "/wellness",
-            icon: "heroicons:heart"
-          },
-          {
-            label: "Health Tracking",
-            path: "/health",
-            icon: "heroicons:shield-check"
-          },
-          {
-            label: "Yoga & Exercise",
-            path: "/yoga",
-            icon: "heroicons:user"
-          },
-          {
-            label: "Health Journal",
-            path: "/journal",
-            icon: "heroicons:pencil-square"
-          },
-          {
-            label: "Hobbies & Activities",
-            path: "/hobbies-activities",
-            icon: "heroicons:puzzle-piece"
-          }
-        ]
-      },
-      {
-        id: "finances",
-        label: "Finances",
-        icon: "heroicons:currency-rupee",
-        color: "from-emerald-500 to-emerald-600",
-        borderColor: "border-emerald-500/50",
-        textColor: "text-emerald-600 dark:text-emerald-400",
-        description: "Money & Budget",
-        path: "/finances",
-        subTiles: [
-          {
-            label: "Finance Dashboard",
-            path: "/finances",
-            icon: "heroicons:currency-rupee"
-          },
-          {
-            label: "Recharges",
-            path: "/recharges",
-            icon: "heroicons:device-phone-mobile"
-          },
-          {
-            label: "Expenses",
-            path: "/expenses",
-            icon: "heroicons:credit-card"
-          },
-          {
-            label: "Budget",
-            path: "/budget",
-            icon: "heroicons:calculator"
-          },
-          {
-            label: "Insurance",
-            path: "/insurance",
-            icon: "heroicons:shield-check"
-          },
-          {
-            label: "Investments",
-            path: "/investments",
-            icon: "heroicons:chart-line"
-          }
-        ]
-      },
-      {
-        id: "assets",
-        label: "Assets",
-        icon: "heroicons:building-storefront",
-        color: "from-emerald-500 to-emerald-600",
-        borderColor: "border-emerald-500/50",
-        textColor: "text-emerald-600 dark:text-emerald-400",
-        description: "Property & Vehicles",
-        path: "/assets",
-        subTiles: [
-          {
-            label: "Asset Overview",
-            path: "/assets",
-            icon: "heroicons:building-storefront"
-          },
-          {
-            label: "Asset Items",
-            path: "/assets/items",
-            icon: "heroicons:archive-box"
-          },
-          {
-            label: "Asset Value",
-            path: "/assets/value",
-            icon: "heroicons:currency-rupee"
-          },
-          {
-            label: "Maintenance",
-            path: "/assets/maintenance",
-            icon: "heroicons:wrench-screwdriver"
-          },
-          {
-            label: "Documents",
-            path: "/assets/documents",
-            icon: "heroicons:document-text"
-          },
-          {
-            label: "Home Inventory",
-            path: "/inventory",
-            icon: "heroicons:archive-box"
-          },
-          {
-            label: "Vehicle Management",
-            path: "/vehicles",
-            icon: "heroicons:truck"
-          }
-        ]
-      },
-      {
-        id: "projects",
-        label: "Projects",
-        icon: "heroicons:clipboard-document-list",
-        color: "from-cyan-500 to-cyan-600",
-        borderColor: "border-cyan-500/50",
-        textColor: "text-cyan-600 dark:text-cyan-400",
-        description: "Management & Tasks",
-        path: "/projects",
-        subTiles: [
-          {
-            label: "Project Management",
-            path: "/projects",
-            icon: "heroicons:clipboard-document-list"
-          },
-          {
-            label: "Gantt Chart",
-            path: "/gantt",
-            icon: "heroicons:chart-bar"
-          },
-          {
-            label: "Daily Schedule",
-            path: "/schedule",
-            icon: "heroicons:calendar-days"
-          },
-          {
-            label: "Analytics Dashboard",
-            path: "/analytics",
-            icon: "heroicons:chart-bar"
-          },
-          {
-            label: "Data Charts",
-            path: "/charts",
-            icon: "heroicons:chart-pie"
-          },
-          {
-            label: "Interactive Maps",
-            path: "/maps",
-            icon: "heroicons:map"
-          }
-        ]
+        id: 5,
+        task: "Take out trash",
+        priority: "medium",
+        assigned: "கணவர்",
+        status: "pending",
+        dueTime: "8:00 PM",
+        icon: "heroicons:trash"
       }
     ];
-    function getCurrentSection(pathname) {
-      const mainSection = mainTiles.find((tile) => tile.path === pathname);
-      if (mainSection) return mainSection.id;
-      for (const tile of mainTiles) {
-        if (tile.subTiles.some((sub) => sub.path === pathname)) {
-          return tile.id;
-        }
+    let billsDue = [
+      {
+        id: 1,
+        bill: "Electricity Bill",
+        amount: "₹2,450",
+        dueDate: "Jan 15",
+        status: "urgent",
+        daysLeft: 2,
+        icon: "heroicons:bolt",
+        color: "text-red-600",
+        bgColor: "bg-red-50"
+      },
+      {
+        id: 2,
+        bill: "Water Bill",
+        amount: "₹890",
+        dueDate: "Jan 18",
+        status: "upcoming",
+        daysLeft: 5,
+        icon: "heroicons:droplets",
+        color: "text-blue-600",
+        bgColor: "bg-blue-50"
+      },
+      {
+        id: 3,
+        bill: "Internet Subscription",
+        amount: "₹1,200",
+        dueDate: "Jan 25",
+        status: "normal",
+        daysLeft: 12,
+        icon: "heroicons:wifi",
+        color: "text-green-600",
+        bgColor: "bg-green-50"
+      },
+      {
+        id: 4,
+        bill: "School Fees",
+        amount: "₹15,000",
+        dueDate: "Feb 5",
+        status: "normal",
+        daysLeft: 23,
+        icon: "heroicons:academic-cap",
+        color: "text-purple-600",
+        bgColor: "bg-purple-50"
       }
-      return "home";
+    ];
+    const upcomingEvents = [
+      {
+        title: "Temple Visit",
+        date: "Tomorrow",
+        time: "6:00 AM",
+        icon: "heroicons:building-storefront",
+        color: "text-orange-600"
+      },
+      {
+        title: "School Parent Meeting",
+        date: "Jan 18",
+        time: "10:00 AM",
+        icon: "heroicons:academic-cap",
+        color: "text-blue-600"
+      },
+      {
+        title: "Family Health Check",
+        date: "Jan 20",
+        time: "2:00 PM",
+        icon: "heroicons:heart",
+        color: "text-pink-600"
+      },
+      {
+        title: "Pongal Festival",
+        date: "Jan 15",
+        time: "All Day",
+        icon: "heroicons:fire",
+        color: "text-red-600"
+      }
+    ];
+    let familyMoods = [
+      {
+        member: "நான்",
+        mood: "happy",
+        emoji: "😊",
+        note: "Productive day!",
+        time: "2 hours ago"
+      },
+      {
+        member: "கணவர்",
+        mood: "tired",
+        emoji: "😴",
+        note: "Long day at work",
+        time: "4 hours ago"
+      },
+      {
+        member: "மகள்",
+        mood: "excited",
+        emoji: "🤩",
+        note: "Got good grades!",
+        time: "6 hours ago"
+      },
+      {
+        member: "மகன்",
+        mood: "playful",
+        emoji: "🎮",
+        note: "Playing games",
+        time: "1 hour ago"
+      }
+    ];
+    const expenseCategories = [
+      {
+        name: "Food & Grocery",
+        icon: "heroicons:shopping-cart",
+        color: "text-blue-600",
+        bgColor: "bg-blue-50"
+      },
+      {
+        name: "Transportation",
+        icon: "heroicons:truck",
+        color: "text-green-600",
+        bgColor: "bg-green-50"
+      },
+      {
+        name: "Utilities",
+        icon: "heroicons:bolt",
+        color: "text-yellow-600",
+        bgColor: "bg-yellow-50"
+      },
+      {
+        name: "Healthcare",
+        icon: "heroicons:heart",
+        color: "text-red-600",
+        bgColor: "bg-red-50"
+      },
+      {
+        name: "Education",
+        icon: "heroicons:academic-cap",
+        color: "text-purple-600",
+        bgColor: "bg-purple-50"
+      },
+      {
+        name: "Entertainment",
+        icon: "heroicons:film",
+        color: "text-pink-600",
+        bgColor: "bg-pink-50"
+      }
+    ];
+    let todaysPriorities = [
+      {
+        id: 1,
+        type: "urgent",
+        title: "Car Service Overdue",
+        description: "Vehicle service due 2 months ago",
+        priority: "high",
+        dueIn: "Overdue",
+        icon: "heroicons:wrench-screwdriver",
+        color: "text-red-600",
+        action: "Schedule Now"
+      },
+      {
+        id: 2,
+        type: "maintenance",
+        title: "Water Filter Replacement",
+        description: "Replace water filter cartridge",
+        priority: "high",
+        dueIn: "3 days",
+        icon: "heroicons:droplets",
+        color: "text-yellow-600",
+        action: "Order Filter"
+      },
+      {
+        id: 3,
+        type: "insurance",
+        title: "Health Insurance Renewal",
+        description: "Family health insurance expires soon",
+        priority: "high",
+        dueIn: "15 days",
+        icon: "heroicons:shield-check",
+        color: "text-orange-600",
+        action: "Renew Policy"
+      },
+      {
+        id: 4,
+        type: "tax",
+        title: "Income Tax Filing",
+        description: "Last date for tax filing approaching",
+        priority: "medium",
+        dueIn: "March 31",
+        icon: "heroicons:document-text",
+        color: "text-blue-600",
+        action: "File Now"
+      },
+      {
+        id: 5,
+        type: "kyc",
+        title: "Bank KYC Update",
+        description: "Update KYC for savings account",
+        priority: "medium",
+        dueIn: "2 weeks",
+        icon: "heroicons:identification",
+        color: "text-purple-600",
+        action: "Update KYC"
+      },
+      {
+        id: 6,
+        type: "cleaning",
+        title: "Monthly Deep Cleaning",
+        description: "Schedule professional house cleaning",
+        priority: "low",
+        dueIn: "This weekend",
+        icon: "heroicons:sparkles",
+        color: "text-green-600",
+        action: "Book Service"
+      },
+      {
+        id: 7,
+        type: "stock",
+        title: "Low Kitchen Stock",
+        description: "Rice, oil, and spices running low",
+        priority: "medium",
+        dueIn: "Buy soon",
+        icon: "heroicons:shopping-cart",
+        color: "text-amber-600",
+        action: "Add to List"
+      },
+      {
+        id: 8,
+        type: "school",
+        title: "School Documents Printing",
+        description: "Print admission forms and certificates",
+        priority: "low",
+        dueIn: "Next week",
+        icon: "heroicons:printer",
+        color: "text-indigo-600",
+        action: "Print Now"
+      }
+    ];
+    const upcomingImportantDates = [
+      {
+        title: "Children's Birthday",
+        date: "Jan 25",
+        type: "birthday",
+        icon: "heroicons:cake",
+        color: "text-pink-600"
+      },
+      {
+        title: "Wedding Anniversary",
+        date: "Feb 14",
+        type: "anniversary",
+        icon: "heroicons:heart",
+        color: "text-red-600"
+      },
+      {
+        title: "Insurance Premium Due",
+        date: "Feb 20",
+        type: "insurance",
+        icon: "heroicons:shield-check",
+        color: "text-blue-600"
+      },
+      {
+        title: "Tax Payment Deadline",
+        date: "March 31",
+        type: "tax",
+        icon: "heroicons:currency-rupee",
+        color: "text-green-600"
+      },
+      {
+        title: "School Annual Day",
+        date: "March 15",
+        type: "event",
+        icon: "heroicons:academic-cap",
+        color: "text-purple-600"
+      }
+    ];
+    let smartSuggestions = [
+      {
+        id: 1,
+        message: "School term fees payment due in 2 weeks - ₹15,000 for both children",
+        action: "Pay School Fees",
+        icon: "heroicons:academic-cap",
+        priority: "high",
+        category: "education"
+      },
+      {
+        id: 2,
+        message: "Health insurance renewal due in 15 days - Family coverage ₹8,500",
+        action: "Renew Insurance",
+        icon: "heroicons:shield-check",
+        priority: "high",
+        category: "insurance"
+      },
+      {
+        id: 3,
+        message: "Book LPG refill - Current cylinder usage at 85%",
+        action: "Book Refill",
+        icon: "heroicons:fire",
+        priority: "medium",
+        category: "household"
+      },
+      {
+        id: 4,
+        message: "KYC update required for savings account - Due in 2 weeks",
+        action: "Update KYC",
+        icon: "heroicons:identification",
+        priority: "medium",
+        category: "banking"
+      },
+      {
+        id: 5,
+        message: "Monthly deep cleaning service - Schedule for this weekend",
+        action: "Book Cleaning",
+        icon: "heroicons:sparkles",
+        priority: "low",
+        category: "maintenance"
+      },
+      {
+        id: 6,
+        message: "Tax filing deadline approaching - March 31 for FY 2024-25",
+        action: "File Taxes",
+        icon: "heroicons:document-text",
+        priority: "medium",
+        category: "tax"
+      },
+      {
+        id: 7,
+        message: "Maha Shivaratri in 3 days - Prepare for all-night vigil and special puja",
+        action: "Plan Festival",
+        icon: "heroicons:moon",
+        priority: "high",
+        category: "festival"
+      },
+      {
+        id: 8,
+        message: "Vehicle service overdue by 2 months - Schedule immediately",
+        action: "Book Service",
+        icon: "heroicons:wrench-screwdriver",
+        priority: "high",
+        category: "vehicle"
+      }
+    ];
+    function getBillUrgencyColor(daysLeft) {
+      if (daysLeft <= 2) return "bg-red-50 border-red-200";
+      if (daysLeft <= 7) return "bg-yellow-50 border-yellow-200";
+      return "bg-gray-50 border-gray-200";
     }
-    function isTileActive(tilePath) {
-      return store_get($$store_subs ??= {}, "$page", page).url.pathname === tilePath;
-    }
-    currentSection = getCurrentSection(store_get($$store_subs ??= {}, "$page", page).url.pathname);
-    currentSectionData = mainTiles.find((tile) => tile.id === currentSection);
-    $$renderer2.push(`<div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6"><div class="max-w-7xl mx-auto"><div class="mb-8"><h1 class="text-4xl font-bold text-gray-800 mb-2 flex items-center gap-3">`);
+    $$renderer2.push(`<div class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-purple-900 p-6"><div class="max-w-7xl mx-auto"><div class="mb-8"><div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700"><div class="flex items-center justify-between"><div><h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-3">`);
     Icon($$renderer2, { icon: "heroicons:home", class: "text-indigo-600" });
-    $$renderer2.push(`<!----> 🏠 Home Management Dashboard</h1> <p class="text-gray-600 text-lg">Manage your household, family, and daily activities</p></div> <div class="flex gap-6"><div class="w-60 flex-shrink-0"><div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
-    Icon($$renderer2, { icon: "heroicons:squares-2x2", class: "text-indigo-500" });
-    $$renderer2.push(`<!----> ${escape_html(currentSectionData?.label || "Home")} Menu</h3> <div class="space-y-2">`);
-    if (currentSectionData) {
+    $$renderer2.push(`<!----> <span class="text-2xl font-bold text-orange-600 mr-2">ShivOhm</span> வணக்கம்! Divine Nest</h1> <p class="text-gray-600 dark:text-gray-300 text-lg">Your comprehensive family management dashboard</p> <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">தமிழ் நாள்: ${escape_html((/* @__PURE__ */ new Date()).toLocaleDateString("ta-IN", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }))}</p></div> <div class="text-right"><div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">${escape_html((/* @__PURE__ */ new Date()).toLocaleDateString())}</div> <div class="text-sm text-gray-500 dark:text-gray-400">Today's Date</div></div></div></div></div> <div class="mb-8">`);
+    if (billsDue.filter((b) => b.status !== "paid" && b.daysLeft <= 3).length > 0) {
       $$renderer2.push("<!--[-->");
-      $$renderer2.push(`<button${attr_class(`w-full flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r ${stringify(currentSectionData.color)} text-white cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-105 mb-4`)}>`);
-      Icon($$renderer2, { icon: currentSectionData.icon, class: "text-lg" });
-      $$renderer2.push(`<!----> <div><div class="font-medium">${escape_html(currentSectionData.label)}</div> <div class="text-xs opacity-90">${escape_html(currentSectionData.description)}</div></div></button> <div class="space-y-1"><!--[-->`);
-      const each_array = ensure_array_like(currentSectionData.subTiles);
-      for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
-        let subTile = each_array[$$index];
-        $$renderer2.push(`<button${attr_class(`w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200 ${stringify(isTileActive(subTile.path) ? "bg-indigo-50 text-indigo-700 font-medium" : "")}`)}>`);
-        Icon($$renderer2, { icon: subTile.icon, class: "text-base flex-shrink-0" });
-        $$renderer2.push(`<!----> <span class="truncate">${escape_html(subTile.label)}</span></button>`);
-      }
-      $$renderer2.push(`<!--]--></div>`);
+      $$renderer2.push(`<div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-2xl p-8 mb-6 shadow-2xl border-4 border-red-300 animate-pulse"><div class="flex items-center justify-between"><div class="flex items-center gap-4"><div class="p-4 bg-white/20 rounded-full">`);
+      Icon($$renderer2, { icon: "heroicons:exclamation-triangle", class: "text-4xl" });
+      $$renderer2.push(`<!----></div> <div><h2 class="text-3xl font-bold mb-2">⚠️ URGENT PAYMENTS DUE</h2> <p class="text-xl opacity-90">${escape_html(billsDue.filter((b) => b.status !== "paid" && b.daysLeft <= 3).length)} bill(s) due within 3 days
+                  • Total: ₹${escape_html(billsDue.filter((b) => b.status !== "paid" && b.daysLeft <= 3).reduce((sum, b) => sum + parseInt(b.amount.replace(/[₹,]/g, "")), 0).toLocaleString())}</p></div></div> <button class="px-8 py-4 bg-white text-red-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-200 text-lg">Pay Now →</button></div></div>`);
     } else {
       $$renderer2.push("<!--[!-->");
     }
-    $$renderer2.push(`<!--]--> <div class="mt-6 pt-4 border-t border-gray-200"><h4 class="text-sm font-medium text-gray-500 mb-3">Other Sections</h4> <div class="space-y-1"><!--[-->`);
-    const each_array_1 = ensure_array_like(mainTiles.filter((tile) => tile.id !== currentSection));
-    for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
-      let tile = each_array_1[$$index_1];
-      $$renderer2.push(`<button class="w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors duration-200">`);
-      Icon($$renderer2, { icon: tile.icon, class: "text-base flex-shrink-0" });
-      $$renderer2.push(`<!----> <span class="truncate">${escape_html(tile.label)}</span></button>`);
+    $$renderer2.push(`<!--]--> `);
+    if (dailyTasks.filter((t) => t.status === "pending" && t.priority === "high").length > 0) {
+      $$renderer2.push("<!--[-->");
+      $$renderer2.push(`<div class="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl p-6 mb-6 shadow-xl border-4 border-orange-300"><div class="flex items-center justify-between"><div class="flex items-center gap-4"><div class="p-3 bg-white/20 rounded-full">`);
+      Icon($$renderer2, { icon: "heroicons:clock", class: "text-3xl" });
+      $$renderer2.push(`<!----></div> <div><h3 class="text-2xl font-bold mb-1">High Priority Tasks Pending</h3> <p class="text-lg opacity-90">${escape_html(dailyTasks.filter((t) => t.status === "pending" && t.priority === "high").length)} urgent task(s) need attention</p></div></div> <button class="px-6 py-3 bg-white text-orange-600 font-bold rounded-lg hover:bg-gray-100 transition-all duration-200">View Tasks →</button></div></div>`);
+    } else {
+      $$renderer2.push("<!--[!-->");
     }
-    $$renderer2.push(`<!--]--></div></div></div></div></div> <div class="flex-1"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"><div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200"><div class="flex items-center justify-between mb-4">`);
-    Icon($$renderer2, { icon: "heroicons:users", class: "text-blue-500 text-2xl" });
-    $$renderer2.push(`<!----> <span class="text-2xl font-bold text-blue-600">6</span></div> <h3 class="text-sm font-medium text-gray-600">Family Members</h3> <p class="text-xs text-gray-500 mt-1">Active in household</p></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200"><div class="flex items-center justify-between mb-4">`);
+    $$renderer2.push(`<!--]--></div> <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"><div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border-2 border-blue-200 dark:border-blue-800"><h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">`);
     Icon($$renderer2, {
       icon: "heroicons:clipboard-document-list",
-      class: "text-green-500 text-2xl"
+      class: "text-blue-600 text-3xl"
     });
-    $$renderer2.push(`<!----> <span class="text-2xl font-bold text-green-600">12</span></div> <h3 class="text-sm font-medium text-gray-600">Active Tasks</h3> <p class="text-xs text-gray-500 mt-1">Pending completion</p></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200"><div class="flex items-center justify-between mb-4">`);
-    Icon($$renderer2, {
-      icon: "heroicons:bell-alert",
-      class: "text-orange-500 text-2xl"
-    });
-    $$renderer2.push(`<!----> <span class="text-2xl font-bold text-orange-600">3</span></div> <h3 class="text-sm font-medium text-gray-600">Reminders</h3> <p class="text-xs text-gray-500 mt-1">Due today</p></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-200"><div class="flex items-center justify-between mb-4">`);
+    $$renderer2.push(`<!----> Today's Priorities</h3> <div class="space-y-4"><!--[-->`);
+    const each_array = ensure_array_like(todaysPriorities.slice(0, 4));
+    for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
+      let priority = each_array[$$index];
+      $$renderer2.push(`<div${attr_class(`flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200 border-l-4 ${stringify(priority.priority === "high" ? "border-red-500" : priority.priority === "medium" ? "border-yellow-500" : "border-green-500")}`)}><div class="flex items-center gap-4"><div class="p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">`);
+      Icon($$renderer2, {
+        icon: priority.icon,
+        class: `text-xl ${stringify(priority.color)}`
+      });
+      $$renderer2.push(`<!----></div> <div class="flex-1"><p class="font-semibold text-gray-800 dark:text-white text-lg">${escape_html(priority.title)}</p> <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${escape_html(priority.description)}</p> <div class="flex items-center gap-4 text-sm"><span class="flex items-center gap-1 text-gray-600 dark:text-gray-400">`);
+      Icon($$renderer2, { icon: "heroicons:clock", class: "text-xs" });
+      $$renderer2.push(`<!----> ${escape_html(priority.dueIn)}</span> <span${attr_class(`px-3 py-1 text-xs rounded-full font-medium ${stringify(priority.priority === "high" ? "bg-red-100 text-red-600" : priority.priority === "medium" ? "bg-yellow-100 text-yellow-600" : "bg-green-100 text-green-600")}`)}>${escape_html(priority.priority.toUpperCase())}</span></div></div></div> <button class="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors">${escape_html(priority.action)}</button></div>`);
+    }
+    $$renderer2.push(`<!--]--></div> <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600"><div class="grid grid-cols-3 gap-4 text-center"><div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg"><div class="text-2xl font-bold text-red-600 dark:text-red-400">${escape_html(todaysPriorities.filter((p) => p.priority === "high").length)}</div> <div class="text-sm text-gray-600 dark:text-gray-400">High Priority</div></div> <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg"><div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">${escape_html(todaysPriorities.filter((p) => p.priority === "medium").length)}</div> <div class="text-sm text-gray-600 dark:text-gray-400">Medium Priority</div></div> <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg"><div class="text-2xl font-bold text-green-600 dark:text-green-400">${escape_html(todaysPriorities.filter((p) => p.priority === "low").length)}</div> <div class="text-sm text-gray-600 dark:text-gray-400">Low Priority</div></div></div></div></div> <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border-2 border-green-200 dark:border-green-800"><h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">`);
     Icon($$renderer2, {
       icon: "heroicons:calendar-days",
-      class: "text-purple-500 text-2xl"
+      class: "text-green-600 text-3xl"
     });
-    $$renderer2.push(`<!----> <span class="text-2xl font-bold text-purple-600">2</span></div> <h3 class="text-sm font-medium text-gray-600">Events</h3> <p class="text-xs text-gray-500 mt-1">This week</p></div></div> <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8"><div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
-    Icon($$renderer2, { icon: "heroicons:currency-rupee", class: "text-emerald-500" });
-    $$renderer2.push(`<!----> Monthly Budget</h3> <div class="space-y-3"><div class="flex justify-between items-center"><span class="text-sm text-gray-600">Spent</span> <span class="font-semibold text-gray-800">₹45,230</span></div> <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width: 75%"></div></div> <div class="flex justify-between items-center text-xs text-gray-500"><span>75% of ₹60,000</span> <span>₹14,770 remaining</span></div></div></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
-    Icon($$renderer2, { icon: "heroicons:credit-card", class: "text-blue-500" });
-    $$renderer2.push(`<!----> Recent Expenses</h3> <div class="space-y-3"><div class="flex justify-between items-center"><span class="text-sm text-gray-600">Grocery</span> <span class="font-semibold text-gray-800">₹2,450</span></div> <div class="flex justify-between items-center"><span class="text-sm text-gray-600">Utilities</span> <span class="font-semibold text-gray-800">₹1,200</span></div> <div class="flex justify-between items-center"><span class="text-sm text-gray-600">Transportation</span> <span class="font-semibold text-gray-800">₹800</span></div></div></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
-    Icon($$renderer2, { icon: "heroicons:chart-line", class: "text-purple-500" });
-    $$renderer2.push(`<!----> Savings Goal</h3> <div class="space-y-3"><div class="flex justify-between items-center"><span class="text-sm text-gray-600">Emergency Fund</span> <span class="font-semibold text-gray-800">₹2.5L / ₹5L</span></div> <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-purple-500 h-2 rounded-full" style="width: 50%"></div></div> <div class="text-xs text-gray-500">50% complete • ₹2.5L saved</div></div></div></div> <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"><div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
-    Icon($$renderer2, { icon: "heroicons:clock", class: "text-blue-500" });
-    $$renderer2.push(`<!----> Recent Activity</h3> <div class="space-y-3"><div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"><div class="p-2 bg-blue-100 rounded-lg">`);
-    Icon($$renderer2, {
-      icon: "heroicons:document-text",
-      class: "text-blue-600 text-sm"
-    });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">Family notes updated</p> <p class="text-xs text-gray-600">2 hours ago</p></div></div> <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"><div class="p-2 bg-green-100 rounded-lg">`);
-    Icon($$renderer2, {
-      icon: "heroicons:clipboard-document-list",
-      class: "text-green-600 text-sm"
-    });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">New task added</p> <p class="text-xs text-gray-600">4 hours ago</p></div></div> <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"><div class="p-2 bg-orange-100 rounded-lg">`);
-    Icon($$renderer2, {
-      icon: "heroicons:bell-alert",
-      class: "text-orange-600 text-sm"
-    });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">Reminder set</p> <p class="text-xs text-gray-600">6 hours ago</p></div></div> <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"><div class="p-2 bg-pink-100 rounded-lg">`);
-    Icon($$renderer2, { icon: "heroicons:heart", class: "text-pink-600 text-sm" });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">Health check completed</p> <p class="text-xs text-gray-600">1 day ago</p></div></div></div></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
-    Icon($$renderer2, { icon: "heroicons:heart", class: "text-pink-500" });
-    $$renderer2.push(`<!----> Family Health</h3> <div class="space-y-4"><div class="flex items-center justify-between p-3 bg-green-50 rounded-lg"><div class="flex items-center gap-3"><div class="w-3 h-3 bg-green-500 rounded-full"></div> <span class="text-sm font-medium text-gray-800">All family members healthy</span></div> `);
-    Icon($$renderer2, { icon: "heroicons:check-circle", class: "text-green-500" });
-    $$renderer2.push(`<!----></div> <div class="grid grid-cols-2 gap-4"><div class="text-center"><div class="text-2xl font-bold text-blue-600">4</div> <div class="text-xs text-gray-600">Exercise sessions</div> <div class="text-xs text-gray-500">This week</div></div> <div class="text-center"><div class="text-2xl font-bold text-orange-600">2</div> <div class="text-xs text-gray-600">Doctor visits</div> <div class="text-xs text-gray-500">Scheduled</div></div></div></div></div></div> <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8"><div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
+    $$renderer2.push(`<!----> Upcoming Bills &amp; Reminders</h3> <div class="space-y-4 mb-6"><!--[-->`);
+    const each_array_1 = ensure_array_like(billsDue.filter((b) => b.status !== "paid").slice(0, 3));
+    for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
+      let bill = each_array_1[$$index_1];
+      $$renderer2.push(`<div class="flex items-center justify-between p-4 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl border border-red-200 dark:border-red-800"><div class="flex items-center gap-4"><div class="p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">`);
+      Icon($$renderer2, { icon: bill.icon, class: `text-xl ${stringify(bill.color)}` });
+      $$renderer2.push(`<!----></div> <div><p class="font-semibold text-gray-800 dark:text-white text-lg">${escape_html(bill.bill)}</p> <p class="text-sm text-gray-600 dark:text-gray-400">${escape_html(bill.amount)} • Due ${escape_html(bill.dueDate)}</p> <div class="flex items-center gap-2 mt-1"><span${attr_class(`px-2 py-1 text-xs rounded-full font-medium ${stringify(bill.daysLeft <= 2 ? "bg-red-100 text-red-600" : bill.daysLeft <= 7 ? "bg-yellow-100 text-yellow-600" : "bg-green-100 text-green-600")}`)}>${escape_html(bill.daysLeft)} days left</span></div></div></div> <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-colors">Pay Now</button></div>`);
+    }
+    $$renderer2.push(`<!--]--></div> <div class="border-t border-gray-200 dark:border-gray-600 pt-6"><h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:star", class: "text-yellow-500" });
+    $$renderer2.push(`<!----> Important Dates</h4> <div class="space-y-3"><!--[-->`);
+    const each_array_2 = ensure_array_like(upcomingImportantDates.slice(0, 3));
+    for (let $$index_2 = 0, $$length = each_array_2.length; $$index_2 < $$length; $$index_2++) {
+      let date = each_array_2[$$index_2];
+      $$renderer2.push(`<div class="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg"><div class="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">`);
+      Icon($$renderer2, { icon: date.icon, class: `text-lg ${stringify(date.color)}` });
+      $$renderer2.push(`<!----></div> <div><p class="font-medium text-gray-800 dark:text-white">${escape_html(date.title)}</p> <p class="text-sm text-gray-600 dark:text-gray-400">${escape_html(date.date)}</p></div></div>`);
+    }
+    $$renderer2.push(`<!--]--></div></div></div></div> <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8"><div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:currency-rupee", class: "text-red-500" });
+    $$renderer2.push(`<!----> Bills Timeline</h3> <div class="space-y-3 mb-4"><!--[-->`);
+    const each_array_3 = ensure_array_like(billsDue.filter((b) => b.status !== "paid").slice(0, 4));
+    for (let $$index_3 = 0, $$length = each_array_3.length; $$index_3 < $$length; $$index_3++) {
+      let bill = each_array_3[$$index_3];
+      $$renderer2.push(`<div${attr_class(`flex items-center justify-between p-3 ${stringify(getBillUrgencyColor(bill.daysLeft))} rounded-lg`)}><div class="flex items-center gap-3"><div class="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">`);
+      Icon($$renderer2, { icon: bill.icon, class: `text-lg ${stringify(bill.color)}` });
+      $$renderer2.push(`<!----></div> <div><p class="text-sm font-medium text-gray-800 dark:text-white">${escape_html(bill.bill)}</p> <p class="text-xs text-gray-600 dark:text-gray-400">${escape_html(bill.amount)} • Due ${escape_html(bill.dueDate)}</p></div></div> <div class="text-right"><div${attr_class(`text-xs font-medium ${stringify(bill.daysLeft <= 2 ? "text-red-600" : bill.daysLeft <= 7 ? "text-yellow-600" : "text-gray-600")}`)}>${escape_html(bill.daysLeft)}d left</div> `);
+      if (bill.daysLeft <= 7) {
+        $$renderer2.push("<!--[-->");
+        $$renderer2.push(`<button class="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors mt-1">Pay</button>`);
+      } else {
+        $$renderer2.push("<!--[!-->");
+      }
+      $$renderer2.push(`<!--]--></div></div>`);
+    }
+    $$renderer2.push(`<!--]--></div> <div class="pt-3 border-t border-gray-200 dark:border-gray-600"><div class="grid grid-cols-2 gap-4 text-center"><div><div class="text-lg font-bold text-red-600 dark:text-red-400">${escape_html(billsDue.filter((b) => b.status !== "paid").length)}</div> <div class="text-xs text-gray-600 dark:text-gray-400">Pending</div></div> <div><div class="text-lg font-bold text-orange-600 dark:text-orange-400">₹${escape_html(billsDue.filter((b) => b.status !== "paid").reduce((sum, b) => sum + parseInt(b.amount.replace(/[₹,]/g, "")), 0).toLocaleString())}</div> <div class="text-xs text-gray-600 dark:text-gray-400">Total Due</div></div></div></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
     Icon($$renderer2, { icon: "heroicons:calendar-days", class: "text-indigo-500" });
-    $$renderer2.push(`<!----> Upcoming Events</h3> <div class="space-y-3"><div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg"><div class="p-2 bg-blue-100 rounded-lg">`);
-    Icon($$renderer2, { icon: "heroicons:calendar", class: "text-blue-600 text-sm" });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">Family Dinner</p> <p class="text-xs text-gray-600">Tomorrow, 7:00 PM</p></div></div> <div class="flex items-center gap-3 p-3 bg-purple-50 rounded-lg"><div class="p-2 bg-purple-100 rounded-lg">`);
-    Icon($$renderer2, { icon: "heroicons:sparkles", class: "text-purple-600 text-sm" });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">Pongal Festival</p> <p class="text-xs text-gray-600">Jan 15, All day</p></div></div> <div class="flex items-center gap-3 p-3 bg-orange-50 rounded-lg"><div class="p-2 bg-orange-100 rounded-lg">`);
+    $$renderer2.push(`<!----> Upcoming Events</h3> <div class="space-y-4"><!--[-->`);
+    const each_array_4 = ensure_array_like(upcomingEvents.slice(0, 3));
+    for (let $$index_4 = 0, $$length = each_array_4.length; $$index_4 < $$length; $$index_4++) {
+      let event = each_array_4[$$index_4];
+      $$renderer2.push(`<div class="flex items-center gap-4 p-4 bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 rounded-lg border border-indigo-100 dark:border-indigo-800"><div class="p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">`);
+      Icon($$renderer2, {
+        icon: event.icon,
+        class: `text-xl ${stringify(event.color)}`
+      });
+      $$renderer2.push(`<!----></div> <div class="flex-1"><h4 class="font-semibold text-gray-800 dark:text-white text-lg">${escape_html(event.title)}</h4> <p class="text-sm text-gray-600 dark:text-gray-400">${escape_html(event.date)} at ${escape_html(event.time)}</p></div></div>`);
+    }
+    $$renderer2.push(`<!--]--></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:fire", class: "text-orange-500" });
+    $$renderer2.push(`<!----> Ritual Calendar</h3> `);
+    {
+      $$renderer2.push("<!--[-->");
+      $$renderer2.push(`<div class="flex items-center justify-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div> <span class="ml-2 text-gray-600 dark:text-gray-400">Loading rituals...</span></div>`);
+    }
+    $$renderer2.push(`<!--]--> <div class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-600"><p class="text-xs text-gray-600 dark:text-gray-400 text-center">🪔 Amavasya • Pradosham • Ekadasi • Festivals</p></div></div></div> <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"><div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:light-bulb", class: "text-amber-500" });
+    $$renderer2.push(`<!----> AI Insights &amp; Suggestions</h3> <div class="space-y-4"><!--[-->`);
+    const each_array_6 = ensure_array_like(smartSuggestions);
+    for (let $$index_6 = 0, $$length = each_array_6.length; $$index_6 < $$length; $$index_6++) {
+      let suggestion = each_array_6[$$index_6];
+      $$renderer2.push(`<div class="flex items-center justify-between p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg border border-amber-200 dark:border-amber-800"><div class="flex items-center gap-3"><div class="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">`);
+      Icon($$renderer2, { icon: suggestion.icon, class: "text-lg text-amber-600" });
+      $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800 dark:text-white">${escape_html(suggestion.message)}</p> <p class="text-xs text-gray-600 dark:text-gray-400">AI-powered suggestion</p></div></div> <button class="px-3 py-2 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 transition-colors font-medium">${escape_html(suggestion.action)}</button></div>`);
+    }
+    $$renderer2.push(`<!--]--></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:face-smile", class: "text-purple-500" });
+    $$renderer2.push(`<!----> Family Mood &amp; Quick Actions</h3> <div class="grid grid-cols-2 gap-4 mb-4"><!--[-->`);
+    const each_array_7 = ensure_array_like(familyMoods.slice(0, 4));
+    for (let $$index_7 = 0, $$length = each_array_7.length; $$index_7 < $$length; $$index_7++) {
+      let mood = each_array_7[$$index_7];
+      $$renderer2.push(`<div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-center"><div class="text-2xl mb-2">${escape_html(mood.emoji)}</div> <div class="text-sm font-medium text-gray-800 dark:text-white">${escape_html(mood.member)}</div> <div class="text-xs text-gray-600 dark:text-gray-400">${escape_html(mood.time)}</div></div>`);
+    }
+    $$renderer2.push(`<!--]--></div> <div class="flex gap-2 mb-4"><button class="flex-1 px-3 py-2 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition-colors">Update My Mood</button> <button class="px-3 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors">View Details</button></div> <div class="pt-3 border-t border-gray-200 dark:border-gray-600"><div class="text-center"><div class="text-lg font-bold text-emerald-600 dark:text-emerald-400 mb-1">₹2,450 / ₹3,000</div> <div class="text-xs text-gray-600 dark:text-gray-400">Today's Budget • ₹550 remaining</div></div></div></div></div> <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8"><div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:clock", class: "text-gray-500" });
+    $$renderer2.push(`<!----> Recent Activity</h3> <div class="space-y-3"><div class="flex items-start gap-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg"><div class="p-1 bg-blue-100 dark:bg-blue-900/20 rounded">`);
     Icon($$renderer2, {
-      icon: "heroicons:academic-cap",
-      class: "text-orange-600 text-sm"
+      icon: "heroicons:shopping-bag",
+      class: "text-blue-500 text-sm"
     });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">School Parent Meeting</p> <p class="text-xs text-gray-600">Jan 18, 10:00 AM</p></div></div></div></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
+    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800 dark:text-white">Grocery shopping completed</p> <p class="text-xs text-gray-600 dark:text-gray-400">2 hours ago • ₹2,450</p></div></div> <div class="flex items-start gap-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg"><div class="p-1 bg-green-100 dark:bg-green-900/20 rounded">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-sm"
+    });
+    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800 dark:text-white">School fees paid</p> <p class="text-xs text-gray-600 dark:text-gray-400">Yesterday • ₹15,000</p></div></div> <div class="flex items-start gap-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg"><div class="p-1 bg-purple-100 dark:bg-purple-900/20 rounded">`);
+    Icon($$renderer2, { icon: "heroicons:calendar", class: "text-purple-500 text-sm" });
+    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800 dark:text-white">Temple visit scheduled</p> <p class="text-xs text-gray-600 dark:text-gray-400">Tomorrow • 6:00 AM</p></div></div></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:calendar-days", class: "text-indigo-500" });
+    $$renderer2.push(`<!----> Upcoming Events</h3> <div class="space-y-3"><div class="flex items-center justify-between p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg"><div><p class="text-sm font-medium text-gray-800 dark:text-white">Pongal Celebration</p> <p class="text-xs text-gray-600 dark:text-gray-400">Jan 15 • Family Event</p></div> <div class="text-right"><div class="text-xs font-medium text-indigo-600 dark:text-indigo-400">3 days</div></div></div> <div class="flex items-center justify-between p-3 bg-pink-50 dark:bg-pink-900/20 rounded-lg"><div><p class="text-sm font-medium text-gray-800 dark:text-white">Medical Checkup</p> <p class="text-xs text-gray-600 dark:text-gray-400">Jan 20 • Health</p></div> <div class="text-right"><div class="text-xs font-medium text-pink-600 dark:text-pink-400">8 days</div></div></div> <div class="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg"><div><p class="text-sm font-medium text-gray-800 dark:text-white">Garden Maintenance</p> <p class="text-xs text-gray-600 dark:text-gray-400">Jan 25 • Home</p></div> <div class="text-right"><div class="text-xs font-medium text-green-600 dark:text-green-400">13 days</div></div></div></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:chart-bar", class: "text-teal-500" });
+    $$renderer2.push(`<!----> Quick Stats</h3> <div class="grid grid-cols-2 gap-4"><div class="text-center p-3 bg-teal-50 dark:bg-teal-900/20 rounded-lg"><div class="text-xl font-bold text-teal-600 dark:text-teal-400 mb-1">12</div> <div class="text-xs text-gray-600 dark:text-gray-400">Tasks Completed</div> <div class="text-xs text-green-600 dark:text-green-400">This Week</div></div> <div class="text-center p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg"><div class="text-xl font-bold text-orange-600 dark:text-orange-400 mb-1">8</div> <div class="text-xs text-gray-600 dark:text-gray-400">Meals Prepared</div> <div class="text-xs text-green-600 dark:text-green-400">This Week</div></div> <div class="text-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg"><div class="text-xl font-bold text-purple-600 dark:text-purple-400 mb-1">5</div> <div class="text-xs text-gray-600 dark:text-gray-400">Family Outings</div> <div class="text-xs text-green-600 dark:text-green-400">This Month</div></div> <div class="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"><div class="text-xl font-bold text-blue-600 dark:text-blue-400 mb-1">98%</div> <div class="text-xs text-gray-600 dark:text-gray-400">Budget Adherence</div> <div class="text-xs text-green-600 dark:text-green-400">This Month</div></div></div></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:bell-alert", class: "text-orange-500" });
+    $$renderer2.push(`<!----> Standard Reminders Reference</h3> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"><div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg"><h4 class="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:currency-rupee", class: "text-blue-600" });
+    $$renderer2.push(`<!----> Financial &amp; Admin</h4> <div class="space-y-2 text-sm"><div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">School fees (quarterly)</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Insurance renewal (annual)</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Tax filing (March 31)</span></div></div></div> <div class="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg"><h4 class="font-semibold text-orange-800 dark:text-orange-200 mb-3 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:fire", class: "text-orange-600" });
+    $$renderer2.push(`<!----> Cultural &amp; Rituals</h4> <div class="space-y-2 text-sm"><div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Festival preparations</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Temple visit planning</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Panchangam tracking</span></div></div></div> <div class="p-4 bg-pink-50 dark:bg-pink-900/20 rounded-lg"><h4 class="font-semibold text-pink-800 dark:text-pink-200 mb-3 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:heart", class: "text-pink-600" });
+    $$renderer2.push(`<!----> Family &amp; Health</h4> <div class="space-y-2 text-sm"><div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Doctor appointments</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Medication refills</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">School form submissions</span></div></div></div> <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg"><h4 class="font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center gap-2">`);
     Icon($$renderer2, {
       icon: "heroicons:wrench-screwdriver",
-      class: "text-amber-500"
+      class: "text-green-600"
     });
-    $$renderer2.push(`<!----> Maintenance Due</h3> <div class="space-y-3"><div class="flex items-center justify-between p-3 bg-red-50 rounded-lg"><div class="flex items-center gap-3"><div class="w-3 h-3 bg-red-500 rounded-full"></div> <span class="text-sm font-medium text-gray-800">Car Service</span></div> <span class="text-xs text-red-600 font-medium">Overdue</span></div> <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg"><div class="flex items-center gap-3"><div class="w-3 h-3 bg-yellow-500 rounded-full"></div> <span class="text-sm font-medium text-gray-800">Water Filter Change</span></div> <span class="text-xs text-yellow-600 font-medium">Due soon</span></div> <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg"><div class="flex items-center gap-3"><div class="w-3 h-3 bg-green-500 rounded-full"></div> <span class="text-sm font-medium text-gray-800">Garden Maintenance</span></div> <span class="text-xs text-green-600 font-medium">Next week</span></div></div></div></div> <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
-    Icon($$renderer2, { icon: "heroicons:clock", class: "text-blue-500" });
-    $$renderer2.push(`<!----> Recent Activity</h3> <div class="space-y-3"><div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"><div class="p-2 bg-blue-100 rounded-lg">`);
+    $$renderer2.push(`<!----> Home Maintenance</h4> <div class="space-y-2 text-sm"><div class="flex items-center gap-2">`);
     Icon($$renderer2, {
-      icon: "heroicons:document-text",
-      class: "text-blue-600 text-sm"
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
     });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">Family notes updated</p> <p class="text-xs text-gray-600">2 hours ago</p></div></div> <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"><div class="p-2 bg-green-100 rounded-lg">`);
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Deep cleaning (monthly)</span></div> <div class="flex items-center gap-2">`);
     Icon($$renderer2, {
-      icon: "heroicons:clipboard-document-list",
-      class: "text-green-600 text-sm"
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
     });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">New task added</p> <p class="text-xs text-gray-600">4 hours ago</p></div></div> <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"><div class="p-2 bg-orange-100 rounded-lg">`);
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Pest control (quarterly)</span></div> <div class="flex items-center gap-2">`);
     Icon($$renderer2, {
-      icon: "heroicons:bell-alert",
-      class: "text-orange-600 text-sm"
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
     });
-    $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800">Reminder set</p> <p class="text-xs text-gray-600">6 hours ago</p></div></div></div></div> <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-100"><h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">`);
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Appliance servicing</span></div></div></div> <div class="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg"><h4 class="font-semibold text-purple-800 dark:text-purple-200 mb-3 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:truck", class: "text-purple-600" });
+    $$renderer2.push(`<!----> Vehicle &amp; Travel</h4> <div class="space-y-2 text-sm"><div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Fast tag recharge</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Fuel monitoring</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Festival travel planning</span></div></div></div> <div class="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg"><h4 class="font-semibold text-indigo-800 dark:text-indigo-200 mb-3 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:users", class: "text-indigo-600" });
+    $$renderer2.push(`<!----> Relationships</h4> <div class="space-y-2 text-sm"><div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Call elderly relatives</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Anniversary planning</span></div> <div class="flex items-center gap-2">`);
+    Icon($$renderer2, {
+      icon: "heroicons:check-circle",
+      class: "text-green-500 text-xs"
+    });
+    $$renderer2.push(`<!----> <span class="text-gray-700 dark:text-gray-300">Family prayer sessions</span></div></div></div></div> <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600"><p class="text-sm text-gray-600 dark:text-gray-400 text-center">💡 These reminders are automatically suggested based on South Indian family lifestyle patterns</p></div></div> <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"><div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:light-bulb", class: "text-amber-500" });
+    $$renderer2.push(`<!----> Smart Suggestions</h3> <div class="space-y-4"><!--[-->`);
+    const each_array_8 = ensure_array_like(smartSuggestions);
+    for (let $$index_8 = 0, $$length = each_array_8.length; $$index_8 < $$length; $$index_8++) {
+      let suggestion = each_array_8[$$index_8];
+      $$renderer2.push(`<div class="flex items-center justify-between p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg border border-amber-200 dark:border-amber-800"><div class="flex items-center gap-3"><div class="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">`);
+      Icon($$renderer2, { icon: suggestion.icon, class: "text-lg text-amber-600" });
+      $$renderer2.push(`<!----></div> <div class="flex-1"><p class="text-sm font-medium text-gray-800 dark:text-white">${escape_html(suggestion.message)}</p> <p class="text-xs text-gray-600 dark:text-gray-400">AI-powered suggestion</p></div></div> <button class="px-3 py-1 bg-amber-500 text-white text-xs rounded-full hover:bg-amber-600 transition-colors">${escape_html(suggestion.action)}</button></div>`);
+    }
+    $$renderer2.push(`<!--]--></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
+    Icon($$renderer2, { icon: "heroicons:credit-card", class: "text-emerald-500" });
+    $$renderer2.push(`<!----> Quick Expense Entry</h3> <div class="grid grid-cols-2 gap-3 mb-4"><!--[-->`);
+    const each_array_9 = ensure_array_like(expenseCategories);
+    for (let $$index_9 = 0, $$length = each_array_9.length; $$index_9 < $$length; $$index_9++) {
+      let category = each_array_9[$$index_9];
+      $$renderer2.push(`<button${attr_class(`p-3 ${stringify(category.bgColor)} dark:bg-opacity-20 rounded-lg hover:shadow-md transition-all duration-200 hover:scale-105`)}>`);
+      Icon($$renderer2, {
+        icon: category.icon,
+        class: `text-xl ${stringify(category.color)} mb-2`
+      });
+      $$renderer2.push(`<!----> <div class="text-xs font-medium text-gray-800 dark:text-white">${escape_html(category.name)}</div></button>`);
+    }
+    $$renderer2.push(`<!--]--></div> <div class="flex gap-2"><input type="number" placeholder="Amount (₹)" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white"/> <button class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors">Add</button></div> <div class="mt-4 text-xs text-gray-600 dark:text-gray-400">Today's expenses: ₹2,450 • Budget remaining: ₹14,770</div></div></div> <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700"><h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">`);
     Icon($$renderer2, { icon: "heroicons:bolt", class: "text-purple-500" });
-    $$renderer2.push(`<!----> Quick Actions</h3> <div class="grid grid-cols-2 md:grid-cols-4 gap-3"><button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
+    $$renderer2.push(`<!----> Quick Actions</h3> <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4"><button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
     Icon($$renderer2, { icon: "heroicons:clipboard-document-list", class: "text-xl" });
     $$renderer2.push(`<!----> <span class="text-sm font-medium">Add Task</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
     Icon($$renderer2, { icon: "heroicons:document-text", class: "text-xl" });
@@ -1507,16 +1546,15 @@ function DashboardTiles($$renderer, $$props) {
     Icon($$renderer2, { icon: "heroicons:calendar-days", class: "text-xl" });
     $$renderer2.push(`<!----> <span class="text-sm font-medium">Schedule</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
     Icon($$renderer2, { icon: "heroicons:bell-alert", class: "text-xl" });
-    $$renderer2.push(`<!----> <span class="text-sm font-medium">Set Reminder</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
+    $$renderer2.push(`<!----> <span class="text-sm font-medium">Reminder</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-pink-500 to-pink-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
     Icon($$renderer2, { icon: "heroicons:heart", class: "text-xl" });
-    $$renderer2.push(`<!----> <span class="text-sm font-medium">Health Check</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
+    $$renderer2.push(`<!----> <span class="text-sm font-medium">Health</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
     Icon($$renderer2, { icon: "heroicons:credit-card", class: "text-xl" });
-    $$renderer2.push(`<!----> <span class="text-sm font-medium">Add Expense</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
+    $$renderer2.push(`<!----> <span class="text-sm font-medium">Expense</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
     Icon($$renderer2, { icon: "heroicons:shopping-cart", class: "text-xl" });
-    $$renderer2.push(`<!----> <span class="text-sm font-medium">Grocery List</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
+    $$renderer2.push(`<!----> <span class="text-sm font-medium">Grocery</span></button> <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105">`);
     Icon($$renderer2, { icon: "heroicons:chat-bubble-left-right", class: "text-xl" });
-    $$renderer2.push(`<!----> <span class="text-sm font-medium">AI Assistant</span></button></div></div></div></div></div></div></div>`);
-    if ($$store_subs) unsubscribe_stores($$store_subs);
+    $$renderer2.push(`<!----> <span class="text-sm font-medium">AI Help</span></button></div></div> <div class="mt-8 text-center"><div class="bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 border border-orange-200 dark:border-orange-800"><blockquote class="text-lg font-medium text-gray-800 dark:text-white italic mb-2">"குடும்பம் ஒன்று கூடினால், குறைவொன்றும் இல்லை"</blockquote> <cite class="text-sm text-gray-600 dark:text-gray-400">— திருக்குறள் (Family unity brings prosperity)</cite></div></div></div></div>`);
   });
 }
 function FloatingActionButtons($$renderer, $$props) {
@@ -1582,13 +1620,15 @@ function DashboardLayout($$renderer, $$props) {
   });
 }
 function _layout($$renderer, $$props) {
-  DashboardLayout($$renderer, {
-    children: ($$renderer2) => {
-      $$renderer2.push(`<!--[-->`);
-      slot($$renderer2, $$props, "default", {});
-      $$renderer2.push(`<!--]-->`);
-    },
-    $$slots: { default: true }
+  $$renderer.component(($$renderer2) => {
+    DashboardLayout($$renderer2, {
+      children: ($$renderer3) => {
+        $$renderer3.push(`<!--[-->`);
+        slot($$renderer3, $$props, "default", {});
+        $$renderer3.push(`<!--]-->`);
+      },
+      $$slots: { default: true }
+    });
   });
 }
 export {

@@ -1,10 +1,11 @@
 import "clsx";
-import { c as store_get, b as attr_class, d as attr, u as unsubscribe_stores, s as stringify } from "../../../chunks/index2.js";
+import { c as store_get, b as attr_class, u as unsubscribe_stores, s as stringify } from "../../../chunks/index2.js";
 import { I as Icon } from "../../../chunks/Icon.js";
 import { a as $format } from "../../../chunks/runtime.js";
 import "../../../chunks/theme.js";
 import "../../../chunks/background.js";
-import { T as escape_html } from "../../../chunks/context.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
+import { a as attr } from "../../../chunks/attributes.js";
 function SettingsPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
