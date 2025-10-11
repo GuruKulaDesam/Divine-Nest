@@ -1,19 +1,7 @@
-<script>
-  import ExpensesPage from "$lib/components/ExpensesPage.svelte";
-</script>
-
-<ExpensesPage />
-<div class="mt-6 flex flex-col gap-2">
-  <a href="/finances/expenses/parse-upi-sms" class="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200 transition">
-    Try UPI SMS Parser Demo
-  </a>
-  <button class="inline-block bg-green-100 text-green-800 px-4 py-2 rounded hover:bg-green-200 transition" on:click={() => showImport = true}>
-    Import UPI SMS (Build History)
-  </button>
-</div>
-
 <script lang="ts">
-  import { parseUPISMS, ParsedTransaction } from '$lib/utils/upiSmsParser';
+  import ExpensesPage from "$lib/components/ExpensesPage.svelte";
+  import { parseUPISMS } from '$lib/utils/upiSmsParser';
+  import type { ParsedTransaction } from '$lib/utils/upiSmsParser';;
   import { onMount } from 'svelte';
   let showImport = false;
   let smsBulk = '';
@@ -38,6 +26,16 @@
     }
   }
 </script>
+
+<ExpensesPage />
+<div class="mt-6 flex flex-col gap-2">
+  <a href="/finances/expenses/parse-upi-sms" class="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded hover:bg-blue-200 transition">
+    Try UPI SMS Parser Demo
+  </a>
+  <button class="inline-block bg-green-100 text-green-800 px-4 py-2 rounded hover:bg-green-200 transition" on:click={() => showImport = true}>
+    Import UPI SMS (Build History)
+  </button>
+</div>
 
 {#if showImport}
   <div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
