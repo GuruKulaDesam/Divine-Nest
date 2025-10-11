@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { getGroceryItems, getChores, getRepairTasks, getEmergencyContacts } from "$lib/data/home.js";
+  import { base } from "$app/paths";
 
   let householdStats = {
     totalGroceries: 0,
@@ -118,25 +119,25 @@
   <div class="bg-white rounded-lg shadow-lg p-6">
     <h2 class="text-xl font-semibold text-gray-800 mb-6">Quick Household Actions</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <a href="/home#grocery" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
+      <a href="{base}/home#grocery" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
         <span class="text-2xl">🛒</span>
         <span class="font-semibold">Check Pantry</span>
         <span class="text-sm opacity-90">View grocery inventory</span>
       </a>
 
-      <a href="/home#chores" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
+      <a href="{base}/home#chores" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
         <span class="text-2xl">🧹</span>
         <span class="font-semibold">Family Chores</span>
         <span class="text-sm opacity-90">Assign & track tasks</span>
       </a>
 
-      <a href="/home#repairs" class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
+      <a href="{base}/home#repairs" class="bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
         <span class="text-2xl">🔧</span>
         <span class="font-semibold">Maintenance</span>
         <span class="text-sm opacity-90">Track repairs</span>
       </a>
 
-      <a href="/home-services" class="bg-red-500 hover:bg-red-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
+      <a href="{base}/home-services" class="bg-red-500 hover:bg-red-600 text-white p-4 rounded-lg transition-colors duration-200 flex flex-col items-center gap-2 text-center">
         <span class="text-2xl">🚨</span>
         <span class="font-semibold">Emergency</span>
         <span class="text-sm opacity-90">Quick contacts</span>

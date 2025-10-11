@@ -3,15 +3,18 @@ const CACHE_NAME = 'divine-nest-v1.0.0';
 const STATIC_CACHE = 'divine-nest-static-v1.0.0';
 const DYNAMIC_CACHE = 'divine-nest-dynamic-v1.0.0';
 
+// Get the base path from the service worker's location
+const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
+
 // Files to cache immediately
 const STATIC_ASSETS = [
-  '/',
-  '/manifest.json',
-  '/favicon.svg',
-  '/logo-light.svg',
-  '/logo-dark.svg',
-  '/loading.svg',
-  '/vite.svg'
+  BASE_PATH || '/',
+  `${BASE_PATH}/manifest.json`,
+  `${BASE_PATH}/favicon.svg`,
+  `${BASE_PATH}/logo-light.svg`,
+  `${BASE_PATH}/logo-dark.svg`,
+  `${BASE_PATH}/loading.svg`,
+  `${BASE_PATH}/vite.svg`
 ];
 
 // Install event - cache static assets
@@ -64,7 +67,7 @@ self.addEventListener('fetch', event => {
   if (url.origin !== location.origin) return;
 
   // Handle API requests differently
-  if (url.pathname.startsWith('/api/')) {
+  if (url.pathname.startsWith(`${BASE_PATH}/api/`)) {
     event.respondWith(
       fetch(request)
         .then(response => {
@@ -116,7 +119,7 @@ self.addEventListener('fetch', event => {
           .catch(() => {
             // Return offline fallback for navigation requests
             if (request.mode === 'navigate') {
-              return caches.match('/');
+              return caches.match(BASE_PATH || '/');
             }
           });
       })
@@ -152,8 +155,8 @@ self.addEventListener('push', event => {
   const data = event.data.json();
   const options = {
     body: data.body,
-    icon: '/favicon.svg',
-    badge: '/favicon.svg',
+    icon: `${BASE_PATH}/favicon.svg`,
+    badge: `${BASE_PATH}/favicon.svg`,
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
@@ -171,6 +174,6 @@ self.addEventListener('notificationclick', event => {
   event.notification.close();
 
   event.waitUntil(
-    clients.openWindow(event.notification.data.url || '/')
+    clients.openWindow(event.notification.data.url || (BASE_PATH || '/'))
   );
 });

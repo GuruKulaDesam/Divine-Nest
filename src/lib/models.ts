@@ -43,6 +43,19 @@ export interface Recording {
   voiceCreated?: boolean
 }
 
+export interface TrackerEntry {
+  id: string
+  category: string
+  amount?: number
+  description: string
+  date: string
+  tags?: string[]
+  notes?: string
+  createdAt: string
+  updatedAt: string
+  period?: 'daily' | 'weekly' | 'monthly' | 'other'
+}
+
 // Voice intent types
 export interface VoiceIntent {
   type: 'createTodo' | 'setReminder' | 'createNote' | 'setEventReminder' | 'startRecording' | 'stopRecording' | 'unknown'

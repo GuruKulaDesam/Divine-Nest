@@ -58,7 +58,7 @@
   <!-- Patterns Grid -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
     {#each filteredPatterns as pattern}
-      <button class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer text-left w-full" on:click={() => loadPattern(pattern)} role="button" tabindex="0">
+      <button class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer text-left w-full" on:click={() => loadPattern(pattern)} tabindex="0">
         <div class="flex items-start justify-between mb-2">
           <div>
             <h4 class="font-medium text-gray-900">{pattern.name}</h4>

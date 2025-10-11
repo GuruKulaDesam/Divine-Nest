@@ -6,6 +6,7 @@
   import { reminders } from "$lib/stores/reminders.js";
   import { events } from "$lib/stores/events.js";
   import { recordings } from "$lib/stores/recordings.js";
+  import { base } from "$app/paths";
 
   let activeTab = "overview";
 
@@ -109,31 +110,31 @@
       <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Quick Actions</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a href="/shivo/todos" class="block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
+        <a href="{base}/shivo/todos" class="block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
           <div class="text-3xl mb-3">📝</div>
           <h3 class="text-xl font-semibold mb-2">Manage Todos</h3>
           <p class="text-blue-100">Create and track your tasks</p>
         </a>
 
-        <a href="/shivo/notes" class="block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
+        <a href="{base}/shivo/notes" class="block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
           <div class="text-3xl mb-3">📓</div>
           <h3 class="text-xl font-semibold mb-2">Voice Notes</h3>
           <p class="text-green-100">Capture thoughts and ideas</p>
         </a>
 
-        <a href="/shivo/reminders" class="block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
+        <a href="{base}/shivo/reminders" class="block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
           <div class="text-3xl mb-3">⏰</div>
           <h3 class="text-xl font-semibold mb-2">Smart Reminders</h3>
           <p class="text-orange-100">Never forget important things</p>
         </a>
 
-        <a href="/shivo/events" class="block bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
+        <a href="{base}/shivo/events" class="block bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
           <div class="text-3xl mb-3">📅</div>
           <h3 class="text-xl font-semibold mb-2">Event Planning</h3>
           <p class="text-purple-100">Schedule family events</p>
         </a>
 
-        <a href="/shivo/recordings" class="block bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
+        <a href="{base}/shivo/recordings" class="block bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl p-6 text-center transition-all duration-300 transform hover:scale-105">
           <div class="text-3xl mb-3">🎙️</div>
           <h3 class="text-xl font-semibold mb-2">Voice Recordings</h3>
           <p class="text-red-100">Record and store audio</p>

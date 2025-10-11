@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { parseUPISMS, ParsedTransaction } from '$lib/utils/upiSmsParser';
+  import { parseUPISMS } from '$lib/utils/upiSmsParser';
+  import type { ParsedTransaction } from '$lib/utils/upiSmsParser';
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
 

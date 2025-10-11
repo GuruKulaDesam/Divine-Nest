@@ -214,13 +214,13 @@
 
         <form on:submit|preventDefault={editingLoan ? updateLoan : addLoan} class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Loan Name</label>
-            <input type="text" bind:value={newLoan.loanName} placeholder="e.g., Home Loan, Car Loan" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
+            <label for="loan-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Loan Name</label>
+            <input id="loan-name" type="text" bind:value={newLoan.loanName} placeholder="e.g., Home Loan, Car Loan" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
-            <select bind:value={newLoan.type} class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required>
+            <label for="loan-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</label>
+            <select id="loan-type" bind:value={newLoan.type} class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required>
               <option value="">Select type</option>
               {#each loanTypes as type}
                 <option value={type}>{type}</option>
@@ -229,23 +229,23 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">EMI Amount (₹)</label>
-            <input type="number" bind:value={newLoan.emiAmount} placeholder="25000" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
+            <label for="emi-amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">EMI Amount (₹)</label>
+            <input id="emi-amount" type="number" bind:value={newLoan.emiAmount} placeholder="25000" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Due Date</label>
-            <input type="date" bind:value={newLoan.dueDate} class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
+            <label for="due-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Due Date</label>
+            <input id="due-date" type="date" bind:value={newLoan.dueDate} class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Remaining Balance (₹)</label>
-            <input type="number" bind:value={newLoan.remainingBalance} placeholder="1500000" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
+            <label for="remaining-balance" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Remaining Balance (₹)</label>
+            <input id="remaining-balance" type="number" bind:value={newLoan.remainingBalance} placeholder="1500000" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white" required />
           </div>
 
           <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
-            <textarea bind:value={newLoan.notes} placeholder="Additional notes about the loan..." rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"></textarea>
+            <label for="loan-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
+            <textarea id="loan-notes" bind:value={newLoan.notes} placeholder="Additional notes about the loan..." rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"></textarea>
           </div>
 
           <div class="md:col-span-2 flex gap-3">

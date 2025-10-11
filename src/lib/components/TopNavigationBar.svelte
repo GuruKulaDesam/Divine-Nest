@@ -27,48 +27,26 @@
   // Request categories with their KPIs and routing - compact version for nav bar
   const requestCategories = [
     {
-      id: "urgents",
-      title: "Urgents",
+      id: "issues",
+      title: "Issues",
       icon: "heroicons:exclamation-triangle",
       color: "from-red-500 to-red-600",
       borderColor: "border-red-400",
       bgColor: "bg-red-50 dark:bg-red-900/20",
       textColor: "text-red-700 dark:text-red-300",
-      metric: "3",
-      path: "/issues/urgent",
+      metric: "10",
+      path: "/issues",
     },
     {
-      id: "repairs",
-      title: "Repairs",
-      icon: "heroicons:wrench-screwdriver",
-      color: "from-orange-500 to-orange-600",
-      borderColor: "border-orange-400",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
-      textColor: "text-orange-700 dark:text-orange-300",
-      metric: "7",
-      path: "/issues/repairs",
-    },
-    {
-      id: "inventory",
-      title: "Inventory",
-      icon: "heroicons:archive-box",
-      color: "from-yellow-500 to-yellow-600",
-      borderColor: "border-yellow-400",
-      bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
-      textColor: "text-yellow-700 dark:text-yellow-300",
-      metric: "8",
-      path: "/inventory",
-    },
-    {
-      id: "maintenance",
-      title: "Maintenance",
+      id: "requests",
+      title: "Requests",
       icon: "heroicons:cog-6-tooth",
       color: "from-blue-500 to-blue-600",
       borderColor: "border-blue-400",
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       textColor: "text-blue-700 dark:text-blue-300",
-      metric: "12",
-      path: "/issues/maintenance",
+      metric: "17",
+      path: "/issues/requests",
     },
     {
       id: "expenses",
@@ -135,28 +113,6 @@
       textColor: "text-pink-700 dark:text-pink-300",
       metric: "6",
       path: "/home/family-calendar-modern",
-    },
-    {
-      id: "upgrades",
-      title: "Upgrades",
-      icon: "heroicons:arrow-trending-up",
-      color: "from-green-500 to-green-600",
-      borderColor: "border-green-400",
-      bgColor: "bg-green-50 dark:bg-green-900/20",
-      textColor: "text-green-700 dark:text-green-300",
-      metric: "5",
-      path: "/issues/upgrades",
-    },
-    {
-      id: "assets",
-      title: "Assets",
-      icon: "heroicons:building-office",
-      color: "from-amber-500 to-amber-600",
-      borderColor: "border-amber-400",
-      bgColor: "bg-amber-50 dark:bg-amber-900/20",
-      textColor: "text-amber-700 dark:text-amber-300",
-      metric: "₹2.5L",
-      path: "/assets",
     },
   ];
 
@@ -269,9 +225,9 @@
 
     <!-- Center Section: KPI Dashboard Cards -->
     <div class="flex-1 flex justify-center mx-6">
-      <div class="grid grid-cols-12 grid-rows-1 gap-2 max-w-full">
+      <div class="flex justify-center gap-4 max-w-full">
         {#each requestCategories as category}
-          <button type="button" class="group relative bg-transparent border border-dashed {category.borderColor} rounded-lg pt-2.5 pb-3 px-2 aspect-square cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-0.5 hover:rotate-1 flex flex-col items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" on:click={() => handleCategoryClick(category)} on:mouseenter={handleHover}>
+          <button type="button" class="group relative bg-transparent border border-white/30 dark:border-gray-600/50 rounded-lg pt-2.5 pb-3 px-2 aspect-square cursor-pointer transition-all duration-300 hover:scale-105 flex flex-col items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" on:click={() => handleCategoryClick(category)} on:mouseenter={handleHover}>
             <!-- Animated background on hover -->
             <div class="absolute inset-0 bg-gradient-to-br {category.color} opacity-0 group-hover:opacity-20 rounded-md transition-all duration-300 group-hover:animate-pulse"></div>
 
@@ -279,7 +235,7 @@
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center w-full">
               <!-- Metric at the top -->
               <div class="mb-2">
-                <div class="bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-full shadow-sm transition-all duration-300">
+                <div class="bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-full transition-all duration-300">
                   <span class="text-[19.8px] font-sans font-bold {category.textColor} group-hover:scale-110 transition-transform duration-300" style="font-family: 'Segoe UI', 'Helvetica Neue', 'DIN Alternate', sans-serif;">{category.metric}</span>
                 </div>
               </div>

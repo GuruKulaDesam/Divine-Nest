@@ -2,14 +2,16 @@
   import '../app.css';
   import '$lib/i18n/index.js';
   import DashboardLayout from '$lib/components/DashboardLayout.svelte';
+  import { base } from '$app/paths';
 
   // Register service worker for PWA functionality
   import { onMount } from 'svelte';
 
   onMount(() => {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
+      navigator.serviceWorker.register(`${base}/service-worker.js`)
         .then(registration => {
+          console.log('[PWA] Service Worker registered:', registration);
           console.log('[PWA] Service Worker registered:', registration);
 
           // Check for updates

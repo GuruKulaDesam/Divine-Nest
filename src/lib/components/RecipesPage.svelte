@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
+  import { base } from "$app/paths";
 
   let recipes = [
     {
@@ -168,7 +169,7 @@
       <p class="text-base-content/70 mt-1">Manage your family recipes collection</p>
     </div>
     <div class="flex gap-2">
-      <a href="/recipes/traditional" class="btn btn-outline btn-warning gap-2">
+      <a href="{base}/recipes/traditional" class="btn btn-outline btn-warning gap-2">
         <Icon icon="heroicons:sparkles" class="w-5 h-5" />
         Traditional Tamil Recipes
       </a>
@@ -194,7 +195,7 @@
         </div>
       </div>
       <div class="ml-6">
-        <a href="/recipes/traditional" class="btn btn-warning gap-2 shadow-lg hover:shadow-xl transition-all duration-300">
+        <a href="{base}/recipes/traditional" class="btn btn-warning gap-2 shadow-lg hover:shadow-xl transition-all duration-300">
           <Icon icon="heroicons:sparkles" class="w-5 h-5" />
           Explore Traditional Recipes
         </a>

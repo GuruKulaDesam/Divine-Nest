@@ -3,6 +3,7 @@
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import { base } from "$app/paths";
   import { homeSounds } from "$lib/utils/sounds";
 
   const dispatch = createEventDispatcher();
@@ -46,10 +47,11 @@
       borderColor: "border-orange-500/50",
       textColor: "text-orange-600 dark:text-orange-400",
       description: "Spiritual & Religious",
-      routes: ["/divinity", "/divinity/panchangam", "/divinity/rituals", "/divinity/temple", "/divinity/mantras"],
+      routes: ["/divinity", "/divinity/panchangam", "/divinity/drikpanchangam", "/divinity/rituals", "/divinity/temple", "/divinity/mantras"],
       subTiles: [
         { label: "Dashboard", path: "/divinity", icon: "heroicons:sun" },
         { label: "Panchangam", path: "/divinity/panchangam", icon: "heroicons:sun" },
+        { label: "திரிக் பஞ்சாங்கம்", path: "/divinity/drikpanchangam", icon: "heroicons:calendar-days" },
         { label: "Rituals", path: "/divinity/rituals", icon: "heroicons:sparkles" },
         { label: "Temples", path: "/divinity/temple", icon: "heroicons:building-storefront" },
         { label: "Festivals", path: "/culture/festival-calendar", icon: "heroicons:calendar" },
@@ -331,7 +333,7 @@
     } catch (error) {
       console.warn("goto failed, using window.location:", error);
       if (typeof window !== "undefined") {
-        window.location.href = path;
+        window.location.href = `${base}${path}`;
       }
     }
     hoveredTile = null;
