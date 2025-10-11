@@ -3,7 +3,7 @@ import { h as head, b as attr_class, a as ensure_array_like, s as stringify } fr
 import { I as Icon } from "../../../../../chunks/Icon.js";
 import { w as writable } from "../../../../../chunks/index.js";
 import { t as todos, r as reminders, n as notes } from "../../../../../chunks/reminders.js";
-import { T as escape_html } from "../../../../../chunks/context.js";
+import { e as escape_html } from "../../../../../chunks/escaping.js";
 const initialEvents = [
   {
     id: "1",

@@ -1,7 +1,8 @@
 import "clsx";
-import { a as ensure_array_like, d as attr } from "../../../../chunks/index2.js";
+import { a as ensure_array_like } from "../../../../chunks/index2.js";
 import { o as onDestroy, I as Icon } from "../../../../chunks/Icon.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 class AudioPlayer {
   audioContext = null;
   currentSource = null;

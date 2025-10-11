@@ -1,6 +1,6 @@
 import { h as head, b as attr_class, a as ensure_array_like, s as stringify } from "../../../../chunks/index2.js";
 import "../../../../chunks/rituals.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function RitualsDashboard($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let stats = {};

@@ -1,8 +1,9 @@
 import "clsx";
-import { d as attr, a as ensure_array_like, b as attr_class, s as stringify, j as attr_style, k as bind_props, h as head } from "../../../../chunks/index2.js";
+import { a as ensure_array_like, b as attr_class, s as stringify, f as attr_style, g as bind_props, h as head } from "../../../../chunks/index2.js";
 import { f as fallback } from "../../../../chunks/utils2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 const StudentProfiles = {
   thambi: {
     id: "thambi",

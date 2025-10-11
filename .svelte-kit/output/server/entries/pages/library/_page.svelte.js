@@ -1,7 +1,8 @@
-import { d as attr, a as ensure_array_like, s as stringify, b as attr_class, j as attr_style, h as head } from "../../../chunks/index2.js";
+import { a as ensure_array_like, s as stringify, b as attr_class, f as attr_style, h as head } from "../../../chunks/index2.js";
 import { I as Icon } from "../../../chunks/Icon.js";
 import { a as getBooks } from "../../../chunks/education.js";
-import { T as escape_html } from "../../../chunks/context.js";
+import { e as escape_html } from "../../../chunks/escaping.js";
+import { a as attr } from "../../../chunks/attributes.js";
 function LibraryManager($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let books = [];

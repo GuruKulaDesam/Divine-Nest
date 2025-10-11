@@ -1,6 +1,6 @@
 import { a as ensure_array_like, b as attr_class, s as stringify, h as head } from "../../../../chunks/index2.js";
 import "../../../../chunks/home.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function EmergencyServices($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let emergencyContacts = [];

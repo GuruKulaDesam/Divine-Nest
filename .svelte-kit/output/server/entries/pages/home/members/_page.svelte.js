@@ -1,8 +1,9 @@
 import "clsx";
-import { l as store_set, c as store_get, d as attr, a as ensure_array_like, b as attr_class, s as stringify, u as unsubscribe_stores } from "../../../../chunks/index2.js";
+import { j as store_set, c as store_get, a as ensure_array_like, b as attr_class, s as stringify, u as unsubscribe_stores } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import { w as writable } from "../../../../chunks/index.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 function MembersPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;

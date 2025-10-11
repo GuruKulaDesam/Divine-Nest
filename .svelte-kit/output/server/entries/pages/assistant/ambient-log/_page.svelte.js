@@ -1,7 +1,8 @@
 import "clsx";
-import { h as head, b as attr_class, d as attr, a as ensure_array_like } from "../../../../chunks/index2.js";
+import { h as head, b as attr_class, a as ensure_array_like } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 function AmbientLogPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let ambientLogs = [

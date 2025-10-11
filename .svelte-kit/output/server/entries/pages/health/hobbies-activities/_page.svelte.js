@@ -1,7 +1,7 @@
 import "clsx";
 import { a as ensure_array_like, b as attr_class, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function HobbiesActivitiesPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let filteredHobbies, filteredSessions, totalHobbies, activeToday, avgProgress, totalSessions;

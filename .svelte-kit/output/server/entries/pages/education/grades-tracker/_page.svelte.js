@@ -1,6 +1,6 @@
 import "clsx";
 import { a as ensure_array_like } from "../../../../chunks/index2.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function GradesTrackerPage($$renderer) {
   let studentProfiles = [
     {

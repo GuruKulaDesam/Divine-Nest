@@ -1,8 +1,9 @@
 import "clsx";
-import { a as ensure_array_like, b as attr_class, g as clsx, j as attr_style, s as stringify } from "../../../../chunks/index2.js";
+import { a as ensure_array_like, b as attr_class, f as attr_style, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import { g as getStudyPlans } from "../../../../chunks/education.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { c as clsx } from "../../../../chunks/attributes.js";
 import "../../../../chunks/database.js";
 function StudyPlanner($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {

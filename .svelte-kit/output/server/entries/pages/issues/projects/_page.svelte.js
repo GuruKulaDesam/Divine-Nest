@@ -1,9 +1,10 @@
 import "clsx";
-import { d as attr, c as store_get, u as unsubscribe_stores, k as bind_props, a as ensure_array_like, b as attr_class, s as stringify } from "../../../../chunks/index2.js";
+import { c as store_get, u as unsubscribe_stores, g as bind_props, a as ensure_array_like, b as attr_class, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
 import { a as $format } from "../../../../chunks/runtime.js";
 import { f as fallback } from "../../../../chunks/utils2.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 function DeleteConfirmationModal($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     var $$store_subs;
@@ -211,7 +212,7 @@ function ProjectManagementPage($$renderer, $$props) {
       const each_array = ensure_array_like(projectStatuses);
       for (let $$index_2 = 0, $$length = each_array.length; $$index_2 < $$length; $$index_2++) {
         let status = each_array[$$index_2];
-        $$renderer3.push(`<div class="w-80 flex-shrink-0"><div class="flex items-center justify-between mb-4"><div class="flex items-center space-x-2"><div${attr_class(`w-3 h-3 rounded-full ${stringify(status.color)} shadow-sm`)}></div> <h3 class="font-semibold text-base-content">${escape_html(status.name)}</h3> <span class="bg-gradient-to-r from-primary/10 to-secondary/10 text-primary text-xs px-3 py-1 rounded-full border border-primary/20 shadow-sm">${escape_html(filteredProjects[status.id]?.length || 0)}</span></div></div> <div class="group relative overflow-hidden bg-gradient-to-br from-base-200 to-base-300/50 rounded-2xl p-4 min-h-[500px] border border-base-300/50 shadow-md hover:shadow-lg transition-all duration-300 backdrop-blur-sm"><div class="absolute top-0 right-0 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity duration-300">`);
+        $$renderer3.push(`<div class="w-80 flex-shrink-0"><div class="flex items-center justify-between mb-4"><div class="flex items-center space-x-2"><div${attr_class(`w-3 h-3 rounded-full ${stringify(status.color)} shadow-sm`)}></div> <h3 class="font-semibold text-base-content">${escape_html(status.name)}</h3> <span class="bg-gradient-to-r from-primary/10 to-secondary/10 text-primary text-xs px-3 py-1 rounded-full border border-primary/20 shadow-sm">${escape_html(filteredProjects[status.id]?.length || 0)}</span></div></div> <div class="group relative overflow-hidden bg-gradient-to-br from-base-200 to-base-300/50 rounded-2xl p-4 min-h-[500px] border border-base-300/50 shadow-md hover:shadow-lg transition-all duration-300 backdrop-blur-sm" role="region"${attr("aria-label", `${stringify(status.name)} column - drop tasks here`)}><div class="absolute top-0 right-0 w-16 h-16 opacity-5 group-hover:opacity-10 transition-opacity duration-300">`);
         Icon($$renderer3, {
           icon: "heroicons:clipboard-document-list",
           class: "w-full h-full text-primary"
@@ -220,7 +221,7 @@ function ProjectManagementPage($$renderer, $$props) {
         const each_array_1 = ensure_array_like(filteredProjects[status.id] || []);
         for (let $$index_1 = 0, $$length2 = each_array_1.length; $$index_1 < $$length2; $$index_1++) {
           let task = each_array_1[$$index_1];
-          $$renderer3.push(`<div class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-xl p-4 shadow-md border border-base-300/50 cursor-move hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm" draggable="true"><div class="absolute top-0 right-0 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300">`);
+          $$renderer3.push(`<div class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-xl p-4 shadow-md border border-base-300/50 cursor-move hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm" role="application"${attr("aria-label", `Draggable task: ${stringify(task.title)}`)} draggable="true"><div class="absolute top-0 right-0 w-12 h-12 opacity-5 group-hover:opacity-10 transition-opacity duration-300">`);
           Icon($$renderer3, {
             icon: "heroicons:document-text",
             class: "w-full h-full text-primary"

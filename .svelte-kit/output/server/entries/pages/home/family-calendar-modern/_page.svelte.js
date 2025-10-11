@@ -1,7 +1,8 @@
 import "clsx";
-import { a as ensure_array_like, j as attr_style, s as stringify, d as attr } from "../../../../chunks/index2.js";
+import { a as ensure_array_like, f as attr_style, s as stringify } from "../../../../chunks/index2.js";
 import "../../../../chunks/dexie-db.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { a as attr } from "../../../../chunks/attributes.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
 function CalendarModern($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     window.gapi = /** @type {any} */

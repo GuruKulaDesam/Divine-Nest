@@ -1,7 +1,8 @@
 import "clsx";
-import { h as head, d as attr, a as ensure_array_like, b as attr_class, j as attr_style, s as stringify } from "../../../../chunks/index2.js";
+import { h as head, a as ensure_array_like, b as attr_class, f as attr_style, s as stringify } from "../../../../chunks/index2.js";
 import { I as Icon } from "../../../../chunks/Icon.js";
-import { T as escape_html } from "../../../../chunks/context.js";
+import { e as escape_html } from "../../../../chunks/escaping.js";
+import { a as attr } from "../../../../chunks/attributes.js";
 function AutoChecklistPage($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let checklists = [

@@ -1,5 +1,5 @@
-import { m as attributes } from "./index2.js";
-import { Z as ssr_context } from "./context.js";
+import { k as attributes } from "./index2.js";
+import { Y as ssr_context } from "./context.js";
 function html(value) {
   var html2 = String(value ?? "");
   var open = "<!---->";

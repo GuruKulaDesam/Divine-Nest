@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/finances/expenses/parse-upi-sms/+page.svelte";
+export { default as component } from "../../../../src/routes/finances/expenses/ledger/+page.svelte";

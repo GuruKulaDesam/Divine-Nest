@@ -3,6 +3,7 @@ import { d as define_property, i as is_array, a as array_from } from "./utils2.j
 import { i as is_passive_event, r as render, e as experimental_async_ssr } from "./index2.js";
 import "clsx";
 import "./environment.js";
+import "./server.js";
 let public_env = {};
 function set_private_env(environment) {
 }
@@ -890,9 +891,8 @@ const options = {
   service_worker: false,
   service_worker_options: void 0,
   templates: {
-    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\r\n<html lang="en">\r\n	<head>\r\n		<meta charset="utf-8" />\r\n		<link rel="icon" href="' + assets + `/favicon.svg" />\r
-		<meta name="viewport" content="width=device-width, initial-scale=1" />\r
-		<title>Home Maker - Modern Family Dashboard</title>\r
+    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\r\n<html lang="en">\r\n	<head>\r\n		<meta charset="utf-8" />\r\n		<link rel="icon" href="' + assets + '/favicon.svg" />\r\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\r\n		<title>Divine Nest - Modern Family Dashboard</title>\r\n\r\n		<!-- PWA Meta Tags -->\r\n		<meta name="description" content="A comprehensive family management app for South Indian households" />\r\n		<meta name="theme-color" content="#8b5cf6" />\r\n		<meta name="apple-mobile-web-app-capable" content="yes" />\r\n		<meta name="apple-mobile-web-app-status-bar-style" content="default" />\r\n		<meta name="apple-mobile-web-app-title" content="Divine Nest" />\r\n		<link rel="apple-touch-icon" href="' + assets + '/logo-light.svg" />\r\n\r\n		<!-- PWA Manifest -->\r\n		<link rel="manifest" href="' + assets + `/manifest.json" />\r
+\r
 		<!-- Modern Fonts -->\r
 		<link rel="preconnect" href="https://fonts.googleapis.com">\r
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\r
@@ -981,7 +981,7 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "ugf865"
+  version_hash: "mz5wyh"
 };
 async function get_hooks() {
   let handle;

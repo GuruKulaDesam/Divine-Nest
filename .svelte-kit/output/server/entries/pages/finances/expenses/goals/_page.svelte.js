@@ -1,12 +1,13 @@
-import { h as head, a as ensure_array_like, j as attr_style, s as stringify, b as attr_class, d as attr } from "../../../../../chunks/index2.js";
+import { h as head, a as ensure_array_like, f as attr_style, s as stringify, b as attr_class } from "../../../../../chunks/index2.js";
 import { I as Icon } from "../../../../../chunks/Icon.js";
 import "../../../../../chunks/runtime.js";
 import "@sveltejs/kit/internal";
 import "../../../../../chunks/exports.js";
 import "../../../../../chunks/utils.js";
+import { a as attr } from "../../../../../chunks/attributes.js";
 import "@sveltejs/kit/internal/server";
 import "../../../../../chunks/state.svelte.js";
-import { T as escape_html } from "../../../../../chunks/context.js";
+import { e as escape_html } from "../../../../../chunks/escaping.js";
 function _page($$renderer, $$props) {
   $$renderer.component(($$renderer2) => {
     let totalGoals, completedGoals, inProgressGoals, totalTargetAmount, totalCurrentAmount, overallProgress, filteredGoals;
