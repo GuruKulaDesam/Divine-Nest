@@ -2,23 +2,23 @@
   "name": "Divine Nest - Modern Family Dashboard",
   "short_name": "Divine Nest",
   "description": "A comprehensive family management app for South Indian households",
-  "start_url": "/Divine-Nest/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#8b5cf6",
   "orientation": "portrait-primary",
-  "scope": "/Divine-Nest/",
+  "scope": "/",
   "lang": "en",
   "categories": ["lifestyle", "productivity", "utilities"],
   "icons": [
     {
-      "src": "/Divine-Nest/favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "32x32",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/Divine-Nest/logo-light.svg",
+      "src": "/logo-light.svg",
       "sizes": "32x32",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -29,10 +29,10 @@
       "name": "Add Todo",
       "short_name": "Todo",
       "description": "Quickly add a new todo item",
-      "url": "/Divine-Nest/todo",
+      "url": "/todo",
       "icons": [
         {
-          "src": "/Divine-Nest/favicon.svg",
+          "src": "/favicon.svg",
           "sizes": "32x32"
         }
       ]
@@ -41,10 +41,10 @@
       "name": "Track Expenses",
       "short_name": "Expenses",
       "description": "Track daily expenses",
-      "url": "/Divine-Nest/finances/expenses",
+      "url": "/finances/expenses",
       "icons": [
         {
-          "src": "/Divine-Nest/favicon.svg",
+          "src": "/favicon.svg",
           "sizes": "32x32"
         }
       ]
@@ -53,10 +53,10 @@
       "name": "Family Members",
       "short_name": "Members",
       "description": "View family member profiles",
-      "url": "/Divine-Nest/members",
+      "url": "/members",
       "icons": [
         {
-          "src": "/Divine-Nest/favicon.svg",
+          "src": "/favicon.svg",
           "sizes": "32x32"
         }
       ]
