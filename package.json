@@ -1,5 +1,5 @@
 {
-  "name": "home-maker",
+  "name": "divine-nest",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@melt-ui/pp": "^0.3.2",
+    "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
@@ -33,7 +34,6 @@
     "@iconify/svelte": "^5.0.0",
     "@melt-ui/svelte": "^0.86.6",
     "@sveltejs/adapter-auto": "^6.1.1",
-    "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.46.4",
     "chart.js": "^4.5.0",
     "cors": "^2.8.5",
