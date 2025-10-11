@@ -1,7 +1,7 @@
 // Service Worker for Divine Nest PWA
-const CACHE_NAME = 'divine-nest-v1.0.0';
-const STATIC_CACHE = 'divine-nest-static-v1.0.0';
-const DYNAMIC_CACHE = 'divine-nest-dynamic-v1.0.0';
+const CACHE_NAME = 'divine-nest-v1.0.1';
+const STATIC_CACHE = 'divine-nest-static-v1.0.1';
+const DYNAMIC_CACHE = 'divine-nest-dynamic-v1.0.1';
 
 // Get the base path from the service worker's location
 const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
