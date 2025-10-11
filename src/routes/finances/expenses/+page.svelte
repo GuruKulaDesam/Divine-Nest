@@ -1,3 +1,4 @@
+<!-- Expenses page component -->
 <script lang="ts">
   import ExpensesPage from "$lib/components/ExpensesPage.svelte";
   import { parseUPISMS } from '$lib/utils/upiSmsParser';
