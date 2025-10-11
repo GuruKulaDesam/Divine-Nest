@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
   import { trackerData, trackerActions } from "$lib/stores/trackers";
   import type { TrackerEntry } from "$lib/models";
 
@@ -13,7 +14,7 @@
 
   // Ensure trackerId is defined
   $: if (!trackerId) {
-    goto("/trackers");
+    goto(`${base}/trackers`);
   }
 
   // State for active tab
@@ -262,18 +263,17 @@
 
   // If tracker doesn't exist, redirect to main trackers page
   $: if (!currentTracker && trackerId) {
-    goto("/trackers").catch(console.error);
+    goto(`${base}/trackers`).catch(console.error);
   }
 
   function goBack() {
-    goto("/trackers").catch(console.error);
+    goto(`${base}/trackers`).catch(console.error);
   }
 
   function addEntry() {
     if (!trackerId || !newEntry.category || !newEntry.description) return;
 
     trackerActions.addEntry(trackerId, {
-      trackerId,
       period: activeTab,
       category: newEntry.category,
       amount: newEntry.amount ? parseFloat(newEntry.amount) : undefined,
@@ -349,10 +349,10 @@
         <form on:submit|preventDefault={addEntry} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="label">
+              <label for="category" class="label">
                 <span class="label-text font-medium">Category</span>
               </label>
-              <select bind:value={newEntry.category} class="select select-bordered w-full" required>
+              <select id="category" bind:value={newEntry.category} class="select select-bordered w-full" required>
                 <option value="">Select Category</option>
                 {#each currentTracker.categories as category}
                   <option value={category}>{category}</option>
@@ -361,40 +361,40 @@
             </div>
 
             <div>
-              <label class="label">
+              <label for="date" class="label">
                 <span class="label-text font-medium">Date</span>
               </label>
-              <input type="date" bind:value={newEntry.date} class="input input-bordered w-full" required />
+              <input id="date" type="date" bind:value={newEntry.date} class="input input-bordered w-full" required />
             </div>
 
             {#if trackerId && ["expense", "income", "debt", "savings", "insurance", "subscription", "gift"].includes(trackerId)}
               <div>
-                <label class="label">
+                <label for="amount" class="label">
                   <span class="label-text font-medium">Amount (₹)</span>
                 </label>
-                <input type="number" step="0.01" bind:value={newEntry.amount} class="input input-bordered w-full" placeholder="0.00" />
+                <input id="amount" type="number" step="0.01" bind:value={newEntry.amount} class="input input-bordered w-full" placeholder="0.00" />
               </div>
             {/if}
 
             <div class={trackerId && ["expense", "income", "debt", "savings", "insurance", "subscription", "gift"].includes(trackerId) ? "" : "md:col-span-2"}>
-              <label class="label">
+              <label for="description" class="label">
                 <span class="label-text font-medium">Description</span>
               </label>
-              <input type="text" bind:value={newEntry.description} class="input input-bordered w-full" placeholder="Enter description..." required />
+              <input id="description" type="text" bind:value={newEntry.description} class="input input-bordered w-full" placeholder="Enter description..." required />
             </div>
 
             <div class="md:col-span-2">
-              <label class="label">
+              <label for="tags" class="label">
                 <span class="label-text font-medium">Tags (comma-separated)</span>
               </label>
-              <input type="text" bind:value={newEntry.tags} class="input input-bordered w-full" placeholder="urgent, important, festival..." />
+              <input id="tags" type="text" bind:value={newEntry.tags} class="input input-bordered w-full" placeholder="urgent, important, festival..." />
             </div>
 
             <div class="md:col-span-2">
-              <label class="label">
+              <label for="notes" class="label">
                 <span class="label-text font-medium">Notes</span>
               </label>
-              <textarea bind:value={newEntry.notes} class="textarea textarea-bordered w-full" rows="3" placeholder="Additional notes..."></textarea>
+              <textarea id="notes" bind:value={newEntry.notes} class="textarea textarea-bordered w-full" rows="3" placeholder="Additional notes..."></textarea>
             </div>
           </div>
 

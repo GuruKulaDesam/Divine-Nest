@@ -302,6 +302,8 @@
           <!-- Task Cards -->
           <div
             class="group relative overflow-hidden bg-gradient-to-br from-base-200 to-base-300/50 rounded-2xl p-4 min-h-[500px] border border-base-300/50 shadow-md hover:shadow-lg transition-all duration-300 backdrop-blur-sm"
+            role="region"
+            aria-label="{status.name} column - drop tasks here"
             on:dragover={handleDragOver}
             on:drop={(e) => handleDrop(e, status.id)}
           >
@@ -316,6 +318,8 @@
               {#each filteredProjects[status.id] || [] as task (task.id)}
                 <div
                   class="group relative overflow-hidden bg-gradient-to-br from-base-100 to-base-200/30 rounded-xl p-4 shadow-md border border-base-300/50 cursor-move hover:shadow-lg hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+                  role="application"
+                  aria-label="Draggable task: {task.title}"
                   draggable="true"
                   on:dragstart={(e) => handleDragStart(e, task, status.id)}
                   use:motionHover
@@ -414,10 +418,11 @@
 
       <div class="space-y-4">
         <div class="form-control">
-          <label class="label">
+          <label for="task-title" class="label">
             <span class="label-text">{$_('projects.task_title')}</span>
           </label>
           <input
+            id="task-title"
             type="text"
             bind:value={newTask.title}
             placeholder={$_('projects.title_placeholder')}
@@ -426,10 +431,11 @@
         </div>
 
         <div class="form-control">
-          <label class="label">
+          <label for="task-description" class="label">
             <span class="label-text">{$_('projects.task_description')}</span>
           </label>
           <textarea
+            id="task-description"
             bind:value={newTask.description}
             placeholder={$_('projects.description_placeholder')}
             rows="3"
@@ -439,10 +445,10 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="form-control">
-            <label class="label">
+            <label for="task-priority" class="label">
               <span class="label-text">{$_('projects.priority')}</span>
             </label>
-            <select bind:value={newTask.priority} class="select select-bordered">
+            <select id="task-priority" bind:value={newTask.priority} class="select select-bordered">
               <option value="low">{$_('projects.low')}</option>
               <option value="medium">{$_('projects.medium')}</option>
               <option value="high">{$_('projects.high')}</option>
@@ -450,10 +456,11 @@
           </div>
 
           <div class="form-control">
-            <label class="label">
+            <label for="task-assignee" class="label">
               <span class="label-text">{$_('projects.assignee')}</span>
             </label>
             <input
+              id="task-assignee"
               type="text"
               bind:value={newTask.assignee}
               placeholder={$_('projects.select_assignee')}
@@ -463,10 +470,11 @@
         </div>
 
         <div class="form-control">
-          <label class="label">
+          <label for="task-due-date" class="label">
             <span class="label-text">{$_('projects.due_date')}</span>
           </label>
           <input
+            id="task-due-date"
             type="date"
             bind:value={newTask.dueDate}
             class="input input-bordered"
@@ -474,10 +482,11 @@
         </div>
 
         <div class="form-control">
-          <label class="label">
+          <label for="task-tags" class="label">
             <span class="label-text">{$_('projects.tags')}</span>
           </label>
           <input
+            id="task-tags"
             type="text"
             placeholder={$_('projects.tags_placeholder')}
             class="input input-bordered"
@@ -543,7 +552,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="text-sm font-medium text-base-content/60">{$_('projects.priority')}</label>
+            <span class="text-sm font-medium text-base-content/60">{$_('projects.priority')}</span>
             <p class="text-sm">
               <span class="px-2 py-1 rounded-full {getPriorityColor(selectedTask.priority)}">
                 {getPriorityText(selectedTask.priority)}
@@ -552,17 +561,17 @@
           </div>
 
           <div>
-            <label class="text-sm font-medium text-base-content/60">{$_('projects.assignee')}</label>
+            <span class="text-sm font-medium text-base-content/60">{$_('projects.assignee')}</span>
             <p class="text-sm">{selectedTask.assignee || $_('projects.unassigned')}</p>
           </div>
 
           <div>
-            <label class="text-sm font-medium text-base-content/60">{$_('projects.due_date')}</label>
+            <span class="text-sm font-medium text-base-content/60">{$_('projects.due_date')}</span>
             <p class="text-sm">{formatDate(selectedTask.dueDate) || $_('projects.no_due_date')}</p>
           </div>
 
           <div>
-            <label class="text-sm font-medium text-base-content/60">{$_('projects.tags')}</label>
+            <span class="text-sm font-medium text-base-content/60">{$_('projects.tags')}</span>
             <div class="flex flex-wrap gap-1 mt-1">
               {#each selectedTask.tags || [] as tag}
                 <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">

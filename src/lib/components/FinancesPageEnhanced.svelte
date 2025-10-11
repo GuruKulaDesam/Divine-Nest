@@ -354,7 +354,7 @@
 
             <!-- Quick Action Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" on:click={() => setActiveSection("expenses")}>
+              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" role="button" tabindex="0" on:click={() => setActiveSection("expenses")} on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveSection("expenses"); }}}>
                 <div class="flex items-center space-x-3">
                   <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                     <Icon icon="heroicons:shopping-cart" class="w-5 h-5 text-green-600" />
@@ -366,7 +366,7 @@
                 </div>
               </div>
 
-              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" on:click={() => setActiveSection("savings")}>
+              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" role="button" tabindex="0" on:click={() => setActiveSection("savings")} on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveSection("savings"); }}}>
                 <div class="flex items-center space-x-3">
                   <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                     <Icon icon="heroicons:banknotes" class="w-5 h-5 text-blue-600" />
@@ -378,7 +378,7 @@
                 </div>
               </div>
 
-              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" on:click={() => setActiveSection("festivals")}>
+              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" role="button" tabindex="0" on:click={() => setActiveSection("festivals")} on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveSection("festivals"); }}}>
                 <div class="flex items-center space-x-3">
                   <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
                     <Icon icon="heroicons:fire" class="w-5 h-5 text-orange-600" />
@@ -390,7 +390,7 @@
                 </div>
               </div>
 
-              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" on:click={() => setActiveSection("wealth")}>
+              <div class="bg-white rounded-lg shadow-sm border p-4 cursor-pointer hover:shadow-md transition-shadow" role="button" tabindex="0" on:click={() => setActiveSection("wealth")} on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveSection("wealth"); }}}>
                 <div class="flex items-center space-x-3">
                   <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
                     <Icon icon="heroicons:sparkles" class="w-5 h-5 text-yellow-600" />

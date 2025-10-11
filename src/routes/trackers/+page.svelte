@@ -4,6 +4,7 @@
   import { _ } from "svelte-i18n";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
 
   // Trackers data organized by tiers
   const tier1Trackers = [
@@ -34,7 +35,7 @@
 
   function handleTrackerClick(tracker) {
     // Navigate to individual tracker page
-    goto(`/trackers/${tracker.id}`).catch((error) => {
+    goto(`${base}/trackers/${tracker.id}`).catch((error) => {
       console.error("Navigation error:", error);
     });
   }
@@ -75,7 +76,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {#each tier1Trackers as tracker, index}
-        <div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md" on:click={() => handleTrackerClick(tracker)} use:motionHover>
+        <div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md" role="button" tabindex="0" on:click={() => handleTrackerClick(tracker)} on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleTrackerClick(tracker); } }} use:motionHover>
           <!-- Animated background decorations -->
           <div class="absolute top-0 right-0 w-16 h-16 opacity-10 group-hover:opacity-20 transition-opacity duration-500 animate-spin-slow">
             <Icon icon={tracker.icon} class="w-full h-full text-primary" />
@@ -125,7 +126,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {#each tier2Trackers as tracker, index}
-        <div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md" on:click={() => handleTrackerClick(tracker)} use:motionHover>
+        <div class="group relative overflow-hidden bg-gradient-to-br from-white/90 via-base-100/80 to-base-200/60 rounded-2xl p-6 shadow-lg border-2 border-base-300/60 cursor-pointer hover:shadow-2xl hover:scale-105 hover:rotate-1 transition-all duration-500 backdrop-blur-md" role="button" tabindex="0" on:click={() => handleTrackerClick(tracker)} on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleTrackerClick(tracker); } }} use:motionHover>
           <!-- Animated background decorations -->
           <div class="absolute top-0 right-0 w-16 h-16 opacity-10 group-hover:opacity-20 transition-opacity duration-500 animate-spin-slow">
             <Icon icon={tracker.icon} class="w-full h-full text-primary" />

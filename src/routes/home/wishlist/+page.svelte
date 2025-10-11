@@ -288,8 +288,9 @@
 
         <form on:submit|preventDefault={editingItem ? updateWishlistItem : addWishlistItem} class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Item</label>
+            <label for="wishlist-item" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Item</label>
             <input
+              id="wishlist-item"
               type="text"
               bind:value={newItem.item}
               placeholder="e.g., iPhone 15 Pro, Diamond Necklace"
@@ -299,8 +300,9 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+            <label for="wishlist-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
             <select
+              id="wishlist-category"
               bind:value={newItem.category}
               class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
               required
@@ -313,8 +315,9 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">For Whom</label>
+            <label for="wishlist-for-whom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">For Whom</label>
             <select
+              id="wishlist-for-whom"
               bind:value={newItem.forWhom}
               class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
               required
@@ -327,8 +330,9 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Priority</label>
+            <label for="wishlist-priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Priority</label>
             <select
+              id="wishlist-priority"
               bind:value={newItem.priority}
               class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
             >
@@ -339,8 +343,9 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Estimated Cost (₹)</label>
+            <label for="wishlist-cost" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Estimated Cost (₹)</label>
             <input
+              id="wishlist-cost"
               type="number"
               bind:value={newItem.estimatedCost}
               placeholder="50000"
@@ -349,8 +354,9 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Target Date</label>
+            <label for="wishlist-target-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Target Date</label>
             <input
+              id="wishlist-target-date"
               type="date"
               bind:value={newItem.targetDate}
               class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
@@ -358,8 +364,9 @@
           </div>
 
           <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
+            <label for="wishlist-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</label>
             <textarea
+              id="wishlist-notes"
               bind:value={newItem.notes}
               placeholder="Additional details about the item..."
               rows="3"
