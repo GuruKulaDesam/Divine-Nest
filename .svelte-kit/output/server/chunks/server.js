@@ -1,4 +1,4 @@
-let base = "/Divine-Nest";
+let base = "/Divine-Nest/?";
 let assets = base;
 const app_dir = "_app";
 const relative = true;

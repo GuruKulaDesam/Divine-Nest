@@ -8,7 +8,7 @@
   import { kolamStore } from "$lib/stores/kolam";
 
   function navigateBack() {
-    goto("/");
+    goto("");
   }
 
   // Initialize kolam store with default values

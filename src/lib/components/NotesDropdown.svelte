@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import { navigate } from "../router.js";
+  import { goto } from "$app/navigation";
   import { dropdownAnimations, motionHover } from "../utils/motion.js";
 
   export let isOpen = false;
@@ -35,7 +35,7 @@
   ];
 
   function handleActionClick(path) {
-    navigate(path);
+    goto(path);
     onClose();
   }
 

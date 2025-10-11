@@ -327,15 +327,10 @@
     } catch (error) {
       console.warn("Sound playback failed:", error);
     }
-    // Try goto first, fallback to window.location
-    try {
-      goto(path);
-    } catch (error) {
-      console.warn("goto failed, using window.location:", error);
-      if (typeof window !== "undefined") {
-        window.location.href = `${base}${path}`;
-      }
-    }
+    // Use goto for proper SvelteKit routing with base path
+    goto(path).catch((error) => {
+      console.warn("Navigation failed:", error);
+    });
     hoveredTile = null;
     hoveredTileElement = null;
   }
