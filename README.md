@@ -21,6 +21,31 @@ Free & open source modern family dashboard built with Svelte, Vite, and Tailwind
 - 🗺️ **Maps**: Interactive maps with Leaflet
 - 🎭 **Animations**: Smooth motion animations with Motion library
 - 🎯 **Loading States**: Custom loading spinner with glassmorphism effects
+- 📱 **PWA Ready**: Installable as mobile app with offline support
+
+## 📱 Progressive Web App (PWA)
+
+This app is fully PWA-enabled and can be installed as a mobile app!
+
+### ✅ PWA Features
+- 📱 **Install on Home Screen** - Add to phone like a native app
+- 🧭 **Full-screen Experience** - No browser UI when installed
+- 📶 **Offline Support** - Works without internet connection
+- 🔔 **Push Notifications** - Get reminders and updates
+- ⚡ **Fast Loading** - Cached for instant startup
+
+### 🚀 Deployed on GitHub Pages
+The app is automatically deployed to GitHub Pages at: https://GuruKulaDesam.github.io/Home-Manager/
+
+### 📱 How to Install as Mobile App
+1. **Visit the app** in Chrome or Safari on your phone
+2. **Tap "Add to Home Screen"** when prompted
+3. **Open from home screen** - it works like a native app!
+
+### 🔄 Updates
+- Updates are automatic - no need to visit app store
+- New versions install silently in background
+- App reloads automatically when update is ready
 
 ## 🛠️ Technology Stack
 
