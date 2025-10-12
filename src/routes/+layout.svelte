@@ -1,7 +1,9 @@
 <script>
   import '../app.css';
   import '$lib/i18n/index.js';
-  import DashboardLayout from '$lib/components/DashboardLayout.svelte';
+  import DesktopLayout from '$lib/components/DesktopLayout.svelte';
+  import MobileLayout from '$lib/components/MobileLayout.svelte';
+  import { shouldUseDesktopLayout, shouldUseMobileLayout } from '$lib/utils/platform';
   import { base } from '$app/paths';
 
   // Register service worker for PWA functionality
@@ -11,7 +13,6 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register(`${base}/service-worker.js`)
         .then(registration => {
-          console.log('[PWA] Service Worker registered:', registration);
           console.log('[PWA] Service Worker registered:', registration);
 
           // Check for updates
@@ -42,6 +43,19 @@
   });
 </script>
 
-<DashboardLayout>
-  <slot />
-</DashboardLayout>
+{#if shouldUseDesktopLayout()}
+  <!-- Desktop/Web Layout - Full featured with sidebar -->
+  <DesktopLayout>
+    <slot />
+  </DesktopLayout>
+{:else if shouldUseMobileLayout()}
+  <!-- Mobile/Android Layout - Touch optimized -->
+  <MobileLayout>
+    <slot />
+  </MobileLayout>
+{:else}
+  <!-- Fallback - Default to desktop layout -->
+  <DesktopLayout>
+    <slot />
+  </DesktopLayout>
+{/if}

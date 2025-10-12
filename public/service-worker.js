@@ -14,7 +14,21 @@ const STATIC_ASSETS = [
   `${BASE_PATH}/logo-light.svg`,
   `${BASE_PATH}/logo-dark.svg`,
   `${BASE_PATH}/loading.svg`,
-  `${BASE_PATH}/vite.svg`
+  `${BASE_PATH}/vite.svg`,
+  // Android app icons
+  `${BASE_PATH}/icon-72.png`,
+  `${BASE_PATH}/icon-96.png`,
+  `${BASE_PATH}/icon-128.png`,
+  `${BASE_PATH}/icon-144.png`,
+  `${BASE_PATH}/icon-192.png`,
+  `${BASE_PATH}/icon-512.png`,
+  // Android splash screens
+  `${BASE_PATH}/splash-800x480.png`,
+  `${BASE_PATH}/splash-480x800.png`,
+  `${BASE_PATH}/splash-1280x720.png`,
+  `${BASE_PATH}/splash-720x1280.png`,
+  `${BASE_PATH}/splash-1920x1080.png`,
+  `${BASE_PATH}/splash-1080x1920.png`
 ];
 
 // Install event - cache static assets
