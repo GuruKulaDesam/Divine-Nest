@@ -3,6 +3,7 @@
   import ChoreManager from "./ChoreManager.svelte";
   import RepairTracker from "./RepairTracker.svelte";
   import EmergencyPanel from "./EmergencyPanel.svelte";
+  import PriceTracker from "./PriceTracker.svelte";
 
   let activeTab = "overview";
 
@@ -74,6 +75,12 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Market Prices -->
+      <div class="mt-8">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">📈 Market Prices</h2>
+        <PriceTracker />
       </div>
 
       <!-- Quick Actions -->

@@ -52,15 +52,33 @@ export function getPlatform(): 'web' | 'android' | 'ios' {
 /**
  * Determine if we should use mobile layout
  * True for native mobile apps, false for web (regardless of screen size)
+ * Respects manual override from localStorage
  */
 export function shouldUseMobileLayout(): boolean {
+  // Check for manual override
+  if (typeof window !== 'undefined') {
+    const override = localStorage.getItem('layout-preference');
+    if (override === 'mobile') return true;
+    if (override === 'desktop') return false;
+  }
+
+  // Default auto-detection
   return isMobilePlatform();
 }
 
 /**
  * Determine if we should use desktop layout
  * True for web platforms, false for native mobile apps
+ * Respects manual override from localStorage
  */
 export function shouldUseDesktopLayout(): boolean {
+  // Check for manual override
+  if (typeof window !== 'undefined') {
+    const override = localStorage.getItem('layout-preference');
+    if (override === 'desktop') return true;
+    if (override === 'mobile') return false;
+  }
+
+  // Default auto-detection
   return isWebPlatform();
 }

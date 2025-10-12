@@ -225,8 +225,8 @@
 
         <form on:submit|preventDefault={saveSession} class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Yoga Type </label>
-            <select bind:value={formData.type} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required>
+            <label for="yoga-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Yoga Type </label>
+            <select id="yoga-type" bind:value={formData.type} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required>
               {#each yogaTypes as type}
                 <option value={type.value}>{type.label}</option>
               {/each}
@@ -234,19 +234,19 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Session Name </label>
-            <input type="text" bind:value={formData.name} placeholder="e.g., Morning Sun Salutation" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
+            <label for="yoga-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Session Name </label>
+            <input id="yoga-name" type="text" bind:value={formData.name} placeholder="e.g., Morning Sun Salutation" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Duration (min) </label>
-              <input type="number" bind:value={formData.duration} min="5" max="180" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
+              <label for="yoga-duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Duration (min) </label>
+              <input id="yoga-duration" type="number" bind:value={formData.duration} min="5" max="180" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Difficulty </label>
-              <select bind:value={formData.difficulty} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <label for="yoga-difficulty" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Difficulty </label>
+              <select id="yoga-difficulty" bind:value={formData.difficulty} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                 {#each difficulties as diff}
                   <option value={diff.value}>{diff.label}</option>
                 {/each}
@@ -255,13 +255,13 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Date </label>
-            <input type="date" bind:value={formData.date} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
+            <label for="yoga-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Date </label>
+            <input id="yoga-date" type="date" bind:value={formData.date} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Notes (optional) </label>
-            <textarea bind:value={formData.notes} placeholder="Any special instructions or notes..." rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
+            <label for="yoga-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Notes (optional) </label>
+            <textarea id="yoga-notes" bind:value={formData.notes} placeholder="Any special instructions or notes..." rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
           </div>
 
           <div class="flex space-x-3 pt-4">

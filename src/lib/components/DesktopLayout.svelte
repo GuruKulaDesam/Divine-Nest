@@ -3,6 +3,7 @@
   import TopNavigationBar from "./TopNavigationBar.svelte";
   import DashboardTiles from "./DashboardTiles.svelte";
   import FloatingActionButtons from "./FloatingActionButtons.svelte";
+  import LayoutSwitcher from "./LayoutSwitcher.svelte";
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
@@ -98,6 +99,9 @@
 
   <!-- Floating Action Buttons - Desktop optimized -->
   <FloatingActionButtons on:action={handleRequestsAction} />
+
+  <!-- Layout Switcher - Bottom Right -->
+  <LayoutSwitcher />
 </div>
 
 <style>

@@ -108,24 +108,31 @@
       <TopNavigationBar on:action={handleTopNavAction} />
     </div>
 
-    <!-- Left Container - Positioned below requests dashboard -->
-    <div class="flex-shrink-0 pt-32">
+    <!-- Left Container - Hidden on mobile, visible on desktop -->
+    <div class="hidden lg:flex flex-shrink-0 pt-32">
       <LeftTileBar />
     </div>
 
     <!-- Middle Container -->
-    <div class="flex-1 flex flex-col overflow-hidden pt-32">
+    <div class="flex-1 flex flex-col overflow-hidden pt-16 lg:pt-32">
       <!-- Main content area -->
       <main class="flex-1 scrollable-container bg-transparent">
         {#if currentPath === "/"}
           <!-- Full dashboard layout with sidebar for home page -->
-          <DashboardTiles />
+          <div class="block lg:hidden">
+            <!-- Mobile dashboard - simplified -->
+            <DashboardTiles />
+          </div>
+          <div class="hidden lg:block">
+            <!-- Desktop dashboard with sidebar -->
+            <DashboardTiles />
+          </div>
         {:else}
           <!-- Content pages with breadcrumb -->
-          <div class="p-4 sm:p-6 lg:p-8 relative">
-            <div class="content-container rounded-[2rem] border-0 p-6 sm:p-8">
-              <!-- Breadcrumb Navigation -->
-              <div class="mb-6 flex items-center space-x-2 text-sm">
+          <div class="p-2 sm:p-4 lg:p-8 relative">
+            <div class="content-container rounded-lg lg:rounded-[2rem] border-0 p-3 sm:p-4 lg:p-8 mx-auto max-w-full">
+              <!-- Breadcrumb Navigation - Hidden on mobile -->
+              <div class="hidden lg:flex mb-6 items-center space-x-2 text-sm">
                 <button on:click={() => goto("")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
                   <Icon icon="heroicons:home" class="w-4 h-4" />
                   <span>Home</span>
@@ -144,8 +151,8 @@
       </main>
     </div>
 
-    <!-- Right Container -->
-    <div class="flex-shrink-0">
+    <!-- Right Container - Hidden on mobile -->
+    <div class="hidden lg:flex flex-shrink-0">
       <!-- Right tile bar functionality integrated into TopNavigationBar -->
     </div>
 

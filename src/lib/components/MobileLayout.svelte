@@ -2,6 +2,7 @@
   import TopNavigationBar from "./TopNavigationBar.svelte";
   import DashboardTiles from "./DashboardTiles.svelte";
   import MobileNavigation from "./MobileNavigation.svelte";
+  import LayoutSwitcher from "./LayoutSwitcher.svelte";
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
@@ -153,6 +154,9 @@
     <!-- Bottom spacing for mobile navigation -->
     <div class="h-16"></div>
   </div>
+
+  <!-- Layout Switcher - Bottom Right -->
+  <LayoutSwitcher />
 </div>
 
 <style>

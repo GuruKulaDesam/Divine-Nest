@@ -168,19 +168,19 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Duration (minutes) </label>
-            <input type="number" bind:value={formData.duration} min="1" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+            <label for="ritual-duration" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Duration (minutes) </label>
+            <input id="ritual-duration" type="number" bind:value={formData.duration} min="1" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Description </label>
-          <textarea bind:value={formData.description} rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="Describe the ritual..."></textarea>
+          <label for="ritual-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Description </label>
+          <textarea id="ritual-description" bind:value={formData.description} rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="Describe the ritual..."></textarea>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Significance </label>
-          <input type="text" bind:value={formData.significance} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="Spiritual significance..." />
+          <label for="ritual-significance" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Significance </label>
+          <input id="ritual-significance" type="text" bind:value={formData.significance} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="Spiritual significance..." />
         </div>
 
         <!-- Participants -->

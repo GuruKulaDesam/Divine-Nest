@@ -152,28 +152,28 @@
       <form on:submit|preventDefault={handleSubmit} class="space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Destination * </label>
-            <input type="text" bind:value={formData.destination} required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="e.g., Sri Ramanasramam, Tiruvannamalai" />
+            <label for="temple-destination" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Destination * </label>
+            <input id="temple-destination" type="text" bind:value={formData.destination} required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="e.g., Sri Ramanasramam, Tiruvannamalai" />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Start Date * </label>
-            <input type="date" bind:value={formData.startDate} required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+            <label for="temple-start-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Start Date * </label>
+            <input id="temple-start-date" type="date" bind:value={formData.startDate} required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> End Date * </label>
-            <input type="date" bind:value={formData.endDate} required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+            <label for="temple-end-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> End Date * </label>
+            <input id="temple-end-date" type="date" bind:value={formData.endDate} required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Budget (₹) </label>
-            <input type="number" bind:value={formData.budget} min="0" step="100" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="15000" />
+            <label for="temple-budget" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Budget (₹) </label>
+            <input id="temple-budget" type="number" bind:value={formData.budget} min="0" step="100" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="15000" />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Transportation </label>
-            <select bind:value={formData.transportation} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+            <label for="temple-transportation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Transportation </label>
+            <select id="temple-transportation" bind:value={formData.transportation} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
               <option value="">Select transportation</option>
               <option value="Car">Car</option>
               <option value="Bus">Bus</option>
@@ -185,13 +185,13 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Accommodations </label>
-          <input type="text" bind:value={formData.accommodations} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="e.g., Temple guest house, Ashram" />
+          <label for="temple-accommodations" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Accommodations </label>
+          <input id="temple-accommodations" type="text" bind:value={formData.accommodations} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="e.g., Temple guest house, Ashram" />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Special Notes </label>
-          <textarea bind:value={formData.specialNotes} rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="Any special requirements, timings, or notes..."></textarea>
+          <label for="temple-special-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Special Notes </label>
+          <textarea id="temple-special-notes" bind:value={formData.specialNotes} rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="Any special requirements, timings, or notes..."></textarea>
         </div>
 
         <!-- Travelers -->

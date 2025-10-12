@@ -229,14 +229,14 @@
 
         <form on:submit|preventDefault={saveEntry} class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Title </label>
-            <input type="text" bind:value={formData.title} placeholder="Give your entry a meaningful title..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
+            <label for="journal-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Title </label>
+            <input id="journal-title" type="text" bind:value={formData.title} placeholder="Give your entry a meaningful title..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Mood </label>
-              <select bind:value={formData.mood} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <label for="journal-mood" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Mood </label>
+              <select id="journal-mood" bind:value={formData.mood} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                 {#each moods as mood}
                   <option value={mood.value}>{mood.emoji} {mood.label}</option>
                 {/each}
@@ -244,8 +244,8 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Category </label>
-              <select bind:value={formData.category} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <label for="journal-category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Category </label>
+              <select id="journal-category" bind:value={formData.category} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                 {#each categories as category}
                   <option value={category.value}>{category.label}</option>
                 {/each}
@@ -254,19 +254,19 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Your Thoughts </label>
-            <textarea bind:value={formData.content} placeholder="Write about your day, what you're grateful for, or any reflections..." rows="8" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required></textarea>
+            <label for="journal-content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Your Thoughts </label>
+            <textarea id="journal-content" bind:value={formData.content} placeholder="Write about your day, what you're grateful for, or any reflections..." rows="8" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required></textarea>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Tags (comma-separated) </label>
-              <input type="text" bind:value={formData.tags} placeholder="family, gratitude, health..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+              <label for="journal-tags" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Tags (comma-separated) </label>
+              <input id="journal-tags" type="text" bind:value={formData.tags} placeholder="family, gratitude, health..." class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Weather </label>
-              <select bind:value={formData.weather} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <label for="journal-weather" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Weather </label>
+              <select id="journal-weather" bind:value={formData.weather} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
                 {#each weatherOptions as weather}
                   <option value={weather.value}>{weather.emoji} {weather.label}</option>
                 {/each}

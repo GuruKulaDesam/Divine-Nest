@@ -455,7 +455,7 @@
   <div class="max-w-7xl mx-auto">
     <!-- Welcome Header -->
     <div class="mb-8">
-      <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700">
+      <div class="bg-white dark:bg-gray-800 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100 dark:border-gray-700">
         <div class="flex items-center justify-between">
           <div>
             <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-3">
@@ -478,7 +478,7 @@
     <div class="mb-8">
       <!-- Urgent Bills Alert -->
       {#if billsDue.filter(b => b.status !== 'paid' && b.daysLeft <= 3).length > 0}
-        <div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-2xl p-8 mb-6 shadow-2xl border-4 border-red-300 animate-pulse">
+        <div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 mb-4 lg:mb-6 shadow-2xl border-4 border-red-300 animate-pulse">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
               <div class="p-4 bg-white/20 rounded-full">
@@ -501,7 +501,7 @@
 
       <!-- Critical Tasks Alert -->
       {#if dailyTasks.filter(t => t.status === 'pending' && t.priority === 'high').length > 0}
-        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl p-6 mb-6 shadow-xl border-4 border-orange-300">
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg lg:rounded-2xl p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6 shadow-xl border-4 border-orange-300">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
               <div class="p-3 bg-white/20 rounded-full">
@@ -523,9 +523,9 @@
     </div>
 
     <!-- 🎯 TODAY'S PRIORITIES - High Priority (Large Cards) -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4 lg:mb-8">
       <!-- Today's Critical Priorities -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border-2 border-blue-200 dark:border-blue-800">
+      <div class="bg-white dark:bg-gray-800 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl border-2 border-blue-200 dark:border-blue-800">
         <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
           <Icon icon="heroicons:clipboard-document-list" class="text-blue-600 text-3xl" />
           Today's Priorities
@@ -740,9 +740,9 @@
     </div>
 
     <!-- 💡 INSIGHTS & PLANNING - Medium Priority -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4 lg:mb-8">
       <!-- Smart AI Suggestions -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+      <div class="bg-white dark:bg-gray-800 rounded-lg lg:rounded-xl p-3 sm:p-4 lg:p-6 shadow-lg border border-gray-100 dark:border-gray-700">
         <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
           <Icon icon="heroicons:light-bulb" class="text-amber-500" />
           AI Insights & Suggestions

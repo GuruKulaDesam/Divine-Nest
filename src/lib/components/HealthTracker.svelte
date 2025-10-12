@@ -187,8 +187,8 @@
 
         <form on:submit|preventDefault={saveRecord} class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Health Metric </label>
-            <select bind:value={formData.type} on:change={() => (formData.unit = getUnitForType(formData.type))} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required>
+            <label for="health-metric" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Health Metric </label>
+            <select id="health-metric" bind:value={formData.type} on:change={() => (formData.unit = getUnitForType(formData.type))} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required>
               {#each healthTypes as type}
                 <option value={type.value}>{type.label}</option>
               {/each}
@@ -196,20 +196,20 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label for="health-value" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Value ({formData.unit})
             </label>
-            <input type={formData.type === "blood_pressure" ? "text" : "number"} bind:value={formData.value} placeholder={formData.type === "blood_pressure" ? "120/80" : "Enter value"} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
+            <input id="health-value" type={formData.type === "blood_pressure" ? "text" : "number"} bind:value={formData.value} placeholder={formData.type === "blood_pressure" ? "120/80" : "Enter value"} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Date </label>
-            <input type="date" bind:value={formData.date} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
+            <label for="health-date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Date </label>
+            <input id="health-date" type="date" bind:value={formData.date} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" required />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Notes (optional) </label>
-            <textarea bind:value={formData.notes} placeholder="Any additional notes..." rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
+            <label for="health-notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"> Notes (optional) </label>
+            <textarea id="health-notes" bind:value={formData.notes} placeholder="Any additional notes..." rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
           </div>
 
           <div class="flex space-x-3 pt-4">
