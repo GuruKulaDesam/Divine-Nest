@@ -3,6 +3,11 @@
   import { createEventDispatcher } from 'svelte';
   import { theme, THEMES } from '$lib/stores/theme';
 
+  // Import logo images
+  import Shivohm_Logo_Light from "$lib/assets/images/Shivohm_Logo_Light.png";
+  import Shivohm_Logo_Dark from "$lib/assets/images/Shivohm_Logo_Dark.png";
+  import Shivohm_Logo_White from "$lib/assets/images/Shivohm_Logo_White.png";
+
   const dispatch = createEventDispatcher();
 
   let formData = {
@@ -14,10 +19,10 @@
   let isSubmitting = false;
 
   // Reactive logo based on theme
-  $: logoSrc = $theme === THEMES.LIGHT ? '/Shivohm_Logo_Light.png' :
-               $theme === THEMES.DARK ? '/Shivohm_Logo_Dark.png' :
-               $theme === THEMES.TRANSPARENT ? '/Shivohm_Logo_White.png' :
-               '/Shivohm_Logo_Light.png'; // fallback
+  $: logoSrc = $theme === THEMES.LIGHT ? Shivohm_Logo_Light :
+               $theme === THEMES.DARK ? Shivohm_Logo_Dark :
+               $theme === THEMES.TRANSPARENT ? Shivohm_Logo_White :
+               Shivohm_Logo_Light; // fallback
 
   async function handleSubmit() {
     isSubmitting = true;
@@ -74,7 +79,7 @@
     <!-- Header -->
     <div class="text-center mb-8">
       <!-- Logo -->
-      <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center overflow-hidden">
+      <div class="w-20 h-20 mx-auto mb-4 flex items-center justify-center overflow-hidden">
         <img src={logoSrc} alt="ShivohM Logo" class="w-16 h-16 object-contain" />
       </div>
       <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-2">

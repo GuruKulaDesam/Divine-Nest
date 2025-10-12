@@ -84,7 +84,7 @@
     </div>
     <h3 class="text-lg font-semibold text-gray-900 mb-2">Location Access Required</h3>
     <p class="text-gray-600 text-sm">
-      Divine Nest needs access to your location to provide personalized services, local contacts, and regional information tailored to your area.
+      Home Management Suite needs access to your location to provide personalized services, local contacts, and regional information tailored to your area.
     </p>
   </div>
 

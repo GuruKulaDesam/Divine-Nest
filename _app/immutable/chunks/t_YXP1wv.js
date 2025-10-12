@@ -1,1 +1,0 @@
-const a=[/Rs\.?\s?(\d+\.?\d*)\s.*?UPI.*?Txn ID[:\- ]?(\w+)/i,/Paid\s?₹?(\d+\.?\d*)\s.*?UPI.*?Txn ID[:\- ]?(\w+)/i,/sent\s?₹?(\d+\.?\d*)\s.*?UPI Ref[:\- ]?(\w+)/i];function o(n,s){for(const r of a){const t=n.match(r);if(t)return{amount:parseFloat(t[1]),transactionId:t[2],source:"SMS",category:"UPI",timestamp:s,rawText:n}}return null}export{o as p};

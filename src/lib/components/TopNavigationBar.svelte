@@ -7,7 +7,17 @@
   import { theme, themeActions, THEMES } from "$lib/stores/theme";
   import { background, backgroundActions, BACKGROUNDS } from "$lib/stores/background";
   import { userProfile } from "$lib/stores/userProfile";
-  import logo from "$lib/assets/Shivohm_Logo_3.png";
+
+  // Import logo images
+  import Shivohm_Logo_Light from "$lib/assets/images/Shivohm_Logo_Light.png";
+  import Shivohm_Logo_Dark from "$lib/assets/images/Shivohm_Logo_Dark.png";
+  import Shivohm_Logo_White from "$lib/assets/images/Shivohm_Logo_White.png";
+
+  // Reactive logo based on theme
+  $: logoSrc = $theme === THEMES.LIGHT ? Shivohm_Logo_Light :
+               $theme === THEMES.DARK ? Shivohm_Logo_Dark :
+               $theme === THEMES.TRANSPARENT ? Shivohm_Logo_White :
+               Shivohm_Logo_Light; // fallback
 
   const dispatch = createEventDispatcher();
 
@@ -212,14 +222,14 @@
     <!-- Left Section: Logo and App Title -->
     <div class="flex items-center space-x-4 flex-shrink-0">
       <!-- Logo -->
-      <div class="relative flex items-center justify-center w-16 h-16 overflow-hidden shadow-lg rounded-xl bg-gradient-to-br from-white/20 to-white/5 dark:from-gray-800/30 dark:to-gray-900/10 border border-white/30 dark:border-gray-600/30">
-        <img src={logo} alt="ShivohM Logo" class="w-12 h-12 object-contain" />
+      <div class="relative flex items-center justify-center w-20 h-20 overflow-hidden">
+        <img src={logoSrc} alt="ShivohM Logo" class="w-18 h-18 object-contain" />
       </div>
 
       <!-- App Title - Two rows within logo height -->
-      <div class="flex flex-col justify-center h-16">
-        <span class="text-xs font-semibold text-slate-600 dark:text-slate-300 leading-tight tracking-wide font-sans uppercase">{$userProfile?.name || 'Family'}</span>
-        <span class="text-xl font-black bg-gradient-to-r from-slate-800 via-slate-900 to-slate-700 dark:from-slate-100 dark:via-white dark:to-slate-200 bg-clip-text text-transparent leading-tight tracking-wide font-sans">Divine Nest</span>
+      <div class="flex flex-col justify-center h-20">
+        <span class="text-2xl font-bold bg-gradient-to-r from-slate-800 via-slate-900 to-slate-700 dark:from-slate-100 dark:via-white dark:to-slate-200 bg-clip-text text-transparent leading-tight tracking-wide font-sans">Home Management Suite</span>
+        <span class="text-sm font-medium text-slate-600 dark:text-slate-300 leading-tight tracking-wide font-sans">Welcome, {$userProfile?.name || 'Family'}</span>
       </div>
     </div>
 

@@ -46,7 +46,7 @@
       {#if !currentRole}
         <!-- Role Selection Screen -->
         <div class="text-center py-12">
-          <h2 class="text-2xl font-bold text-gray-800 mb-4">Welcome to Divine Nest</h2>
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">Welcome to Home Management Suite</h2>
           <p class="text-gray-600 mb-8">Choose your role in the family to personalize your experience</p>
           <RoleSelection />
         </div>

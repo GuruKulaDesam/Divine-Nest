@@ -1,4 +1,4 @@
-// Cloud Sync Service for Divine Nest
+// Cloud Sync Service for Home Management Suite
 // Handles synchronization between local IndexedDB and cloud services
 
 import { offlineSync } from './offlineSync.js';

@@ -48,7 +48,7 @@
 - Learns patterns (e.g. wake time, medicine schedule, helper arrival)
 - Auto-suggests alarms during onboarding or after repeated reminders
 - Adjusts tone and urgency based on role (gentle for elders, direct for managers)
-- Syncs with Divine Nest modules: Ritual Planner, Health Tracker, School Calendar, Helper Manager
+- Syncs with Home Management Suite modules: Ritual Planner, Health Tracker, School Calendar, Helper Manager
 
 ---
 

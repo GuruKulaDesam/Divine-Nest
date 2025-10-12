@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Divine Nest PWA Deployment Script
+# Home Management Suite PWA Deployment Script
 # This script builds and prepares the app for GitHub Pages deployment
 
-echo "🚀 Building Divine Nest PWA..."
+echo "🚀 Building Home Management Suite PWA..."
 
 # Clean previous build
 rm -rf dist/

@@ -2,6 +2,11 @@
   import { onMount } from "svelte";
   import { theme, THEMES } from "../stores/theme.js";
 
+  // Import logo images
+  import Shivohm_Logo_Light from "$lib/assets/images/Shivohm_Logo_Light.png";
+  import Shivohm_Logo_Dark from "$lib/assets/images/Shivohm_Logo_Dark.png";
+  import Shivohm_Logo_White from "$lib/assets/images/Shivohm_Logo_White.png";
+
   // Props for styling
   export let width = "w-32";
   export let height = "h-8";
@@ -9,7 +14,10 @@
   let mounted = false;
 
   // Reactive logo path based on theme
-  // $: logoSrc = $theme === THEMES.DARK ? "/logo-dark.svg" : "/logo-light.svg";
+  $: logoSrc = $theme === THEMES.LIGHT ? Shivohm_Logo_Light :
+               $theme === THEMES.DARK ? Shivohm_Logo_Dark :
+               $theme === THEMES.TRANSPARENT ? Shivohm_Logo_White :
+               Shivohm_Logo_Light; // fallback
 
   onMount(() => {
     mounted = true;
@@ -24,10 +32,12 @@
 
 <div class="flex items-center justify-center {width} {height}">
   {#if mounted}
-    <div class="flex flex-col items-center justify-center bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 rounded-xl shadow-lg px-2 py-1">
-      <span class="text-sm font-bold text-white leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்</span>
-      <span class="text-sm font-bold text-white leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">வழி</span>
-    </div>
+    <img
+      src={logoSrc}
+      alt="Shivohm Logo"
+      class="object-contain max-w-full max-h-full"
+      on:error={handleError}
+    />
   {:else}
     <!-- Loading placeholder -->
     <div class="animate-pulse bg-base-300 rounded w-24 h-6"></div>

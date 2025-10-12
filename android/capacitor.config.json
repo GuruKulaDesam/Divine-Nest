@@ -1,6 +1,6 @@
 {
-  "appId": "com.gurukuladesam.divinenest",
-  "appName": "Divine Nest",
+  "appId": "com.gurukuladesam.homemanagementsuite",
+  "appName": "Home Management Suite",
   "webDir": "../dist",
   "bundledWebRuntime": false
 }

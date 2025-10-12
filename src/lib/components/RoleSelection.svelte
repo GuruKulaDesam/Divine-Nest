@@ -67,7 +67,7 @@
 <div class="role-selection-container max-w-4xl mx-auto p-6">
   <div class="text-center mb-8">
     <h2 class="text-3xl font-bold text-gray-800 mb-4">Choose Your Role</h2>
-    <p class="text-lg text-gray-600">Select how you primarily use Divine Nest in your household</p>
+    <p class="text-lg text-gray-600">Select how you primarily use Home Management Suite in your household</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

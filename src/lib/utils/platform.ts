@@ -1,5 +1,5 @@
 /**
- * Platform detection utilities for Divine Nest
+ * Platform detection utilities for Home Management Suite
  * Determines whether we're running on web/desktop or mobile/Android
  */
 

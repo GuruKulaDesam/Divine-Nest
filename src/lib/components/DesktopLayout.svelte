@@ -9,10 +9,13 @@
   import { page } from "$app/stores";
   import { theme, themeActions } from "$lib/stores/theme";
   import { backgroundActions } from "$lib/stores/background";
+  import { onMount } from 'svelte';
 
-  // Initialize stores
-  themeActions.init();
-  backgroundActions.init();
+  // Initialize stores on mount
+  onMount(() => {
+    themeActions.init();
+    backgroundActions.init();
+  });
 
   // Reactive statement for current path
   $: currentPath = $page.url.pathname;

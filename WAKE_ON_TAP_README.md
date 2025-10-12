@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Divine Nest app now supports **wake-on-tap** functionality that activates voice recognition when the user taps near the front camera (proximity sensor area), even when the device is locked or the app is in the background.
+The Home Management Suite app now supports **wake-on-tap** functionality that activates voice recognition when the user taps near the front camera (proximity sensor area), even when the device is locked or the app is in the background.
 
 ## How It Works
 

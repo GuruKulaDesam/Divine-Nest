@@ -1,10 +1,10 @@
-# Privacy Policy for Divine Nest
+# Privacy Policy for Home Management Suite
 
 **Last Updated: October 12, 2025**
 
 ## Introduction
 
-Divine Nest ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application (the "App").
+Home Management Suite ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application (the "App").
 
 ## Information We Collect
 
@@ -87,4 +87,4 @@ This app complies with:
 
 ---
 
-*By using Divine Nest, you agree to the collection and use of information in accordance with this policy.*
+*By using Home Management Suite, you agree to the collection and use of information in accordance with this policy.*

@@ -68,8 +68,8 @@ If you have any questions about this Privacy Policy, please contact us at suppor
 </script>
 
 <svelte:head>
-  <title>Privacy Policy - Divine Nest</title>
-  <meta name="description" content="Privacy Policy for Divine Nest - South Indian Family App" />
+  <title>Privacy Policy - Home Management Suite</title>
+  <meta name="description" content="Privacy Policy for Home Management Suite - South Indian Family App" />
 </svelte:head>
 
 <main class="privacy-policy-container">

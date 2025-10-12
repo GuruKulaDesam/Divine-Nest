@@ -149,7 +149,7 @@
     <div class="max-w-4xl mx-auto px-6 py-4">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-orange-800">🏠 Divine Nest Setup</h1>
+          <h1 class="text-2xl font-bold text-orange-800">🏠 Home Management Suite Setup</h1>
           <p class="text-orange-600">Personalize your household companion</p>
         </div>
         <div class="text-right">
@@ -323,7 +323,7 @@
     {#if currentStep === 4}
       <div class="text-center mb-8">
         <h2 class="text-3xl font-bold text-gray-800 mb-4">Your Preferences</h2>
-        <p class="text-lg text-gray-600">Customize how Divine Nest works for you</p>
+        <p class="text-lg text-gray-600">Customize how Home Management Suite works for you</p>
       </div>
 
       <div class="max-w-2xl mx-auto space-y-6">
@@ -386,7 +386,7 @@
         </div>
         <h2 class="text-3xl font-bold text-gray-800 mb-4">Setup Complete!</h2>
         <p class="text-lg text-gray-600 mb-8">
-          Divine Nest is now personalized for your household. Let's start making family life easier.
+          Home Management Suite is now personalized for your household. Let's start making family life easier.
         </p>
 
         <div class="bg-white p-6 rounded-lg border border-gray-200 max-w-2xl mx-auto mb-8">
@@ -412,7 +412,7 @@
         </div>
 
         <button class="btn-primary text-lg px-8 py-3" on:click={completeSetup}>
-          Enter Divine Nest
+          Enter Home Management Suite
         </button>
       </div>
     {/if}

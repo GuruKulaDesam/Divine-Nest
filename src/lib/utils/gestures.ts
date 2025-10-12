@@ -1,5 +1,5 @@
 /**
- * Mobile gesture utilities for Divine Nest
+ * Mobile gesture utilities for Home Management Suite
  * Provides touch gesture support for swipe, long-press, and tap interactions
  */
 

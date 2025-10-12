@@ -1,4 +1,4 @@
-// Offline Sync Engine for Divine Nest
+// Offline Sync Engine for Home Management Suite
 // Handles local storage, data synchronization, and offline-first architecture
 
 class OfflineSyncEngine {

@@ -1,6 +1,6 @@
-# Divine Nest - Android App Deployment Guide
+# Home Management Suite - Android App Deployment Guide
 
-This guide explains how to build and deploy the Divine Nest family management app as a native Android application using Capacitor.
+This guide explains how to build and deploy the Home Management Suite family management app as a native Android application using Capacitor.
 
 ## Prerequisites
 
@@ -13,8 +13,8 @@ This guide explains how to build and deploy the Divine Nest family management ap
 
 The project has been configured with Capacitor for Android deployment:
 
-- **App ID**: `com.gurukuladesam.divinenest`
-- **App Name**: `Divine Nest`
+- **App ID**: `com.gurukuladesam.homemanagementsuite`
+- **App Name**: `Home Management Suite`
 - **Web Assets**: Built from `dist/` directory
 - **PWA Features**: Service worker, offline support, push notifications
 
@@ -103,7 +103,7 @@ npm run android:build-release
 - **Content Rating**: Family-friendly app
 
 ### 3. Play Store Listing
-- **Title**: Divine Nest - Modern Family Dashboard
+- **Title**: Home Management Suite - Modern Family Dashboard
 - **Short Description**: Comprehensive family management app for South Indian households
 - **Full Description**: Include all features and benefits
 - **Screenshots**: Capture from device (1080x1920 recommended)

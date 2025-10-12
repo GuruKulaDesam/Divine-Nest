@@ -118,7 +118,7 @@
     <!-- Header -->
     <div class="p-6 border-b border-gray-200">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-bold text-gray-900">Welcome to Divine Nest</h2>
+        <h2 class="text-2xl font-bold text-gray-900">Welcome to Home Management Suite</h2>
         <button
           class="text-gray-400 hover:text-gray-600 transition-colors"
           on:click={onSkip}

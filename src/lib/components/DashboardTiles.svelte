@@ -462,7 +462,7 @@
             <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-3">
               <Icon icon="heroicons:home" class="text-indigo-600" />
               <span class="text-2xl font-bold text-orange-600 mr-2">ShivOhm</span>
-              வணக்கம்! Divine Nest
+              Home Management Suite
             </h1>
             <p class="text-gray-600 dark:text-gray-300 text-lg">Your comprehensive family management dashboard</p>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">தமிழ் நாள்: {new Date().toLocaleDateString('ta-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>

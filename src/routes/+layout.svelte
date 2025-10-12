@@ -44,7 +44,7 @@
               newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                   // New version available
-                  if (confirm('A new version of Divine Nest is available. Reload to update?')) {
+                  if (confirm('A new version of Home Management Suite is available. Reload to update?')) {
                     window.location.reload();
                   }
                 }

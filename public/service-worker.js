@@ -1,7 +1,7 @@
-// Service Worker for Divine Nest PWA
-const CACHE_NAME = 'divine-nest-v1.0.0';
-const STATIC_CACHE = 'divine-nest-static-v1.0.0';
-const DYNAMIC_CACHE = 'divine-nest-dynamic-v1.0.0';
+// Service Worker for Home Management Suite PWA
+const CACHE_NAME = 'home-management-suite-v1.0.0';
+const STATIC_CACHE = 'home-management-suite-static-v1.0.0';
+const DYNAMIC_CACHE = 'home-management-suite-dynamic-v1.0.0';
 
 // Get the base path from the service worker's location
 const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
@@ -9,10 +9,11 @@ const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
 // Files to cache immediately
 const STATIC_ASSETS = [
   BASE_PATH || '/',
-  `${BASE_PATH}/manifest.json`,
-  `${BASE_PATH}/shivohm-logo.svg`,
-  `${BASE_PATH}/logo-light.svg`,
-  `${BASE_PATH}/logo-dark.svg`,
+  `${BASE_PATH}/manifest.webmanifest`,
+  `${BASE_PATH}/Shivohm_Logo_Light.png`,
+  `${BASE_PATH}/Shivohm_Logo_Dark.png`,
+  `${BASE_PATH}/Shivohm_Logo_White.png`,
+  `${BASE_PATH}/Shivohm_Logo_3.png`,
   `${BASE_PATH}/loading.svg`,
   `${BASE_PATH}/vite.svg`,
   // Android app icons
@@ -169,8 +170,8 @@ self.addEventListener('push', event => {
   const data = event.data.json();
   const options = {
     body: data.body,
-    icon: `${BASE_PATH}/shivohm-logo.svg`,
-    badge: `${BASE_PATH}/shivohm-logo.svg`,
+    icon: `${BASE_PATH}/Shivohm_Logo_3.png`,
+    badge: `${BASE_PATH}/Shivohm_Logo_3.png`,
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),

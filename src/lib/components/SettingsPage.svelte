@@ -738,7 +738,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.app_name")}</p>
-                    <p class="font-medium text-gray-900 dark:text-white">Divine Nest</p>
+                    <p class="font-medium text-gray-900 dark:text-white">Home Management Suite</p>
                   </div>
                   <div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.version")}</p>

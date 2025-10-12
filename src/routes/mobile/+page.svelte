@@ -121,7 +121,7 @@
 <div class="mobile-app min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
   <!-- Debug Panel -->
   <div class="fixed bottom-4 right-4 bg-black bg-opacity-80 text-white p-3 rounded-lg max-w-xs max-h-64 overflow-y-auto z-50 text-xs">
-    <div class="font-bold mb-2 text-yellow-400">🔧 Divine Nest Debug v1.1</div>
+    <div class="font-bold mb-2 text-yellow-400">🔧 Home Management Suite Debug v1.1</div>
     <div class="font-bold mb-2">Minimal Test Log:</div>
     {#each debugMessages as msg}
       <div class="mb-1 {msg.isError ? 'text-red-400' : 'text-green-400'}">
@@ -136,7 +136,7 @@
 <div class="mobile-app min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
   <!-- Debug Panel -->
   <div class="fixed bottom-4 right-4 bg-black bg-opacity-80 text-white p-3 rounded-lg max-w-xs max-h-64 overflow-y-auto z-50 text-xs">
-    <div class="font-bold mb-2 text-yellow-400">🔧 Divine Nest SQLite Debug v1.3</div>
+    <div class="font-bold mb-2 text-yellow-400">🔧 Home Management Suite SQLite Debug v1.3</div>
     <div class="font-bold mb-2">Test Log:</div>
     {#each debugMessages as msg}
       <div class="mb-1 {msg.isError ? 'text-red-400' : 'text-green-400'}">

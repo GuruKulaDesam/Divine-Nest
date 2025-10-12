@@ -1,12 +1,12 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.gurukuladesam.divinenest',
-  appName: 'Divine Nest',
+  appId: 'com.gurukuladesam.homemanagementsuite',
+  appName: 'Home Management Suite',
   webDir: 'dist',
   plugins: {
     SQLite: {
-      iosDatabaseLocation: 'Library/Caches/DivineNest',
+      iosDatabaseLocation: 'Library/Caches/HomeManagementSuite',
       iosIsEncryption: false,
       iosKeychainPrefix: 'divine_nest',
       iosBiometric: {

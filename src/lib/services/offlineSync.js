@@ -1,4 +1,4 @@
-// Offline Sync Service for Divine Nest
+// Offline Sync Service for Home Management Suite
 // Handles local data storage and synchronization queue management
 
 class OfflineSyncService {

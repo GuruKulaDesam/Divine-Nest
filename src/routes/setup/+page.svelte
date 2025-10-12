@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Setup - Divine Nest Household Companion</title>
+  <title>Setup - Home Management Suite</title>
   <meta name="description" content="Set up your personalized household companion" />
 </svelte:head>
 
