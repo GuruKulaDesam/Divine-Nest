@@ -1,17 +1,23 @@
 <script>
   import { userProfile, userProfileActions } from '$lib/stores/userProfile';
   import { createEventDispatcher } from 'svelte';
-  import logo from "$lib/assets/Shivohm_Logo_3.png";
+  import { theme, THEMES } from '$lib/stores/theme';
 
   const dispatch = createEventDispatcher();
 
   let formData = {
     name: 'User',
     role: 'Mother',
-    location: 'India'
+    location: 'Coimbatore'
   };
 
   let isSubmitting = false;
+
+  // Reactive logo based on theme
+  $: logoSrc = $theme === THEMES.LIGHT ? '/Shivohm_Logo_Light.png' :
+               $theme === THEMES.DARK ? '/Shivohm_Logo_Dark.png' :
+               $theme === THEMES.TRANSPARENT ? '/Shivohm_Logo_White.png' :
+               '/Shivohm_Logo_Light.png'; // fallback
 
   async function handleSubmit() {
     isSubmitting = true;
@@ -69,7 +75,7 @@
     <div class="text-center mb-8">
       <!-- Logo -->
       <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center overflow-hidden">
-        <img src={logo} alt="ShivohM Logo" class="w-16 h-16 object-contain" />
+        <img src={logoSrc} alt="ShivohM Logo" class="w-16 h-16 object-contain" />
       </div>
       <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-2">
         Welcome to ShivohM
