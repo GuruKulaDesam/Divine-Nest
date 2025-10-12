@@ -27,12 +27,15 @@
     switch (action) {
       case "quick-task":
         console.log("Mobile quick task action triggered");
+        // Could open a quick task modal or navigate to todo page
         break;
       case "quick-note":
         console.log("Mobile quick note action triggered");
+        // Could open a quick note modal
         break;
       case "quick-reminder":
         console.log("Mobile quick reminder action triggered");
+        // Could open a quick reminder modal
         break;
       case "voice-note":
         console.log("Mobile voice note action triggered");
@@ -45,6 +48,13 @@
     }
   }
 
+  // Handle quick actions from dashboard tiles
+  function handleQuickAction(event) {
+    const { action, tile } = event.detail;
+    console.log(`Mobile Quick Action: ${action} from ${tile}`);
+    // Handle quick actions (could show toast, modal, etc.)
+  }
+
   // Handle mobile navigation
   function handleMobileNav(event) {
     const { path } = event.detail;
@@ -54,6 +64,11 @@
       });
     }
     showMobileMenu = false; // Close menu after navigation
+  }
+
+  // Handle mobile navigation close
+  function handleMobileNavClose() {
+    showMobileMenu = false;
   }
 
   // Toggle mobile menu
@@ -77,7 +92,7 @@
     {#if showMobileMenu}
       <div class="fixed inset-0 z-40 bg-black bg-opacity-50" on:click={toggleMobileMenu}>
         <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-3xl p-6" on:click|stopPropagation>
-          <MobileNavigation on:navigate={handleMobileNav} />
+          <MobileNavigation on:navigate={handleMobileNav} on:close={handleMobileNavClose} />
         </div>
       </div>
     {/if}
@@ -88,7 +103,7 @@
         {#if currentPath === "/"}
           <!-- Mobile dashboard - simplified layout -->
           <div class="p-2">
-            <DashboardTiles />
+            <DashboardTiles on:action={handleTopNavAction} on:quickAction={handleQuickAction} />
           </div>
         {:else}
           <!-- Mobile content pages -->
@@ -114,39 +129,57 @@
       </main>
     </div>
 
-    <!-- Mobile Bottom Navigation -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-      <div class="flex justify-around items-center py-2 px-4">
+    <!-- Mobile Bottom Navigation - 5 Menu Design -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
+      <div class="flex justify-around items-center py-2 px-2 safe-area-bottom">
+        <!-- Home -->
         <button
           on:click={() => goto("/")}
-          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-colors {$currentPath === '/' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}"
+          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath === '/' ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' : 'text-gray-600 dark:text-gray-400'}"
+          aria-label="Home"
         >
-          <Icon icon="heroicons:home" class="w-5 h-5" />
-          <span class="text-xs">Home</span>
+          <Icon icon="heroicons:home" class="w-6 h-6" />
+          <span class="text-xs font-medium">Home</span>
         </button>
 
+        <!-- Family -->
         <button
-          on:click={toggleMobileMenu}
-          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-colors text-gray-600 dark:text-gray-400"
+          on:click={() => goto("/members")}
+          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath.startsWith('/members') || $currentPath.startsWith('/home/members') ? 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20' : 'text-gray-600 dark:text-gray-400'}"
+          aria-label="Family"
         >
-          <Icon icon="heroicons:bars-3" class="w-5 h-5" />
-          <span class="text-xs">Menu</span>
+          <Icon icon="heroicons:users" class="w-6 h-6" />
+          <span class="text-xs font-medium">Family</span>
         </button>
 
+        <!-- Tasks -->
+        <button
+          on:click={() => goto("/todo")}
+          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath.startsWith('/todo') ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20' : 'text-gray-600 dark:text-gray-400'}"
+          aria-label="Tasks"
+        >
+          <Icon icon="heroicons:check-circle" class="w-6 h-6" />
+          <span class="text-xs font-medium">Tasks</span>
+        </button>
+
+        <!-- Assistant -->
         <button
           on:click={() => goto("/assistant")}
-          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-colors {$currentPath.startsWith('/assistant') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}"
+          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath.startsWith('/assistant') ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20' : 'text-gray-600 dark:text-gray-400'}"
+          aria-label="AI Assistant"
         >
-          <Icon icon="heroicons:chat-bubble-left-right" class="w-5 h-5" />
-          <span class="text-xs">AI</span>
+          <Icon icon="heroicons:sparkles" class="w-6 h-6" />
+          <span class="text-xs font-medium">AI</span>
         </button>
 
+        <!-- Settings -->
         <button
           on:click={() => goto("/settings")}
-          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-colors {$currentPath.startsWith('/settings') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}"
+          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath.startsWith('/settings') ? 'text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50' : 'text-gray-600 dark:text-gray-400'}"
+          aria-label="Settings"
         >
-          <Icon icon="heroicons:cog-6-tooth" class="w-5 h-5" />
-          <span class="text-xs">Settings</span>
+          <Icon icon="heroicons:cog-6-tooth" class="w-6 h-6" />
+          <span class="text-xs font-medium">Settings</span>
         </button>
       </div>
     </div>
@@ -189,6 +222,26 @@
   button {
     min-height: 44px;
     min-width: 44px;
+  }
+
+  /* Safe area for iPhone notches */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Enhanced mobile navigation styling */
+  .mobile-nav-button {
+    position: relative;
+    border-radius: 12px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-nav-button:hover {
+    transform: scale(1.05);
+  }
+
+  .mobile-nav-button:active {
+    transform: scale(0.95);
   }
 
   /* Mobile menu animation */

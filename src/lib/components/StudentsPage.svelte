@@ -228,10 +228,11 @@
   <div class="bg-base-100 rounded-lg p-6 shadow">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
-        <label class="label">
+        <label class="label" for="search-students">
           <span class="label-text">Search Students</span>
         </label>
         <input
+          id="search-students"
           type="text"
           bind:value={searchQuery}
           placeholder="Name, roll number, or email..."
@@ -239,10 +240,10 @@
         />
       </div>
       <div>
-        <label class="label">
+        <label class="label" for="filter-grade">
           <span class="label-text">Grade</span>
         </label>
-        <select bind:value={selectedGrade} class="select select-bordered w-full">
+        <select id="filter-grade" bind:value={selectedGrade} class="select select-bordered w-full">
           <option value="all">All Grades</option>
           {#each grades as grade}
             <option value={grade}>{grade}</option>
@@ -250,10 +251,10 @@
         </select>
       </div>
       <div>
-        <label class="label">
+        <label class="label" for="filter-section">
           <span class="label-text">Section</span>
         </label>
-        <select bind:value={selectedSection} class="select select-bordered w-full">
+        <select id="filter-section" bind:value={selectedSection} class="select select-bordered w-full">
           <option value="all">All Sections</option>
           {#each sections as section}
             <option value={section}>{section}</option>
@@ -261,10 +262,10 @@
         </select>
       </div>
       <div>
-        <label class="label">
+        <label class="label" for="filter-status">
           <span class="label-text">Status</span>
         </label>
-        <select bind:value={selectedStatus} class="select select-bordered w-full">
+        <select id="filter-status" bind:value={selectedStatus} class="select select-bordered w-full">
           <option value="all">All Status</option>
           {#each statuses as status}
             <option value={status}>{status}</option>
@@ -332,10 +333,10 @@
                     <Icon icon="mdi:dots-vertical" class="w-5 h-5" />
                   </button>
                   <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a on:click={() => editStudent(student)}>Edit Student</a></li>
-                    <li><a>View Details</a></li>
-                    <li><a>View Achievements</a></li>
-                    <li><a class="text-error" on:click={() => deleteStudent(student.id)}>Delete</a></li>
+                    <li><a href="#" on:click={() => editStudent(student)}>Edit Student</a></li>
+                    <li><a href="#" on:click={() => {/* View details action */}}>View Details</a></li>
+                    <li><a href="#" on:click={() => {/* View achievements action */}}>View Achievements</a></li>
+                    <li><a href="#" class="text-error" on:click={() => deleteStudent(student.id)}>Delete</a></li>
                   </ul>
                 </div>
               </td>
@@ -354,10 +355,11 @@
         <form on:submit|preventDefault={addStudent} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="label">
+              <label class="label" for="add-student-name">
                 <span class="label-text">Full Name *</span>
               </label>
               <input
+                id="add-student-name"
                 type="text"
                 bind:value={newStudent.name}
                 placeholder="Enter full name"
@@ -366,20 +368,21 @@
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-dob">
                 <span class="label-text">Date of Birth</span>
               </label>
               <input
+                id="add-student-dob"
                 type="date"
                 bind:value={newStudent.dateOfBirth}
                 class="input input-bordered w-full"
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-grade">
                 <span class="label-text">Grade *</span>
               </label>
-              <select bind:value={newStudent.grade} class="select select-bordered w-full" required>
+              <select id="add-student-grade" bind:value={newStudent.grade} class="select select-bordered w-full" required>
                 <option value="">Select Grade</option>
                 {#each grades as grade}
                   <option value={grade}>{grade}</option>
@@ -387,10 +390,10 @@
               </select>
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-section">
                 <span class="label-text">Section *</span>
               </label>
-              <select bind:value={newStudent.section} class="select select-bordered w-full" required>
+              <select id="add-student-section" bind:value={newStudent.section} class="select select-bordered w-full" required>
                 <option value="">Select Section</option>
                 {#each sections as section}
                   <option value={section}>{section}</option>
@@ -398,10 +401,11 @@
               </select>
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-roll">
                 <span class="label-text">Roll Number *</span>
               </label>
               <input
+                id="add-student-roll"
                 type="text"
                 bind:value={newStudent.rollNumber}
                 placeholder="e.g., 101"
@@ -410,10 +414,10 @@
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-gender">
                 <span class="label-text">Gender</span>
               </label>
-              <select bind:value={newStudent.gender} class="select select-bordered w-full">
+              <select id="add-student-gender" bind:value={newStudent.gender} class="select select-bordered w-full">
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -421,10 +425,11 @@
               </select>
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-email">
                 <span class="label-text">Email</span>
               </label>
               <input
+                id="add-student-email"
                 type="email"
                 bind:value={newStudent.email}
                 placeholder="student@example.com"
@@ -432,10 +437,11 @@
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-phone">
                 <span class="label-text">Phone</span>
               </label>
               <input
+                id="add-student-phone"
                 type="tel"
                 bind:value={newStudent.phone}
                 placeholder="+91-98765-43210"
@@ -443,10 +449,11 @@
               />
             </div>
             <div class="md:col-span-2">
-              <label class="label">
+              <label class="label" for="add-student-address">
                 <span class="label-text">Address</span>
               </label>
               <textarea
+                id="add-student-address"
                 bind:value={newStudent.address}
                 placeholder="Enter address"
                 rows="2"
@@ -454,10 +461,11 @@
               ></textarea>
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-parent-name">
                 <span class="label-text">Parent Name</span>
               </label>
               <input
+                id="add-student-parent-name"
                 type="text"
                 bind:value={newStudent.parentName}
                 placeholder="Parent/Guardian name"
@@ -465,10 +473,11 @@
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="add-student-parent-phone">
                 <span class="label-text">Parent Phone</span>
               </label>
               <input
+                id="add-student-parent-phone"
                 type="tel"
                 bind:value={newStudent.parentPhone}
                 placeholder="+91-98765-43211"
@@ -493,10 +502,11 @@
         <form on:submit|preventDefault={updateStudent} class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="label">
+              <label class="label" for="edit-student-name">
                 <span class="label-text">Full Name *</span>
               </label>
               <input
+                id="edit-student-name"
                 type="text"
                 bind:value={selectedStudent.name}
                 class="input input-bordered w-full"
@@ -504,40 +514,42 @@
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="edit-student-dob">
                 <span class="label-text">Date of Birth</span>
               </label>
               <input
+                id="edit-student-dob"
                 type="date"
                 bind:value={selectedStudent.dateOfBirth}
                 class="input input-bordered w-full"
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="edit-student-grade">
                 <span class="label-text">Grade *</span>
               </label>
-              <select bind:value={selectedStudent.grade} class="select select-bordered w-full" required>
+              <select id="edit-student-grade" bind:value={selectedStudent.grade} class="select select-bordered w-full" required>
                 {#each grades as grade}
                   <option value={grade}>{grade}</option>
                 {/each}
               </select>
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="edit-student-section">
                 <span class="label-text">Section *</span>
               </label>
-              <select bind:value={selectedStudent.section} class="select select-bordered w-full" required>
+              <select id="edit-student-section" bind:value={selectedStudent.section} class="select select-bordered w-full" required>
                 {#each sections as section}
                   <option value={section}>{section}</option>
                 {/each}
               </select>
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="edit-student-roll">
                 <span class="label-text">Roll Number *</span>
               </label>
               <input
+                id="edit-student-roll"
                 type="text"
                 bind:value={selectedStudent.rollNumber}
                 class="input input-bordered w-full"
@@ -545,10 +557,10 @@
               />
             </div>
             <div>
-              <label class="label">
+              <label class="label" for="edit-student-status">
                 <span class="label-text">Status</span>
               </label>
-              <select bind:value={selectedStudent.status} class="select select-bordered w-full">
+              <select id="edit-student-status" bind:value={selectedStudent.status} class="select select-bordered w-full">
                 {#each statuses as status}
                   <option value={status}>{status}</option>
                 {/each}

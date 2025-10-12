@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { secureStorage, StorageKeys } from '../utils/secureStorage.js';
 
 // Check if we're in a browser environment
 const browser = typeof window !== 'undefined';
@@ -22,10 +23,10 @@ export const BACKGROUNDS = {
   AUTUMN: 'autumn'
 };
 
-// Get initial background from localStorage or default to mountain
+// Get initial background from secure storage or default to mountain
 function getInitialBackground() {
   if (browser) {
-    const stored = localStorage.getItem('background');
+    const stored = secureStorage.getItem(StorageKeys.BACKGROUND, false);
     if (stored && Object.values(BACKGROUNDS).includes(stored)) {
       return stored;
     }
@@ -47,7 +48,7 @@ export const backgroundActions = {
       const newBackground = backgrounds[nextIndex];
 
       if (browser) {
-        localStorage.setItem('background', newBackground);
+        secureStorage.setItem(StorageKeys.BACKGROUND, newBackground, false);
         updateBackground(newBackground);
       }
       return newBackground;
@@ -58,7 +59,7 @@ export const backgroundActions = {
     if (Object.values(BACKGROUNDS).includes(newBackground)) {
       background.set(newBackground);
       if (browser) {
-        localStorage.setItem('background', newBackground);
+        secureStorage.setItem(StorageKeys.BACKGROUND, newBackground, false);
         updateBackground(newBackground);
       }
     }

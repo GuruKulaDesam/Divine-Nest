@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { secureStorage, StorageKeys } from '$lib/utils/secureStorage';
 
 // Simple authentication state management
 export const isAuthenticated = writable(false);
@@ -9,26 +10,25 @@ export const authActions = {
   login: (userData) => {
     isAuthenticated.set(true);
     currentUser.set(userData);
-    localStorage.setItem('auth_user', JSON.stringify(userData));
+    secureStorage.setItem(StorageKeys.AUTH_USER, userData, true); // Encrypt sensitive user data
   },
-  
+
   logout: () => {
     isAuthenticated.set(false);
     currentUser.set(null);
-    localStorage.removeItem('auth_user');
+    secureStorage.removeItem(StorageKeys.AUTH_USER);
   },
-  
+
   init: () => {
     // Check if user is already logged in
-    const storedUser = localStorage.getItem('auth_user');
+    const storedUser = secureStorage.getItem(StorageKeys.AUTH_USER, true); // Decrypt sensitive data
     if (storedUser) {
       try {
-        const userData = JSON.parse(storedUser);
         isAuthenticated.set(true);
-        currentUser.set(userData);
+        currentUser.set(storedUser);
       } catch (error) {
         console.error('Error parsing stored user data:', error);
-        localStorage.removeItem('auth_user');
+        secureStorage.removeItem(StorageKeys.AUTH_USER);
       }
     }
   }

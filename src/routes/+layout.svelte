@@ -6,10 +6,21 @@
   import { shouldUseDesktopLayout, shouldUseMobileLayout } from '$lib/utils/platform';
   import { base } from '$app/paths';
 
-  // Register service worker for PWA functionality
   import { onMount } from 'svelte';
+  import { crashAnalytics, setupGlobalErrorHandler } from '$lib/services/crashAnalytics';
+  import { performanceMonitor } from '$lib/utils/performance';
 
-  onMount(() => {
+  onMount(async () => {
+    // Initialize crash analytics
+    await crashAnalytics.initialize();
+
+    // Setup global error handlers
+    setupGlobalErrorHandler();
+
+    // Initialize performance monitoring
+    performanceMonitor.initialize();
+
+    // Register service worker for PWA functionality
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register(`${base}/service-worker.js`)
         .then(registration => {
@@ -31,7 +42,7 @@
           });
 
           // Handle controller change (when new SW takes control)
-          navigator.serviceWorker.addEventListener('controllerchange', () => {
+          registration.addEventListener('controllerchange', () => {
             console.log('[PWA] Service Worker updated, reloading...');
             window.location.reload();
           });

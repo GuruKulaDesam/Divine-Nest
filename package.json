@@ -35,6 +35,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "@capacitor-firebase/crashlytics": "^7.3.1",
     "@fullcalendar/core": "^6.1.17",
     "@fullcalendar/daygrid": "^6.1.17",
     "@fullcalendar/interaction": "^6.1.17",
@@ -50,6 +51,7 @@
     "daisyui": "^5.0.43",
     "dexie": "^4.2.0",
     "express": "^4.21.2",
+    "firebase": "^12.4.0",
     "leaflet": "^1.9.4",
     "motion": "^12.18.1",
     "pkill": "^2.0.0",

@@ -2,6 +2,7 @@
 // Handles SMS, WhatsApp, and in-app notifications
 
 import { familyMembers, monthlyRecharges, yearlyRenewals, notificationTemplates } from '../data/family.js';
+import { secureStorage, StorageKeys } from '../utils/secureStorage.js';
 
 class NotificationService {
   constructor() {
@@ -369,14 +370,14 @@ class NotificationService {
   // Update notification preferences
   updatePreferences(newPreferences) {
     this.preferences = { ...this.preferences, ...newPreferences };
-    localStorage.setItem('notificationPreferences', JSON.stringify(this.preferences));
+    secureStorage.setItem(StorageKeys.NOTIFICATION_PREFERENCES, this.preferences, false); // Preferences are not sensitive
   }
 
   // Load preferences from storage
   loadPreferences() {
-    const saved = localStorage.getItem('notificationPreferences');
+    const saved = secureStorage.getItem(StorageKeys.NOTIFICATION_PREFERENCES, false);
     if (saved) {
-      this.preferences = { ...this.preferences, ...JSON.parse(saved) };
+      this.preferences = { ...this.preferences, ...saved };
     }
   }
 

@@ -14,10 +14,11 @@
   });
 
   function toggleLayout() {
+    // Prevent switching to mobile layout on web platforms
     if (forceLayout === null) {
-      forceLayout = shouldUseDesktopLayout() ? 'mobile' : 'desktop';
+      forceLayout = 'desktop'; // Force desktop on web
     } else if (forceLayout === 'desktop') {
-      forceLayout = 'mobile';
+      forceLayout = null; // back to auto-detect
     } else {
       forceLayout = null; // back to auto-detect
     }
@@ -41,13 +42,13 @@
 
   function getNextLayout() {
     if (forceLayout === null) return 'Desktop';
-    if (forceLayout === 'desktop') return 'Mobile';
+    if (forceLayout === 'desktop') return 'Auto';
     return 'Auto';
   }
 </script>
 
 <!-- Layout Switcher - Bottom Right Corner -->
-<div class="fixed bottom-4 right-4 z-50">
+<div class="fixed bottom-4 right-20 z-50">
   <button
     on:click={() => showSwitcher = !showSwitcher}
     class="bg-base-100 border border-base-300 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
@@ -76,7 +77,7 @@
         </button>
 
         <div class="text-xs text-base-content/50 mt-2">
-          Auto-detects based on device. Manual override persists across sessions.
+          Force desktop layout on any device. Mobile layout is auto-detected on mobile devices only.
         </div>
       </div>
     </div>

@@ -276,6 +276,13 @@
                 <span>{$_("settings.display")}</span>
               </div>
             </button>
+
+            <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'about' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "about")}>
+              <div class="flex items-center space-x-3">
+                <Icon icon="heroicons:information-circle" class="w-5 h-5" />
+                <span>{$_("settings.about")}</span>
+              </div>
+            </button>
           </nav>
         </div>
       </div>
@@ -687,8 +694,96 @@
             </div>
           </div>
         {/if}
-      </div>
-    </div>
+
+        <!-- About Section -->
+        {#if activeSection === "about"}
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6" use:motionInView>
+            <div class="flex items-center space-x-3 mb-6">
+              <Icon icon="heroicons:information-circle" class="w-6 h-6 text-indigo-600" />
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                {$_("settings.about")}
+              </h2>
+            </div>
+
+            <div class="space-y-6">
+              <!-- App Information -->
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                  {$_("settings.app_info")}
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.app_name")}</p>
+                    <p class="font-medium text-gray-900 dark:text-white">Divine Nest</p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.version")}</p>
+                    <p class="font-medium text-gray-900 dark:text-white">1.0.0</p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.developer")}</p>
+                    <p class="font-medium text-gray-900 dark:text-white">Shivo AI</p>
+                  </div>
+                  <div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.last_updated")}</p>
+                    <p class="font-medium text-gray-900 dark:text-white">2024</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Legal Links -->
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                  {$_("settings.legal")}
+                </h3>
+                <div class="space-y-3">
+                  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+                    <Icon icon="heroicons:shield-check" class="w-5 h-5 text-green-600 group-hover:scale-110 transition-transform" />
+                    <div>
+                      <p class="font-medium text-gray-900 dark:text-white">{$_("settings.privacy_policy")}</p>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.privacy_policy_desc")}</p>
+                    </div>
+                    <Icon icon="heroicons:arrow-top-right-on-square" class="w-4 h-4 text-gray-400 ml-auto" />
+                  </a>
+
+                  <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+                    <Icon icon="heroicons:document-text" class="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" />
+                    <div>
+                      <p class="font-medium text-gray-900 dark:text-white">{$_("settings.terms_of_service")}</p>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">{$_("settings.terms_desc")}</p>
+                    </div>
+                    <Icon icon="heroicons:arrow-top-right-on-square" class="w-4 h-4 text-gray-400 ml-auto" />
+                  </a>
+                </div>
+              </div>
+
+              <!-- Support -->
+              <div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                  {$_("settings.support")}
+                </h3>
+                <div class="space-y-3">
+                  <a href="mailto:support@shivo.ai" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+                    <Icon icon="heroicons:envelope" class="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform" />
+                    <div>
+                      <p class="font-medium text-gray-900 dark:text-white">{$_("settings.contact_support")}</p>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">support@shivo.ai</p>
+                    </div>
+                  </a>
+
+                  <a href="https://github.com/shishyan/divine-nest" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+                    <Icon icon="heroicons:code-bracket" class="w-5 h-5 text-gray-600 group-hover:scale-110 transition-transform" />
+                    <div>
+                      <p class="font-medium text-gray-900 dark:text-white">{$_("settings.source_code")}</p>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">GitHub Repository</p>
+                    </div>
+                    <Icon icon="heroicons:arrow-top-right-on-square" class="w-4 h-4 text-gray-400 ml-auto" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {/if}
 
     <!-- Action Buttons -->
     <div class="mt-8 flex flex-wrap gap-4 justify-center" use:motionInView>
@@ -713,6 +808,7 @@
       </button>
     </div>
   </div>
+</div>
 </main>
 
 <style>

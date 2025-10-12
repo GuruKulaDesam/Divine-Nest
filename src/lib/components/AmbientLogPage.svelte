@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from "svelte";
+  import { secureStorage, StorageKeys } from '$lib/utils/secureStorage';
   import Icon from "@iconify/svelte";
   import { motionInView } from "../utils/motion.js";
 
@@ -155,17 +155,17 @@
   }, 1000);
 
   onMount(() => {
-    // Load logs from localStorage or API
-    const savedLogs = localStorage.getItem("ambientLogs");
+    // Load logs from secure storage
+    const savedLogs = secureStorage.getItem(StorageKeys.AMBIENT_LOGS, true); // Decrypt sensitive logs
     if (savedLogs) {
-      ambientLogs = JSON.parse(savedLogs);
+      ambientLogs = savedLogs;
       filteredLogs = ambientLogs;
     }
   });
 
   // Save logs when they change
   $: if (ambientLogs) {
-    localStorage.setItem("ambientLogs", JSON.stringify(ambientLogs));
+    secureStorage.setItem(StorageKeys.AMBIENT_LOGS, ambientLogs, true); // Encrypt sensitive logs
   }
 </script>
 

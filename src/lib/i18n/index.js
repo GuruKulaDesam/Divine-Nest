@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { register, init, getLocaleFromNavigator, locale, isLoading, waitLocale } from 'svelte-i18n';
+import { secureStorage, StorageKeys } from '../utils/secureStorage.js';
 
 // Available languages
 export const languages = {
@@ -28,14 +29,14 @@ export const languages = {
 // Default language
 const defaultLanguage = 'en';
 
-// Get initial language from localStorage or browser
+// Get initial language from secure storage or browser
 function getInitialLanguage() {
   if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('language');
+    const saved = secureStorage.getItem(StorageKeys.LANGUAGE, false);
     if (saved && languages[saved]) {
       return saved;
     }
-    
+
     // Try to detect from browser language
     const browserLang = navigator.language.split('-')[0];
     if (languages[browserLang]) {
@@ -48,10 +49,10 @@ function getInitialLanguage() {
 // Create language store
 export const currentLanguage = writable(getInitialLanguage());
 
-// Subscribe to language changes and save to localStorage
+// Subscribe to language changes and save to secure storage
 if (typeof window !== 'undefined') {
   currentLanguage.subscribe(lang => {
-    localStorage.setItem('language', lang);
+    secureStorage.setItem(StorageKeys.LANGUAGE, lang, false);
     // Sync with svelte-i18n locale store
     locale.set(lang);
   });

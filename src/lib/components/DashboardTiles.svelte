@@ -5,6 +5,7 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { homeSounds } from "$lib/utils/sounds";
+  import { mobileGestures } from "$lib/utils/gestures";
 
   const dispatch = createEventDispatcher();
 
@@ -1113,11 +1114,15 @@
         Quick Actions
       </h3>
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/todo")} on:mouseenter={handleHover}>
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/todo")} on:mouseenter={handleHover} use:mobileGestures={{
+          onLongPress: () => dispatch('quickAction', { action: 'quick-task', tile: 'Add Task' })
+        }}>
           <Icon icon="heroicons:clipboard-document-list" class="text-xl" />
           <span class="text-sm font-medium">Add Task</span>
         </button>
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/family-notes-modern")} on:mouseenter={handleHover}>
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/family-notes-modern")} on:mouseenter={handleHover} use:mobileGestures={{
+          onLongPress: () => dispatch('quickAction', { action: 'quick-note', tile: 'New Note' })
+        }}>
           <Icon icon="heroicons:document-text" class="text-xl" />
           <span class="text-sm font-medium">New Note</span>
         </button>
@@ -1125,7 +1130,9 @@
           <Icon icon="heroicons:calendar-days" class="text-xl" />
           <span class="text-sm font-medium">Schedule</span>
         </button>
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/reminders")} on:mouseenter={handleHover}>
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/reminders")} on:mouseenter={handleHover} use:mobileGestures={{
+          onLongPress: () => dispatch('quickAction', { action: 'quick-reminder', tile: 'Reminder' })
+        }}>
           <Icon icon="heroicons:bell-alert" class="text-xl" />
           <span class="text-sm font-medium">Reminder</span>
         </button>

@@ -1,6 +1,7 @@
 <script>
   import Icon from "@iconify/svelte";
   import { createEventDispatcher } from "svelte";
+  import { mobileGestures } from "$lib/utils/gestures";
 
   const dispatch = createEventDispatcher();
 
@@ -97,7 +98,11 @@
   }
 </script>
 
-<div class="mobile-navigation">
+<div class="mobile-navigation" use:mobileGestures={{
+  onSwipeDown: () => dispatch('close'),
+  onSwipeUp: () => {/* Allow upward swipe for scrolling */},
+  onLongPress: () => dispatch('close')
+}}>
   <div class="flex justify-center mb-4">
     <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
   </div>
