@@ -90,7 +90,7 @@
 
     <!-- Mobile Menu Overlay -->
     {#if showMobileMenu}
-      <div class="fixed inset-0 z-40 bg-black bg-opacity-50" on:click={toggleMobileMenu}>
+      <div class="fixed inset-0 z-40 bg-black bg-opacity-50" on:click={toggleMobileMenu} on:keydown={(e) => { if (e.key === 'Escape') toggleMobileMenu(); }} role="button" tabindex="0" aria-label="Close mobile menu">
         <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-3xl p-6" on:click|stopPropagation>
           <MobileNavigation on:navigate={handleMobileNav} on:close={handleMobileNavClose} />
         </div>
@@ -242,28 +242,5 @@
 
   .mobile-nav-button:active {
     transform: scale(0.95);
-  }
-
-  /* Mobile menu animation */
-  .mobile-menu-enter {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-
-  .mobile-menu-enter-active {
-    transform: translateY(0);
-    opacity: 1;
-    transition: all 0.3s ease-out;
-  }
-
-  .mobile-menu-exit {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .mobile-menu-exit-active {
-    transform: translateY(100%);
-    opacity: 0;
-    transition: all 0.3s ease-in;
   }
 </style>

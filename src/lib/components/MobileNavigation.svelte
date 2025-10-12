@@ -1,156 +1,227 @@
 <script>
+  import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
-  import { createEventDispatcher } from "svelte";
-  import { mobileGestures } from "$lib/utils/gestures";
+  import { userRole } from "$lib/stores/userRole.js";
+  import { offlineSync } from "$lib/utils/offlineSync.js";
+  import RoleBasedMobileDashboard from "./RoleBasedMobileDashboard.svelte";
 
-  const dispatch = createEventDispatcher();
+  let currentRole = null;
+  let currentTab = 'home';
+  let userLocation = null;
+  let isOnline = navigator.onLine;
 
-  // Mobile navigation categories - simplified for mobile
-  const mobileCategories = [
-    {
-      id: "home",
-      title: "Home",
-      icon: "heroicons:home",
-      path: "/",
-      color: "text-blue-600 dark:text-blue-400"
+  // Role-specific navigation configuration
+  const navigationConfig = {
+    mother: {
+      tabs: [
+        { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
+        { id: 'tasks', label: 'Tasks', icon: 'mdi:clipboard-list', badge: 'tasks' },
+        { id: 'resources', label: 'Resources', icon: 'mdi:package-variant', badge: null },
+        { id: 'people', label: 'People', icon: 'mdi:account-group', badge: null },
+        { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
+      ]
     },
-    {
-      id: "finances",
-      title: "Finances",
-      icon: "heroicons:currency-rupee",
-      path: "/finances",
-      color: "text-green-600 dark:text-green-400"
+    father: {
+      tabs: [
+        { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
+        { id: 'tasks', label: 'Tasks', icon: 'mdi:clipboard-list', badge: 'maintenance' },
+        { id: 'resources', label: 'Resources', icon: 'mdi:package-variant', badge: null },
+        { id: 'people', label: 'People', icon: 'mdi:account-group', badge: null },
+        { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
+      ]
     },
-    {
-      id: "health",
-      title: "Health",
-      icon: "heroicons:heart",
-      path: "/health",
-      color: "text-red-600 dark:text-red-400"
+    grandmother: {
+      tabs: [
+        { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
+        { id: 'rituals', label: 'Rituals', icon: 'mdi:temple-hindu', badge: 'rituals' },
+        { id: 'health', label: 'Health', icon: 'mdi:heart', badge: 'medicine' },
+        { id: 'family', label: 'Family', icon: 'mdi:account-group', badge: null },
+        { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
+      ]
     },
-    {
-      id: "family",
-      title: "Family",
-      icon: "heroicons:user-group",
-      path: "/members",
-      color: "text-purple-600 dark:text-purple-400"
+    grandfather: {
+      tabs: [
+        { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
+        { id: 'rituals', label: 'Rituals', icon: 'mdi:temple-hindu', badge: 'rituals' },
+        { id: 'health', label: 'Health', icon: 'mdi:heart', badge: 'medicine' },
+        { id: 'family', label: 'Family', icon: 'mdi:account-group', badge: null },
+        { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
+      ]
     },
-    {
-      id: "home-management",
-      title: "Home",
-      icon: "heroicons:home-modern",
-      path: "/home",
-      color: "text-orange-600 dark:text-orange-400"
+    child: {
+      tabs: [
+        { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
+        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', badge: 'chores' },
+        { id: 'rewards', label: 'Rewards', icon: 'mdi:star', badge: 'stars' },
+        { id: 'calendar', label: 'Calendar', icon: 'mdi:calendar', badge: null },
+        { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
+      ]
     },
-    {
-      id: "assistant",
-      title: "AI Assistant",
-      icon: "heroicons:chat-bubble-left-right",
-      path: "/assistant",
-      color: "text-indigo-600 dark:text-indigo-400"
+    teenager: {
+      tabs: [
+        { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
+        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', badge: 'chores' },
+        { id: 'rewards', label: 'Rewards', icon: 'mdi:star', badge: 'stars' },
+        { id: 'calendar', label: 'Calendar', icon: 'mdi:calendar', badge: null },
+        { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
+      ]
     },
-    {
-      id: "culture",
-      title: "Culture",
-      icon: "heroicons:sparkles",
-      path: "/culture",
-      color: "text-pink-600 dark:text-pink-400"
-    },
-    {
-      id: "education",
-      title: "Education",
-      icon: "heroicons:academic-cap",
-      path: "/education",
-      color: "text-teal-600 dark:text-teal-400"
-    },
-    {
-      id: "food",
-      title: "Food",
-      icon: "heroicons:cake",
-      path: "/food",
-      color: "text-yellow-600 dark:text-yellow-400"
-    },
-    {
-      id: "inventory",
-      title: "Inventory",
-      icon: "heroicons:clipboard-document-list",
-      path: "/inventory",
-      color: "text-cyan-600 dark:text-cyan-400"
-    },
-    {
-      id: "issues",
-      title: "Issues",
-      icon: "heroicons:exclamation-triangle",
-      path: "/issues",
-      color: "text-red-500 dark:text-red-400"
-    },
-    {
-      id: "settings",
-      title: "Settings",
-      icon: "heroicons:cog-6-tooth",
-      path: "/settings",
-      color: "text-gray-600 dark:text-gray-400"
+    helper: {
+      tabs: [
+        { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
+        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', badge: 'duties' },
+        { id: 'attendance', label: 'Attendance', icon: 'mdi:clock', badge: null },
+        { id: 'notes', label: 'Notes', icon: 'mdi:note-text', badge: 'messages' },
+        { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
+      ]
     }
-  ];
+  };
 
-  function handleNavigation(path) {
-    dispatch('navigate', { path });
+  // Subscribe to role changes
+  userRole.subscribe(role => {
+    currentRole = role;
+    // Reset to home tab when role changes
+    currentTab = 'home';
+  });
+
+  onMount(async () => {
+    // Get user location for geo-based adjustments
+    await getUserLocation();
+
+    // Listen for online/offline changes
+    window.addEventListener('online', () => isOnline = true);
+    window.addEventListener('offline', () => isOnline = false);
+  });
+
+  async function getUserLocation() {
+    if ('geolocation' in navigator) {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000
+          });
+        });
+
+        userLocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: position.coords.accuracy
+        };
+
+        // Cache location
+        await offlineSync.savePreference('current_location', JSON.stringify(userLocation));
+      } catch (error) {
+        console.log('Location access denied, using cached location');
+        // Try to use cached location
+        const cached = await offlineSync.getPreference('current_location');
+        if (cached) {
+          userLocation = JSON.parse(cached);
+        }
+      }
+    }
   }
+
+  function switchTab(tabId) {
+    currentTab = tabId;
+  }
+
+  // Get current navigation config
+  $: currentNav = navigationConfig[currentRole] || navigationConfig.mother;
+
+  // Get badge counts (simplified - would be dynamic in real app)
+  $: badgeCounts = {
+    tasks: 3,
+    maintenance: 2,
+    rituals: 1,
+    medicine: 1,
+    chores: 2,
+    stars: 5,
+    duties: 4,
+    messages: 2
+  };
 </script>
 
-<div class="mobile-navigation" use:mobileGestures={{
-  onSwipeDown: () => dispatch('close'),
-  onSwipeUp: () => {/* Allow upward swipe for scrolling */},
-  onLongPress: () => dispatch('close')
-}}>
-  <div class="flex justify-center mb-4">
-    <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
-  </div>
+<!-- Mobile Navigation Container -->
+<div class="mobile-app-container bg-gray-50 min-h-screen flex flex-col">
+  <!-- Main Content Area -->
+  <main class="flex-1 overflow-y-auto pb-20">
+    <RoleBasedMobileDashboard
+      {currentTab}
+      {currentRole}
+      {userLocation}
+      {isOnline}
+    />
+  </main>
 
-  <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 text-center">
-    Navigation
-  </h3>
+  <!-- Bottom Navigation Bar -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+    <div class="flex items-center justify-around px-2 py-2">
+      {#each currentNav.tabs as tab}
+        <button
+          on:click={() => switchTab(tab.id)}
+          class="flex flex-col items-center justify-center p-2 min-w-0 flex-1 transition-colors relative {currentTab === tab.id ? 'text-blue-600' : 'text-gray-500'}"
+        >
+          <!-- Badge indicator -->
+          {#if tab.badge && badgeCounts[tab.badge] > 0}
+            <div class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+              {badgeCounts[tab.badge]}
+            </div>
+          {/if}
 
-  <div class="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-    {#each mobileCategories as category}
-      <button
-        on:click={() => handleNavigation(category.path)}
-        class="flex flex-col items-center space-y-2 p-3 rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
-      >
-        <div class="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-          <Icon icon={category.icon} class="w-6 h-6 {category.color}" />
-        </div>
-        <span class="text-xs font-medium text-gray-700 dark:text-gray-300 text-center leading-tight">
-          {category.title}
-        </span>
-      </button>
-    {/each}
-  </div>
+          <!-- Tab Icon -->
+          <Icon
+            icon={tab.icon}
+            class="w-6 h-6 mb-1 {currentTab === tab.id ? 'text-blue-600' : 'text-gray-500'}"
+          />
 
-  <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
-    <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
-      Divine Nest - South Indian Family App
+          <!-- Tab Label -->
+          <span class="text-xs font-medium truncate">
+            {tab.label}
+          </span>
+
+          <!-- Active indicator -->
+          {#if currentTab === tab.id}
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-blue-600 rounded-full"></div>
+          {/if}
+        </button>
+      {/each}
     </div>
-  </div>
+
+    <!-- Online/Offline indicator -->
+    <div class="absolute top-0 right-2 transform -translate-y-full">
+      <div class="flex items-center space-x-1 px-2 py-1 bg-white rounded-b-md border border-gray-200 shadow-sm">
+        <div class="w-2 h-2 rounded-full {isOnline ? 'bg-green-500' : 'bg-red-500'}"></div>
+        <span class="text-xs text-gray-600">
+          {isOnline ? 'Online' : 'Offline'}
+        </span>
+      </div>
+    </div>
+  </nav>
 </div>
 
 <style>
-  .mobile-navigation {
-    max-height: 70vh;
-    overflow-y: auto;
+  .mobile-app-container {
+    /* Ensure content doesn't get hidden behind navigation */
+    padding-bottom: 80px;
   }
 
-  /* Custom scrollbar for mobile menu */
-  .mobile-navigation::-webkit-scrollbar {
+  /* Custom scrollbar for mobile */
+  .overflow-y-auto::-webkit-scrollbar {
     width: 4px;
   }
 
-  .mobile-navigation::-webkit-scrollbar-track {
-    background: transparent;
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
   }
 
-  .mobile-navigation::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.3);
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
     border-radius: 2px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
   }
 </style>

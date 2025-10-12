@@ -1,6 +1,38 @@
 <script>
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
+  import RegionalSetupWizard from "$lib/components/RegionalSetupWizard.svelte";
+
+  // Regional setup state
+  let showRegionalSetup = false;
+  let regionalSetupCompleted = false;
+
+  // Check if regional setup has been completed
+  import { onMount } from 'svelte';
+  onMount(() => {
+    const setupCompleted = localStorage.getItem('regionalSetupCompleted');
+    if (!setupCompleted) {
+      showRegionalSetup = true;
+    } else {
+      regionalSetupCompleted = true;
+    }
+  });
+
+  function handleRegionalSetupComplete(setupData) {
+    console.log('Regional setup completed:', setupData);
+    localStorage.setItem('regionalSetupCompleted', 'true');
+    localStorage.setItem('userRegion', setupData.region);
+    localStorage.setItem('userLanguage', setupData.language);
+    showRegionalSetup = false;
+    regionalSetupCompleted = true;
+
+    // Here you could initialize location services or update app state
+  }
+
+  function handleRegionalSetupSkip() {
+    showRegionalSetup = false;
+    regionalSetupCompleted = true;
+  }
 
   // Today's Schedule Data
   const todaysSchedule = {
@@ -327,3 +359,11 @@
     </div>
   </div>
 </div>
+
+<!-- Regional Setup Wizard Modal -->
+{#if showRegionalSetup}
+  <RegionalSetupWizard
+    onComplete={handleRegionalSetupComplete}
+    onSkip={handleRegionalSetupSkip}
+  />
+{/if}

@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { preprocessMeltUI, sequence } from '@melt-ui/pp'
 
@@ -12,18 +12,9 @@ const config = {
 	]),
 
 	kit: {
-		adapter: adapter({
-			pages: 'dist',
-			assets: 'dist',
-			fallback: 'index.html',
-			precompress: false,
-			strict: true
-		}),
+		adapter: adapter(),
 		paths: {
 			base: ''
-		},
-		prerender: {
-			entries: ['*']
 		}
 	}
 };

@@ -6,6 +6,8 @@
   import { homeSounds } from "$lib/utils/sounds";
   import { theme, themeActions, THEMES } from "$lib/stores/theme";
   import { background, backgroundActions, BACKGROUNDS } from "$lib/stores/background";
+  import { userProfile } from "$lib/stores/userProfile";
+  import logo from "$lib/assets/Shivohm_Logo_3.png";
 
   const dispatch = createEventDispatcher();
 
@@ -208,18 +210,16 @@
   <!-- Main Ribbon Container -->
   <div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/5 via-transparent to-white/5">
     <!-- Left Section: Logo and App Title -->
-    <div class="flex flex-col items-center space-y-2 flex-shrink-0">
+    <div class="flex items-center space-x-4 flex-shrink-0">
       <!-- Logo -->
-      <div class="relative flex items-center justify-center w-28 h-16 overflow-hidden shadow-lg rounded-lg" style="clip-path: polygon(50% 0%, 55% 15%, 70% 5%, 75% 25%, 90% 15%, 95% 35%, 100% 25%, 90% 45%, 100% 55%, 85% 65%, 95% 75%, 75% 85%, 85% 95%, 65% 90%, 50% 100%, 35% 90%, 15% 95%, 25% 85%, 5% 75%, 15% 65%, 0% 55%, 10% 45%, 0% 25%, 5% 35%, 10% 15%, 25% 25%, 30% 5%, 45% 15%);">
-        <div class="absolute inset-0 bg-gradient-to-br from-pink-300 via-pink-400 to-pink-500 rounded-lg"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-pink-600/60 via-transparent to-pink-200/40"></div>
-        <span class="text-sm font-bold text-white leading-tight relative z-10 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(255,255,255,0.4); font-family: 'Noto Sans Tamil', sans-serif; line-height: 1;">தாய்வழி</span>
+      <div class="relative flex items-center justify-center w-16 h-16 overflow-hidden shadow-lg rounded-xl bg-gradient-to-br from-white/20 to-white/5 dark:from-gray-800/30 dark:to-gray-900/10 border border-white/30 dark:border-gray-600/30">
+        <img src={logo} alt="ShivohM Logo" class="w-12 h-12 object-contain" />
       </div>
 
-      <!-- App Title -->
-      <div class="flex flex-col items-center text-center">
-        <span class="text-xs font-medium bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent leading-tight opacity-80">தமிழச்சி இல்லம்</span>
-        <span class="text-sm font-semibold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight opacity-80">Home Maker</span>
+      <!-- App Title - Two rows within logo height -->
+      <div class="flex flex-col justify-center h-16">
+        <span class="text-xs font-semibold text-slate-600 dark:text-slate-300 leading-tight tracking-wide font-sans uppercase">{$userProfile?.name || 'Family'}</span>
+        <span class="text-xl font-black bg-gradient-to-r from-slate-800 via-slate-900 to-slate-700 dark:from-slate-100 dark:via-white dark:to-slate-200 bg-clip-text text-transparent leading-tight tracking-wide font-sans">Divine Nest</span>
       </div>
     </div>
 

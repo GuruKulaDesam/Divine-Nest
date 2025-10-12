@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { permissionManager, PermissionType, PermissionStatus, PermissionResult } from '$lib/utils/permissions';
+  import { permissionManager, PermissionType, PermissionStatus, type PermissionResult } from '$lib/utils/permissions';
   import Icon from '@iconify/svelte';
   import { motionInView, motionHover } from '$lib/utils/motion';
 

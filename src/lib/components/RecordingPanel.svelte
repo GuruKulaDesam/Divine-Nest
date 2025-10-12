@@ -7,7 +7,7 @@
   let isRecording = false;
   let recordingStartTime: number | null = null;
   let recordingDuration = 0;
-  let recordingInterval: number | null = null;
+  let recordingInterval: ReturnType<typeof setInterval> | null = null;
 
   function startRecording() {
     if (isRecording) return;

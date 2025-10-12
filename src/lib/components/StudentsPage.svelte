@@ -333,10 +333,10 @@
                     <Icon icon="mdi:dots-vertical" class="w-5 h-5" />
                   </button>
                   <ul class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a href="#" on:click={() => editStudent(student)}>Edit Student</a></li>
-                    <li><a href="#" on:click={() => {/* View details action */}}>View Details</a></li>
-                    <li><a href="#" on:click={() => {/* View achievements action */}}>View Achievements</a></li>
-                    <li><a href="#" class="text-error" on:click={() => deleteStudent(student.id)}>Delete</a></li>
+                    <li><button on:click={() => editStudent(student)}>Edit Student</button></li>
+                    <li><button on:click={() => {/* View details action */}}>View Details</button></li>
+                    <li><button on:click={() => {/* View achievements action */}}>View Achievements</button></li>
+                    <li><button class="text-error" on:click={() => deleteStudent(student.id)}>Delete</button></li>
                   </ul>
                 </div>
               </td>

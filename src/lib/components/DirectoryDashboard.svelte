@@ -1,12 +1,24 @@
 <script>
   import { onMount } from "svelte";
   import { db } from "../data/database.js";
+  import { locationService, LocationData } from "$lib/services/locationService";
+  import { regionalDataService, RegionalData, RegionalService, ShoppingCenter } from "$lib/services/regionalDataService";
+  import LocationPermissionRequest from "$lib/components/LocationPermissionRequest.svelte";
 
   let activeTab = "family";
   let familyContacts = [];
   let vendors = [];
   let doctors = [];
   let communityCenters = [];
+
+  // Location-based data
+  let currentLocation = null;
+  let regionalData = null;
+  let nearbyServices = [];
+  let nearbyShoppingCenters = [];
+  let showPermissionRequest = false;
+  let isLoadingLocation = true;
+  let locationError = null;
 
   // Form data
   let newContact = { name: "", relationship: "", phone: "", email: "", address: "", emergencyContact: false, notes: "", importance: "Medium" };
@@ -16,6 +28,7 @@
 
   onMount(async () => {
     await loadData();
+    await initializeLocationServices();
   });
 
   async function loadData() {
@@ -27,6 +40,50 @@
     } catch (error) {
       console.error("Failed to load Directory data:", error);
     }
+  }
+
+  async function initializeLocationServices() {
+    try {
+      isLoadingLocation = true;
+
+      // Check location permissions
+      const permissions = await locationService.checkPermissions();
+      const hasLocationPermission = permissions.location === 'granted' || permissions.coarseLocation === 'granted';
+
+      if (!hasLocationPermission) {
+        showPermissionRequest = true;
+        isLoadingLocation = false;
+        return;
+      }
+
+      // Get current location
+      currentLocation = await locationService.getCurrentLocation();
+
+      // Get regional data
+      regionalData = await regionalDataService.getRegionalData(currentLocation);
+
+      if (regionalData && currentLocation) {
+        // Get nearby services and shopping centers
+        nearbyServices = regionalDataService.getNearbyServices(currentLocation, regionalData, 10);
+        nearbyShoppingCenters = regionalDataService.getNearbyShoppingCenters(currentLocation, regionalData, 15);
+      }
+
+    } catch (error) {
+      console.error('Failed to initialize location services:', error);
+      locationError = 'Unable to load location-based services';
+    } finally {
+      isLoadingLocation = false;
+    }
+  }
+
+  async function handlePermissionGranted() {
+    showPermissionRequest = false;
+    await initializeLocationServices();
+  }
+
+  function handlePermissionDenied() {
+    showPermissionRequest = false;
+    isLoadingLocation = false;
   }
 
   async function addFamilyContact() {
@@ -106,12 +163,23 @@
 </script>
 
 <div class="space-y-6">
+  <!-- Location Permission Request Modal -->
+  {#if showPermissionRequest}
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <LocationPermissionRequest
+        onPermissionGranted={handlePermissionGranted}
+        onPermissionDenied={handlePermissionDenied}
+      />
+    </div>
+  {/if}
+
   <!-- Tab Navigation -->
   <div class="flex flex-wrap gap-2 mb-6">
     <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'family' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "family")}> 👨‍👩‍👧‍👦 Family Contacts </button>
     <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'vendors' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "vendors")}> 🛍️ Vendors & Services </button>
     <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'health' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "health")}> 🏥 Health Services </button>
     <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'community' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "community")}> 🏛️ Community Resources </button>
+    <button class="px-4 py-2 rounded-lg transition-all duration-300 {activeTab === 'local' ? 'bg-primary text-primary-content shadow-lg' : 'bg-base-200 text-base-content hover:bg-base-300'}" on:click={() => (activeTab = "local")}> 📍 Local Services </button>
   </div>
 
   <!-- Family Contacts Tab -->
@@ -374,6 +442,193 @@
           </div>
         {/each}
       </div>
+    </div>
+  {/if}
+
+  <!-- Local Services Tab -->
+  {#if activeTab === "local"}
+    <div class="space-y-6">
+      {#if isLoadingLocation}
+        <div class="flex items-center justify-center py-12">
+          <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p class="text-base-content/70">Loading local services...</p>
+          </div>
+        </div>
+      {:else if locationError}
+        <div class="bg-error/10 border border-error/20 rounded-xl p-6">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-error/20 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-error">Location Services Unavailable</h3>
+              <p class="text-base-content/70">{locationError}</p>
+            </div>
+          </div>
+        </div>
+      {:else if regionalData && currentLocation}
+        <!-- Regional Info Header -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 text-white">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-xl font-bold mb-1">📍 {regionalData.city}, {regionalData.state}</h3>
+              <p class="text-blue-100">Local services and information for your area</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm text-blue-100">Last updated</p>
+              <p class="text-sm font-medium">{regionalData.lastUpdated.toLocaleDateString()}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nearby Services -->
+        {#if nearbyServices.length > 0}
+          <div class="bg-base-100 backdrop-blur-sm rounded-xl p-6 border border-base-300 shadow-lg">
+            <h3 class="text-xl font-semibold text-base-content mb-4 flex items-center">
+              <span class="mr-2">🏪</span>
+              Nearby Services (within 10km)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {#each nearbyServices as service}
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-colors">
+                  <div class="flex justify-between items-start mb-2">
+                    <div class="flex-1">
+                      <h4 class="text-lg font-semibold text-white mb-1">{service.name}</h4>
+                      <p class="text-white/70 text-sm mb-2">{service.category}</p>
+                      {#if service.description}
+                        <p class="text-white/80 text-sm mb-2">{service.description}</p>
+                      {/if}
+                    </div>
+                    {#if service.isVerified}
+                      <span class="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">Verified</span>
+                    {/if}
+                  </div>
+
+                  <div class="space-y-2">
+                    {#if service.phone}
+                      <p class="text-white/80 text-sm">📞 {service.phone}</p>
+                    {/if}
+                    {#if service.address}
+                      <p class="text-white/60 text-sm">📍 {service.address}</p>
+                    {/if}
+                    {#if service.rating}
+                      <div class="flex items-center">
+                        <span class="text-yellow-400 text-sm mr-1">{renderStars(service.rating)}</span>
+                        <span class="text-white/70 text-sm">({service.rating})</span>
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
+        <!-- Nearby Shopping Centers -->
+        {#if nearbyShoppingCenters.length > 0}
+          <div class="bg-base-100 backdrop-blur-sm rounded-xl p-6 border border-base-300 shadow-lg">
+            <h3 class="text-xl font-semibold text-base-content mb-4 flex items-center">
+              <span class="mr-2">🛍️</span>
+              Nearby Shopping Centers (within 15km)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {#each nearbyShoppingCenters as center}
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-colors">
+                  <div class="flex justify-between items-start mb-2">
+                    <div class="flex-1">
+                      <h4 class="text-lg font-semibold text-white mb-1">{center.name}</h4>
+                      <p class="text-white/70 text-sm mb-2 capitalize">{center.type.replace('_', ' ')}</p>
+                      {#if center.specialties && center.specialties.length > 0}
+                        <div class="flex flex-wrap gap-1 mb-2">
+                          {#each center.specialties as specialty}
+                            <span class="px-2 py-1 bg-white/10 rounded text-xs text-white/70">
+                              {specialty}
+                            </span>
+                          {/each}
+                        </div>
+                      {/if}
+                    </div>
+                  </div>
+
+                  <div class="space-y-2">
+                    {#if center.address}
+                      <p class="text-white/60 text-sm">📍 {center.address}</p>
+                    {/if}
+                    {#if center.rating}
+                      <div class="flex items-center">
+                        <span class="text-yellow-400 text-sm mr-1">{renderStars(center.rating)}</span>
+                        <span class="text-white/70 text-sm">({center.rating})</span>
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+
+        <!-- Cultural Information -->
+        {#if regionalData.culturalInfo}
+          <div class="bg-base-100 backdrop-blur-sm rounded-xl p-6 border border-base-300 shadow-lg">
+            <h3 class="text-xl font-semibold text-base-content mb-4 flex items-center">
+              <span class="mr-2">🎭</span>
+              Local Culture & Festivals
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 class="text-lg font-medium text-base-content mb-3">Upcoming Festivals</h4>
+                <div class="space-y-2">
+                  {#each regionalData.culturalInfo.festivals as festival}
+                    <div class="flex items-center space-x-2">
+                      <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                      <span class="text-base-content/80">{festival}</span>
+                    </div>
+                  {/each}
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-lg font-medium text-base-content mb-3">Local Cuisine</h4>
+                <div class="space-y-2">
+                  {#each regionalData.culturalInfo.localCuisine as dish}
+                    <div class="flex items-center space-x-2">
+                      <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                      <span class="text-base-content/80">{dish}</span>
+                    </div>
+                  {/each}
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-lg font-medium text-base-content mb-3">Traditional Wear</h4>
+                <div class="space-y-2">
+                  {#each regionalData.culturalInfo.traditionalWear as item}
+                    <div class="flex items-center space-x-2">
+                      <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <span class="text-base-content/80">{item}</span>
+                    </div>
+                  {/each}
+                </div>
+              </div>
+            </div>
+          </div>
+        {/if}
+
+      {:else}
+        <div class="text-center py-12">
+          <div class="w-16 h-16 bg-base-200 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-base-content/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-base-content/70 mb-2">Location Services Not Available</h3>
+          <p class="text-base-content/50">Grant location permission to see local services and information.</p>
+        </div>
+      {/if}
     </div>
   {/if}
 </div>

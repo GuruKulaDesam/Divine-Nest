@@ -1,7 +1,7 @@
 {
-  "name": "Divine Nest - Modern Family Dashboard",
+  "name": "Divine Nest",
   "short_name": "Divine Nest",
-  "description": "A comprehensive family management app for South Indian households",
+  "description": "Divine Nest - Divine family management solutions for modern South Indian households",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -10,11 +10,9 @@
   "scope": "/",
   "lang": "en",
   "categories": ["lifestyle", "productivity", "utilities"],
-  "version": "1.0.0",
-  "version_code": 1,
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "//Shivohm_Logo_3.png",
       "sizes": "32x32",
       "type": "image/svg+xml",
       "purpose": "any maskable"

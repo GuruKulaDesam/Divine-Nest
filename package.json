@@ -14,8 +14,8 @@
     "android:build": "npm run build && npx cap sync android",
     "android:open": "npx cap open android",
     "android:run": "npx cap run android",
-    "android:build-release": "npm run build && npx cap sync android && cd android && ./gradlew assembleRelease",
-    "android:build-debug": "npm run build && npx cap sync android && cd android && ./gradlew assembleDebug"
+    "android:build-release": "npm run build && npx cap sync android && cd android && gradlew.bat assembleRelease",
+    "android:build-debug": "npm run build && npx cap sync android && cd android && gradlew.bat assembleDebug"
   },
   "devDependencies": {
     "@capacitor/android": "^7.4.3",
@@ -35,7 +35,11 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "@capacitor-community/sqlite": "^7.0.2",
     "@capacitor-firebase/crashlytics": "^7.3.1",
+    "@capacitor/device": "^7.0.2",
+    "@capacitor/geolocation": "^7.1.5",
+    "@capacitor/motion": "^7.0.1",
     "@fullcalendar/core": "^6.1.17",
     "@fullcalendar/daygrid": "^6.1.17",
     "@fullcalendar/interaction": "^6.1.17",
@@ -55,6 +59,7 @@
     "leaflet": "^1.9.4",
     "motion": "^12.18.1",
     "pkill": "^2.0.0",
+    "sql.js": "^1.13.0",
     "svelte-fullcalendar": "^3.0.0",
     "svelte-i18n": "^4.0.1",
     "svelte-kit": "^1.2.0",

@@ -5,9 +5,28 @@ const config: CapacitorConfig = {
   appName: 'Divine Nest',
   webDir: 'dist',
   plugins: {
+    SQLite: {
+      iosDatabaseLocation: 'Library/Caches/DivineNest',
+      iosIsEncryption: false,
+      iosKeychainPrefix: 'divine_nest',
+      iosBiometric: {
+        biometricAuth: false,
+        biometricTitle: 'Biometric login for capacitor sqlite'
+      },
+      androidIsEncryption: false,
+      androidBiometric: {
+        biometricAuth: false,
+        biometricTitle: 'Biometric login for capacitor sqlite',
+        biometricSubTitle: 'Log in using your biometric'
+      },
+      electronWindowsLocation: 'C:\\ProgramData\\DivineNest',
+      electronMacLocation: '/Library/Application Support/DivineNest',
+      electronLinuxLocation: '~/.config/DivineNest'
+    },
     FirebaseCrashlytics: {
       enabled: true,
     },
+    Geolocation: {},
     SplashScreen: {
       launchShowDuration: 2000,
       launchAutoHide: true,

@@ -9,6 +9,63 @@ export const languages = {
     flag: '🇺🇸',
     code: 'en'
   },
+  // Indian Languages
+  hi: {
+    name: 'हिंदी',
+    flag: '🇮🇳',
+    code: 'hi'
+  },
+  ta: {
+    name: 'தமிழ்',
+    flag: '🇮🇳',
+    code: 'ta'
+  },
+  te: {
+    name: 'తెలుగు',
+    flag: '🇮🇳',
+    code: 'te'
+  },
+  kn: {
+    name: 'ಕನ್ನಡ',
+    flag: '🇮🇳',
+    code: 'kn'
+  },
+  ml: {
+    name: 'മലയാളം',
+    flag: '🇮🇳',
+    code: 'ml'
+  },
+  bn: {
+    name: 'বাংলা',
+    flag: '🇮🇳',
+    code: 'bn'
+  },
+  gu: {
+    name: 'ગુજરાતી',
+    flag: '🇮🇳',
+    code: 'gu'
+  },
+  mr: {
+    name: 'मराठी',
+    flag: '🇮🇳',
+    code: 'mr'
+  },
+  pa: {
+    name: 'ਪੰਜਾਬੀ',
+    flag: '🇮🇳',
+    code: 'pa'
+  },
+  or: {
+    name: 'ଓଡ଼ିଆ',
+    flag: '🇮🇳',
+    code: 'or'
+  },
+  as: {
+    name: 'অসমীয়া',
+    flag: '🇮🇳',
+    code: 'as'
+  },
+  // Other languages
   id: {
     name: 'Indonesia',
     flag: '🇮🇩',
@@ -76,6 +133,19 @@ export function getCurrentLanguage() {
 
 // Register locale loaders
 register('en', () => import('./locales/en.json'));
+// Indian Languages
+register('hi', () => import('./locales/hi.json'));
+register('ta', () => import('./locales/ta.json'));
+register('te', () => import('./locales/te.json'));
+register('kn', () => import('./locales/kn.json'));
+register('ml', () => import('./locales/ml.json'));
+register('bn', () => import('./locales/bn.json'));
+register('gu', () => import('./locales/gu.json'));
+register('mr', () => import('./locales/mr.json'));
+register('pa', () => import('./locales/pa.json'));
+register('or', () => import('./locales/or.json'));
+register('as', () => import('./locales/as.json'));
+// Other languages
 register('id', () => import('./locales/id.json'));
 register('es', () => import('./locales/es.json'));
 register('ko', () => import('./locales/ko.json'));

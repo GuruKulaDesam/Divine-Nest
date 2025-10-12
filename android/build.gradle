@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.0'
+        classpath 'com.android.tools.build:gradle:8.10.2'
         classpath 'com.google.gms:google-services:4.4.2'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,6 +21,44 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+
+    // Force Java 17 toolchain for all projects
+    tasks.withType(JavaCompile).configureEach {
+        javaCompiler = javaToolchains.compilerFor {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    // Force Java 17 for all Android projects
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android.compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+            if (project.android.hasProperty('java')) {
+                project.android.java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+            }
+        }
+        // Override kotlin jvmToolchain if it exists
+        if (project.hasProperty('kotlin')) {
+            try {
+                project.kotlin.jvmToolchain(17)
+            } catch (Exception e) {
+                // Ignore if kotlin plugin not applied
+            }
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            // Force consistent Kotlin version across all modules
+            force "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+            force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+            force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+            force "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+        }
     }
 }
 

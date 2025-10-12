@@ -239,18 +239,18 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Search -->
         <div class="form-control">
-          <label class="label">
+          <label for="search-input" class="label">
             <span class="label-text">{taLabels.search}</span>
           </label>
-          <input type="text" bind:value={searchQuery} placeholder="பதிவுகளை தேடு..." class="input input-bordered w-full" />
+          <input id="search-input" type="text" bind:value={searchQuery} placeholder="பதிவுகளை தேடு..." class="input input-bordered w-full" />
         </div>
 
         <!-- Source Filter -->
         <div class="form-control">
-          <label class="label">
+          <label for="source-select" class="label">
             <span class="label-text">{taLabels.filterSource}</span>
           </label>
-          <select bind:value={selectedSource} class="select select-bordered w-full">
+          <select id="source-select" bind:value={selectedSource} class="select select-bordered w-full">
             <option value="">{taLabels.all}</option>
             <option value="kitchen">{taLabels.kitchen}</option>
             <option value="living_room">{taLabels.livingRoom}</option>
@@ -260,10 +260,10 @@
 
         <!-- Emotion Filter -->
         <div class="form-control">
-          <label class="label">
+          <label for="emotion-select" class="label">
             <span class="label-text">{taLabels.filterEmotion}</span>
           </label>
-          <select bind:value={selectedEmotion} class="select select-bordered w-full">
+          <select id="emotion-select" bind:value={selectedEmotion} class="select select-bordered w-full">
             <option value="">{taLabels.all}</option>
             <option value="😊">{taLabels.happy}</option>
             <option value="😐">{taLabels.neutral}</option>

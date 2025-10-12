@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Divine Nest</string>
-    <string name="title_activity_main">Divine Nest</string>
-    <string name="package_name">com.gurukuladesam.divinenest</string>
-    <string name="custom_url_scheme">com.gurukuladesam.divinenest</string>
+    <string name="app_name">Divine Nest Debug</string>
+    <string name="title_activity_main">Divine Nest Debug</string>
+    <string name="package_name">com.gurukuladesam.divinenest.debug</string>
+    <string name="custom_url_scheme">com.gurukuladesam.divinenest.debug</string>
 </resources>

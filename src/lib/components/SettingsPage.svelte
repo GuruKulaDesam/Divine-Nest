@@ -4,6 +4,8 @@
   import { _ } from "svelte-i18n";
   import { theme, themeActions, THEMES } from "$lib/stores/theme.js";
   import { background, backgroundActions, BACKGROUNDS } from "$lib/stores/background.js";
+  import { userProfile, userProfileActions } from "$lib/stores/userProfile";
+  import PrivacyControls from "./PrivacyControls.svelte";
 
   // AI Settings
   let aiSettings = {
@@ -19,13 +21,22 @@
   $: aiSettings.wakeWordsString = aiSettings.wakeWords.join(", ");
   $: aiSettings.wakeWords = aiSettings.wakeWordsString ? aiSettings.wakeWordsString.split(",").map((w) => w.trim()) : [];
 
-  // Profile Settings
-  let profileSettings = {
-    name: "John Doe",
+  // Profile Settings - bind to user profile store
+  $: profileSettings = {
+    name: $userProfile.name,
+    familyName: $userProfile.familyName,
     email: "john.doe@example.com",
     role: $_("users.admin"),
     timezone: "UTC-5",
   };
+
+  // Update user profile when settings change
+  function updateUserProfile() {
+    userProfileActions.updateProfile({
+      name: profileSettings.name,
+      familyName: profileSettings.familyName || 'Family'
+    });
+  }
 
   // Notification Settings
   let notificationSettings = {
@@ -270,6 +281,13 @@
               </div>
             </button>
 
+            <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'privacy' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "privacy")}>
+              <div class="flex items-center space-x-3">
+                <Icon icon="heroicons:lock-closed" class="w-5 h-5" />
+                <span>Privacy & Controls</span>
+              </div>
+            </button>
+
             <button class="w-full text-left px-4 py-3 rounded-lg transition-colors {activeSection === 'display' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}" on:click={() => (activeSection = "display")}>
               <div class="flex items-center space-x-3">
                 <Icon icon="heroicons:computer-desktop" class="w-5 h-5" />
@@ -396,7 +414,13 @@
                 <label for="full-name-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.full_name")}
                 </label>
-                <input id="full-name-input" type="text" bind:value={profileSettings.name} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+                <input id="full-name-input" type="text" bind:value={profileSettings.name} on:input={updateUserProfile} class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
+              </div>
+              <div>
+                <label for="family-name-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Family Name
+                </label>
+                <input id="family-name-input" type="text" bind:value={profileSettings.familyName} on:input={updateUserProfile} placeholder="Family" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white" />
               </div>
               <div>
                 <label for="email-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -782,6 +806,13 @@
                 </div>
               </div>
             </div>
+          </div>
+        {/if}
+
+        <!-- Privacy Controls Section -->
+        {#if activeSection === "privacy"}
+          <div use:motionInView>
+            <PrivacyControls />
           </div>
         {/if}
 

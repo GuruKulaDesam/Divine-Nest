@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { secureStorage, StorageKeys } from '$lib/utils/secureStorage';
+import { secureStorage, StorageKeys } from '$lib/utils/secureStorage.js';
 
 // Simple authentication state management
 export const isAuthenticated = writable(false);

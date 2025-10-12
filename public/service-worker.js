@@ -10,7 +10,7 @@ const BASE_PATH = self.location.pathname.replace('/service-worker.js', '');
 const STATIC_ASSETS = [
   BASE_PATH || '/',
   `${BASE_PATH}/manifest.json`,
-  `${BASE_PATH}/favicon.svg`,
+  `${BASE_PATH}/shivohm-logo.svg`,
   `${BASE_PATH}/logo-light.svg`,
   `${BASE_PATH}/logo-dark.svg`,
   `${BASE_PATH}/loading.svg`,
@@ -169,8 +169,8 @@ self.addEventListener('push', event => {
   const data = event.data.json();
   const options = {
     body: data.body,
-    icon: `${BASE_PATH}/favicon.svg`,
-    badge: `${BASE_PATH}/favicon.svg`,
+    icon: `${BASE_PATH}/shivohm-logo.svg`,
+    badge: `${BASE_PATH}/shivohm-logo.svg`,
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
