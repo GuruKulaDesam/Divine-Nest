@@ -10,68 +10,68 @@
   let userLocation = null;
   let isOnline = navigator.onLine;
 
-  // Role-specific navigation configuration
+  // New Table-Driven Navigation Configuration
   const navigationConfig = {
     mother: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'tasks', label: 'Tasks', icon: 'mdi:clipboard-list', badge: 'tasks' },
-        { id: 'resources', label: 'Resources', icon: 'mdi:package-variant', badge: null },
-        { id: 'people', label: 'People', icon: 'mdi:account-group', badge: null },
+        { id: 'activities', label: 'Activities', icon: 'mdi:bolt', path: '/activities' },
+        { id: 'family', label: 'Family', icon: 'mdi:account-group', path: '/family' },
+        { id: 'tasks', label: 'Tasks', icon: 'mdi:clipboard-list', path: '/tasks' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
       ]
     },
     father: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'tasks', label: 'Tasks', icon: 'mdi:clipboard-list', badge: 'maintenance' },
-        { id: 'resources', label: 'Resources', icon: 'mdi:package-variant', badge: null },
-        { id: 'people', label: 'People', icon: 'mdi:account-group', badge: null },
+        { id: 'finance', label: 'Finance', icon: 'mdi:currency-inr', path: '/finance' },
+        { id: 'inventory', label: 'Inventory', icon: 'mdi:package-variant', path: '/inventory' },
+        { id: 'tasks', label: 'Tasks', icon: 'mdi:clipboard-list', path: '/tasks' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
       ]
     },
     grandmother: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'rituals', label: 'Rituals', icon: 'mdi:temple-hindu', badge: 'rituals' },
-        { id: 'health', label: 'Health', icon: 'mdi:heart', badge: 'medicine' },
-        { id: 'family', label: 'Family', icon: 'mdi:account-group', badge: null },
+        { id: 'alerts', label: 'Alerts', icon: 'mdi:bell-alert', path: '/alerts' },
+        { id: 'directory', label: 'Directory', icon: 'mdi:building-storefront', path: '/directory' },
+        { id: 'family', label: 'Family', icon: 'mdi:account-group', path: '/family' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
       ]
     },
     grandfather: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'rituals', label: 'Rituals', icon: 'mdi:temple-hindu', badge: 'rituals' },
-        { id: 'health', label: 'Health', icon: 'mdi:heart', badge: 'medicine' },
-        { id: 'family', label: 'Family', icon: 'mdi:account-group', badge: null },
+        { id: 'ai_prompts', label: 'AI Prompts', icon: 'mdi:robot', path: '/ai_prompts' },
+        { id: 'directory', label: 'Directory', icon: 'mdi:building-storefront', path: '/directory' },
+        { id: 'users', label: 'Users', icon: 'mdi:account-group', path: '/users' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
       ]
     },
     child: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', badge: 'chores' },
-        { id: 'rewards', label: 'Rewards', icon: 'mdi:star', badge: 'stars' },
-        { id: 'calendar', label: 'Calendar', icon: 'mdi:calendar', badge: null },
+        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', path: '/tasks' },
+        { id: 'rewards', label: 'Rewards', icon: 'mdi:star', path: '/rewards' },
+        { id: 'activities', label: 'Activities', icon: 'mdi:bolt', path: '/activities' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
       ]
     },
     teenager: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', badge: 'chores' },
-        { id: 'rewards', label: 'Rewards', icon: 'mdi:star', badge: 'stars' },
-        { id: 'calendar', label: 'Calendar', icon: 'mdi:calendar', badge: null },
+        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', path: '/tasks' },
+        { id: 'rewards', label: 'Rewards', icon: 'mdi:star', path: '/rewards' },
+        { id: 'foods', label: 'Foods', icon: 'mdi:food', path: '/foods' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
       ]
     },
     helper: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', badge: 'duties' },
-        { id: 'attendance', label: 'Attendance', icon: 'mdi:clock', badge: null },
-        { id: 'notes', label: 'Notes', icon: 'mdi:note-text', badge: 'messages' },
+        { id: 'tasks', label: 'My Tasks', icon: 'mdi:clipboard-list', path: '/tasks' },
+        { id: 'inventory', label: 'Inventory', icon: 'mdi:package-variant', path: '/inventory' },
+        { id: 'alerts', label: 'Alerts', icon: 'mdi:bell-alert', path: '/alerts' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }
       ]
     }

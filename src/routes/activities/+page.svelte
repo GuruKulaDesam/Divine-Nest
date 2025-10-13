@@ -434,5 +434,4 @@
       </form>
     </div>
   </div>
-{/if}</content>
-<parameter name="filePath">c:\Users\shishyan\kovaipudur\src\routes\activities\+page.svelte
+{/if}

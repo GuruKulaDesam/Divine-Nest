@@ -351,28 +351,28 @@
   function handleSuggestionAction(suggestion) {
     switch (suggestion.action) {
       case "Pay School Fees":
-        navigateTo("/finances/expenses");
+        navigateTo("/finances");
         break;
       case "Renew Insurance":
         navigateTo("/finances");
         break;
       case "Book Refill":
-        navigateTo("/home/inventory");
+        navigateTo("/inventory");
         break;
       case "Update KYC":
-        navigateTo("/settings");
+        navigateTo("/users");
         break;
       case "Book Cleaning":
-        navigateTo("/home");
+        navigateTo("/tasks");
         break;
       case "File Taxes":
         navigateTo("/finances");
         break;
       case "Plan Festival":
-        navigateTo("/culture");
+        navigateTo("/activities");
         break;
       case "Book Service":
-        navigateTo("/vehicles");
+        navigateTo("/tasks");
         break;
       default:
         console.log(`Action: ${suggestion.action}`);
