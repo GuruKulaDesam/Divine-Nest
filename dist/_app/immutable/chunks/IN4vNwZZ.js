@@ -1,0 +1,1 @@
+import"./Bzak7iHL.js";import"./69_IOA4Y.js";import{h as r,e as t,$ as s,a as n}from"./6uIj5N_2.js";import{D as i}from"./DTcaYYma.js";var m=t('<meta name="description" content="Manage service providers, vendors, and local business contacts"/>');function f(a){r(e=>{var o=m();s.title="Vendors & Services - South Indian Family Life App",n(e,o)}),i(a,{})}export{f as V};
