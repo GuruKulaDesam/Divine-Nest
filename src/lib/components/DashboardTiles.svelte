@@ -351,28 +351,28 @@
   function handleSuggestionAction(suggestion) {
     switch (suggestion.action) {
       case "Pay School Fees":
-        navigateTo("/finances");
+        navigateTo("/finances/update");
         break;
       case "Renew Insurance":
-        navigateTo("/finances");
+        navigateTo("/finances/update");
         break;
       case "Book Refill":
-        navigateTo("/inventory");
+        navigateTo("/inventory/update");
         break;
       case "Update KYC":
-        navigateTo("/users");
+        navigateTo("/users/update");
         break;
       case "Book Cleaning":
-        navigateTo("/tasks");
+        navigateTo("/tasks/update");
         break;
       case "File Taxes":
-        navigateTo("/finances");
+        navigateTo("/finances/update");
         break;
       case "Plan Festival":
         navigateTo("/activities");
         break;
       case "Book Service":
-        navigateTo("/tasks");
+        navigateTo("/tasks/update");
         break;
       default:
         console.log(`Action: ${suggestion.action}`);
@@ -482,7 +482,7 @@
         <div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 mb-4 lg:mb-6 shadow-2xl border-4 border-red-300 animate-pulse">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
-              <div class="p-4 bg-white/20 rounded-full">
+              <div class="p-4 bg-white rounded-full">
                 <Icon icon="heroicons:exclamation-triangle" class="text-4xl" />
               </div>
               <div>
@@ -505,7 +505,7 @@
         <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg lg:rounded-2xl p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6 shadow-xl border-4 border-orange-300">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
-              <div class="p-3 bg-white/20 rounded-full">
+              <div class="p-3 bg-white rounded-full">
                 <Icon icon="heroicons:clock" class="text-3xl" />
               </div>
               <div>
@@ -526,7 +526,7 @@
     <!-- 🎯 TODAY'S PRIORITIES - High Priority (Large Cards) -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4 lg:mb-8">
       <!-- Today's Critical Priorities -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl border-2 border-blue-200 dark:border-blue-800">
+      <div class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl border-2 border-blue-200 dark:border-blue-800">
         <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
           <Icon icon="heroicons:clipboard-document-list" class="text-blue-600 text-3xl" />
           Today's Priorities
@@ -577,7 +577,7 @@
       </div>
 
       <!-- Upcoming Bills & Reminders -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border-2 border-green-200 dark:border-green-800">
+      <div class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950 rounded-2xl p-8 shadow-2xl border-2 border-green-200 dark:border-green-800">
         <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
           <Icon icon="heroicons:calendar-days" class="text-green-600 text-3xl" />
           Upcoming Bills & Reminders
@@ -698,7 +698,7 @@
       </div>
 
       <!-- 🛕 Ritual Calendar -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+      <div class="bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 dark:from-orange-950 dark:via-red-950 dark:to-pink-950 rounded-xl p-6 shadow-lg border border-orange-200 dark:border-orange-800">
         <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
           <Icon icon="heroicons:fire" class="text-orange-500" />
           Ritual Calendar
@@ -743,7 +743,7 @@
     <!-- 💡 INSIGHTS & PLANNING - Medium Priority -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4 lg:mb-8">
       <!-- Smart AI Suggestions -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg lg:rounded-xl p-3 sm:p-4 lg:p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+      <div class="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-amber-950 dark:via-yellow-950 dark:to-orange-950 rounded-lg lg:rounded-xl p-3 sm:p-4 lg:p-6 shadow-lg border border-amber-200 dark:border-amber-800">
         <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
           <Icon icon="heroicons:light-bulb" class="text-amber-500" />
           AI Insights & Suggestions
@@ -769,7 +769,7 @@
       </div>
 
       <!-- Family Mood & Quick Expense -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+      <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 dark:from-purple-950 dark:via-pink-950 dark:to-rose-950 rounded-xl p-6 shadow-lg border border-purple-200 dark:border-purple-800">
         <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
           <Icon icon="heroicons:face-smile" class="text-purple-500" />
           Family Mood & Quick Actions
@@ -908,7 +908,7 @@
     </div>
 
     <!-- 📋 STANDARD REMINDERS - Reference Guide -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+    <div class="bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 dark:from-slate-950 dark:via-gray-950 dark:to-zinc-950 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800">
       <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
         <Icon icon="heroicons:bell-alert" class="text-orange-500" />
         Standard Reminders Reference
@@ -1108,29 +1108,29 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+    <div class="bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 dark:from-indigo-950 dark:via-blue-950 dark:to-cyan-950 rounded-xl p-6 shadow-lg border border-indigo-200 dark:border-indigo-800">
       <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
         <Icon icon="heroicons:bolt" class="text-purple-500" />
         Quick Actions
       </h3>
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/todo")} on:mouseenter={handleHover} use:mobileGestures={{
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/tasks/update")} on:mouseenter={handleHover} use:mobileGestures={{
           onLongPress: () => dispatch('quickAction', { action: 'quick-task', tile: 'Add Task' })
         }}>
           <Icon icon="heroicons:clipboard-document-list" class="text-xl" />
           <span class="text-sm font-medium">Add Task</span>
         </button>
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/family-notes-modern")} on:mouseenter={handleHover} use:mobileGestures={{
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/notes")} on:mouseenter={handleHover} use:mobileGestures={{
           onLongPress: () => dispatch('quickAction', { action: 'quick-note', tile: 'New Note' })
         }}>
           <Icon icon="heroicons:document-text" class="text-xl" />
           <span class="text-sm font-medium">New Note</span>
         </button>
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/family-calendar-modern")} on:mouseenter={handleHover}>
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/events")} on:mouseenter={handleHover}>
           <Icon icon="heroicons:calendar-days" class="text-xl" />
           <span class="text-sm font-medium">Schedule</span>
         </button>
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/home/reminders")} on:mouseenter={handleHover} use:mobileGestures={{
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/reminders")} on:mouseenter={handleHover} use:mobileGestures={{
           onLongPress: () => dispatch('quickAction', { action: 'quick-reminder', tile: 'Reminder' })
         }}>
           <Icon icon="heroicons:bell-alert" class="text-xl" />
@@ -1140,11 +1140,11 @@
           <Icon icon="heroicons:heart" class="text-xl" />
           <span class="text-sm font-medium">Health</span>
         </button>
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/expenses")} on:mouseenter={handleHover}>
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/expenses/update")} on:mouseenter={handleHover}>
           <Icon icon="heroicons:credit-card" class="text-xl" />
           <span class="text-sm font-medium">Expense</span>
         </button>
-        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/food/grocery")} on:mouseenter={handleHover}>
+        <button class="flex flex-col items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-200 hover:scale-105" on:click={() => navigateTo("/foods/update")} on:mouseenter={handleHover}>
           <Icon icon="heroicons:shopping-cart" class="text-xl" />
           <span class="text-sm font-medium">Grocery</span>
         </button>
@@ -1157,7 +1157,7 @@
 
     <!-- Inspirational Quote -->
     <div class="mt-8 text-center">
-      <div class="bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 border border-orange-200 dark:border-orange-800">
+      <div class="bg-gradient-to-r from-orange-100 via-red-100 to-pink-100 dark:from-orange-900 dark:via-red-900 dark:to-pink-900 rounded-xl p-6 border border-orange-200 dark:border-orange-800">
         <blockquote class="text-lg font-medium text-gray-800 dark:text-white italic mb-2">
           "குடும்பம் ஒன்று கூடினால், குறைவொன்றும் இல்லை"
         </blockquote>

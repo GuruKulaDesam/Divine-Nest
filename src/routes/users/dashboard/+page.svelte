@@ -173,7 +173,7 @@
                 <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                   <div
                     class="bg-blue-500 h-2 rounded-full"
-                    style="width: {((count as number) / analytics.totalUsers) * 100}%"
+                    style="width: {(count / analytics.totalUsers) * 100}%"
                   ></div>
                 </div>
                 <span class="text-sm font-medium text-gray-900 dark:text-white w-8 text-right">{count}</span>
@@ -195,7 +195,7 @@
                 <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                   <div
                     class="bg-green-500 h-2 rounded-full"
-                    style="width: {((count as number) / analytics.totalUsers) * 100}%"
+                    style="width: {(count / analytics.totalUsers) * 100}%"
                   ></div>
                 </div>
                 <span class="text-sm font-medium text-gray-900 dark:text-white w-8 text-right">{count}</span>

@@ -16,64 +16,150 @@
   let expandedSidebar = false;
   let currentSection = null;
 
-  // Main navigation tiles - Ordered by urgency and importance for home management
+  // Main navigation tiles - Single column with one-word table names
   const mainTiles = [
     {
-      id: "critical-urgent",
-      label: "Critical & Urgent",
+      id: "issue",
+      label: "Issue",
       icon: "heroicons:exclamation-triangle",
       color: "from-red-500 to-red-600",
       borderColor: "border-red-500/50",
       textColor: "text-red-600 dark:text-red-400",
-      description: "Immediate attention required",
+      description: "Issues and problems",
       subTiles: [
         { label: "Issues", path: "/issues", icon: "heroicons:exclamation-circle" },
+      ],
+    },
+    {
+      id: "request",
+      label: "Request",
+      icon: "heroicons:chat-bubble-left-right",
+      color: "from-orange-500 to-orange-600",
+      borderColor: "border-orange-500/50",
+      textColor: "text-orange-600 dark:text-orange-400",
+      description: "Service requests",
+      subTiles: [
         { label: "Requests", path: "/requests", icon: "heroicons:chat-bubble-left-right" },
+      ],
+    },
+    {
+      id: "task",
+      label: "Task",
+      icon: "heroicons:clipboard-document-check",
+      color: "from-blue-500 to-blue-600",
+      borderColor: "border-blue-500/50",
+      textColor: "text-blue-600 dark:text-blue-400",
+      description: "Tasks and todos",
+      subTiles: [
         { label: "Tasks", path: "/tasks", icon: "heroicons:clipboard-document-check" },
+      ],
+    },
+    {
+      id: "alert",
+      label: "Alert",
+      icon: "heroicons:bell-alert",
+      color: "from-yellow-500 to-yellow-600",
+      borderColor: "border-yellow-500/50",
+      textColor: "text-yellow-600 dark:text-yellow-400",
+      description: "Alerts and notifications",
+      subTiles: [
         { label: "Alerts", path: "/alerts", icon: "heroicons:bell-alert" },
       ],
     },
     {
-      id: "daily-operations",
-      label: "Daily Operations",
-      icon: "heroicons:home",
-      color: "from-blue-500 to-blue-600",
-      borderColor: "border-blue-500/50",
-      textColor: "text-blue-600 dark:text-blue-400",
-      description: "Daily household management",
+      id: "family",
+      label: "Family",
+      icon: "heroicons:users",
+      color: "from-purple-500 to-purple-600",
+      borderColor: "border-purple-500/50",
+      textColor: "text-purple-600 dark:text-purple-400",
+      description: "Family management",
       subTiles: [
-        { label: "Foods", path: "/foods", icon: "heroicons:cake" },
+        { label: "Family", path: "/family", icon: "heroicons:user-group" },
+      ],
+    },
+    {
+      id: "food",
+      label: "Food",
+      icon: "heroicons:cake",
+      color: "from-green-500 to-green-600",
+      borderColor: "border-green-500/50",
+      textColor: "text-green-600 dark:text-green-400",
+      description: "Food and nutrition",
+      subTiles: [
+        { label: "Foods", path: "/food", icon: "heroicons:cake" },
+      ],
+    },
+    {
+      id: "inventory",
+      label: "Inventory",
+      icon: "heroicons:archive-box",
+      color: "from-cyan-500 to-cyan-600",
+      borderColor: "border-cyan-500/50",
+      textColor: "text-cyan-600 dark:text-cyan-400",
+      description: "Inventory management",
+      subTiles: [
         { label: "Inventory", path: "/inventory", icon: "heroicons:archive-box" },
+      ],
+    },
+    {
+      id: "activity",
+      label: "Activity",
+      icon: "heroicons:bolt",
+      color: "from-indigo-500 to-indigo-600",
+      borderColor: "border-indigo-500/50",
+      textColor: "text-indigo-600 dark:text-indigo-400",
+      description: "Activities and events",
+      subTiles: [
         { label: "Activities", path: "/activities", icon: "heroicons:bolt" },
       ],
     },
     {
-      id: "planning-coordination",
-      label: "Planning & Coordination",
-      icon: "heroicons:calendar",
-      color: "from-emerald-500 to-emerald-600",
-      borderColor: "border-emerald-500/50",
-      textColor: "text-emerald-600 dark:text-emerald-400",
-      description: "Weekly & monthly planning",
+      id: "directory",
+      label: "Directory",
+      icon: "heroicons:building-storefront",
+      color: "from-pink-500 to-pink-600",
+      borderColor: "border-pink-500/50",
+      textColor: "text-pink-600 dark:text-pink-400",
+      description: "Directory and contacts",
       subTiles: [
-        { label: "Finance", path: "/finance", icon: "heroicons:currency-rupee" },
-        { label: "Rewards", path: "/rewards", icon: "heroicons:trophy" },
-        { label: "Assets", path: "/assets", icon: "heroicons:building-office" },
+        { label: "Directory", path: "/directory", icon: "heroicons:building-storefront" },
       ],
     },
     {
-      id: "reference-tools",
-      label: "Reference & Tools",
-      icon: "heroicons:wrench-screwdriver",
-      color: "from-purple-500 to-purple-600",
-      borderColor: "border-purple-500/50",
-      textColor: "text-purple-600 dark:text-purple-400",
-      description: "Tools and reference materials",
+      id: "expense",
+      label: "Expense",
+      icon: "heroicons:currency-rupee",
+      color: "from-emerald-500 to-emerald-600",
+      borderColor: "border-emerald-500/50",
+      textColor: "text-emerald-600 dark:text-emerald-400",
+      description: "Expenses and finances",
       subTiles: [
-        { label: "Family", path: "/family", icon: "heroicons:users" },
-        { label: "AI Prompts", path: "/ai-prompts", icon: "heroicons:sparkles" },
-        { label: "Directory", path: "/directory", icon: "heroicons:building-storefront" },
-        { label: "Users", path: "/users", icon: "heroicons:user-group" },
+        { label: "Expenses", path: "/expenses", icon: "heroicons:receipt-refund" },
+      ],
+    },
+    {
+      id: "reward",
+      label: "Reward",
+      icon: "heroicons:trophy",
+      color: "from-amber-500 to-amber-600",
+      borderColor: "border-amber-500/50",
+      textColor: "text-amber-600 dark:text-amber-400",
+      description: "Rewards and achievements",
+      subTiles: [
+        { label: "Rewards", path: "/rewards", icon: "heroicons:trophy" },
+      ],
+    },
+    {
+      id: "asset",
+      label: "Asset",
+      icon: "heroicons:building-office",
+      color: "from-teal-500 to-teal-600",
+      borderColor: "border-teal-500/50",
+      textColor: "text-teal-600 dark:text-teal-400",
+      description: "Assets and property",
+      subTiles: [
+        { label: "Assets", path: "/assets", icon: "heroicons:building-office" },
       ],
     },
   ];
@@ -86,28 +172,14 @@
   // Get current section based on active route
   $: currentSectionData = mainTiles.find((tile) => isTileActive(tile));
 
-  // Handle tile click - toggle sidebar expansion
+  // Handle tile click - navigate directly to the first sub-tile
   function handleTileClick(tileId, event) {
     event.preventDefault();
     const tile = mainTiles.find((t) => t.id === tileId);
 
-    if (tile) {
-      // If clicking the same tile, toggle sidebar
-      if (currentSection === tileId && expandedSidebar) {
-        expandedSidebar = false;
-        currentSection = null;
-      } else {
-        // Expand sidebar and set current section
-        expandedSidebar = true;
-        currentSection = tileId;
-      }
-
-      // Play sound
-      try {
-        homeSounds.playClick();
-      } catch (error) {
-        console.warn("Sound playback failed:", error);
-      }
+    if (tile && tile.subTiles.length > 0) {
+      // Navigate directly to the first (and usually only) sub-tile
+      navigateTo(tile.subTiles[0].path);
     }
   }
 
@@ -206,22 +278,22 @@
   }
 </script>
 
-<div class="left-tile-bar flex h-screen bg-white/10 dark:bg-gray-900/20 border-r border-white/20 dark:border-gray-700/30 z-50 overflow-hidden flex-shrink-0" style="height: calc(100vh - 80px);">
+<div class="left-tile-bar flex h-screen bg-white dark:bg-gray-900 border-r border-white dark:border-gray-700 z-50 overflow-hidden flex-shrink-0" style="width: 80px;">
   <!-- Main Navigation Tiles -->
-  <div class="w-20 flex flex-col">
-    <div class="p-2">
+  <div class="w-full flex flex-col">
+    <div class="p-1">
       <!-- Single Column Main Tiles -->
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-1">
         {#each mainTiles as tile (tile.id)}
           <div class="relative">
             <button class="tile-button group relative w-full aspect-square rounded-xl border-0 transition-all duration-300 hover:shadow-lg hover:scale-105 {currentSection === tile.id ? 'ring-2 ring-primary ring-offset-2 ring-offset-base-100' : ''}" on:mouseenter={(e) => handleTileMouseEnter(tile.id, e)} on:mouseleave={handleTileMouseLeave} on:click={(e) => handleTileClick(tile.id, e)}>
               <div class="absolute inset-0 bg-gradient-to-br {tile.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl"></div>
 
-              <div class="relative flex flex-col items-center justify-center h-full p-2">
-                <div class="w-6 h-6 mb-1 {tile.textColor} group-hover:scale-110 transition-transform duration-300">
+              <div class="relative flex flex-col items-center justify-center h-full p-0.5">
+                <div class="w-4 h-4 mb-0.5 {tile.textColor} group-hover:scale-110 transition-transform duration-300">
                   <Icon icon={tile.icon} class="w-full h-full" />
                 </div>
-                <div class="text-[10px] font-medium text-base-content group-hover:text-primary transition-colors duration-300 text-center leading-tight">
+                <div class="text-[8px] font-medium text-base-content group-hover:text-primary transition-colors duration-300 text-center leading-tight">
                   {tile.label}
                 </div>
                 {#if isTileActive(tile)}
@@ -239,7 +311,7 @@
   {#if expandedSidebar && currentSection}
     {@const activeTile = mainTiles.find((t) => t.id === currentSection)}
     {#if activeTile}
-      <div class="w-60 bg-base-100/95 backdrop-blur-xl border-l border-base-300/50 shadow-2xl flex flex-col max-h-full overflow-hidden">
+      <div class="w-72 bg-base-100 border-l border-base-300 shadow-2xl flex flex-col max-h-full overflow-hidden">
         <!-- Header -->
         <div class="p-4 border-b border-base-300/30">
           <div class="flex items-center justify-between">
@@ -305,7 +377,7 @@
     {@const activeTile = mainTiles.find((t) => t.id === hoveredTile)}
     {#if activeTile && activeTile.subTiles.length > 1}
       {@const popupPos = getPopupPosition()}
-      <div class="fixed z-50 bg-base-100/95 backdrop-blur-xl border border-base-300/50 rounded-lg shadow-2xl py-2 min-w-48" style="top: {popupPos.top}px; left: {popupPos.left}px;" role="menu" tabindex="-1" on:mouseenter={handlePopupMouseEnter} on:mouseleave={handlePopupMouseLeave}>
+      <div class="fixed z-50 bg-base-100 border border-base-300 rounded-lg shadow-2xl py-2 min-w-48" style="top: {popupPos.top}px; left: {popupPos.left}px;" role="menu" tabindex="-1" on:mouseenter={handlePopupMouseEnter} on:mouseleave={handlePopupMouseLeave}>
         <div class="px-3 py-2 border-b border-base-300/30">
           <h3 class="font-medium text-base-content text-sm flex items-center gap-2">
             <div class="w-4 h-4 {activeTile.textColor}">

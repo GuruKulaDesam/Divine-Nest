@@ -21,7 +21,7 @@
     category: '',
     frequency: '',
     sound_type: '',
-    applicable_roles: [] as string[]
+    applicable_roles: []
   };
 
   // Available filter options

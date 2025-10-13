@@ -27,7 +27,7 @@
 
 <div class="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950">
   <!-- Header -->
-  <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-green-200 dark:border-green-800">
+  <div class="bg-white dark:bg-gray-900 border-b border-green-200 dark:border-green-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex items-center justify-between">
         <div>
@@ -48,10 +48,10 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <!-- Health Records -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-green-200 dark:border-green-800">
+      <div class="bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-50 dark:from-blue-950 dark:via-cyan-950 dark:to-indigo-950 rounded-xl shadow-lg p-6 border border-blue-200 dark:border-blue-800">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium text-green-600 dark:text-green-400">Health Records</p>
+            <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Health Records</p>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalHealthRecords || 0}</p>
           </div>
           <div class="text-3xl">🏥</div>
@@ -62,7 +62,7 @@
       </div>
 
       <!-- Yoga Sessions -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-green-200 dark:border-green-800">
+      <div class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950 rounded-xl shadow-lg p-6 border border-green-200 dark:border-green-800">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-medium text-green-600 dark:text-green-400">Yoga Sessions</p>
@@ -78,10 +78,10 @@
       </div>
 
       <!-- Journal Entries -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-green-200 dark:border-green-800">
+      <div class="bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-950 dark:via-violet-950 dark:to-fuchsia-950 rounded-xl shadow-lg p-6 border border-purple-200 dark:border-purple-800">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium text-green-600 dark:text-green-400">Journal Entries</p>
+            <p class="text-sm font-medium text-purple-600 dark:text-purple-400">Journal Entries</p>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalJournalEntries || 0}</p>
           </div>
           <div class="text-3xl">📓</div>
@@ -92,10 +92,10 @@
       </div>
 
       <!-- Meditation -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-green-200 dark:border-green-800">
+      <div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-orange-950 dark:via-amber-950 dark:to-yellow-950 rounded-xl shadow-lg p-6 border border-orange-200 dark:border-orange-800">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium text-green-600 dark:text-green-400">Meditation</p>
+            <p class="text-sm font-medium text-orange-600 dark:text-orange-400">Meditation</p>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalMeditationSessions || 0}</p>
           </div>
           <div class="text-3xl">🧘‍♂️</div>
@@ -105,8 +105,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Tab Navigation -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-green-200 dark:border-green-800 mb-6">
       <div class="border-b border-green-200 dark:border-green-800">
         <nav class="flex space-x-8 px-6">
@@ -174,22 +172,22 @@
             </div>
 
             <!-- Wellness Insights -->
-            <div class="bg-emerald-50 dark:bg-emerald-950/20 rounded-lg p-4">
+            <div class="bg-gradient-to-br from-emerald-50 via-green-50 to-lime-50 dark:from-emerald-950 dark:via-green-950 dark:to-lime-950 rounded-lg p-4">
               <h3 class="text-lg font-semibold text-emerald-900 dark:text-emerald-100 mb-4">Wellness Insights</h3>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 rounded-lg p-4 text-center border border-blue-200 dark:border-blue-800">
                   <div class="text-2xl mb-2">🙏</div>
                   <div class="text-lg font-semibold text-gray-900 dark:text-white">{stats.favoriteMantras || 0}</div>
                   <div class="text-sm text-gray-600 dark:text-gray-400">Favorite Mantras</div>
                 </div>
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 rounded-lg p-4 text-center border border-purple-200 dark:border-purple-800">
                   <div class="text-2xl mb-2">📊</div>
                   <div class="text-lg font-semibold text-gray-900 dark:text-white">
                     {stats.avgMoodScore ? stats.avgMoodScore.toFixed(1) : "0"}/5
                   </div>
                   <div class="text-sm text-gray-600 dark:text-gray-400">Average Mood</div>
                 </div>
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center">
+                <div class="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950 dark:to-red-950 rounded-lg p-4 text-center border border-orange-200 dark:border-orange-800">
                   <div class="text-2xl mb-2">🎯</div>
                   <div class="text-lg font-semibold text-gray-900 dark:text-white">
                     {stats.completedYogaSessions || 0}

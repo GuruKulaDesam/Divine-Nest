@@ -1,23 +1,21 @@
 <script>
-  import { goto } from '$app/navigation';
-  import { aiPrompts } from '$lib/stores/aiPrompts';
-  import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
 
+  // Form data structure for AI prompts
   let formData = {
-    type: 'Alert' as 'Alert' | 'Notes' | 'Checklist' | 'Query',
-    category: 'SMS' as 'SMS' | 'Email' | 'Phone' | 'Calendar Schedule' | 'WhatsApp' | 'Alarm',
+    type: 'Alert', // 'Alert' | 'Notes' | 'Checklist' | 'Query'
+    category: 'SMS', // 'SMS' | 'Email' | 'Phone' | 'Calendar Schedule' | 'WhatsApp' | 'Alarm'
     purpose: '',
     trigger_time: '',
-    trigger_location_lat: null as number | null,
-    trigger_location_lng: null as number | null,
+    trigger_location_lat: null,
+    trigger_location_lng: null,
     trigger_radius_meters: 100,
-    frequency: 'Daily' as 'Once' | 'Daily' | 'Weekly' | 'Monthly' | 'Custom',
-    sound_type: 'Positive' as 'Positive' | 'Negative' | 'Alarming' | 'Pleasant',
-    volume_level: 'Medium' as 'Low' | 'Medium' | 'High' | 'Adaptive',
+    frequency: 'Daily', // 'Once' | 'Daily' | 'Weekly' | 'Monthly' | 'Custom'
+    sound_type: 'Positive', // 'Positive' | 'Negative' | 'Alarming' | 'Pleasant'
+    volume_level: 'Medium', // 'Low' | 'Medium' | 'High' | 'Adaptive'
     conditions: '',
-    applicable_roles: [] as string[]
+    applicable_roles: []
   };
 
   let errors = {};

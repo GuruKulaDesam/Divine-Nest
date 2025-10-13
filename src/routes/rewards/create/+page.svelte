@@ -4,7 +4,7 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
   import { _ } from 'svelte-i18n';
 
   const dispatch = createEventDispatcher();
@@ -12,8 +12,8 @@
   let currentUserRole = '';
   let formData = {
     person: '',
-    role: 'Child' as 'Child' | 'Adult' | 'Elder',
-    type: 'Star' as 'Star' | 'Karma',
+    role: 'Child',
+    type: 'Star',
     reason: '',
     points: 10,
     date: new Date().toISOString().split('T')[0]
@@ -23,7 +23,7 @@
   let errors = {};
 
   // Voice command handler
-  function handleVoiceCommand(command: string) {
+  function handleVoiceCommand(command) {
     const lowerCommand = command.toLowerCase();
 
     // Parse reward creation commands
@@ -145,7 +145,7 @@
   }
 
   // Get applicable roles based on selected role
-  function getApplicableRoles(selectedRole: string) {
+  function getApplicableRoles(selectedRole) {
     switch (selectedRole) {
       case 'Child':
         return ['Parent', 'Adult', 'Child'];

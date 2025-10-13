@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
   import { Chart, registerables } from 'chart.js';
-  import { family, discussions, voiceCommands } from '$lib/stores/tables';
+  import { family, familyDiscussions, familyVoiceCommands } from '$lib/stores/family';
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
@@ -413,7 +413,7 @@
                   </div>
                 </div>
               </div>
-            {:each}
+            {/each}
           </div>
 
           {#if familyTree.length === 0}

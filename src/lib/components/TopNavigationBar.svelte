@@ -222,9 +222,9 @@
   }
 </script>
 
-<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-white/10 dark:bg-gray-900/20 border-b border-white/20 dark:border-gray-700/30 z-50">
+<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-white dark:bg-gray-900 border-b border-white dark:border-gray-700 z-50">
   <!-- Main Ribbon Container -->
-  <div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/5 via-transparent to-white/5">
+  <div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/20 via-transparent to-white/20">
     <!-- Left Section: Logo and App Title -->
     <div class="flex items-center space-x-4 flex-shrink-0">
       <!-- Logo -->
@@ -251,7 +251,7 @@
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center w-full">
               <!-- Metric at the top -->
               <div class="mb-2">
-                <div class="bg-white/90 dark:bg-gray-800/90 px-2 py-1 rounded-full transition-all duration-300">
+                <div class="bg-white dark:bg-gray-800 px-2 py-1 rounded-full transition-all duration-300">
                   <span class="text-[19.8px] font-sans font-bold {category.textColor} group-hover:scale-110 transition-transform duration-300" style="font-family: 'Segoe UI', 'Helvetica Neue', 'DIN Alternate', sans-serif;">{category.metric}</span>
                 </div>
               </div>
@@ -269,16 +269,32 @@
       </div>
     </div>
 
-    <!-- Right Section: Consolidated Menu -->
-    <div class="flex items-center flex-shrink-0">
+    <!-- Right Section: Profile and Menu -->
+    <div class="flex items-center flex-shrink-0 gap-2">
+      <!-- Profile Button -->
+      <button
+        class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105"
+        on:click={() => {
+          homeSounds.playClick();
+          goto('/profile').catch((error) => console.error("Navigation error:", error));
+        }}
+        on:mouseenter={handleHover}
+        title="Profile"
+      >
+        <div class="w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-violet-600 flex items-center justify-center text-white text-xs font-medium shadow-sm">
+          {$userProfile?.name?.charAt(0) || 'U'}
+        </div>
+        <Icon icon="heroicons:user-circle" class="w-5 h-5" />
+      </button>
+
       <!-- Main Menu Button -->
       <div class="relative group">
-        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200 hover:scale-105 backdrop-blur-sm" title="Menu" on:mouseenter={handleHover}>
+        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105" title="Menu" on:mouseenter={handleHover}>
           <Icon icon="heroicons:bars-3" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
         </button>
 
         <!-- Consolidated Menu Dropdown -->
-        <div class="absolute right-0 top-full mt-2 w-80 bg-white/95 dark:bg-gray-800/95 border border-gray-200/60 dark:border-gray-700/60 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm max-h-96 overflow-y-auto">
+        <div class="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto">
           <div class="p-3">
             <!-- Search Section -->
             <div class="mb-4">
@@ -448,13 +464,28 @@
             <div class="border-t border-gray-200 dark:border-gray-600 pt-3">
               <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Account</div>
               <div class="flex items-center gap-3 p-2 mb-2">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm">U</div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium shadow-sm">
+                  {$userProfile?.name?.charAt(0) || 'U'}
+                </div>
                 <div class="flex-1 min-w-0">
-                  <div class="text-sm font-medium text-gray-900 dark:text-white truncate">User Name</div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400 truncate">user@example.com</div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                    {$userProfile?.name || 'User'}
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {$userProfile?.role || 'Role'} • {$userProfile?.location || 'Location'}
+                  </div>
                 </div>
               </div>
-              <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 rounded-lg" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}>Profile Settings</button>
+              <button
+                class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 rounded-lg"
+                on:click={() => {
+                  homeSounds.playClick();
+                  dispatch("action", { action: "edit-profile" });
+                }}
+                on:mouseenter={handleHover}
+              >
+                Edit Profile
+              </button>
               <button class="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-150 rounded-lg" on:click={() => homeSounds.playClick()} on:mouseenter={handleHover}>Preferences</button>
               <button
                 class="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-900/30 transition-colors duration-150 rounded-lg"
@@ -479,7 +510,7 @@
     position: relative;
     z-index: 10;
     backdrop-filter: blur(8px);
-    background: transparent !important;
+    /* background is now set in the class above */
   }
 
   .excel-ribbon * {

@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
-  import { alerts, discussions, voiceCommands } from '$lib/stores/tables';
+  import { alerts, alertsDiscussions as discussions, alertsVoiceCommands as voiceCommands } from '$lib/stores/alerts';
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';

@@ -5,12 +5,12 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
   import { _ } from 'svelte-i18n';
 
   let currentUserRole = '';
   let assetId = '';
-  let asset: any = null;
+  let asset = null;
   let isEditMode = false;
   let isSubmitting = false;
   let errors = {};
@@ -18,7 +18,7 @@
   // Form data
   let formData = {
     name: '',
-    category: 'Hardware' as Asset['category'],
+    category: 'Hardware',
     sub_category: '',
     description: '',
     location: '',
@@ -28,7 +28,7 @@
   };
 
   // Voice command handler
-  function handleVoiceCommand(command: string) {
+  function handleVoiceCommand(command) {
     const lowerCommand = command.toLowerCase();
 
     if (lowerCommand.includes('edit') || lowerCommand.includes('மாற்று')) {

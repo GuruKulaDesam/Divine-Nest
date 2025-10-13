@@ -64,9 +64,15 @@ export const backgroundActions = {
 
   init: () => {
     if (browser) {
-      const current = getInitialBackground();
-      background.set(current);
-      updateBackground(current);
+      const stored = secureStorage.getItem(StorageKeys.BACKGROUND, false);
+      if (stored && Object.values(BACKGROUNDS).includes(stored)) {
+        background.set(stored);
+        updateBackground(stored);
+      } else {
+        // Default to nature background
+        background.set(BACKGROUNDS.NATURE);
+        updateBackground(BACKGROUNDS.NATURE);
+      }
     }
   }
 };

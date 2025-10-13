@@ -30,8 +30,21 @@ export const themeActions = {
           document.documentElement.setAttribute('data-theme', THEMES.LIGHT);
         }
       }
+
+      // Listen for system theme changes
+      if (window.matchMedia) {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', (e) => {
+          // Only update if user hasn't manually set a preference
+          if (!localStorage.getItem('theme')) {
+            const newTheme = e.matches ? THEMES.DARK : THEMES.LIGHT;
+            themeActions.set(newTheme);
+          }
+        });
+      }
     }
   },
+
   toggle: () => {
     theme.update(current => {
       // Cycle through all themes
@@ -54,26 +67,6 @@ export const themeActions = {
       if (browser) {
         localStorage.setItem('theme', newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
-      }
-    }
-  },
-  
-  init: () => {
-    if (browser) {
-      const current = getInitialTheme();
-      document.documentElement.setAttribute('data-theme', current);
-      theme.set(current);
-      
-      // Listen for system theme changes
-      if (window.matchMedia) {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        mediaQuery.addEventListener('change', (e) => {
-          // Only update if user hasn't manually set a preference
-          if (!localStorage.getItem('theme')) {
-            const newTheme = e.matches ? THEMES.DARK : THEMES.LIGHT;
-            themeActions.set(newTheme);
-          }
-        });
       }
     }
   }

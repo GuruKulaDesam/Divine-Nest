@@ -5,12 +5,12 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
   import { _ } from 'svelte-i18n';
 
   let currentUserRole = '';
   let rewardId = '';
-  let reward: any = null;
+  let reward = null;
   let isEditMode = false;
   let isSubmitting = false;
   let errors = {};
@@ -18,15 +18,15 @@
   // Form data
   let formData = {
     person: '',
-    role: 'Child' as 'Child' | 'Adult' | 'Elder',
-    type: 'Star' as 'Star' | 'Karma',
+    role: 'Child',
+    type: 'Star',
     reason: '',
     points: 10,
     date: ''
   };
 
   // Voice command handler
-  function handleVoiceCommand(command: string) {
+  function handleVoiceCommand(command) {
     const lowerCommand = command.toLowerCase();
 
     if (lowerCommand.includes('edit') || lowerCommand.includes('மாற்று')) {

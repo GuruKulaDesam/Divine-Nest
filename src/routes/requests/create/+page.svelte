@@ -1,7 +1,7 @@
 <script>
   import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
-  import { requests, addRequest } from '$lib/stores/requests';
+  import { requests } from '$lib/stores/requests';
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
@@ -229,7 +229,6 @@
                 bind:value={formData.contact}
                 class="input input-bordered"
                 placeholder="Who should be contacted about this request?"
-                value={$userProfile.name}
               />
             </div>
 

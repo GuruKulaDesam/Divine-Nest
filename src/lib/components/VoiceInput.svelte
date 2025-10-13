@@ -8,7 +8,7 @@
   const dispatch = createEventDispatcher<{ result: string }>();
 
   let isListening = false;
-  let recognition = null;
+  let recognition: any = null;
   let isSupported = false;
 
   // Check if speech recognition is supported
@@ -27,36 +27,39 @@
     }
 
     // Create recognition instance
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition = new SpeechRecognition();
 
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = 'en-US'; // Default to English, could be made configurable
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US'; // Default to English, could be made configurable
 
-    recognition.onstart = () => {
-      isListening = true;
-    };
+      recognition.onstart = () => {
+        isListening = true;
+      };
 
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      if (onResult) {
-        onResult(transcript);
-      } else {
-        dispatch('result', transcript);
-      }
-    };
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        if (onResult) {
+          onResult(transcript);
+        } else {
+          dispatch('result', transcript);
+        }
+      };
 
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error:', event.error);
-      isListening = false;
-    };
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        isListening = false;
+      };
 
-    recognition.onend = () => {
-      isListening = false;
-    };
+      recognition.onend = () => {
+        isListening = false;
+      };
 
-    recognition.start();
+      recognition.start();
+    }
   }
 
   function stopListening() {

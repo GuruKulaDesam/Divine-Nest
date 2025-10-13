@@ -4,17 +4,17 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
   import { _ } from 'svelte-i18n';
 
   let currentUserRole = '';
-  let rewardsList: any[] = [];
-  let leaderboard: any[] = [];
-  let monthlySummary: any = {};
-  let virtueWall: any[] = [];
+  let rewardsList = [];
+  let leaderboard = [];
+  let monthlySummary = {};
+  let virtueWall = [];
 
   // Voice command handler
-  function handleVoiceCommand(command: string) {
+  function handleVoiceCommand(command) {
     if (command.includes('add reward') || command.includes('சேர்க்க பரிசு')) {
       window.location.href = '/rewards/create';
     } else if (command.includes('view rewards') || command.includes('பார்க்க பரிசுகள்')) {

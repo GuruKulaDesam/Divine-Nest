@@ -5,7 +5,7 @@
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
   import {
     Chart as ChartJS,
     CategoryScale,
@@ -18,7 +18,7 @@
     Tooltip,
     Legend,
   } from 'chart.js';
-  import { Bar, Line, Doughnut } from 'svelte-chartjs';
+  import { Chart } from 'chart.js';
 
   // Register Chart.js components
   ChartJS.register(
@@ -36,6 +36,16 @@
   let currentUser = '';
   let currentMonth = new Date().getMonth();
   let currentYear = new Date().getFullYear();
+
+  // Canvas elements for charts
+  let monthlyTrendCanvas;
+  let expenseBreakdownCanvas;
+  let budgetComparisonCanvas;
+
+  // Chart instances
+  let monthlyTrendChart;
+  let expenseBreakdownChart;
+  let budgetComparisonChart;
 
   // Reactive statements
   $: userRole = $userProfile?.role || 'Parent';
@@ -142,6 +152,94 @@
     userProfile.subscribe(profile => {
       currentUser = profile?.name || 'Family Member';
     });
+
+    // Initialize charts when canvases are available
+    const initializeCharts = () => {
+      if (monthlyTrendCanvas && !monthlyTrendChart) {
+        monthlyTrendChart = new Chart(monthlyTrendCanvas, {
+          type: 'line',
+          data: monthlyTrendData,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' },
+              title: { display: false }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: (value) => '₹' + value.toLocaleString()
+                }
+              }
+            }
+          }
+        });
+      }
+
+      if (expenseBreakdownCanvas && !expenseBreakdownChart) {
+        expenseBreakdownChart = new Chart(expenseBreakdownCanvas, {
+          type: 'doughnut',
+          data: expenseBreakdownData,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'right' },
+              tooltip: {
+                callbacks: {
+                  label: (context) => '₹' + context.parsed.toLocaleString()
+                }
+              }
+            }
+          }
+        });
+      }
+
+      if (budgetComparisonCanvas && !budgetComparisonChart) {
+        budgetComparisonChart = new Chart(budgetComparisonCanvas, {
+          type: 'bar',
+          data: budgetComparisonData,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' },
+              tooltip: {
+                callbacks: {
+                  label: (context) => context.dataset.label + ': ₹' + context.parsed.y.toLocaleString()
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: (value) => '₹' + value.toLocaleString()
+                }
+              }
+            }
+          }
+        });
+      }
+    };
+
+    // Initialize charts immediately and on data changes
+    initializeCharts();
+
+    // Update charts when data changes
+    const unsubscribe = finances.subscribe(() => {
+      setTimeout(initializeCharts, 100); // Small delay to ensure DOM updates
+    });
+
+    return () => {
+      unsubscribe();
+      // Destroy charts on unmount
+      if (monthlyTrendChart) monthlyTrendChart.destroy();
+      if (expenseBreakdownChart) expenseBreakdownChart.destroy();
+      if (budgetComparisonChart) budgetComparisonChart.destroy();
+    };
   });
 </script>
 
@@ -283,25 +381,7 @@
             Monthly Financial Trends
           </h3>
           <div class="h-64">
-            <Line
-              data={monthlyTrendData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: { position: 'top' },
-                  title: { display: false }
-                },
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    ticks: {
-                      callback: (value) => '₹' + value.toLocaleString()
-                    }
-                  }
-                }
-              }}
-            />
+            <canvas bind:this={monthlyTrendCanvas}></canvas>
           </div>
         </div>
       </div>
@@ -314,21 +394,7 @@
             Expense Breakdown
           </h3>
           <div class="h-64">
-            <Doughnut
-              data={expenseBreakdownData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: { position: 'right' },
-                  tooltip: {
-                    callbacks: {
-                      label: (context) => '₹' + context.parsed.toLocaleString()
-                    }
-                  }
-                }
-              }}
-            />
+            <canvas bind:this={expenseBreakdownCanvas}></canvas>
           </div>
         </div>
       </div>
@@ -343,29 +409,7 @@
             Budget vs Actual ({new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })})
           </h3>
           <div class="h-64">
-            <Bar
-              data={budgetComparisonData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: { position: 'top' },
-                  tooltip: {
-                    callbacks: {
-                      label: (context) => context.dataset.label + ': ₹' + context.parsed.y.toLocaleString()
-                    }
-                  }
-                },
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    ticks: {
-                      callback: (value) => '₹' + value.toLocaleString()
-                    }
-                  }
-                }
-              }}
-            />
+            <canvas bind:this={budgetComparisonCanvas}></canvas>
           </div>
         </div>
       </div>

@@ -4,13 +4,13 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
   import { _ } from 'svelte-i18n';
 
   let currentUserRole = '';
-  let allRewards: any[] = [];
-  let filteredRewards: any[] = [];
-  let displayedRewards: any[] = [];
+  let allRewards = [];
+  let filteredRewards = [];
+  let displayedRewards = [];
 
   // Filtering and sorting
   let searchTerm = '';
@@ -37,7 +37,7 @@
   };
 
   // Voice command handler
-  function handleVoiceCommand(command: string) {
+  function handleVoiceCommand(command) {
     const lowerCommand = command.toLowerCase();
 
     if (lowerCommand.includes('filter') || lowerCommand.includes('வடிகட்டு')) {
@@ -178,7 +178,7 @@
   }
 
   // Handle page change
-  function changePage(page: number) {
+  function changePage(page) {
     if (page >= 1 && page <= totalPages) {
       currentPage = page;
       applyPagination();
@@ -200,7 +200,7 @@
   }
 
   // Export data
-  function handleExport(format: 'csv' | 'json') {
+  function handleExport(format) {
     const dataToExport = filteredRewards.map(reward => ({
       Person: reward.person,
       Role: reward.role,

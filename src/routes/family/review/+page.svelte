@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
-  import { family, discussions, voiceCommands } from '$lib/stores/tables';
+  import { family, familyDiscussions as discussions, familyVoiceCommands as voiceCommands } from '$lib/stores/family';
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';

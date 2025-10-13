@@ -3,7 +3,8 @@
   import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
   import Chart from 'chart.js/auto';
-  import { tasks, discussions, voiceCommands } from '$lib/stores/tables';
+  import { todos } from '$lib/stores/todos';
+  import { discussions, voiceCommands } from '$lib/stores/tables';
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
@@ -15,16 +16,17 @@
   let taskStatusChart;
   let priorityChart;
   let voiceResult = '';
+  let isLoading = true;
 
   // Calculate KPIs
-  $: totalTasks = $tasks.length;
-  $: completedTasks = $tasks.filter(t => t.status === 'Completed').length;
-  $: pendingTasks = $tasks.filter(t => t.status === 'Pending').length;
-  $: inProgressTasks = $tasks.filter(t => t.status === 'In Progress').length;
+  $: totalTasks = $todos.length;
+  $: completedTasks = $todos.filter(t => t.status === 'Completed').length;
+  $: pendingTasks = $todos.filter(t => t.status === 'Pending').length;
+  $: inProgressTasks = $todos.filter(t => t.status === 'In Progress').length;
   $: completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
   // Filter tasks by user's applicable roles
-  $: userTasks = $tasks.filter(task =>
+  $: userTasks = $todos.filter(task =>
     task.applicable_roles.includes($userProfile.role) ||
     task.applicable_roles.includes('All')
   );
@@ -40,58 +42,74 @@
   });
 
   onMount(() => {
-    // Initialize charts
-    initializeCharts();
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      initializeCharts();
+      isLoading = false;
+    }, 100);
   });
 
   function initializeCharts() {
-    // Task Status Distribution Chart
-    const statusCtx = document.getElementById('taskStatusChart');
-    if (statusCtx) {
-      taskStatusChart = new Chart(statusCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Pending', 'In Progress', 'Completed'],
-          datasets: [{
-            data: [pendingTasks, inProgressTasks, completedTasks],
-            backgroundColor: ['#fbbf24', '#3b82f6', '#10b981'],
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'bottom' }
-          }
-        }
-      });
-    }
+    try {
+      // Destroy existing charts to prevent memory leaks
+      if (taskStatusChart) {
+        taskStatusChart.destroy();
+      }
+      if (priorityChart) {
+        priorityChart.destroy();
+      }
 
-    // Priority Distribution Chart
-    const priorityCtx = document.getElementById('priorityChart');
-    if (priorityCtx) {
-      const highPriority = userTasks.filter(t => t.priority === 'High' || t.priority === 'Critical').length;
-      const mediumPriority = userTasks.filter(t => t.priority === 'Medium').length;
-      const lowPriority = userTasks.filter(t => t.priority === 'Low').length;
-
-      priorityChart = new Chart(priorityCtx, {
-        type: 'bar',
-        data: {
-          labels: ['High/Critical', 'Medium', 'Low'],
-          datasets: [{
-            label: 'Tasks by Priority',
-            data: [highPriority, mediumPriority, lowPriority],
-            backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
+      // Task Status Distribution Chart
+      const statusCtx = document.getElementById('taskStatusChart');
+      if (statusCtx) {
+        taskStatusChart = new Chart(statusCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Pending', 'In Progress', 'Completed'],
+            datasets: [{
+              data: [pendingTasks, inProgressTasks, completedTasks],
+              backgroundColor: ['#fbbf24', '#3b82f6', '#10b981'],
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'bottom' }
+            }
           }
-        }
-      });
+        });
+      }
+
+      // Priority Distribution Chart
+      const priorityCtx = document.getElementById('priorityChart');
+      if (priorityCtx) {
+        const highPriority = userTasks.filter(t => t.priority === 'High' || t.priority === 'Critical').length;
+        const mediumPriority = userTasks.filter(t => t.priority === 'Medium').length;
+        const lowPriority = userTasks.filter(t => t.priority === 'Low').length;
+
+        priorityChart = new Chart(priorityCtx, {
+          type: 'bar',
+          data: {
+            labels: ['High/Critical', 'Medium', 'Low'],
+            datasets: [{
+              label: 'Tasks by Priority',
+              data: [highPriority, mediumPriority, lowPriority],
+              backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error initializing charts:', error);
+      isLoading = false;
     }
   }
 
@@ -113,8 +131,9 @@
     goto(`/tasks/update?id=${taskId}`);
   }
 
-  function navigateToReview() {
-    goto('/tasks/review');
+  // Reinitialize charts when data changes
+  $: if (!isLoading && (pendingTasks !== undefined || inProgressTasks !== undefined || completedTasks !== undefined)) {
+    initializeCharts();
   }
 </script>
 
@@ -152,7 +171,7 @@
 
     <!-- KPI Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition-shadow" on:click={navigateToReview}>
+      <div class="card bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-xl cursor-pointer hover:shadow-2xl transition-all duration-200" on:click={navigateToReview}>
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
@@ -164,7 +183,7 @@
         </div>
       </div>
 
-      <div class="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition-shadow" on:click={() => goto('/tasks/update?filter=pending')}>
+      <div class="card bg-gradient-to-br from-yellow-500 to-orange-500 text-white shadow-xl cursor-pointer hover:shadow-2xl transition-all duration-200" on:click={() => goto('/tasks/update?filter=pending')}>
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
@@ -176,7 +195,7 @@
         </div>
       </div>
 
-      <div class="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition-shadow" on:click={() => goto('/tasks/update?filter=in-progress')}>
+      <div class="card bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-xl cursor-pointer hover:shadow-2xl transition-all duration-200" on:click={() => goto('/tasks/update?filter=in-progress')}>
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
@@ -188,7 +207,7 @@
         </div>
       </div>
 
-      <div class="card bg-base-100 shadow-xl cursor-pointer hover:shadow-2xl transition-shadow" on:click={navigateToReview}>
+      <div class="card bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-xl cursor-pointer hover:shadow-2xl transition-all duration-200" on:click={navigateToReview}>
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
@@ -227,27 +246,43 @@
     <!-- Charts Row -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <!-- Task Status Chart -->
-      <div class="card bg-base-100 shadow-xl">
+      <div class="card bg-white dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700">
         <div class="card-body">
-          <h3 class="card-title">Task Status Distribution</h3>
-          <canvas id="taskStatusChart" width="300" height="200"></canvas>
+          <h3 class="card-title text-gray-900 dark:text-white">Task Status Distribution</h3>
+          {#if isLoading}
+            <div class="flex justify-center items-center h-48">
+              <div class="loading loading-spinner loading-lg text-primary"></div>
+            </div>
+          {:else}
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 rounded-lg p-4">
+              <canvas id="taskStatusChart" width="300" height="200"></canvas>
+            </div>
+          {/if}
         </div>
       </div>
 
       <!-- Priority Chart -->
-      <div class="card bg-base-100 shadow-xl">
+      <div class="card bg-white dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700">
         <div class="card-body">
-          <h3 class="card-title">Tasks by Priority</h3>
-          <canvas id="priorityChart" width="300" height="200"></canvas>
+          <h3 class="card-title text-gray-900 dark:text-white">Tasks by Priority</h3>
+          {#if isLoading}
+            <div class="flex justify-center items-center h-48">
+              <div class="loading loading-spinner loading-lg text-primary"></div>
+            </div>
+          {:else}
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 rounded-lg p-4">
+              <canvas id="priorityChart" width="300" height="200"></canvas>
+            </div>
+          {/if}
         </div>
       </div>
     </div>
 
     <!-- Recent Tasks -->
-    <div class="card bg-base-100 shadow-xl">
+    <div class="card bg-white dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700">
       <div class="card-body">
         <div class="flex justify-between items-center">
-          <h3 class="card-title">Recent Tasks</h3>
+          <h3 class="card-title text-gray-900 dark:text-white">Recent Tasks</h3>
           <button class="btn btn-ghost btn-sm" on:click={navigateToReview}>View All</button>
         </div>
         <div class="overflow-x-auto">

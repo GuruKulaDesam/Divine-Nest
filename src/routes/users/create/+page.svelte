@@ -6,14 +6,14 @@
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
 
   let formData = {
-    role: 'Child' as 'Father' | 'Mother' | 'Child' | 'Grandparent' | 'Guest' | 'Service Provider' | 'Admin',
+    role: 'Child',
     name: '',
     nick_name: '',
     email: '',
     location: '',
     joined_date: new Date().toISOString().split('T')[0],
     picture_url: '',
-    auth_provider: 'Manual' as 'Google' | 'Facebook' | 'Manual'
+    auth_provider: 'Manual'
   };
 
   let errors = {};

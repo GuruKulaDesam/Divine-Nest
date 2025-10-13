@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
-  import { activities, discussions, voiceCommands } from '$lib/stores/tables';
+  import { activities, activitiesDiscussions, activitiesVoiceCommands } from '$lib/stores/activities';
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
@@ -113,7 +113,7 @@
         created_at: new Date().toISOString()
       };
 
-      discussions.update(current => [...current, discussionEntry]);
+      activitiesDiscussions.update(current => [...current, discussionEntry]);
 
       // Navigate back to dashboard
       goto('/activities/dashboard');

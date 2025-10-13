@@ -1,22 +1,32 @@
 <script>
   import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
   import MealsPage from "$lib/components/MealsPage.svelte";
+  import UserLoginModal from "$lib/components/UserLoginModal.svelte";
 
-  let isSetupComplete = false;
+  let isLoggedIn = false;
 
   onMount(() => {
-    // Check if household setup is completed
-    const householdData = localStorage.getItem('divineNest_household');
-    if (!householdData) {
-      // Redirect to setup if not completed
-      goto('/setup');
-    } else {
-      isSetupComplete = true;
+    // Check if user is logged in
+    const userData = localStorage.getItem('divineNest_userProfile');
+    if (userData) {
+      try {
+        const profile = JSON.parse(userData);
+        if (profile.isSetupComplete) {
+          isLoggedIn = true;
+        }
+      } catch (error) {
+        console.error('Error parsing user profile:', error);
+      }
     }
   });
+
+  function handleLoginComplete() {
+    isLoggedIn = true;
+  }
 </script>
 
-{#if isSetupComplete}
+{#if isLoggedIn}
   <MealsPage />
 {/if}
+
+<UserLoginModal on:loginComplete={handleLoginComplete} />

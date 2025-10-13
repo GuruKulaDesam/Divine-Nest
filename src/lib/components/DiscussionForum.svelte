@@ -6,7 +6,7 @@
   export let tableName: string;
   export let recordId: string;
 
-  let comments = [];
+  let comments: any[] = [];
   let newComment = '';
   let isSubmitting = false;
 

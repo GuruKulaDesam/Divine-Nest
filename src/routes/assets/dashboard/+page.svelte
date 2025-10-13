@@ -4,17 +4,17 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
   import { _ } from 'svelte-i18n';
 
   let currentUserRole = '';
-  let assetsList: any[] = [];
-  let categorySummary: any = {};
-  let locationSummary: any = {};
-  let recentAssets: any[] = [];
+  let assetsList = [];
+  let categorySummary = {};
+  let locationSummary = {};
+  let recentAssets = [];
 
   // Voice command handler
-  function handleVoiceCommand(command: string) {
+  function handleVoiceCommand(command) {
     if (command.includes('add asset') || command.includes('புதிய சொத்து')) {
       window.location.href = '/assets/create';
     } else if (command.includes('view assets') || command.includes('சொத்துகளை பார்')) {
@@ -59,12 +59,12 @@
 
   // Get top categories
   $: topCategories = Object.entries(categorySummary)
-    .sort(([, a]: any, [, b]: any) => b.count - a.count)
+    .sort(([, a], [, b]) => b.count - a.count)
     .slice(0, 5);
 
   // Get top locations
   $: topLocations = Object.entries(locationSummary)
-    .sort(([, a]: any, [, b]: any) => b.count - a.count)
+    .sort(([, a], [, b]) => b.count - a.count)
     .slice(0, 5);
 </script>
 

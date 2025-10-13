@@ -3,7 +3,7 @@
   import { goto } from '$app/navigation';
   import Icon from '@iconify/svelte';
   import Chart from 'chart.js/auto';
-  import { alerts, discussions, voiceCommands } from '$lib/stores/tables';
+  import { alerts, alertsDiscussions, alertsVoiceCommands } from '$lib/stores/alerts';
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';

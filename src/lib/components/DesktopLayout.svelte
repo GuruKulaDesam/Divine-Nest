@@ -4,6 +4,7 @@
   import DashboardTiles from "./DashboardTiles.svelte";
   import FloatingActionButtons from "./FloatingActionButtons.svelte";
   import LayoutSwitcher from "./LayoutSwitcher.svelte";
+  import UserLoginModal from "./UserLoginModal.svelte";
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
@@ -24,6 +25,8 @@
   // Reactive statement for current path
   $: currentPath = $page.url.pathname;
 
+  let showLoginModal = false;
+
   // Handle actions from floating action buttons (requests)
   function handleRequestsAction(event) {
     console.log('FloatingActionButtons action:', event.detail);
@@ -35,6 +38,9 @@
     console.log(`Action triggered: ${action}`, tile);
 
     switch (action) {
+      case "edit-profile":
+        showLoginModal = true;
+        break;
       case "quick-task":
         console.log("Quick task action triggered");
         break;
@@ -53,6 +59,10 @@
       default:
         console.log(`Unknown action: ${action}`);
     }
+  }
+
+  function handleLoginComplete() {
+    showLoginModal = false;
   }
 </script>
 
@@ -109,6 +119,11 @@
 
   <!-- Layout Switcher - Bottom Right -->
   <LayoutSwitcher />
+
+  <!-- User Login Modal -->
+  {#if showLoginModal}
+    <UserLoginModal on:loginComplete={handleLoginComplete} />
+  {/if}
 </div>
 
 <style>

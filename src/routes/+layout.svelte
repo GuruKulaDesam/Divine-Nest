@@ -3,7 +3,6 @@
   import '$lib/i18n/index.js';
   import DesktopLayout from '$lib/components/DesktopLayout.svelte';
   import MobileLayout from '$lib/components/MobileLayout.svelte';
-  import UserSetup from '$lib/components/UserSetup.svelte';
   import { shouldUseDesktopLayout, shouldUseMobileLayout } from '$lib/utils/platform';
   import { base } from '$app/paths';
   import { userProfile } from '$lib/stores/userProfile';
@@ -11,15 +10,6 @@
   import { onMount } from 'svelte';
   import { crashAnalytics, setupGlobalErrorHandler } from '$lib/services/crashAnalytics';
   import { performanceMonitor } from '$lib/utils/performance';
-
-  let showUserSetup = false;
-
-  // Check if user setup is needed
-  $: showUserSetup = !$userProfile.isSetupComplete;
-
-  function handleSetupComplete() {
-    showUserSetup = false;
-  }
 
   onMount(async () => {
     // Initialize crash analytics
@@ -64,11 +54,6 @@
     }
   });
 </script>
-
-<!-- User Setup Modal -->
-{#if showUserSetup}
-  <UserSetup on:setupComplete={handleSetupComplete} />
-{/if}
 
 {#if shouldUseDesktopLayout()}
   <!-- Desktop/Web Layout - Full featured with sidebar -->
