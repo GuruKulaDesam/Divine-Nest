@@ -42,7 +42,7 @@
     grandfather: {
       tabs: [
         { id: 'home', label: 'Home', icon: 'mdi:home', badge: null },
-        { id: 'ai_prompts', label: 'AI Prompts', icon: 'mdi:robot', path: '/ai_prompts' },
+        { id: 'ai_prompts', label: 'AI Prompts', icon: 'mdi:robot', path: '/ai-prompts' },
         { id: 'directory', label: 'Directory', icon: 'mdi:building-storefront', path: '/directory' },
         { id: 'users', label: 'Users', icon: 'mdi:account-group', path: '/users' },
         { id: 'settings', label: 'Settings', icon: 'mdi:cog', badge: null }

@@ -1,135 +1,19 @@
 <script>
-  import { onMount } from "svelte";
-  import Icon from "@iconify/svelte";
-  import { sqliteService } from "$lib/services/sqliteService";
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
 
-  let alerts = [];
-  let showAddForm = false;
-  let editingAlert = null;
-  let searchTerm = "";
-  let selectedType = "";
-  let selectedPriority = "";
-  let selectedStatus = "";
-
-  // Form data
-  let formData = {
-    type: "Reminder",
-    title: "",
-    message: "",
-    priority: "Medium",
-    status: "Active",
-    trigger_date: new Date().toISOString().split('T')[0],
-    trigger_time: "09:00",
-    repeat_interval: "",
-    user_id: "",
-    location_trigger: "",
-    sound_enabled: true,
-    vibration_enabled: true
-  };
-
-  // Load alerts on mount
-  onMount(async () => {
-    await loadAlerts();
+  onMount(() => {
+    // Redirect to dashboard as the main entry point
+    goto('/alerts/dashboard', { replaceState: true });
   });
+</script>
 
-  async function loadAlerts() {
-    try {
-      alerts = await sqliteService.getAlerts();
-    } catch (error) {
-      console.error("Error loading alerts:", error);
-    }
-  }
-
-  function resetForm() {
-    formData = {
-      type: "Reminder",
-      title: "",
-      message: "",
-      priority: "Medium",
-      status: "Active",
-      trigger_date: new Date().toISOString().split('T')[0],
-      trigger_time: "09:00",
-      repeat_interval: "",
-      user_id: "",
-      location_trigger: "",
-      sound_enabled: true,
-      vibration_enabled: true
-    };
-  }
-
-  async function saveAlert() {
-    try {
-      const alertData = {
-        ...formData,
-        id: editingAlert ? editingAlert.id : crypto.randomUUID(),
-        created_at: editingAlert ? editingAlert.created_at : new Date().toISOString(),
-        trigger_datetime: `${formData.trigger_date}T${formData.trigger_time}:00`
-      };
-
-      if (editingAlert) {
-        await sqliteService.updateAlert(alertData);
-      } else {
-        await sqliteService.saveAlert(alertData);
-      }
-
-      await loadAlerts();
-      showAddForm = false;
-      editingAlert = null;
-      resetForm();
-    } catch (error) {
-      console.error("Error saving alert:", error);
-    }
-  }
-
-  function editAlert(alert) {
-    editingAlert = alert;
-    const [date, time] = alert.trigger_datetime.split('T');
-    formData = {
-      ...alert,
-      trigger_date: date,
-      trigger_time: time.substring(0, 5) // Remove seconds
-    };
-    showAddForm = true;
-  }
-
-  async function deleteAlert(alert) {
-    if (confirm(`Delete alert "${alert.title}"?`)) {
-      try {
-        await sqliteService.deleteAlert(alert.id);
-        await loadAlerts();
-      } catch (error) {
-        console.error("Error deleting alert:", error);
-      }
-    }
-  }
-
-  async function toggleAlertStatus(alert) {
-    try {
-      const updatedAlert = {
-        ...alert,
-        status: alert.status === 'Active' ? 'Inactive' : 'Active'
-      };
-      await sqliteService.updateAlert(updatedAlert);
-      await loadAlerts();
-    } catch (error) {
-      console.error("Error toggling alert status:", error);
-    }
-  }
-
-  function cancelEdit() {
-    showAddForm = false;
-    editingAlert = null;
-    resetForm();
-  }
-
-  // Filter alerts based on search and filters
-  $: filteredAlerts = alerts.filter(alert => {
-    const matchesSearch = !searchTerm ||
-      alert.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      alert.message.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesType = !selectedType || alert.type === selectedType;
-    const matchesPriority = !selectedPriority || alert.priority === selectedPriority;
+<div class="min-h-screen bg-base-200 flex items-center justify-center">
+  <div class="text-center">
+    <div class="loading loading-spinner loading-lg text-primary"></div>
+    <p class="mt-4 text-base-content/70">Loading Alerts Dashboard...</p>
+  </div>
+</div>
     const matchesStatus = !selectedStatus || alert.status === selectedStatus;
 
     return matchesSearch && matchesType && matchesPriority && matchesStatus;

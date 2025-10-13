@@ -14,6 +14,16 @@ export interface Issue {
   preferred_resolution_date?: string;
   assigned_to?: string;
   status: 'Reported' | 'Assigned' | 'In Progress' | 'Resolved';
+  applicable_roles: string[]; // Array of roles that can see this record
+  // Enhanced reminder fields
+  alert_enabled: boolean;
+  alert_time?: string;
+  alert_location_lat?: number;
+  alert_location_lng?: number;
+  alert_radius_meters?: number;
+  alert_message?: string;
+  alert_type: 'SMS' | 'WhatsApp' | 'Email' | 'Alarm' | 'None';
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
   created_by: string;
   created_at: string;
   updated_at: string;
@@ -32,6 +42,7 @@ export interface Request {
   assigned_to?: string;
   status: 'Reported' | 'Assigned' | 'In Progress' | 'Resolved';
   affected_audience: string;
+  applicable_roles: string[]; // Array of roles that can see this record
   created_by: string;
   created_at: string;
   updated_at: string;
@@ -55,6 +66,7 @@ export interface Food {
   serving_definition?: string;
   aroma_factor: 'Earthy' | 'Floral' | 'Spicy' | 'Sweet' | 'Neutral';
   taste_factor: 'Spicy' | 'Sweet' | 'Sour' | 'Salty' | 'Bitter' | 'Umami';
+  applicable_roles: string[]; // Array of roles that can see this record
   created_at: string;
 }
 
@@ -69,6 +81,7 @@ export interface InventoryItem {
   restock_threshold?: number;
   preferred_vendor?: string;
   last_updated: string;
+  applicable_roles: string[]; // Array of roles that can see this record
   added_by: string;
   created_at: string;
 }
@@ -87,6 +100,17 @@ export interface Task {
   location?: string;
   due_date?: string;
   alert_type: 'ToDo' | 'SMS' | 'Alarm' | 'Notes';
+  applicable_roles: string[]; // Array of roles that can see this record
+  // Enhanced reminder fields
+  alert_enabled: boolean;
+  alert_time?: string;
+  alert_location_lat?: number;
+  alert_location_lng?: number;
+  alert_radius_meters?: number;
+  alert_message?: string;
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  status: 'Pending' | 'In Progress' | 'Completed' | 'Cancelled';
+  completed_at?: string;
   created_by: string;
   created_at: string;
 }
@@ -102,6 +126,18 @@ export interface Activity {
   location?: string;
   time_of_day?: 'Morning' | 'Afternoon' | 'Evening' | 'Night';
   alert_type: 'Reminder' | 'Alarm' | 'None';
+  applicable_roles: string[]; // Array of roles that can see this record
+  // Enhanced reminder fields
+  alert_enabled: boolean;
+  alert_time?: string;
+  alert_location_lat?: number;
+  alert_location_lng?: number;
+  alert_radius_meters?: number;
+  alert_message?: string;
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  status: 'Scheduled' | 'In Progress' | 'Completed' | 'Cancelled';
+  scheduled_date?: string;
+  completed_at?: string;
   created_by: string;
   created_at: string;
 }
@@ -117,6 +153,7 @@ export interface Finance {
   actor: string;
   source: 'Manual' | 'Voice' | 'SMS';
   notes?: string;
+  applicable_roles: string[]; // Array of roles that can see this record
   created_at: string;
 }
 
@@ -128,6 +165,7 @@ export interface Reward {
   reason: string;
   points: number;
   date: string;
+  applicable_roles: string[]; // Array of roles that can see this record
   created_at: string;
 }
 
@@ -141,6 +179,7 @@ export interface Asset {
   owner?: string;
   date_added: string;
   tags?: string; // JSON array of tags
+  applicable_roles: string[]; // Array of roles that can see this record
   created_at: string;
 }
 
@@ -155,6 +194,7 @@ export interface Family {
   location?: string;
   media_type: 'Blog' | 'Audio' | 'Photo' | 'Video';
   media_url?: string;
+  applicable_roles: string[]; // Array of roles that can see this record
   created_by: string;
   created_at: string;
 }
@@ -172,6 +212,7 @@ export interface AIPrompt {
   sound_type: 'Positive' | 'Negative' | 'Alarming' | 'Pleasant';
   volume_level: 'Low' | 'Medium' | 'High' | 'Adaptive';
   conditions?: string;
+  applicable_roles: string[]; // Array of roles that can see this record
   created_at: string;
 }
 
@@ -185,6 +226,7 @@ export interface User {
   joined_date: string;
   picture_url?: string;
   auth_provider: 'Google' | 'Facebook' | 'Manual';
+  applicable_roles: string[]; // Array of roles that can see this record (usually just their own role)
   created_at: string;
 }
 
@@ -199,6 +241,7 @@ export interface Alert {
   trigger_time: string;
   sent_at?: string;
   status: 'Pending' | 'Sent' | 'Failed';
+  applicable_roles: string[]; // Array of roles that can see this record
   created_at: string;
 }
 
@@ -216,6 +259,7 @@ export interface Directory {
   rating?: number;
   notes?: string;
   last_contacted?: string;
+  applicable_roles: string[]; // Array of roles that can see this record
   created_at: string;
 }
 
@@ -276,14 +320,40 @@ export interface TrackerEntry {
   period?: 'daily' | 'weekly' | 'monthly' | 'other'
 }
 
-// Voice intent types
-export interface VoiceIntent {
-  type: 'createTodo' | 'setReminder' | 'createNote' | 'setEventReminder' | 'startRecording' | 'stopRecording' | 'unknown'
-  title?: string
-  message?: string
-  content?: string
-  time?: string
-  date?: string
-  category?: string
-  confidence: number
+// Enhanced interfaces for Reminder App functionality
+export interface Discussion {
+  id: string;
+  table_name: string;
+  record_id: string;
+  author: string;
+  author_role: string;
+  message: string;
+  attachments?: string[]; // Array of file URLs
+  created_at: string;
+  updated_at?: string;
+}
+
+export interface VoiceCommand {
+  id: string;
+  table_name: string;
+  record_id: string;
+  command: string;
+  intent: string;
+  confidence: number;
+  executed: boolean;
+  result?: string;
+  created_at: string;
+}
+
+export interface LocationReminder {
+  id: string;
+  table_name: string;
+  record_id: string;
+  trigger_location_lat: number;
+  trigger_location_lng: number;
+  trigger_radius_meters: number;
+  message: string;
+  active: boolean;
+  last_triggered?: string;
+  created_at: string;
 }
