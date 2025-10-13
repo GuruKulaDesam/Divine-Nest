@@ -11,11 +11,11 @@
   let isSubmitting = false;
 
   // Form data
-  let type = 'Food Ingredient';
-  let category = 'Dry Goods';
+  let type: 'Food Ingredient' | 'Grocery' | 'Toiletry' | 'Pooja Item' | 'Other' = 'Food Ingredient';
+  let category: 'Dry Goods' | 'Fresh Produce' | 'Spices' | 'Cleaning' | 'Personal Care' | 'Ritual Supplies' = 'Dry Goods';
   let sub_category = '';
   let quantity_available = 0;
-  let unit = 'kg';
+  let unit: 'g' | 'kg' | 'litre' | 'ml' | 'pieces' | 'packets' = 'kg';
   let location = '';
   let restock_threshold = 0;
   let preferred_vendor = '';

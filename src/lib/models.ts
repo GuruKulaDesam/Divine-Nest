@@ -70,22 +70,6 @@ export interface Food {
   created_at: string;
 }
 
-export interface InventoryItem {
-  id: string;
-  type: 'Food Ingredient' | 'Grocery' | 'Toiletry' | 'Pooja Item' | 'Other';
-  category: 'Dry Goods' | 'Fresh Produce' | 'Spices' | 'Cleaning' | 'Personal Care' | 'Ritual Supplies';
-  sub_category?: string;
-  quantity_available: number;
-  unit: 'kg' | 'g' | 'litre' | 'ml' | 'pieces' | 'packets';
-  location?: string;
-  restock_threshold?: number;
-  preferred_vendor?: string;
-  last_updated: string;
-  applicable_roles: string[]; // Array of roles that can see this record
-  added_by: string;
-  created_at: string;
-}
-
 export interface Task {
   id: string;
   type: 'Duty' | 'Responsibility' | 'Ritual';
@@ -117,29 +101,38 @@ export interface Task {
 
 export interface Activity {
   id: string;
-  type: 'Physical' | 'Mental' | 'Soulful';
-  category: 'Learning' | 'Crafting' | 'Sports' | 'Meditation' | 'Reading' | 'Music' | 'Art';
+  title?: string;
+  type: 'Physical' | 'Mental' | 'Soulful' | 'Spiritual' | 'Practical' | 'Creative' | 'Social' | 'Educational' | 'Health';
+  category: 'Learning' | 'Crafting' | 'Sports' | 'Meditation' | 'Reading' | 'Music' | 'Art' | 'Wellness' | 'Religious' | 'Education' | 'Household' | 'Arts' | 'Entertainment' | 'Culinary' | 'Medical';
   sub_category?: string;
   description: string;
-  participant: string;
-  frequency: 'Daily' | 'Weekly' | 'Monthly' | 'Ad-Hoc';
+  participant?: string;
+  assignedTo?: string;
+  frequency?: 'Daily' | 'Weekly' | 'Monthly' | 'Ad-Hoc';
   location?: string;
   time_of_day?: 'Morning' | 'Afternoon' | 'Evening' | 'Night';
-  alert_type: 'Reminder' | 'Alarm' | 'None';
-  applicable_roles: string[]; // Array of roles that can see this record
+  alert_type?: 'Reminder' | 'Alarm' | 'None';
+  applicable_roles?: string[]; // Array of roles that can see this record
   // Enhanced reminder fields
-  alert_enabled: boolean;
+  alert_enabled?: boolean;
   alert_time?: string;
   alert_location_lat?: number;
   alert_location_lng?: number;
   alert_radius_meters?: number;
   alert_message?: string;
   priority: 'Low' | 'Medium' | 'High' | 'Critical';
-  status: 'Scheduled' | 'In Progress' | 'Completed' | 'Cancelled';
+  status: 'Scheduled' | 'In Progress' | 'Completed' | 'Cancelled' | 'Pending';
   scheduled_date?: string;
+  dueDate?: string;
+  completedDate?: string;
   completed_at?: string;
-  created_by: string;
+  created_by?: string;
   created_at: string;
+  updatedAt?: string;
+  duration?: number;
+  participants?: string[];
+  notes?: string;
+  tags?: string[];
 }
 
 export interface Finance {
@@ -356,4 +349,26 @@ export interface LocationReminder {
   active: boolean;
   last_triggered?: string;
   created_at: string;
+}
+
+export interface InventoryItem {
+  id: string;
+  type: 'Food Ingredient' | 'Grocery' | 'Toiletry' | 'Pooja Item' | 'Other';
+  category: 'Dry Goods' | 'Fresh Produce' | 'Spices' | 'Cleaning' | 'Personal Care' | 'Ritual Supplies';
+  sub_category?: string;
+  quantity_available: number;
+  unit: 'g' | 'kg' | 'litre' | 'ml' | 'pieces' | 'packets';
+  location?: string;
+  restock_threshold?: number;
+  preferred_vendor?: string;
+  last_updated?: string;
+  applicable_roles: string[];
+  added_by: string;
+  created_at: string;
+}
+
+export interface VoiceIntent {
+  type: string;
+  confidence: number;
+  [key: string]: any; // Allow additional properties based on intent type
 }

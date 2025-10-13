@@ -827,9 +827,30 @@ class SQLiteService {
     }
   }
 
-  async getUserRole(): Promise<{role: string, dashboard: string} | null> {
-    const results = await this.executeQuery('SELECT role, dashboard FROM user_roles WHERE id = 1');
+  async getUserRole(): Promise<{role: string, user_id: string} | null> {
+    const results = await this.executeQuery('SELECT role, user_id FROM user_roles LIMIT 1');
     return results.length > 0 ? results[0] : null;
+  }
+
+  async saveUserRole(role: string, userId: string): Promise<void> {
+    try {
+      // First try to update existing record
+      const updateResult = await this.executeQuery(
+        'UPDATE user_roles SET role = ?, updated_at = ? WHERE user_id = ?',
+        [role, new Date().toISOString(), userId]
+      );
+      
+      if (updateResult.length === 0 || (updateResult[0] as any).changes === 0) {
+        // No existing record, insert new one
+        await this.executeQuery(
+          'INSERT INTO user_roles (role, user_id, created_at, updated_at) VALUES (?, ?, ?, ?)',
+          [role, userId, new Date().toISOString(), new Date().toISOString()]
+        );
+      }
+    } catch (error) {
+      console.error('Error saving user role:', error);
+      throw error;
+    }
   }
 
   // Family Members methods

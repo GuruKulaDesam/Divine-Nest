@@ -479,7 +479,7 @@ export class SQLiteTestDataSeeder {
       };
     } catch (error) {
       console.error('Failed to get data summary:', error);
-      return { error: error.message };
+      return { error: error instanceof Error ? error.message : String(error) };
     }
   }
 }

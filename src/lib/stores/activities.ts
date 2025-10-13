@@ -19,7 +19,7 @@ const sampleActivities: Activity[] = [
     participants: ['மகள்'],
     notes: 'Focused on breathing exercises and meditation',
     tags: ['yoga', 'wellness', 'morning'],
-    createdAt: '2025-01-15T06:00:00Z',
+    created_at: '2025-01-15T06:00:00Z',
     updatedAt: '2025-01-15T06:30:00Z',
     applicable_roles: ['mother', 'father', 'child', 'teenager']
   },
@@ -38,7 +38,7 @@ const sampleActivities: Activity[] = [
     participants: ['கணவர்', 'மகள்', 'மகன்', 'நான்'],
     notes: 'Include special prayers for family health',
     tags: ['temple', 'prayers', 'family'],
-    createdAt: '2025-01-10T10:00:00Z',
+    created_at: '2025-01-10T10:00:00Z',
     updatedAt: '2025-01-10T10:00:00Z',
     applicable_roles: ['mother', 'father', 'grandmother', 'grandfather']
   },
@@ -57,7 +57,7 @@ const sampleActivities: Activity[] = [
     participants: ['மகன்', 'கணவர்'],
     notes: 'Focus on opening strategies and endgame',
     tags: ['chess', 'education', 'practice'],
-    createdAt: '2025-01-12T14:00:00Z',
+    created_at: '2025-01-12T14:00:00Z',
     updatedAt: '2025-01-15T15:00:00Z',
     applicable_roles: ['child', 'teenager', 'father']
   },
@@ -76,7 +76,7 @@ const sampleActivities: Activity[] = [
     participants: ['நான்'],
     notes: 'Include vegetables, fruits, and cleaning supplies',
     tags: ['shopping', 'grocery', 'household'],
-    createdAt: '2025-01-14T09:00:00Z',
+    created_at: '2025-01-14T09:00:00Z',
     updatedAt: '2025-01-14T09:00:00Z',
     applicable_roles: ['mother', 'helper']
   },
@@ -95,7 +95,7 @@ const sampleActivities: Activity[] = [
     participants: ['மகள்'],
     notes: 'Practice Carnatic music ragas',
     tags: ['music', 'veena', 'practice'],
-    createdAt: '2025-01-13T16:00:00Z',
+    created_at: '2025-01-13T16:00:00Z',
     updatedAt: '2025-01-13T16:00:00Z',
     applicable_roles: ['child', 'teenager']
   },
@@ -114,7 +114,7 @@ const sampleActivities: Activity[] = [
     participants: ['கணவர்', 'மகன்'],
     notes: 'Water plants, remove weeds, check for pests',
     tags: ['garden', 'maintenance', 'plants'],
-    createdAt: '2025-01-08T08:00:00Z',
+    created_at: '2025-01-08T08:00:00Z',
     updatedAt: '2025-01-08T08:00:00Z',
     applicable_roles: ['father', 'child', 'helper']
   },
@@ -133,7 +133,7 @@ const sampleActivities: Activity[] = [
     participants: ['கணவர்', 'மகள்', 'மகன்', 'நான்'],
     notes: 'Choose a family-friendly movie with educational value',
     tags: ['movie', 'family', 'entertainment'],
-    createdAt: '2025-01-11T19:00:00Z',
+    created_at: '2025-01-11T19:00:00Z',
     updatedAt: '2025-01-11T19:00:00Z',
     applicable_roles: ['mother', 'father', 'child', 'teenager']
   },
@@ -153,7 +153,7 @@ const sampleActivities: Activity[] = [
     participants: ['நான்', 'மகள்', 'மகன்'],
     notes: 'Mathematics and science homework completed',
     tags: ['homework', 'education', 'help'],
-    createdAt: '2025-01-14T17:00:00Z',
+    created_at: '2025-01-14T17:00:00Z',
     updatedAt: '2025-01-14T18:30:00Z',
     applicable_roles: ['mother', 'father']
   },
@@ -172,7 +172,7 @@ const sampleActivities: Activity[] = [
     participants: ['மகள்', 'நான்'],
     notes: 'Learn to make authentic dosa and sambar',
     tags: ['cooking', 'traditional', 'learning'],
-    createdAt: '2025-01-09T11:00:00Z',
+    created_at: '2025-01-09T11:00:00Z',
     updatedAt: '2025-01-09T11:00:00Z',
     applicable_roles: ['mother', 'child', 'teenager']
   },
@@ -191,7 +191,7 @@ const sampleActivities: Activity[] = [
     participants: ['கணவர்', 'மகள்', 'மகன்', 'நான்'],
     notes: 'Complete health check-up including blood tests',
     tags: ['health', 'checkup', 'medical'],
-    createdAt: '2025-01-05T10:00:00Z',
+    created_at: '2025-01-05T10:00:00Z',
     updatedAt: '2025-01-05T10:00:00Z',
     applicable_roles: ['mother', 'father', 'child', 'teenager']
   }
@@ -245,11 +245,11 @@ export const activities = writable<Activity[]>(sampleActivities);
 
 // Store actions
 export const activityActions = {
-  add: (activity: Omit<Activity, 'id' | 'createdAt' | 'updatedAt'>) => {
+  add: (activity: Omit<Activity, 'id' | 'created_at' | 'updatedAt'>) => {
     const newActivity: Activity = {
       ...activity,
       id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
     activities.update(current => [...current, newActivity]);
@@ -301,6 +301,7 @@ export const activityActions = {
     let result: Activity[] = [];
     activities.subscribe(current => {
       result = current.filter(activity => {
+        if (!activity.dueDate) return false;
         const dueDate = new Date(activity.dueDate);
         return dueDate <= futureDate && activity.status !== 'Completed';
       });

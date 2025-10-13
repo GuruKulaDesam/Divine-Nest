@@ -1,4 +1,4 @@
-package com.gurukuladesam.divinenest;
+package com.gurukuladesam.divinenest.debug;
 
 import com.getcapacitor.BridgeActivity;
 

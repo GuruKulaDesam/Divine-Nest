@@ -317,7 +317,7 @@
               {/if}
               <div class="flex justify-between">
                 <span class="text-base-content/70">Last Updated:</span>
-                <span class="font-medium">{new Date(item.last_updated).toLocaleDateString()}</span>
+                <span class="font-medium">{item.last_updated ? new Date(item.last_updated).toLocaleDateString() : 'Never'}</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-base-content/70">Added By:</span>
