@@ -48,6 +48,12 @@ export const userProfileActions = {
     }
   },
 
+  init: () => {
+    if (browser) {
+      userProfileActions.loadProfile();
+    }
+  },
+
   resetProfile: () => {
     if (browser) {
       userProfile.set(defaultProfile);
@@ -56,7 +62,7 @@ export const userProfileActions = {
   }
 };
 
-// Load profile on initialization
-if (browser) {
-  userProfileActions.loadProfile();
-}
+// Load profile on initialization - MOVED TO INIT FUNCTION
+// if (browser) {
+//   userProfileActions.loadProfile();
+// }

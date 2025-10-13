@@ -1,23 +1,8 @@
 import { writable } from 'svelte/store'
 import type { Note } from '$lib/models'
 
-// Initialize with sample data
-const initialNotes: Note[] = [
-  {
-    id: '1',
-    content: 'Amma made sweet pongal today - it was delicious!',
-    timestamp: new Date().toISOString(),
-    emotionTag: 'joy',
-    voiceCreated: true
-  },
-  {
-    id: '2',
-    content: 'Need to organize the pooja room before Diwali',
-    timestamp: new Date().toISOString(),
-    emotionTag: 'gratitude',
-    voiceCreated: true
-  }
-]
+// Initialize with empty array for SSR compatibility
+const initialNotes: Note[] = []
 
 export const notes = writable<Note[]>(initialNotes)
 

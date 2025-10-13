@@ -1,25 +1,8 @@
 import { writable } from 'svelte/store'
 import type { Todo } from '$lib/models'
 
-// Initialize with some sample data
-const initialTodos: Todo[] = [
-  {
-    id: '1',
-    title: 'Buy onions and tomatoes',
-    category: 'grocery',
-    createdAt: new Date().toISOString(),
-    completed: false,
-    voiceCreated: true
-  },
-  {
-    id: '2',
-    title: 'Call Appa at 5 PM',
-    category: 'family',
-    createdAt: new Date().toISOString(),
-    completed: false,
-    voiceCreated: true
-  }
-]
+// Initialize with empty array for SSR compatibility
+const initialTodos: Todo[] = []
 
 export const todos = writable<Todo[]>(initialTodos)
 

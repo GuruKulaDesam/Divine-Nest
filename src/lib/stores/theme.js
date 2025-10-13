@@ -10,26 +10,28 @@ export const THEMES = {
   TRANSPARENT: 'transparent'
 };
 
-// Get initial theme from localStorage or default to light
-function getInitialTheme() {
-  if (browser) {
-    const stored = localStorage.getItem('theme');
-    if (stored && Object.values(THEMES).includes(stored)) {
-      return stored;
-    }
-    // Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return THEMES.DARK;
-    }
-  }
-  return THEMES.LIGHT;
-}
-
-// Create the theme store
-export const theme = writable(getInitialTheme());
+// Initialize with default value for SSR compatibility
+export const theme = writable(THEMES.LIGHT);
 
 // Theme actions
 export const themeActions = {
+  init: () => {
+    if (browser) {
+      const stored = localStorage.getItem('theme');
+      if (stored && Object.values(THEMES).includes(stored)) {
+        theme.set(stored);
+        document.documentElement.setAttribute('data-theme', stored);
+      } else {
+        // Check system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          theme.set(THEMES.DARK);
+          document.documentElement.setAttribute('data-theme', THEMES.DARK);
+        } else {
+          document.documentElement.setAttribute('data-theme', THEMES.LIGHT);
+        }
+      }
+    }
+  },
   toggle: () => {
     theme.update(current => {
       // Cycle through all themes

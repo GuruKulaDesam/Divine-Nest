@@ -19,6 +19,12 @@
                $theme === THEMES.TRANSPARENT ? Shivohm_Logo_White :
                Shivohm_Logo_Light; // fallback
 
+  // Time-based greeting
+  $: currentHour = new Date().getHours();
+  $: timeBasedGreeting = currentHour < 12 ? "Good Morning" :
+                        currentHour < 17 ? "Good Afternoon" :
+                        "Good Evening";
+
   const dispatch = createEventDispatcher();
 
   /* function handleCategoryClick(category) {
@@ -222,13 +228,13 @@
     <!-- Left Section: Logo and App Title -->
     <div class="flex items-center space-x-4 flex-shrink-0">
       <!-- Logo -->
-      <div class="relative flex items-center justify-center w-20 h-20 overflow-hidden">
-        <img src={logoSrc} alt="ShivohM Logo" class="w-18 h-18 object-contain" />
+      <div class="relative flex items-center justify-center w-24 h-24 overflow-hidden -ml-5">
+        <img src={logoSrc} alt="ShivohM Logo" class="w-22 h-22 object-contain" />
       </div>
 
       <!-- App Title - Two rows within logo height -->
-      <div class="flex flex-col justify-center h-20">
-        <span class="text-2xl font-bold bg-gradient-to-r from-slate-800 via-slate-900 to-slate-700 dark:from-slate-100 dark:via-white dark:to-slate-200 bg-clip-text text-transparent leading-tight tracking-wide font-sans">Home Management Suite</span>
+      <div class="flex flex-col justify-center h-24">
+        <span class="text-2xl font-bold bg-gradient-to-r from-slate-800 via-slate-900 to-slate-700 dark:from-slate-100 dark:via-white dark:to-slate-200 bg-clip-text text-transparent leading-tight tracking-wide font-sans">{timeBasedGreeting}</span>
         <span class="text-sm font-medium text-slate-600 dark:text-slate-300 leading-tight tracking-wide font-sans">Welcome, {$userProfile?.name || 'Family'}</span>
       </div>
     </div>

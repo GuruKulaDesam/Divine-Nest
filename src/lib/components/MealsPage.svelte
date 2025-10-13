@@ -188,16 +188,16 @@
 <div class="min-h-screen bg-gradient-to-br from-orange-50 to-red-100">
   <div class="container mx-auto px-4 py-6">
     <!-- Header Section -->
-    <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+    <div class="bg-white dark:bg-transparent rounded-xl shadow-lg p-6 mb-6 border dark:border-gray-700">
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-4">
-          <div class="bg-orange-100 p-3 rounded-lg">
-            <Icon icon="heroicons:fire" class="w-8 h-8 text-orange-600" />
+          <div class="bg-orange-100 dark:bg-orange-900/30 p-3 rounded-lg">
+            <Icon icon="heroicons:fire" class="w-8 h-8 text-orange-600 dark:text-orange-400" />
           </div>
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">���️ Meals & Nutrition</h1>
-            <p class="text-lg text-gray-600">உணவுகள் & ஊட்டச்சத்து</p>
-            <p class="text-sm text-gray-500">Plan nutritious meals and preserve traditional South Indian recipes</p>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">���️ Meals & Nutrition</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-300">உணவுகள் & ஊட்டச்சத்து</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Plan nutritious meals and preserve traditional South Indian recipes</p>
           </div>
         </div>
 
@@ -266,16 +266,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
       <!-- Sidebar Navigation -->
       <div class="lg:col-span-1">
-        <div class="bg-white rounded-xl shadow-lg p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+        <div class="bg-white dark:bg-transparent rounded-xl shadow-lg p-6 border dark:border-gray-700">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
             <Icon icon="heroicons:bars-3" class="w-5 h-5 mr-2" />
             Meal Sections
-            <span class="ml-2 text-sm text-gray-500">பிரிவுகள்</span>
+            <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">பிரிவுகள்</span>
           </h3>
 
           <nav class="space-y-2">
             {#each MealsSections as section}
-              <button on:click={() => switchSection(section.id)} class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all text-left {activeSection === section.id ? `bg-${section.color}-100 text-${section.color}-700 border-l-4 border-${section.color}-500` : 'text-gray-600 hover:bg-gray-50'}">
+              <button on:click={() => switchSection(section.id)} class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all text-left {activeSection === section.id ? `bg-${section.color}-100 dark:bg-${section.color}-900/30 text-${section.color}-700 dark:text-${section.color}-300 border-l-4 border-${section.color}-500` : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'}">
                 <Icon icon={section.icon} class="w-5 h-5 flex-shrink-0" />
                 <div class="flex-1 min-w-0">
                   <p class="font-medium truncate">{section.name}</p>
@@ -311,13 +311,13 @@
 
       <!-- Main Content -->
       <div class="lg:col-span-3">
-        <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="bg-white dark:bg-transparent rounded-xl shadow-lg p-6 border dark:border-gray-700">
           {#if activeSection === "overview"}
             <!-- Overview Dashboard -->
             <div class="space-y-6">
               <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-bold text-gray-900">Meals Overview</h2>
-                <span class="text-sm text-gray-500">உணவுகள் கண்ணோட்டம்</span>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Meals Overview</h2>
+                <span class="text-sm text-gray-500 dark:text-gray-400">உணவுகள் கண்ணோட்டம்</span>
               </div>
 
               <!-- Today's Progress -->
@@ -325,18 +325,18 @@
                 <h3 class="text-lg font-semibold text-orange-900 mb-3">Today's Meal Progress</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {#each todaysMeals as meal, index}
-                    <div class="bg-white p-4 rounded-lg shadow-sm {meal.completed ? 'border-l-4 border-green-500' : 'border-l-4 border-gray-300'}">
+                    <div class="bg-white dark:bg-gray-800/50 p-4 rounded-lg shadow-sm {meal.completed ? 'border-l-4 border-green-500' : 'border-l-4 border-gray-300 dark:border-gray-600'}">
                       <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center space-x-3">
-                          <Icon icon={meal.completed ? "heroicons:check-circle" : "heroicons:clock"} class="w-6 h-6 {meal.completed ? 'text-green-600' : 'text-gray-400'}" />
+                          <Icon icon={meal.completed ? "heroicons:check-circle" : "heroicons:clock"} class="w-6 h-6 {meal.completed ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}" />
                           <div>
-                            <h4 class="font-semibold text-gray-900">{meal.meal}</h4>
-                            <p class="text-sm text-gray-600">{meal.time}</p>
+                            <h4 class="font-semibold text-gray-900 dark:text-white">{meal.meal}</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">{meal.time}</p>
                           </div>
                         </div>
-                        <span class="text-sm bg-orange-100 text-orange-800 px-2 py-1 rounded">{meal.calories} cal</span>
+                        <span class="text-sm bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 px-2 py-1 rounded">{meal.calories} cal</span>
                       </div>
-                      <ul class="text-sm text-gray-600 space-y-1">
+                      <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                         {#each meal.items as item}
                           <li>• {item}</li>
                         {/each}
@@ -351,14 +351,14 @@
                 <h3 class="text-lg font-semibold text-blue-900 mb-3">This Week's Meals</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7 gap-2">
                   {#each weeklyPlan.slice(0, 7) as day}
-                    <div class="bg-white p-3 rounded-lg text-center">
-                      <h4 class="font-semibold text-gray-900 text-sm">{day.day.slice(0, 3)}</h4>
-                      <div class="text-xs text-gray-600 mt-1">
+                    <div class="bg-white dark:bg-gray-800/50 p-3 rounded-lg text-center border dark:border-gray-600">
+                      <h4 class="font-semibold text-gray-900 dark:text-white text-sm">{day.day.slice(0, 3)}</h4>
+                      <div class="text-xs text-gray-600 dark:text-gray-300 mt-1">
                         {#each day.meals.slice(0, 2) as meal}
                           <div>{meal}</div>
                         {/each}
                         {#if day.meals.length > 2}
-                          <div class="text-gray-400">+{day.meals.length - 2} more</div>
+                          <div class="text-gray-400 dark:text-gray-500">+{day.meals.length - 2} more</div>
                         {/if}
                       </div>
                     </div>
@@ -371,12 +371,12 @@
                 <h3 class="text-lg font-semibold text-purple-900 mb-3">Featured Recipes</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {#each recipes.slice(0, 4) as recipe}
-                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="bg-white dark:bg-gray-800/50 p-4 rounded-lg shadow-sm border dark:border-gray-600">
                       <div class="flex items-center justify-between mb-2">
-                        <h4 class="font-semibold text-gray-900">{recipe.name}</h4>
-                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">{recipe.category}</span>
+                        <h4 class="font-semibold text-gray-900 dark:text-white">{recipe.name}</h4>
+                        <span class="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 px-2 py-1 rounded">{recipe.category}</span>
                       </div>
-                      <div class="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                      <div class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300 mb-2">
                         <span class="flex items-center space-x-1">
                           <Icon icon="heroicons:clock" class="w-4 h-4" />
                           <span>{recipe.prepTime}</span>
@@ -396,18 +396,18 @@
           {:else if activeSection === "today"}
             <!-- Today's Meals -->
             <div class="space-y-4">
-              <h2 class="text-2xl font-bold text-gray-900">Today's Meal Plan</h2>
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Today's Meal Plan</h2>
               <div class="space-y-4">
                 {#each todaysMeals as meal, index}
-                  <div class="border rounded-lg p-4 {meal.completed ? 'bg-green-50 border-green-200' : 'bg-white'}">
+                  <div class="border rounded-lg p-4 {meal.completed ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700' : 'bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-600'}">
                     <div class="flex items-center justify-between mb-2">
                       <div class="flex items-center gap-3">
-                        <h3 class="font-semibold text-lg">{meal.meal}</h3>
-                        <span class="text-sm text-gray-600">{meal.time}</span>
-                        <span class="text-sm bg-orange-100 text-orange-800 px-2 py-1 rounded">{meal.calories} cal</span>
+                        <h3 class="font-semibold text-lg text-gray-900 dark:text-white">{meal.meal}</h3>
+                        <span class="text-sm text-gray-600 dark:text-gray-300">{meal.time}</span>
+                        <span class="text-sm bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 px-2 py-1 rounded">{meal.calories} cal</span>
                       </div>
                       <button
-                        class="px-3 py-1 rounded {meal.completed ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'}"
+                        class="px-3 py-1 rounded {meal.completed ? 'bg-green-600 dark:bg-green-700 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300'}"
                         on:click={() => markMealComplete(index)}
                       >
                         {meal.completed ? 'Completed' : 'Mark Complete'}

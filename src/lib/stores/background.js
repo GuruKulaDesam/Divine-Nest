@@ -23,22 +23,19 @@ export const BACKGROUNDS = {
   AUTUMN: 'autumn'
 };
 
-// Get initial background from secure storage or default to mountain
-function getInitialBackground() {
-  if (browser) {
-    const stored = secureStorage.getItem(StorageKeys.BACKGROUND, false);
-    if (stored && Object.values(BACKGROUNDS).includes(stored)) {
-      return stored;
-    }
-  }
-  return BACKGROUNDS.NATURE;
-}
-
-// Create the background store
-export const background = writable(getInitialBackground());
+// Initialize with default value for SSR compatibility
+export const background = writable(BACKGROUNDS.NATURE);
 
 // Background actions
 export const backgroundActions = {
+  init: () => {
+    if (browser) {
+      const stored = secureStorage.getItem(StorageKeys.BACKGROUND, false);
+      if (stored && Object.values(BACKGROUNDS).includes(stored)) {
+        background.set(stored);
+      }
+    }
+  },
   toggle: () => {
     background.update(current => {
       // Cycle through all backgrounds

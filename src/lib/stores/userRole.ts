@@ -81,13 +81,25 @@ async function initializeFromSQLite() {
   }
 }
 
-// Initialize only in browser after component mount
-if (browser) {
-  // Use requestAnimationFrame to ensure DOM is ready
-  requestAnimationFrame(() => {
-    initializeFromSQLite();
-  });
-}
+// User role actions
+export const userRoleActions = {
+  init: async () => {
+    if (browser) {
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(async () => {
+        await initializeFromSQLite();
+      });
+    }
+  }
+};
+
+// Initialize only in browser after component mount - MOVED TO INIT FUNCTION
+// if (browser) {
+//   // Use requestAnimationFrame to ensure DOM is ready
+//   requestAnimationFrame(() => {
+//     initializeFromSQLite();
+//   });
+// }
 
 // Function to set user role
 export async function setUserRole(role: UserRole) {

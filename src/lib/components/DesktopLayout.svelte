@@ -9,12 +9,16 @@
   import { page } from "$app/stores";
   import { theme, themeActions } from "$lib/stores/theme";
   import { backgroundActions } from "$lib/stores/background";
+  import { userProfileActions } from "$lib/stores/userProfile";
+  import { userRoleActions } from "$lib/stores/userRole";
   import { onMount } from 'svelte';
 
   // Initialize stores on mount
-  onMount(() => {
+  onMount(async () => {
     themeActions.init();
     backgroundActions.init();
+    userProfileActions.init();
+    await userRoleActions.init();
   });
 
   // Reactive statement for current path
@@ -71,14 +75,14 @@
     <!-- Middle Container -->
     <div class="flex-1 flex flex-col overflow-hidden pt-32">
       <!-- Main content area -->
-      <main class="flex-1 scrollable-container bg-transparent">
+      <main class="flex-1 scrollable-container bg-white/10 dark:bg-gray-900/20 border-l border-white/20 dark:border-gray-700/30">
         {#if currentPath === "/"}
           <!-- Desktop dashboard with full sidebar -->
           <DashboardTiles />
         {:else}
           <!-- Content pages with breadcrumb -->
           <div class="p-8 relative">
-            <div class="content-container rounded-[2rem] border-0 p-8 mx-auto max-w-7xl">
+            <div class="content-container rounded-[2rem] border-0 p-8 mx-auto max-w-7xl bg-transparent">
               <!-- Breadcrumb Navigation -->
               <div class="flex mb-6 items-center space-x-2 text-sm">
                 <button on:click={() => goto("")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">

@@ -8,10 +8,17 @@
   import { page } from "$app/stores";
   import { theme, themeActions } from "$lib/stores/theme";
   import { backgroundActions } from "$lib/stores/background";
+  import { userProfileActions } from "$lib/stores/userProfile";
+  import { userRoleActions } from "$lib/stores/userRole";
+  import { onMount } from 'svelte';
 
-  // Initialize stores
-  themeActions.init();
-  backgroundActions.init();
+  // Initialize stores on mount
+  onMount(async () => {
+    themeActions.init();
+    backgroundActions.init();
+    userProfileActions.init();
+    await userRoleActions.init();
+  });
 
   // Reactive statement for current path
   $: currentPath = $page.url.pathname;

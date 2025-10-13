@@ -8,12 +8,16 @@
   import { page } from "$app/stores";
   import { theme, themeActions } from "$lib/stores/theme";
   import { backgroundActions } from "$lib/stores/background";
+  import { userProfileActions } from "$lib/stores/userProfile";
+  import { userRoleActions } from "$lib/stores/userRole";
   import { onMount } from 'svelte';
 
   // Initialize stores on mount
-  onMount(() => {
+  onMount(async () => {
     themeActions.init();
     backgroundActions.init();
+    userProfileActions.init();
+    await userRoleActions.init();
   });
 
   // Reactive statement for current path
@@ -102,7 +106,7 @@
 
     <!-- Main Content Area - Mobile optimized -->
     <div class="flex-1 flex flex-col overflow-hidden pt-16">
-      <main class="flex-1 mobile-scrollable-container bg-transparent">
+      <main class="flex-1 mobile-scrollable-container bg-white/10 dark:bg-gray-900/20">
         {#if currentPath === "/"}
           <!-- Mobile dashboard - simplified layout -->
           <div class="p-2">
@@ -111,7 +115,7 @@
         {:else}
           <!-- Mobile content pages -->
           <div class="p-2 relative">
-            <div class="content-container rounded-lg border-0 p-4 mx-auto max-w-full">
+            <div class="content-container rounded-lg border-0 p-4 mx-auto max-w-full bg-transparent">
               <!-- Mobile breadcrumb - simplified -->
               <div class="flex items-center space-x-2 text-xs mb-4">
                 <button on:click={() => goto("")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400">

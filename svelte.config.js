@@ -23,7 +23,7 @@ const config = {
 			base: ''
 		},
 		prerender: {
-			entries: ['*']
+			entries: []
 		}
 	}
 };
