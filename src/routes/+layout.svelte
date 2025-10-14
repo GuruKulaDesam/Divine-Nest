@@ -3,13 +3,52 @@
   import '$lib/i18n/index.js';
   import DesktopLayout from '$lib/components/DesktopLayout.svelte';
   import MobileLayout from '$lib/components/MobileLayout.svelte';
+  import VoiceAssistant from '$lib/components/VoiceAssistant.svelte';
   import { shouldUseDesktopLayout, shouldUseMobileLayout } from '$lib/utils/platform';
+  import { viewMode } from '$lib/stores/viewMode';
   import { base } from '$app/paths';
   import { userProfile } from '$lib/stores/userProfile';
 
   import { onMount } from 'svelte';
   import { crashAnalytics, setupGlobalErrorHandler } from '$lib/services/crashAnalytics';
   import { performanceMonitor } from '$lib/utils/performance';
+
+  // Voice Assistant state
+  let showVoiceAssistant = false;
+  let conversation = [];
+  let isListening = false;
+
+  // Double-tap detection
+  let lastTap = 0;
+  let tapCount = 0;
+
+  function handleDoubleTap() {
+    const currentTime = new Date().getTime();
+    const tapGap = currentTime - lastTap;
+
+    if (tapGap < 300 && tapGap > 0) {
+      tapCount++;
+      if (tapCount === 2) {
+        // Double tap detected
+        showVoiceAssistant = true;
+        tapCount = 0;
+      }
+    } else {
+      tapCount = 1;
+    }
+
+    lastTap = currentTime;
+  }
+
+  function handleVoiceAssistantClose() {
+    showVoiceAssistant = false;
+    conversation = [];
+    isListening = false;
+  }
+
+  // Reactive layout determination based on viewMode store
+  $: useDesktopLayout = shouldUseDesktopLayout();
+  $: useMobileLayout = shouldUseMobileLayout();
 
   onMount(async () => {
     // Initialize crash analytics
@@ -52,15 +91,19 @@
           console.error('[PWA] Service Worker registration failed:', error);
         });
     }
+
+    // Add double-tap listener to document body
+    document.body.addEventListener('touchstart', handleDoubleTap);
+    document.body.addEventListener('click', handleDoubleTap);
   });
 </script>
 
-{#if shouldUseDesktopLayout()}
+{#if useDesktopLayout}
   <!-- Desktop/Web Layout - Full featured with sidebar -->
   <DesktopLayout>
     <slot />
   </DesktopLayout>
-{:else if shouldUseMobileLayout()}
+{:else if useMobileLayout}
   <!-- Mobile/Android Layout - Touch optimized -->
   <MobileLayout>
     <slot />
@@ -71,3 +114,11 @@
     <slot />
   </DesktopLayout>
 {/if}
+
+<!-- Voice Assistant Overlay -->
+<VoiceAssistant
+  bind:isVisible={showVoiceAssistant}
+  bind:conversation
+  bind:isListening
+  on:close={handleVoiceAssistantClose}
+/>

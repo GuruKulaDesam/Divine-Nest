@@ -5,6 +5,7 @@
   import { theme, themeActions, THEMES } from "$lib/stores/theme.js";
   import { background, backgroundActions, BACKGROUNDS } from "$lib/stores/background.js";
   import { userProfile, userProfileActions } from "$lib/stores/userProfile";
+  import { viewMode, viewModeActions } from "$lib/stores/viewMode.js";
   import PrivacyControls from "./PrivacyControls.svelte";
 
   // AI Settings
@@ -196,7 +197,7 @@
   ];
 
   // Active section
-  let activeSection = "ai";
+  let activeSection = "display";
 
   // Functions
   function saveSettings() {
@@ -236,6 +237,7 @@
   }
 </script>
 
+<div>
 <main class="settings-container">
   <div class="max-w-6xl mx-auto p-6">
     <!-- Header -->
@@ -673,6 +675,81 @@
                 </p>
               </div>
 
+              <!-- View Mode Selector -->
+              <div class="md:col-span-2 border-2 border-purple-200 dark:border-purple-700 rounded-lg p-4 bg-purple-50/50 dark:bg-purple-900/10">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+                  <Icon icon="heroicons:arrows-right-left" class="w-5 h-5 mr-2 text-purple-600" />
+                  View Mode Toggle
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <button
+                    class="relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 bg-gray-50 dark:bg-gray-700 {$viewMode === 'auto' ? 'ring-2 ring-green-500 border-green-500' : 'border-gray-200 dark:border-gray-600'}"
+                    on:click={() => viewModeActions.setAuto()}
+                  >
+                    <div class="flex flex-col items-center space-y-3">
+                      <Icon icon="heroicons:adjustments-horizontal" class="w-8 h-8" />
+                      <div class="text-center">
+                        <h3 class="font-semibold text-sm">Auto</h3>
+                        <p class="text-xs opacity-75 mt-1">Detect automatically</p>
+                      </div>
+                    </div>
+                    {#if $viewMode === 'auto'}
+                      <div class="absolute top-2 right-2 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                        <Icon icon="heroicons:check" class="w-3 h-3 text-white" />
+                      </div>
+                    {/if}
+                  </button>
+
+                  <button
+                    class="relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 bg-blue-50 dark:bg-blue-900/20 {$viewMode === 'desktop' ? 'ring-2 ring-blue-500 border-blue-500' : 'border-gray-200 dark:border-gray-600'}"
+                    on:click={() => viewModeActions.setDesktop()}
+                  >
+                    <div class="flex flex-col items-center space-y-3">
+                      <Icon icon="heroicons:computer-desktop" class="w-8 h-8" />
+                      <div class="text-center">
+                        <h3 class="font-semibold text-sm">Desktop</h3>
+                        <p class="text-xs opacity-75 mt-1">Full sidebar layout</p>
+                      </div>
+                    </div>
+                    {#if $viewMode === 'desktop'}
+                      <div class="absolute top-2 right-2 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+                        <Icon icon="heroicons:check" class="w-3 h-3 text-white" />
+                      </div>
+                    {/if}
+                  </button>
+
+                  <button
+                    class="relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 bg-purple-50 dark:bg-purple-900/20 {$viewMode === 'mobile' ? 'ring-2 ring-purple-500 border-purple-500' : 'border-gray-200 dark:border-gray-600'}"
+                    on:click={() => viewModeActions.setMobile()}
+                  >
+                    <div class="flex flex-col items-center space-y-3">
+                      <Icon icon="heroicons:device-phone-mobile" class="w-8 h-8 text-purple-600" />
+                      <div class="text-center">
+                        <h3 class="font-semibold text-sm text-purple-700 dark:text-purple-300">Mobile</h3>
+                        <p class="text-xs opacity-75 mt-1 text-purple-600">Touch-optimized grid</p>
+                      </div>
+                    </div>
+                    {#if $viewMode === 'mobile'}
+                      <div class="absolute top-2 right-2 w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                        <Icon icon="heroicons:check" class="w-3 h-3 text-white" />
+                      </div>
+                    {/if}
+                  </button>
+                </div>
+                <div class="mt-4 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
+                  <p class="text-sm text-gray-600 dark:text-gray-400">
+                    <strong>Current mode:</strong> <span class="font-medium capitalize text-purple-600">{$viewMode}</span>
+                    {#if $viewMode === 'auto'}
+                      <span class="ml-2 text-green-600">(Auto-detecting based on device)</span>
+                    {:else if $viewMode === 'mobile'}
+                      <span class="ml-2 text-purple-600">(Mobile layout active)</span>
+                    {:else if $viewMode === 'desktop'}
+                      <span class="ml-2 text-blue-600">(Desktop layout active)</span>
+                    {/if}
+                  </p>
+                </div>
+              </div>
+
               <div>
                 <label for="display-language-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {$_("settings.language")}
@@ -838,10 +915,11 @@
         {$_("settings.import_settings")}
       </button>
     </div>
+    </div>
   </div>
-</div>
+  </div>
 </main>
-
+</div>
 <style>
   .settings-container {
     width: 100%;

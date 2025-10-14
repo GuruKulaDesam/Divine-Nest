@@ -81,61 +81,76 @@ export const backgroundActions = {
 function updateBackground(bg) {
   if (!browser) return;
 
-  const body = document.body;
-  const layout = document.querySelector('.nature-background') || document.querySelector('.mountain-background') || document.querySelector('.minimal-background');
+  // Find the background layer element
+  const backgroundLayer = document.querySelector('.nature-background') ||
+                         document.querySelector('.mountain-background') ||
+                         document.querySelector('.minimal-background') ||
+                         document.querySelector('[class*="background"]');
 
-  if (!layout) return;
+  if (!backgroundLayer) {
+    console.warn('Background layer not found');
+    return;
+  }
 
   // Remove existing background classes
-  layout.classList.remove('bg-transparent', 'mountain-background', 'nature-background', 'minimal-background', 'dark-background', 'light-background', 'gradient-background');
+  backgroundLayer.classList.remove(
+    'nature-background', 'mountain-background', 'minimal-background',
+    'dark-background', 'light-background', 'gradient-background',
+    'forest-background', 'ocean-background', 'sunset-background',
+    'dawn-background', 'night-background', 'desert-background',
+    'snow-background', 'autumn-background'
+  );
 
-  // Apply new background
+  // Apply new background based on selection
   switch (bg) {
     case BACKGROUNDS.TRANSPARENT:
-      layout.style.backgroundImage = 'none';
-      layout.style.background = 'transparent';
+      backgroundLayer.style.backgroundImage = 'none';
+      backgroundLayer.style.background = 'transparent';
+      backgroundLayer.classList.add('transparent-background');
       break;
     case BACKGROUNDS.MOUNTAIN:
-      layout.classList.add('mountain-background');
+      backgroundLayer.classList.add('mountain-background');
       break;
     case BACKGROUNDS.NATURE:
-      layout.classList.add('nature-background');
+      backgroundLayer.classList.add('nature-background');
       break;
     case BACKGROUNDS.MINIMAL:
-      layout.classList.add('minimal-background');
+      backgroundLayer.classList.add('minimal-background');
       break;
     case BACKGROUNDS.DARK:
-      layout.classList.add('dark-background');
+      backgroundLayer.classList.add('dark-background');
       break;
     case BACKGROUNDS.LIGHT:
-      layout.classList.add('light-background');
+      backgroundLayer.classList.add('light-background');
       break;
     case BACKGROUNDS.GRADIENT:
-      layout.classList.add('gradient-background');
+      backgroundLayer.classList.add('gradient-background');
       break;
     case BACKGROUNDS.FOREST:
-      layout.classList.add('forest-background');
+      backgroundLayer.classList.add('forest-background');
       break;
     case BACKGROUNDS.OCEAN:
-      layout.classList.add('ocean-background');
+      backgroundLayer.classList.add('ocean-background');
       break;
     case BACKGROUNDS.SUNSET:
-      layout.classList.add('sunset-background');
+      backgroundLayer.classList.add('sunset-background');
       break;
     case BACKGROUNDS.DAWN:
-      layout.classList.add('dawn-background');
+      backgroundLayer.classList.add('dawn-background');
       break;
     case BACKGROUNDS.NIGHT:
-      layout.classList.add('night-background');
+      backgroundLayer.classList.add('night-background');
       break;
     case BACKGROUNDS.DESERT:
-      layout.classList.add('desert-background');
+      backgroundLayer.classList.add('desert-background');
       break;
     case BACKGROUNDS.SNOW:
-      layout.classList.add('snow-background');
+      backgroundLayer.classList.add('snow-background');
       break;
     case BACKGROUNDS.AUTUMN:
-      layout.classList.add('autumn-background');
+      backgroundLayer.classList.add('autumn-background');
       break;
+    default:
+      backgroundLayer.classList.add('nature-background');
   }
 }

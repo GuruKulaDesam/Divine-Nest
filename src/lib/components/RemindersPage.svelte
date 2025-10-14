@@ -16,8 +16,9 @@
     dueDate: "",
     dueTime: "",
     priority: "medium",
-    notificationType: "sound", // sms, sound, call
+    alertTypes: ["sound"], // Multiple alert types
     phoneNumber: "",
+    email: "",
     isActive: true,
   };
 
@@ -48,6 +49,28 @@
     console.log(`SMS sent to ${phoneNumber}: ${message}`);
   }
 
+  function sendEmail(email, subject, message) {
+    // In a real app, this would integrate with an email service
+    alert(`Email would be sent to ${email}:\nSubject: ${subject}\n${message}`);
+    console.log(`Email sent to ${email}: ${subject} - ${message}`);
+  }
+
+  function showWindowsNotification(title, body) {
+    // Use browser notification as Windows notification fallback
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(title, { body: body, icon: '🔔' });
+      console.log(`Windows notification: ${title} - ${body}`);
+    } else {
+      alert(`Windows notification: ${title}\n${body}`);
+    }
+  }
+
+  function sendPhoneMessage(phoneNumber, message) {
+    // Phone messages are similar to SMS but might use different service
+    alert(`Phone message would be sent to ${phoneNumber}: ${message}`);
+    console.log(`Phone message sent to ${phoneNumber}: ${message}`);
+  }
+
   function makeCall(phoneNumber) {
     // In a real app, this would integrate with a calling service
     // For demo purposes, we'll try to open tel: link
@@ -61,23 +84,61 @@
   function triggerNotification(reminder) {
     const message = `${reminder.title}: ${reminder.description}`;
 
-    switch (reminder.notificationType) {
-      case "sound":
-        playSound();
-        if ("Notification" in window && Notification.permission === "granted") {
-          new Notification(reminder.title, { body: reminder.description });
+    // Handle multiple alert types
+    if (reminder.alertTypes && reminder.alertTypes.length > 0) {
+      reminder.alertTypes.forEach(alertType => {
+        switch (alertType) {
+          case "sound":
+            playSound();
+            if ("Notification" in window && Notification.permission === "granted") {
+              new Notification(reminder.title, { body: reminder.description });
+            }
+            break;
+          case "sms":
+            if (reminder.phoneNumber) {
+              sendSMS(reminder.phoneNumber, message);
+            }
+            break;
+          case "phoneCall":
+            if (reminder.phoneNumber) {
+              makeCall(reminder.phoneNumber);
+            }
+            break;
+          case "email":
+            if (reminder.email) {
+              sendEmail(reminder.email, `Reminder: ${reminder.title}`, message);
+            }
+            break;
+          case "windowsNotification":
+            showWindowsNotification(reminder.title, reminder.description);
+            break;
+          case "phoneMessage":
+            if (reminder.phoneNumber) {
+              sendPhoneMessage(reminder.phoneNumber, message);
+            }
+            break;
         }
-        break;
-      case "sms":
-        if (reminder.phoneNumber) {
-          sendSMS(reminder.phoneNumber, message);
-        }
-        break;
-      case "call":
-        if (reminder.phoneNumber) {
-          makeCall(reminder.phoneNumber);
-        }
-        break;
+      });
+    } else {
+      // Legacy single notification type support
+      switch (reminder.notificationType) {
+        case "sound":
+          playSound();
+          if ("Notification" in window && Notification.permission === "granted") {
+            new Notification(reminder.title, { body: reminder.description });
+          }
+          break;
+        case "sms":
+          if (reminder.phoneNumber) {
+            sendSMS(reminder.phoneNumber, message);
+          }
+          break;
+        case "call":
+          if (reminder.phoneNumber) {
+            makeCall(reminder.phoneNumber);
+          }
+          break;
+      }
     }
   }
 
@@ -342,24 +403,35 @@
     }
   }
 
-  function getTypeIcon(type) {
-    switch (type) {
-      case "note":
-        return "📝";
-      case "event":
-        return "📅";
-      case "followup":
-        return "🔄";
-      default:
-        return "🔔";
+  function getAlertTypeIcon(alertType) {
+    switch (alertType) {
+      case "sound": return "🔊";
+      case "sms": return "📱";
+      case "phoneCall": return "�";
+      case "email": return "📧";
+      case "windowsNotification": return "🖥️";
+      case "phoneMessage": return "�";
+      default: return "🔔";
+    }
+  }
+
+  function getAlertTypeLabel(alertType) {
+    switch (alertType) {
+      case "sound": return "Sound";
+      case "sms": return "SMS";
+      case "phoneCall": return "Call";
+      case "email": return "Email";
+      case "windowsNotification": return "Windows";
+      case "phoneMessage": return "Message";
+      default: return alertType;
     }
   }
 </script>
 
-<div class="reminders-page min-h-screen nature-background p-6" style="--background-png: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+<div class="reminders-page min-h-screen p-6 bg-transparent">
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
-    <div class="text-center mb-8">
+    <div class="text-center mb-8 glass-level-3 rounded-lg p-4">
       <h1 class="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-3">
         <span class="text-5xl">🔔</span>
         Smart Reminders
@@ -383,7 +455,7 @@
 
     <!-- Manual Reminder Form -->
     {#if showManualForm}
-      <div class="manual-form-card backdrop-blur-lg bg-white/15 border border-white/30 rounded-2xl p-6 mb-6 shadow-2xl">
+      <div class="manual-form-card border border-white/20 rounded-2xl p-6 mb-6 bg-transparent">
         <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
           <span class="text-purple-400">📝</span> Create Manual Reminder
         </h3>
@@ -418,26 +490,44 @@
             <input type="time" bind:value={manualReminder.dueTime} class="input w-full bg-white/10 border-white/20 text-white" />
           </label>
           <label class="text-white/80">
-            Notification Type
-            <div class="flex flex-col gap-2 mt-2">
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" bind:group={manualReminder.notificationType} value="sound" class="radio radio-primary" />
+            Alert Types (Multiple Selection)
+            <div class="grid grid-cols-1 gap-2 mt-2 max-h-40 overflow-y-auto">
+              <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-white/5">
+                <input type="checkbox" bind:group={manualReminder.alertTypes} value="sound" class="checkbox checkbox-primary" />
                 <span class="text-sm">🔊 Sound + Browser Notification</span>
               </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" bind:group={manualReminder.notificationType} value="sms" class="radio radio-primary" />
-                <span class="text-sm">📱 SMS</span>
+              <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-white/5">
+                <input type="checkbox" bind:group={manualReminder.alertTypes} value="sms" class="checkbox checkbox-primary" />
+                <span class="text-sm">📱 SMS Alert</span>
               </label>
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" bind:group={manualReminder.notificationType} value="call" class="radio radio-primary" />
-                <span class="text-sm">📞 Call</span>
+              <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-white/5">
+                <input type="checkbox" bind:group={manualReminder.alertTypes} value="phoneCall" class="checkbox checkbox-primary" />
+                <span class="text-sm">📞 Phone Call Alert</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-white/5">
+                <input type="checkbox" bind:group={manualReminder.alertTypes} value="email" class="checkbox checkbox-primary" />
+                <span class="text-sm">� Email Alert</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-white/5">
+                <input type="checkbox" bind:group={manualReminder.alertTypes} value="windowsNotification" class="checkbox checkbox-primary" />
+                <span class="text-sm">🖥️ Windows Notification</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-white/5">
+                <input type="checkbox" bind:group={manualReminder.alertTypes} value="phoneMessage" class="checkbox checkbox-primary" />
+                <span class="text-sm">� Phone Message Alert</span>
               </label>
             </div>
           </label>
-          {#if manualReminder.notificationType !== "sound"}
+          {#if manualReminder.alertTypes.includes("sms") || manualReminder.alertTypes.includes("phoneCall") || manualReminder.alertTypes.includes("phoneMessage")}
             <label class="text-white/80">
               Phone Number
               <input type="tel" bind:value={manualReminder.phoneNumber} placeholder="+1234567890" class="input w-full bg-white/10 border-white/20 text-white placeholder-white/50" />
+            </label>
+          {/if}
+          {#if manualReminder.alertTypes.includes("email")}
+            <label class="text-white/80">
+              Email Address
+              <input type="email" bind:value={manualReminder.email} placeholder="user@example.com" class="input w-full bg-white/10 border-white/20 text-white placeholder-white/50" />
             </label>
           {/if}
           <label class="md:col-span-2 text-white/80">
@@ -458,7 +548,7 @@
     {#if $reminders.length > 0}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {#each $reminders as reminder}
-          <div class="reminder-card backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:transform hover:scale-105">
+          <div class="reminder-card border border-white/20 rounded-2xl p-6 bg-transparent hover:border-white/40 transition-all duration-300 hover:transform hover:scale-105">
             <!-- Header -->
             <div class="flex items-start justify-between mb-4">
               <div class="flex items-center gap-3">
@@ -473,8 +563,12 @@
                   <button class="btn btn-ghost btn-sm text-white/60 hover:text-white" on:click={() => toggleReminderActive(reminder.id)} title={reminder.isActive ? "Disable reminder" : "Enable reminder"}>
                     {reminder.isActive ? "🔊" : "🔇"}
                   </button>
-                  <button class="btn btn-primary btn-sm" on:click={() => triggerManualReminder(reminder)} disabled={!reminder.isActive} title="Trigger notification">
-                    {reminder.notificationType === "sound" ? "🔊" : reminder.notificationType === "sms" ? "📱" : "📞"}
+                  <button class="btn btn-primary btn-sm" on:click={() => triggerManualReminder(reminder)} disabled={!reminder.isActive} title="Trigger all selected alerts">
+                    {#if reminder.alertTypes && reminder.alertTypes.length > 0}
+                      {reminder.alertTypes.length > 1 ? "🚀" : getAlertTypeIcon(reminder.alertTypes[0])}
+                    {:else}
+                      {reminder.notificationType === "sound" ? "🔊" : reminder.notificationType === "sms" ? "📱" : "📞"}
+                    {/if}
                   </button>
                 {/if}
                 <button class="btn btn-ghost btn-sm text-white/60 hover:text-red-400" on:click={() => dismissReminder(reminder.id)} aria-label="Dismiss reminder"> ✕ </button>
@@ -484,20 +578,31 @@
             <!-- Content -->
             <p class="text-white/80 mb-4 leading-relaxed">{reminder.description}</p>
 
-            <!-- Notification Info for Manual Reminders -->
+            <!-- Alert Types Info for Manual Reminders -->
             {#if reminder.type === "manual"}
               <div class="mb-4 p-3 bg-white/5 rounded-lg border border-white/10">
-                <div class="flex items-center gap-2 text-sm text-white/70">
-                  <span class="font-medium">Notification:</span>
-                  <span class="px-2 py-1 bg-white/10 rounded text-xs">
-                    {reminder.notificationType === "sound" ? "🔊 Sound + Browser" : reminder.notificationType === "sms" ? "📱 SMS" : "📞 Call"}
-                    {#if reminder.phoneNumber}
-                      ({reminder.phoneNumber})
-                    {/if}
-                  </span>
-                  <span class="ml-auto text-xs {reminder.isActive ? 'text-green-400' : 'text-red-400'}">
-                    {reminder.isActive ? "Active" : "Inactive"}
-                  </span>
+                <div class="flex items-center gap-2 text-sm text-white/70 mb-2">
+                  <span class="font-medium">Alert Types:</span>
+                </div>
+                <div class="flex flex-wrap gap-1">
+                  {#if reminder.alertTypes && reminder.alertTypes.length > 0}
+                    {#each reminder.alertTypes as alertType}
+                      <span class="px-2 py-1 bg-white/10 rounded text-xs">
+                        {getAlertTypeIcon(alertType)} {getAlertTypeLabel(alertType)}
+                      </span>
+                    {/each}
+                  {:else}
+                    <!-- Legacy support for single notification type -->
+                    <span class="px-2 py-1 bg-white/10 rounded text-xs">
+                      {reminder.notificationType === "sound" ? "🔊 Sound + Browser" : reminder.notificationType === "sms" ? "📱 SMS" : "📞 Call"}
+                      {#if reminder.phoneNumber}
+                        ({reminder.phoneNumber})
+                      {/if}
+                    </span>
+                  {/if}
+                </div>
+                <div class="mt-2 text-xs {reminder.isActive ? 'text-green-400' : 'text-red-400'}">
+                  {reminder.isActive ? "Active" : "Inactive"}
                 </div>
               </div>
             {/if}
@@ -626,23 +731,20 @@
   }
 
   .reminder-card {
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: transparent !important;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
 
   .reminder-card:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
   }
 
   .manual-form-card {
-    backdrop-filter: blur(20px);
+    background: transparent !important;
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 32px;
@@ -653,7 +755,7 @@
   .input,
   .select,
   .textarea {
-    background: rgba(255, 255, 255, 0.1);
+    background: transparent !important;
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
   }
@@ -661,7 +763,7 @@
   .input:focus,
   .select:focus,
   .textarea:focus {
-    background: rgba(255, 255, 255, 0.15);
+    background: transparent !important;
     border-color: rgba(255, 255, 255, 0.4);
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
   }

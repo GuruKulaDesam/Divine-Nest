@@ -456,7 +456,7 @@
   <div class="max-w-7xl mx-auto">
     <!-- Welcome Header -->
     <div class="mb-8">
-      <div class="bg-white dark:bg-gray-800 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100 dark:border-gray-700">
+      <div class="glass-level-3 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl">
         <div class="flex items-center justify-between">
           <div>
             <h1 class="text-4xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-3">
@@ -502,7 +502,7 @@
 
       <!-- Critical Tasks Alert -->
       {#if dailyTasks.filter(t => t.status === 'pending' && t.priority === 'high').length > 0}
-        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg lg:rounded-2xl p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6 shadow-xl border-4 border-orange-300">
+        <div class="border-4 border-orange-300/50 bg-transparent text-white rounded-lg lg:rounded-2xl p-3 sm:p-4 lg:p-6 mb-4 lg:mb-6">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
               <div class="p-3 bg-white rounded-full">
@@ -526,16 +526,16 @@
     <!-- 🎯 TODAY'S PRIORITIES - High Priority (Large Cards) -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-4 lg:mb-8">
       <!-- Today's Critical Priorities -->
-      <div class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl border-2 border-blue-200 dark:border-blue-800">
+      <div class="glass-level-2 rounded-lg lg:rounded-2xl p-4 sm:p-6 lg:p-8">
         <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
           <Icon icon="heroicons:clipboard-document-list" class="text-blue-600 text-3xl" />
           Today's Priorities
         </h3>
         <div class="space-y-4">
           {#each todaysPriorities.slice(0, 4) as priority}
-            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200 border-l-4 {priority.priority === 'high' ? 'border-red-500' : priority.priority === 'medium' ? 'border-yellow-500' : 'border-green-500'}">
+            <div class="flex items-center justify-between p-4 glass-level-1 rounded-xl hover:glass-level-2 transition-all duration-200 border-l-4 {priority.priority === 'high' ? 'border-red-500' : priority.priority === 'medium' ? 'border-yellow-500' : 'border-green-500'}">
               <div class="flex items-center gap-4">
-                <div class="p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                <div class="p-3 glass-level-3 rounded-lg shadow-sm">
                   <Icon icon={priority.icon} class="text-xl {priority.color}" />
                 </div>
                 <div class="flex-1">
@@ -560,15 +560,15 @@
         </div>
         <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
           <div class="grid grid-cols-3 gap-4 text-center">
-            <div class="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+            <div class="p-3 bg-transparent border border-red-200/30 dark:border-red-800/30 rounded-lg">
               <div class="text-2xl font-bold text-red-600 dark:text-red-400">{todaysPriorities.filter(p => p.priority === 'high').length}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400">High Priority</div>
             </div>
-            <div class="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+            <div class="p-3 bg-transparent border border-yellow-200/30 dark:border-yellow-800/30 rounded-lg">
               <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{todaysPriorities.filter(p => p.priority === 'medium').length}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400">Medium Priority</div>
             </div>
-            <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+            <div class="p-3 bg-transparent border border-green-200/30 dark:border-green-800/30 rounded-lg">
               <div class="text-2xl font-bold text-green-600 dark:text-green-400">{todaysPriorities.filter(p => p.priority === 'low').length}</div>
               <div class="text-sm text-gray-600 dark:text-gray-400">Low Priority</div>
             </div>
@@ -577,14 +577,14 @@
       </div>
 
       <!-- Upcoming Bills & Reminders -->
-      <div class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950 rounded-2xl p-8 shadow-2xl border-2 border-green-200 dark:border-green-800">
+      <div class="border border-green-200/50 dark:border-green-800/50 rounded-2xl p-8 bg-transparent">
         <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
           <Icon icon="heroicons:calendar-days" class="text-green-600 text-3xl" />
           Upcoming Bills & Reminders
         </h3>
         <div class="space-y-4 mb-6">
           {#each billsDue.filter(b => b.status !== 'paid').slice(0, 3) as bill}
-            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl border border-red-200 dark:border-red-800">
+            <div class="flex items-center justify-between p-4 bg-transparent border border-red-200/30 dark:border-red-800/30 rounded-xl">
               <div class="flex items-center gap-4">
                 <div class="p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                   <Icon icon={bill.icon} class="text-xl {bill.color}" />

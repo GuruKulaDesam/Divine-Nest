@@ -55,3 +55,32 @@ export function stopSpeechCapture() {
 export function isSpeechCapturing() {
   return isCapturing
 }
+
+// Voice capture object for easier usage
+export const voiceCapture = {
+  startListening: (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      startSpeechCapture({
+        lang: 'en-IN',
+        continuous: false,
+        onResult: (text: string) => {
+          resolve(text);
+        },
+        onError: (error: string) => {
+          reject(new Error(error));
+        },
+        onEnd: () => {
+          // Promise already resolved/rejected
+        }
+      });
+    });
+  },
+
+  stopListening: () => {
+    stopSpeechCapture();
+  },
+
+  isListening: () => {
+    return isSpeechCapturing();
+  }
+};

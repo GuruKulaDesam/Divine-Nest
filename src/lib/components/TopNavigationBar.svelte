@@ -222,9 +222,9 @@
   }
 </script>
 
-<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-white dark:bg-gray-900 border-b border-white dark:border-gray-700 z-50">
+<div class="excel-ribbon fixed top-0 left-0 right-0 w-screen bg-transparent border-b border-white/20 dark:border-gray-700/50 z-50">
   <!-- Main Ribbon Container -->
-  <div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-gradient-to-r from-white/20 via-transparent to-white/20">
+  <div class="flex items-center px-6 py-3 min-h-[70px] max-w-full bg-transparent">
     <!-- Left Section: Logo and App Title -->
     <div class="flex items-center space-x-4 flex-shrink-0">
       <!-- Logo -->
@@ -241,17 +241,17 @@
 
     <!-- Center Section: KPI Dashboard Cards -->
     <div class="flex-1 flex justify-center mx-6">
-      <div class="flex justify-center gap-4 max-w-full">
+      <div class="flex justify-center gap-6 max-w-full">
         {#each requestCategories as category}
-          <button type="button" class="group relative bg-transparent border border-white/30 dark:border-gray-600/50 rounded-lg pt-2.5 pb-3 px-2 aspect-square cursor-pointer transition-all duration-300 hover:scale-105 flex flex-col items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" on:click={() => handleCategoryClick(category)} on:mouseenter={handleHover}>
+          <button type="button" class="group relative glass-level-2 rounded-lg pt-2.5 pb-3 px-4 w-24 h-24 cursor-pointer transition-all duration-300 hover:scale-105 hover:glass-level-3 flex flex-col items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" on:click={() => handleCategoryClick(category)} on:mouseenter={handleHover}>
             <!-- Animated background on hover -->
-            <div class="absolute inset-0 bg-gradient-to-br {category.color} opacity-0 group-hover:opacity-20 rounded-md transition-all duration-300 group-hover:animate-pulse"></div>
+            <div class="absolute inset-0 bg-gradient-to-br {category.color} opacity-0 group-hover:opacity-10 rounded-md transition-all duration-300 group-hover:animate-pulse"></div>
 
             <!-- Content -->
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center w-full">
               <!-- Metric at the top -->
               <div class="mb-2">
-                <div class="bg-white dark:bg-gray-800 px-2 py-1 rounded-full transition-all duration-300">
+                <div class="glass-level-1 px-2 py-1 rounded-full transition-all duration-300">
                   <span class="text-[19.8px] font-sans font-bold {category.textColor} group-hover:scale-110 transition-transform duration-300" style="font-family: 'Segoe UI', 'Helvetica Neue', 'DIN Alternate', sans-serif;">{category.metric}</span>
                 </div>
               </div>
@@ -273,7 +273,7 @@
     <div class="flex items-center flex-shrink-0 gap-2">
       <!-- Profile Button -->
       <button
-        class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105"
+        class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-transparent border border-transparent hover:border-white/20 dark:hover:border-gray-600/50 transition-all duration-200 hover:scale-105"
         on:click={() => {
           homeSounds.playClick();
           goto('/profile').catch((error) => console.error("Navigation error:", error));
@@ -289,12 +289,12 @@
 
       <!-- Main Menu Button -->
       <div class="relative group">
-        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105" title="Menu" on:mouseenter={handleHover}>
+        <button class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white glass-level-1 hover:glass-level-2 border border-transparent hover:border-white/20 dark:hover:border-gray-600/50 transition-all duration-200 hover:scale-105" title="Menu" on:mouseenter={handleHover}>
           <Icon icon="heroicons:bars-3" class="w-6 h-6" style="color: currentColor; fill: currentColor;" />
         </button>
 
         <!-- Consolidated Menu Dropdown -->
-        <div class="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto">
+        <div class="absolute right-0 top-full mt-2 w-80 glass-level-4 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto">
           <div class="p-3">
             <!-- Search Section -->
             <div class="mb-4">

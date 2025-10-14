@@ -1,7 +1,7 @@
 <script>
   import TopNavigationBar from "./TopNavigationBar.svelte";
   import DashboardTiles from "./DashboardTiles.svelte";
-  import MobileNavigation from "./MobileNavigation.svelte";
+  import MobileHomeGrid from "./MobileHomeGrid.svelte";
   import LayoutSwitcher from "./LayoutSwitcher.svelte";
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
@@ -22,9 +22,6 @@
 
   // Reactive statement for current path
   $: currentPath = $page.url.pathname;
-
-  // Mobile-specific state
-  let showMobileMenu = false;
 
   // Handle actions from the top navigation bar
   function handleTopNavAction(event) {
@@ -61,27 +58,6 @@
     console.log(`Mobile Quick Action: ${action} from ${tile}`);
     // Handle quick actions (could show toast, modal, etc.)
   }
-
-  // Handle mobile navigation
-  function handleMobileNav(event) {
-    const { path } = event.detail;
-    if (path) {
-      goto(path).catch((error) => {
-        console.error("Mobile navigation error:", error);
-      });
-    }
-    showMobileMenu = false; // Close menu after navigation
-  }
-
-  // Handle mobile navigation close
-  function handleMobileNavClose() {
-    showMobileMenu = false;
-  }
-
-  // Toggle mobile menu
-  function toggleMobileMenu() {
-    showMobileMenu = !showMobileMenu;
-  }
 </script>
 
 <div class="relative flex flex-col h-screen bg-base-200" data-theme={$theme}>
@@ -95,23 +71,12 @@
       <TopNavigationBar on:action={handleTopNavAction} />
     </div>
 
-    <!-- Mobile Menu Overlay -->
-    {#if showMobileMenu}
-      <div class="fixed inset-0 z-40 bg-black bg-opacity-50" on:click={toggleMobileMenu} on:keydown={(e) => { if (e.key === 'Escape') toggleMobileMenu(); }} role="button" tabindex="0" aria-label="Close mobile menu">
-        <div class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-3xl p-6" on:click|stopPropagation>
-          <MobileNavigation on:navigate={handleMobileNav} on:close={handleMobileNavClose} />
-        </div>
-      </div>
-    {/if}
-
     <!-- Main Content Area - Mobile optimized -->
     <div class="flex-1 flex flex-col overflow-hidden pt-16">
       <main class="flex-1 mobile-scrollable-container bg-white/10 dark:bg-gray-900/20">
         {#if currentPath === "/"}
-          <!-- Mobile dashboard - simplified layout -->
-          <div class="p-2">
-            <DashboardTiles on:action={handleTopNavAction} on:quickAction={handleQuickAction} />
-          </div>
+          <!-- Mobile dashboard - simple 12-tile grid -->
+          <MobileHomeGrid />
         {:else}
           <!-- Mobile content pages -->
           <div class="p-2 relative">
@@ -136,7 +101,7 @@
       </main>
     </div>
 
-    <!-- Mobile Bottom Navigation - 5 Menu Design -->
+    <!-- Mobile Bottom Navigation - 4 Menu Design -->
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
       <div class="flex justify-around items-center py-2 px-2 safe-area-bottom">
         <!-- Home -->
@@ -149,16 +114,6 @@
           <span class="text-xs font-medium">Home</span>
         </button>
 
-        <!-- Family -->
-        <button
-          on:click={() => goto("/members")}
-          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath.startsWith('/members') || $currentPath.startsWith('/home/members') ? 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20' : 'text-gray-600 dark:text-gray-400'}"
-          aria-label="Family"
-        >
-          <Icon icon="heroicons:users" class="w-6 h-6" />
-          <span class="text-xs font-medium">Family</span>
-        </button>
-
         <!-- Tasks -->
         <button
           on:click={() => goto("/todo")}
@@ -169,6 +124,16 @@
           <span class="text-xs font-medium">Tasks</span>
         </button>
 
+        <!-- Alerts -->
+        <button
+          on:click={() => goto("/alerts")}
+          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath.startsWith('/alerts') ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20' : 'text-gray-600 dark:text-gray-400'}"
+          aria-label="Alerts"
+        >
+          <Icon icon="heroicons:bell-alert" class="w-6 h-6" />
+          <span class="text-xs font-medium">Alerts</span>
+        </button>
+
         <!-- Assistant -->
         <button
           on:click={() => goto("/assistant")}
@@ -176,17 +141,7 @@
           aria-label="AI Assistant"
         >
           <Icon icon="heroicons:sparkles" class="w-6 h-6" />
-          <span class="text-xs font-medium">AI</span>
-        </button>
-
-        <!-- Settings -->
-        <button
-          on:click={() => goto("/settings")}
-          class="flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 {$currentPath.startsWith('/settings') ? 'text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50' : 'text-gray-600 dark:text-gray-400'}"
-          aria-label="Settings"
-        >
-          <Icon icon="heroicons:cog-6-tooth" class="w-6 h-6" />
-          <span class="text-xs font-medium">Settings</span>
+          <span class="text-xs font-medium">Assistant</span>
         </button>
       </div>
     </div>

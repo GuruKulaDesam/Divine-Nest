@@ -24,6 +24,9 @@ const config = {
 		},
 		prerender: {
 			entries: []
+		},
+		serviceWorker: {
+			files: (filepath) => !/\.DS_Store$/.test(filepath)
 		}
 	}
 };

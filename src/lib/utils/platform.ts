@@ -4,6 +4,8 @@
  */
 
 import { Capacitor } from '@capacitor/core';
+import { get } from 'svelte/store';
+import { viewMode } from '$lib/stores/viewMode';
 
 /**
  * Check if we're running on a mobile platform (Android/iOS via Capacitor)
@@ -52,15 +54,14 @@ export function getPlatform(): 'web' | 'android' | 'ios' {
 /**
  * Determine if we should use mobile layout
  * True for native mobile apps, false for web (regardless of screen size)
- * Respects manual override from localStorage
+ * Respects manual override from viewMode store
  */
 export function shouldUseMobileLayout(): boolean {
+  const currentViewMode = get(viewMode);
+
   // Check for manual override
-  if (typeof window !== 'undefined') {
-    const override = localStorage.getItem('layout-preference');
-    if (override === 'mobile') return true;
-    if (override === 'desktop') return false;
-  }
+  if (currentViewMode === 'mobile') return true;
+  if (currentViewMode === 'desktop') return false;
 
   // Default auto-detection
   return isMobilePlatform();
@@ -69,15 +70,14 @@ export function shouldUseMobileLayout(): boolean {
 /**
  * Determine if we should use desktop layout
  * True for web platforms, false for native mobile apps
- * Respects manual override from localStorage
+ * Respects manual override from viewMode store
  */
 export function shouldUseDesktopLayout(): boolean {
+  const currentViewMode = get(viewMode);
+
   // Check for manual override
-  if (typeof window !== 'undefined') {
-    const override = localStorage.getItem('layout-preference');
-    if (override === 'desktop') return true;
-    if (override === 'mobile') return false;
-  }
+  if (currentViewMode === 'desktop') return true;
+  if (currentViewMode === 'mobile') return false;
 
   // Default auto-detection
   return isWebPlatform();

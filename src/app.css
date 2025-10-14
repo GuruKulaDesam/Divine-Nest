@@ -183,4 +183,83 @@
   .dropdown-scroll {
     @apply overflow-y-auto overflow-x-hidden custom-scrollbar max-h-80;
   }
+
+  /* Glassmorphism Levels for UI Differentiation */
+  /* Level 1: Subtle glass (lowest opacity) */
+  .glass-level-1 {
+    background: rgba(255, 255, 255, 0.05) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  /* Level 2: Medium glass */
+  .glass-level-2 {
+    background: rgba(255, 255, 255, 0.08) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Level 3: Strong glass */
+  .glass-level-3 {
+    background: rgba(255, 255, 255, 0.12) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  /* Level 4: Very strong glass (for modals/popups) */
+  .glass-level-4 {
+    background: rgba(255, 255, 255, 0.15) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Dark mode glassmorphism adjustments */
+  [data-theme="dark"] .glass-level-1 {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  [data-theme="dark"] .glass-level-2 {
+    background: rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+
+  [data-theme="dark"] .glass-level-3 {
+    background: rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  }
+
+  [data-theme="dark"] .glass-level-4 {
+    background: rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  }
+
+  /* Transparent mode glassmorphism (when explicitly applied) */
+  [data-theme="transparent"] .glass-level-1 {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  [data-theme="transparent"] .glass-level-2 {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+
+  [data-theme="transparent"] .glass-level-3 {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  }
+
+  [data-theme="transparent"] .glass-level-4 {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  }
 }
