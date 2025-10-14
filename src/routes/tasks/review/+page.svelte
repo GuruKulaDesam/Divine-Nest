@@ -6,7 +6,6 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   let searchTerm = '';
   let statusFilter = 'all';
@@ -175,8 +174,6 @@
 
 <div class="min-h-screen bg-base-200 p-4">
   <div class="max-w-7xl mx-auto space-y-6">
-
-    <Breadcrumb currentPage="Task History & Review" />
 
     <!-- Header -->
     <div class="flex justify-between items-center">

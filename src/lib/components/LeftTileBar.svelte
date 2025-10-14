@@ -27,7 +27,11 @@
       textColor: "text-red-600 dark:text-red-400",
       description: "Issues and problems",
       subTiles: [
-        { label: "Issues", path: "/issues", icon: "heroicons:exclamation-circle" },
+        { label: "Dashboard", path: "/issues/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/issues/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/issues/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/issues/update", icon: "heroicons:pencil" },
+        { label: "Projects", path: "/issues/projects", icon: "heroicons:folder" },
       ],
     },
     {
@@ -39,7 +43,11 @@
       textColor: "text-orange-600 dark:text-orange-400",
       description: "Service requests",
       subTiles: [
-        { label: "Requests", path: "/requests", icon: "heroicons:chat-bubble-left-right" },
+        { label: "Dashboard", path: "/requests/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/requests/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/requests/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/requests/update", icon: "heroicons:pencil" },
+        { label: "History", path: "/requests/history", icon: "heroicons:clock" },
       ],
     },
     {
@@ -51,7 +59,11 @@
       textColor: "text-blue-600 dark:text-blue-400",
       description: "Tasks and todos",
       subTiles: [
-        { label: "Tasks", path: "/tasks", icon: "heroicons:clipboard-document-check" },
+        { label: "Dashboard", path: "/tasks/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/tasks/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/tasks/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/tasks/update", icon: "heroicons:pencil" },
+        { label: "Calendar", path: "/tasks/calendar", icon: "heroicons:calendar" },
       ],
     },
     {
@@ -63,7 +75,11 @@
       textColor: "text-yellow-600 dark:text-yellow-400",
       description: "Alerts and notifications",
       subTiles: [
-        { label: "Alerts", path: "/alerts", icon: "heroicons:bell-alert" },
+        { label: "Dashboard", path: "/alerts/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/alerts/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/alerts/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/alerts/update", icon: "heroicons:pencil" },
+        { label: "Settings", path: "/alerts/settings", icon: "heroicons:cog" },
       ],
     },
     {
@@ -75,7 +91,11 @@
       textColor: "text-purple-600 dark:text-purple-400",
       description: "Family management",
       subTiles: [
-        { label: "Family", path: "/family", icon: "heroicons:user-group" },
+        { label: "Dashboard", path: "/family/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/family/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/family/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/family/update", icon: "heroicons:pencil" },
+        { label: "Tree", path: "/family/tree", icon: "heroicons:arrows-right-left" },
       ],
     },
     {
@@ -87,7 +107,11 @@
       textColor: "text-green-600 dark:text-green-400",
       description: "Food and nutrition",
       subTiles: [
-        { label: "Foods", path: "/food", icon: "heroicons:cake" },
+        { label: "Dashboard", path: "/foods/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/foods/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/foods/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/foods/update", icon: "heroicons:pencil" },
+        { label: "Recipes", path: "/foods/recipes", icon: "heroicons:book-open" },
       ],
     },
     {
@@ -99,7 +123,11 @@
       textColor: "text-cyan-600 dark:text-cyan-400",
       description: "Inventory management",
       subTiles: [
-        { label: "Inventory", path: "/inventory", icon: "heroicons:archive-box" },
+        { label: "Dashboard", path: "/inventory/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/inventory/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/inventory/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/inventory/update", icon: "heroicons:pencil" },
+        { label: "Reports", path: "/inventory/reports", icon: "heroicons:document-chart-bar" },
       ],
     },
     {
@@ -111,7 +139,11 @@
       textColor: "text-indigo-600 dark:text-indigo-400",
       description: "Activities and events",
       subTiles: [
-        { label: "Activities", path: "/activities", icon: "heroicons:bolt" },
+        { label: "Dashboard", path: "/activities/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/activities/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/activities/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/activities/update", icon: "heroicons:pencil" },
+        { label: "Calendar", path: "/activities/calendar", icon: "heroicons:calendar" },
       ],
     },
     {
@@ -123,7 +155,11 @@
       textColor: "text-pink-600 dark:text-pink-400",
       description: "Directory and contacts",
       subTiles: [
-        { label: "Directory", path: "/directory", icon: "heroicons:building-storefront" },
+        { label: "Dashboard", path: "/directory/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/directory/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/directory/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/directory/update", icon: "heroicons:pencil" },
+        { label: "Search", path: "/directory/search", icon: "heroicons:magnifying-glass" },
       ],
     },
     {
@@ -135,7 +171,11 @@
       textColor: "text-emerald-600 dark:text-emerald-400",
       description: "Expenses and finances",
       subTiles: [
-        { label: "Expenses", path: "/expenses", icon: "heroicons:receipt-refund" },
+        { label: "Dashboard", path: "/finances/expenses/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/finances/expenses/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/finances/expenses/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/finances/expenses/update", icon: "heroicons:pencil" },
+        { label: "Budget", path: "/finances/budget", icon: "heroicons:calculator" },
       ],
     },
     {
@@ -147,7 +187,11 @@
       textColor: "text-amber-600 dark:text-amber-400",
       description: "Rewards and achievements",
       subTiles: [
-        { label: "Rewards", path: "/rewards", icon: "heroicons:trophy" },
+        { label: "Dashboard", path: "/rewards/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/rewards/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/rewards/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/rewards/update", icon: "heroicons:pencil" },
+        { label: "Achievements", path: "/rewards/achievements", icon: "heroicons:star" },
       ],
     },
     {
@@ -159,7 +203,11 @@
       textColor: "text-teal-600 dark:text-teal-400",
       description: "Assets and property",
       subTiles: [
-        { label: "Assets", path: "/assets", icon: "heroicons:building-office" },
+        { label: "Dashboard", path: "/assets/dashboard", icon: "heroicons:chart-bar" },
+        { label: "Create", path: "/assets/create", icon: "heroicons:plus" },
+        { label: "Review", path: "/assets/review", icon: "heroicons:eye" },
+        { label: "Update", path: "/assets/update", icon: "heroicons:pencil" },
+        { label: "Inventory", path: "/assets/inventory", icon: "heroicons:archive-box" },
       ],
     },
   ];

@@ -6,7 +6,6 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -129,8 +128,6 @@
 
 <div class="min-h-screen bg-base-200 p-4">
   <div class="max-w-4xl mx-auto">
-
-    <Breadcrumb currentPage="Create Task" />
 
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">

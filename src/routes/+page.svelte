@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import ConsolidatedHomeDashboard from "$lib/components/ConsolidatedHomeDashboard.svelte";
+  import VoiceDashboard from "$lib/components/VoiceDashboard.svelte";
   import UserLoginModal from "$lib/components/UserLoginModal.svelte";
 
   let isLoggedIn = false;
@@ -26,7 +26,7 @@
 </script>
 
 {#if isLoggedIn}
-  <ConsolidatedHomeDashboard />
+  <VoiceDashboard />
 {/if}
 
 <UserLoginModal on:loginComplete={handleLoginComplete} />

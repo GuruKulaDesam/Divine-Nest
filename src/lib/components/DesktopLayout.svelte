@@ -5,6 +5,9 @@
   import FloatingActionButtons from "./FloatingActionButtons.svelte";
   import LayoutSwitcher from "./LayoutSwitcher.svelte";
   import UserLoginModal from "./UserLoginModal.svelte";
+  import VoiceControlOverlay from "./VoiceControlOverlay.svelte";
+  import GestureRecognizer from "./GestureRecognizer.svelte";
+  import VoiceDashboardController from "./VoiceDashboardController.svelte";
   import Icon from "@iconify/svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
@@ -64,6 +67,83 @@
   function handleLoginComplete() {
     showLoginModal = false;
   }
+
+  // Gesture handling functions
+  function handleGesture(event) {
+    const { type, data } = event.detail;
+    console.log('Gesture detected:', type, data);
+
+    switch (type) {
+      case 'swipe_up':
+        // Navigate to previous section or scroll up
+        break;
+      case 'swipe_down':
+        // Navigate to next section or scroll down
+        break;
+      case 'swipe_left':
+        // Go back in navigation
+        goto(-1);
+        break;
+      case 'swipe_right':
+        // Go forward in navigation
+        goto(1);
+        break;
+      case 'tap':
+        // Handle tap gestures
+        break;
+    }
+  }
+
+  function handleTap(event) {
+    const { count, position } = event.detail;
+    console.log('Tap detected:', count, position);
+
+    if (count === 1) {
+      // Single tap - could be used for selection
+    } else if (count === 2) {
+      // Double tap - could activate voice control
+      // This would be handled by the VoiceControlOverlay
+    } else if (count === 3) {
+      // Triple tap - emergency action
+      console.log('Emergency gesture detected');
+    }
+  }
+
+  function handleSwipe(event) {
+    const { direction, distance } = event.detail;
+    console.log('Swipe detected:', direction, distance);
+
+    // Handle swipe gestures for navigation
+    switch (direction) {
+      case 'up':
+        // Scroll up or navigate to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        break;
+      case 'down':
+        // Scroll down or navigate to bottom
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        break;
+      case 'left':
+        // Navigate back
+        goto(-1);
+        break;
+      case 'right':
+        // Navigate forward
+        goto(1);
+        break;
+    }
+  }
+
+  function handleShake(event) {
+    const { intensity } = event.detail;
+    console.log('Shake detected:', intensity);
+
+    // Shake gesture - could be used for emergency actions
+    if (intensity > 20) {
+      console.log('Strong shake detected - emergency action');
+      // Could trigger emergency contact or reset interface
+    }
+  }
 </script>
 
 <div class="relative flex h-screen bg-base-200" data-theme={$theme}>
@@ -90,23 +170,265 @@
           <!-- Desktop dashboard with full sidebar -->
           <DashboardTiles />
         {:else}
-          <!-- Content pages with breadcrumb -->
-          <div class="p-8 relative">
-            <div class="content-container rounded-[2rem] border-0 p-8 mx-auto max-w-7xl bg-transparent">
-              <!-- Breadcrumb Navigation -->
-              <div class="flex mb-6 items-center space-x-2 text-sm">
-                <button on:click={() => goto("")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
-                  <Icon icon="heroicons:home" class="w-4 h-4" />
-                  <span>Home</span>
-                </button>
-                <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
-                <span class="text-gray-600 dark:text-gray-300 capitalize">
-                  {currentPath.startsWith("/home/") ? currentPath.replace("/home/", "").split("/").filter(Boolean).join(" › ") : currentPath.split("/").filter(Boolean).join(" › ")}
-                </span>
+          <!-- Content pages with sub-menu sidebar and breadcrumb -->
+          <div class="flex h-full">
+            <!-- Sub-menu Sidebar -->
+            <div class="w-64 bg-white/20 dark:bg-gray-900/40 border-r border-white/30 dark:border-gray-700/50 flex-shrink-0 shadow-lg backdrop-blur-md">
+              <div class="p-4">
+                <h3 class="text-lg font-semibold text-base-content mb-4 border-b border-white/20 dark:border-gray-700/30 pb-2">Menu</h3>
+                <nav class="space-y-2">
+                  <!-- Sub-menu items will be populated based on current section -->
+                  {#if currentPath.startsWith('/tasks/')}
+                    <a href="/tasks/dashboard" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/tasks/dashboard' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:chart-bar" class="w-5 h-5 inline mr-2" />
+                      Dashboard
+                    </a>
+                    <a href="/tasks/create" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/tasks/create' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:plus" class="w-5 h-5 inline mr-2" />
+                      Create
+                    </a>
+                    <a href="/tasks/review" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/tasks/review' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:eye" class="w-5 h-5 inline mr-2" />
+                      Review
+                    </a>
+                    <a href="/tasks/update" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/tasks/update' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:pencil" class="w-5 h-5 inline mr-2" />
+                      Update
+                    </a>
+                    <a href="/tasks/calendar" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/tasks/calendar' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:calendar" class="w-5 h-5 inline mr-2" />
+                      Calendar
+                    </a>
+                  {:else if currentPath.startsWith('/issues/')}
+                    <a href="/issues/dashboard" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/issues/dashboard' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:chart-bar" class="w-5 h-5 inline mr-2" />
+                      Dashboard
+                    </a>
+                    <a href="/issues/create" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/issues/create' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:plus" class="w-5 h-5 inline mr-2" />
+                      Create
+                    </a>
+                    <a href="/issues/review" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/issues/review' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:eye" class="w-5 h-5 inline mr-2" />
+                      Review
+                    </a>
+                    <a href="/issues/update" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/issues/update' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:pencil" class="w-5 h-5 inline mr-2" />
+                      Update
+                    </a>
+                    <a href="/issues/projects" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/issues/projects' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:folder" class="w-5 h-5 inline mr-2" />
+                      Projects
+                    </a>
+                  {:else if currentPath.startsWith('/requests/')}
+                    <a href="/requests/dashboard" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/requests/dashboard' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:chart-bar" class="w-5 h-5 inline mr-2" />
+                      Dashboard
+                    </a>
+                    <a href="/requests/create" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/requests/create' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:plus" class="w-5 h-5 inline mr-2" />
+                      Create
+                    </a>
+                    <a href="/requests/review" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/requests/review' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:eye" class="w-5 h-5 inline mr-2" />
+                      Review
+                    </a>
+                    <a href="/requests/update" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/requests/update' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:pencil" class="w-5 h-5 inline mr-2" />
+                      Update
+                    </a>
+                    <a href="/requests/history" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/requests/history' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:clock" class="w-5 h-5 inline mr-2" />
+                      History
+                    </a>
+                  {:else if currentPath.startsWith('/alerts/')}
+                    <a href="/alerts/dashboard" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/alerts/dashboard' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:chart-bar" class="w-5 h-5 inline mr-2" />
+                      Dashboard
+                    </a>
+                    <a href="/alerts/create" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/alerts/create' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:plus" class="w-5 h-5 inline mr-2" />
+                      Create
+                    </a>
+                    <a href="/alerts/review" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/alerts/review' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:eye" class="w-5 h-5 inline mr-2" />
+                      Review
+                    </a>
+                    <a href="/alerts/update" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/alerts/update' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:pencil" class="w-5 h-5 inline mr-2" />
+                      Update
+                    </a>
+                    <a href="/alerts/settings" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/alerts/settings' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:cog" class="w-5 h-5 inline mr-2" />
+                      Settings
+                    </a>
+                  {:else if currentPath.startsWith('/family/')}
+                    <a href="/family/dashboard" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/family/dashboard' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:chart-bar" class="w-5 h-5 inline mr-2" />
+                      Dashboard
+                    </a>
+                    <a href="/family/create" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/family/create' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:plus" class="w-5 h-5 inline mr-2" />
+                      Create
+                    </a>
+                    <a href="/family/review" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/family/review' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:eye" class="w-5 h-5 inline mr-2" />
+                      Review
+                    </a>
+                    <a href="/family/update" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/family/update' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:pencil" class="w-5 h-5 inline mr-2" />
+                      Update
+                    </a>
+                    <a href="/family/tree" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/family/tree' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:user-group" class="w-5 h-5 inline mr-2" />
+                      Tree
+                    </a>
+                  {:else if currentPath.startsWith('/foods/') || currentPath.startsWith('/food/')}
+                    <a href="/foods/dashboard" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/foods/dashboard' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:chart-bar" class="w-5 h-5 inline mr-2" />
+                      Dashboard
+                    </a>
+                    <a href="/foods/create" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/foods/create' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:plus" class="w-5 h-5 inline mr-2" />
+                      Create
+                    </a>
+                    <a href="/foods/review" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/foods/review' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:eye" class="w-5 h-5 inline mr-2" />
+                      Review
+                    </a>
+                    <a href="/foods/update" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/foods/update' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:pencil" class="w-5 h-5 inline mr-2" />
+                      Update
+                    </a>
+                    <a href="/foods/recipes" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/foods/recipes' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:book-open" class="w-5 h-5 inline mr-2" />
+                      Recipes
+                    </a>
+                  {:else if currentPath.startsWith('/inventory/')}
+                    <a href="/inventory/dashboard" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/inventory/dashboard' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:chart-bar" class="w-5 h-5 inline mr-2" />
+                      Dashboard
+                    </a>
+                    <a href="/inventory/create" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/inventory/create' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:plus" class="w-5 h-5 inline mr-2" />
+                      Create
+                    </a>
+                    <a href="/inventory/review" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/inventory/review' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:eye" class="w-5 h-5 inline mr-2" />
+                      Review
+                    </a>
+                    <a href="/inventory/update" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/inventory/update' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:pencil" class="w-5 h-5 inline mr-2" />
+                      Update
+                    </a>
+                    <a href="/inventory/reports" class="block px-3 py-3 rounded-lg text-sm hover:bg-white/20 dark:hover:bg-gray-700/40 transition-colors font-medium {currentPath === '/inventory/reports' ? 'bg-primary/30 text-primary shadow-md' : 'text-base-content'}">
+                      <Icon icon="heroicons:document-chart-bar" class="w-5 h-5 inline mr-2" />
+                      Reports
+                    </a>
+                  {/if}
+                </nav>
               </div>
+            </div>
 
-              <!-- Page content -->
-              <slot />
+            <!-- Main Content Area -->
+            <div class="flex-1 p-8 relative">
+              <div class="content-container rounded-[2rem] border-0 p-8 mx-auto max-w-7xl bg-transparent">
+                <!-- Breadcrumb Navigation -->
+                <div class="flex mb-6 items-center space-x-2 text-sm">
+                  <button on:click={() => goto("")} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                    <Icon icon="heroicons:home" class="w-4 h-4" />
+                    <span>Home</span>
+                  </button>
+                  {#if currentPath !== '/'}
+                    <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                    {#if currentPath.startsWith('/tasks/')}
+                      <button on:click={() => goto('/tasks/dashboard')} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                        <Icon icon="heroicons:clipboard-document-list" class="w-4 h-4" />
+                        <span>Tasks</span>
+                      </button>
+                      {#if currentPath !== '/tasks/dashboard'}
+                        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                        <span class="text-gray-600 dark:text-gray-300 capitalize">
+                          {currentPath.split('/').pop()?.replace('-', ' ') || 'Dashboard'}
+                        </span>
+                      {/if}
+                    {:else if currentPath.startsWith('/issues/')}
+                      <button on:click={() => goto('/issues/dashboard')} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                        <Icon icon="heroicons:exclamation-triangle" class="w-4 h-4" />
+                        <span>Issues</span>
+                      </button>
+                      {#if currentPath !== '/issues/dashboard'}
+                        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                        <span class="text-gray-600 dark:text-gray-300 capitalize">
+                          {currentPath.split('/').pop()?.replace('-', ' ') || 'Dashboard'}
+                        </span>
+                      {/if}
+                    {:else if currentPath.startsWith('/requests/')}
+                      <button on:click={() => goto('/requests/dashboard')} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                        <Icon icon="heroicons:chat-bubble-left-right" class="w-4 h-4" />
+                        <span>Requests</span>
+                      </button>
+                      {#if currentPath !== '/requests/dashboard'}
+                        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                        <span class="text-gray-600 dark:text-gray-300 capitalize">
+                          {currentPath.split('/').pop()?.replace('-', ' ') || 'Dashboard'}
+                        </span>
+                      {/if}
+                    {:else if currentPath.startsWith('/alerts/')}
+                      <button on:click={() => goto('/alerts/dashboard')} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                        <Icon icon="heroicons:bell" class="w-4 h-4" />
+                        <span>Alerts</span>
+                      </button>
+                      {#if currentPath !== '/alerts/dashboard'}
+                        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                        <span class="text-gray-600 dark:text-gray-300 capitalize">
+                          {currentPath.split('/').pop()?.replace('-', ' ') || 'Dashboard'}
+                        </span>
+                      {/if}
+                    {:else if currentPath.startsWith('/family/')}
+                      <button on:click={() => goto('/family/dashboard')} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                        <Icon icon="heroicons:user-group" class="w-4 h-4" />
+                        <span>Family</span>
+                      </button>
+                      {#if currentPath !== '/family/dashboard'}
+                        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                        <span class="text-gray-600 dark:text-gray-300 capitalize">
+                          {currentPath.split('/').pop()?.replace('-', ' ') || 'Dashboard'}
+                        </span>
+                      {/if}
+                    {:else if currentPath.startsWith('/foods/') || currentPath.startsWith('/food/')}
+                      <button on:click={() => goto('/foods/dashboard')} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                        <Icon icon="heroicons:utensils" class="w-4 h-4" />
+                        <span>Foods</span>
+                      </button>
+                      {#if currentPath !== '/foods/dashboard'}
+                        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                        <span class="text-gray-600 dark:text-gray-300 capitalize">
+                          {currentPath.split('/').pop()?.replace('-', ' ') || 'Dashboard'}
+                        </span>
+                      {/if}
+                    {:else if currentPath.startsWith('/inventory/')}
+                      <button on:click={() => goto('/inventory/dashboard')} class="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
+                        <Icon icon="heroicons:archive-box" class="w-4 h-4" />
+                        <span>Inventory</span>
+                      </button>
+                      {#if currentPath !== '/inventory/dashboard'}
+                        <Icon icon="heroicons:chevron-right" class="w-4 h-4 text-gray-400" />
+                        <span class="text-gray-600 dark:text-gray-300 capitalize">
+                          {currentPath.split('/').pop()?.replace('-', ' ') || 'Dashboard'}
+                        </span>
+                      {/if}
+                    {:else}
+                      <span class="text-gray-600 dark:text-gray-300 capitalize">
+                        {currentPath.split('/').filter(Boolean).join(' › ') || 'Dashboard'}
+                      </span>
+                    {/if}
+                  {/if}
+                </div>
+
+                <!-- Page content -->
+                <slot />
+              </div>
             </div>
           </div>
         {/if}
@@ -116,6 +438,15 @@
 
   <!-- Floating Action Buttons - Desktop optimized -->
   <FloatingActionButtons on:action={handleRequestsAction} />
+
+  <!-- Global Voice Control Overlay -->
+  <VoiceControlOverlay />
+
+  <!-- Voice Dashboard Controller -->
+  <VoiceDashboardController />
+
+  <!-- Gesture Recognition System -->
+  <GestureRecognizer enabled={true} on:gesture={handleGesture} on:tap={handleTap} on:swipe={handleSwipe} on:shake={handleShake} />
 
   <!-- Layout Switcher - Bottom Right -->
   <LayoutSwitcher />

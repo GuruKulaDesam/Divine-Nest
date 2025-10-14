@@ -979,6 +979,151 @@ class SQLiteService {
     await this.executeStatement('DELETE FROM chores WHERE id = ?', [id]);
   }
 
+  // Foods methods
+  async saveFood(food: any): Promise<number> {
+    const result = await this.executeQuery(
+      `INSERT INTO foods (type, category, sub_category, ingredients, preparation_stage, mixing_stage, boiling_stage, ready_stage, schedule, audience, health_factor, time_factor, cost_per_serving, serving_definition, aroma_factor, taste_factor)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
+      [food.type, food.category, food.sub_category, food.ingredients, food.preparation_stage, food.mixing_stage, food.boiling_stage, food.ready_stage, food.schedule, food.audience, food.health_factor, food.time_factor, food.cost_per_serving, food.serving_definition, food.aroma_factor, food.taste_factor]
+    );
+    return result[0]?.id;
+  }
+
+  async getFoods(): Promise<any[]> {
+    return await this.executeQuery('SELECT * FROM foods ORDER BY type, category');
+  }
+
+  async updateFood(id: number, updates: any): Promise<void> {
+    const fields = Object.keys(updates);
+    const values = Object.values(updates);
+    const setClause = fields.map(field => `${field} = ?`).join(', ');
+
+    await this.executeStatement(
+      `UPDATE foods SET ${setClause} WHERE id = ?`,
+      [...values, id]
+    );
+  }
+
+  async deleteFood(id: number): Promise<void> {
+    await this.executeStatement('DELETE FROM foods WHERE id = ?', [id]);
+  }
+
+  // Inventory methods
+  async saveInventoryItem(item: any): Promise<number> {
+    const result = await this.executeQuery(
+      `INSERT INTO inventory (type, category, sub_category, quantity_available, unit, location, restock_threshold, preferred_vendor)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
+      [item.type, item.category, item.sub_category, item.quantity_available, item.unit, item.location, item.restock_threshold, item.preferred_vendor]
+    );
+    return result[0]?.id;
+  }
+
+  async getInventoryItems(): Promise<any[]> {
+    return await this.executeQuery('SELECT * FROM inventory ORDER BY type, category');
+  }
+
+  async updateInventoryItem(id: number, updates: any): Promise<void> {
+    const fields = Object.keys(updates);
+    const values = Object.values(updates);
+    const setClause = fields.map(field => `${field} = ?`).join(', ');
+
+    await this.executeStatement(
+      `UPDATE inventory SET ${setClause} WHERE id = ?`,
+      [...values, id]
+    );
+  }
+
+  async deleteInventoryItem(id: number): Promise<void> {
+    await this.executeStatement('DELETE FROM inventory WHERE id = ?', [id]);
+  }
+
+  // Tasks/Todos methods
+  async getTodos(): Promise<any[]> {
+    return await this.executeQuery('SELECT * FROM todos ORDER BY created_at DESC');
+  }
+
+  async saveTodo(todo: any): Promise<void> {
+    const { title, description, category, priority, dueDate, completed } = todo;
+    await this.executeStatement(
+      `INSERT INTO todos (title, description, category, priority, due_date, completed, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
+      [title, description || '', category || 'general', priority || 'medium', dueDate || null, completed || 0]
+    );
+  }
+
+  async updateTodo(id: number, updates: any): Promise<void> {
+    const fields = Object.keys(updates);
+    const values = Object.values(updates);
+    const setClause = fields.map(field => `${field} = ?`).join(', ');
+
+    await this.executeStatement(
+      `UPDATE todos SET ${setClause} WHERE id = ?`,
+      [...values, id]
+    );
+  }
+
+  async deleteTodo(id: number): Promise<void> {
+    await this.executeStatement('DELETE FROM todos WHERE id = ?', [id]);
+  }
+
+  // Recipes methods
+  async getRecipes(): Promise<any[]> {
+    return await this.executeQuery('SELECT * FROM recipes ORDER BY name');
+  }
+
+  async saveRecipe(recipe: any): Promise<void> {
+    const { name, ingredients, instructions, cuisine, prepTime, cookTime } = recipe;
+    await this.executeStatement(
+      `INSERT INTO recipes (name, ingredients, instructions, cuisine, prep_time, cook_time, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
+      [name, ingredients || '', instructions || '', cuisine || 'general', prepTime || null, cookTime || null]
+    );
+  }
+
+  async updateRecipe(id: number, updates: any): Promise<void> {
+    const fields = Object.keys(updates);
+    const values = Object.values(updates);
+    const setClause = fields.map(field => `${field} = ?`).join(', ');
+
+    await this.executeStatement(
+      `UPDATE recipes SET ${setClause} WHERE id = ?`,
+      [...values, id]
+    );
+  }
+
+  async deleteRecipe(id: number): Promise<void> {
+    await this.executeStatement('DELETE FROM recipes WHERE id = ?', [id]);
+  }
+
+  // Requests methods
+  async getRequests(): Promise<any[]> {
+    return await this.executeQuery('SELECT * FROM requests ORDER BY created_at DESC');
+  }
+
+  async saveRequest(request: any): Promise<void> {
+    const { title, description, category, priority, status, requestedBy } = request;
+    await this.executeStatement(
+      `INSERT INTO requests (title, description, category, priority, status, requested_by, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
+      [title, description || '', category || 'general', priority || 'medium', status || 'pending', requestedBy || null]
+    );
+  }
+
+  async updateRequest(id: number, updates: any): Promise<void> {
+    const fields = Object.keys(updates);
+    const values = Object.values(updates);
+    const setClause = fields.map(field => `${field} = ?`).join(', ');
+
+    await this.executeStatement(
+      `UPDATE requests SET ${setClause} WHERE id = ?`,
+      [...values, id]
+    );
+  }
+
+  async deleteRequest(id: number): Promise<void> {
+    await this.executeStatement('DELETE FROM requests WHERE id = ?', [id]);
+  }
+
   // Cleanup
   async close(): Promise<void> {
     try {

@@ -264,6 +264,11 @@ export interface Todo {
   createdAt: string
   completed: boolean
   voiceCreated?: boolean
+  status?: 'Pending' | 'In Progress' | 'Completed'
+  due_date?: string
+  alert_enabled?: boolean
+  applicable_roles?: string[]
+  priority?: 'Low' | 'Medium' | 'High' | 'Critical'
 }
 
 export interface Note {

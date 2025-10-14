@@ -6,7 +6,6 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   // Register Chart.js components
   Chart.register(...registerables);
@@ -247,7 +246,7 @@
 
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-      <div class="card bg-base-100 shadow-lg">
+      <div class="card bg-base-100 shadow-lg cursor-pointer hover:shadow-xl transition-shadow" on:click={() => window.location.href = '/family/review'}>
         <div class="card-body p-4">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-primary/10 rounded-lg">
@@ -261,7 +260,7 @@
         </div>
       </div>
 
-      <div class="card bg-base-100 shadow-lg">
+      <div class="card bg-base-100 shadow-lg cursor-pointer hover:shadow-xl transition-shadow" on:click={() => window.location.href = '/family/review'}>
         <div class="card-body p-4">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-secondary/10 rounded-lg">
@@ -275,7 +274,7 @@
         </div>
       </div>
 
-      <div class="card bg-base-100 shadow-lg">
+      <div class="card bg-base-100 shadow-lg cursor-pointer hover:shadow-xl transition-shadow" on:click={() => window.location.href = '/family/review'}>
         <div class="card-body p-4">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-accent/10 rounded-lg">
@@ -289,7 +288,7 @@
         </div>
       </div>
 
-      <div class="card bg-base-100 shadow-lg">
+      <div class="card bg-base-100 shadow-lg cursor-pointer hover:shadow-xl transition-shadow" on:click={() => window.location.href = '/family/review'}>
         <div class="card-body p-4">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-info/10 rounded-lg">

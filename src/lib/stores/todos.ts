@@ -9,7 +9,12 @@ const initialTodos: Todo[] = [
     category: 'grocery',
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     completed: false,
-    voiceCreated: false
+    voiceCreated: false,
+    status: 'Pending',
+    due_date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    alert_enabled: true,
+    applicable_roles: ['Mother', 'Father', 'All'],
+    priority: 'Medium'
   },
   {
     id: '2',
@@ -17,7 +22,12 @@ const initialTodos: Todo[] = [
     category: 'family',
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
     completed: true,
-    voiceCreated: false
+    voiceCreated: false,
+    status: 'Completed',
+    due_date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    alert_enabled: false,
+    applicable_roles: ['Mother', 'Father', 'All'],
+    priority: 'High'
   },
   {
     id: '3',
@@ -25,7 +35,12 @@ const initialTodos: Todo[] = [
     category: 'school',
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
     completed: false,
-    voiceCreated: true
+    voiceCreated: true,
+    status: 'In Progress',
+    due_date: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+    alert_enabled: true,
+    applicable_roles: ['Mother', 'Father', 'Children', 'All'],
+    priority: 'Medium'
   },
   {
     id: '4',
@@ -33,7 +48,12 @@ const initialTodos: Todo[] = [
     category: 'family',
     createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
     completed: false,
-    voiceCreated: false
+    voiceCreated: false,
+    status: 'Pending',
+    due_date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    alert_enabled: false,
+    applicable_roles: ['Mother', 'Father', 'Children', 'All'],
+    priority: 'Low'
   },
   {
     id: '5',
@@ -41,7 +61,12 @@ const initialTodos: Todo[] = [
     category: 'custom',
     createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
     completed: true,
-    voiceCreated: false
+    voiceCreated: false,
+    status: 'Completed',
+    due_date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    alert_enabled: false,
+    applicable_roles: ['Mother', 'Father', 'Children', 'All'],
+    priority: 'Medium'
   }
 ]
 

@@ -7,7 +7,6 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   let mealTypeChart;
   let cuisineChart;
@@ -19,6 +18,17 @@
   $: recentMeals = getRecentMeals(5);
   $: avgRating = $foods.length > 0 ? ($foods.reduce((sum, food) => sum + food.rating, 0) / $foods.length).toFixed(1) : 0;
   $: totalReviews = $foods.reduce((sum, food) => sum + food.reviews, 0);
+
+  function getScheduledMeals() {
+    return $foods.filter(food => food.scheduled_for && new Date(food.scheduled_for) > new Date());
+  }
+
+  function getRecentMeals(limit = 5) {
+    return $foods
+      .filter(food => food.cooked_at)
+      .sort((a, b) => new Date(b.cooked_at).getTime() - new Date(a.cooked_at).getTime())
+      .slice(0, limit);
+  }
 
   // Today's meal suggestions based on time
   $: todaysSuggestions = getTodaysMealSuggestions();
@@ -148,8 +158,6 @@
 <div class="min-h-screen bg-base-200 p-4">
   <div class="max-w-7xl mx-auto space-y-6">
 
-    <Breadcrumb currentPage="Dashboard" />
-
     <!-- Header -->
     <div class="flex justify-between items-center">
       <div>
@@ -158,9 +166,9 @@
       </div>
       <div class="flex gap-2">
         <VoiceInput onResult={handleVoiceCommand} placeholder="Say 'add recipe' or 'schedule meal'" />
-        <button class="btn btn-primary" on:click={navigateToCreate}>
-          <Icon icon="heroicons:plus" class="w-5 h-5" />
-          Add Recipe
+        <button class="btn btn-primary btn-lg gap-3" on:click={navigateToCreate}>
+          <Icon icon="heroicons:plus-circle" class="w-8 h-8" />
+          <span class="text-lg font-semibold">Add Recipe</span>
         </button>
       </div>
     </div>
@@ -189,11 +197,13 @@
                   <p class="text-sm text-base-content/70">Scheduled: {new Date(meal.scheduled_for).toLocaleTimeString()}</p>
                 </div>
                 <div class="flex gap-2">
-                  <button class="btn btn-sm btn-warning" on:click={() => navigateToUpdate(meal.id)}>
-                    Start Prep
+                  <button class="btn btn-warning btn-lg gap-2" on:click={() => navigateToUpdate(meal.id)}>
+                    <Icon icon="heroicons:play-circle" class="w-6 h-6" />
+                    <span class="font-semibold">Start Prep</span>
                   </button>
-                  <button class="btn btn-sm btn-outline" on:click={() => scheduleMeal(meal.id)}>
-                    Reschedule
+                  <button class="btn btn-outline btn-lg gap-2" on:click={() => scheduleMeal(meal.id)}>
+                    <Icon icon="heroicons:calendar-days" class="w-6 h-6" />
+                    <span class="font-semibold">Reschedule</span>
                   </button>
                 </div>
               </div>
@@ -369,8 +379,9 @@
                     </div>
                   </td>
                   <td>
-                    <button class="btn btn-ghost btn-xs" on:click|stopPropagation={() => navigateToUpdate(meal.id)}>
-                      <Icon icon="heroicons:pencil" class="w-4 h-4" />
+                    <button class="btn btn-ghost btn-lg gap-2 hover:bg-blue-100 dark:hover:bg-blue-900/30" on:click|stopPropagation={() => navigateToUpdate(meal.id)} title="Edit Recipe">
+                      <Icon icon="heroicons:pencil-square" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                      <span class="text-blue-600 dark:text-blue-400 font-medium">Edit</span>
                     </button>
                   </td>
                 </tr>

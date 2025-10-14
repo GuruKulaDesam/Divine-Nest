@@ -8,7 +8,6 @@
   import { userProfile } from '$lib/stores/userProfile';
   import VoiceInput from '$lib/components/VoiceInput.svelte';
   import DiscussionForum from '$lib/components/DiscussionForum.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
   let activeTasks = [];
   let overdueTasks = [];
@@ -25,8 +24,94 @@
   $: inProgressTasks = $todos.filter(t => t.status === 'In Progress').length;
   $: completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
+  // Smart KPIs and insights
+  $: overdueTasks = userTasks.filter(task => {
+    if (!task.due_date || task.status === 'Completed') return false;
+    return new Date(task.due_date) < new Date();
+  }).length;
+
+  $: dueTodayTasks = userTasks.filter(task => {
+    if (!task.due_date || task.status === 'Completed') return false;
+    const dueDate = new Date(task.due_date);
+    const today = new Date();
+    return dueDate.toDateString() === today.toDateString();
+  }).length;
+
+  $: highPriorityTasks = userTasks.filter(task => task.priority === 'High' && task.status !== 'Completed').length;
+  $: productivityScore = calculateProductivityScore();
+  $: smartRecommendations = generateSmartRecommendations();
+
+  function calculateProductivityScore() {
+    if (totalTasks === 0) return 0;
+    let score = completionRate;
+
+    // Bonus for completing high priority tasks
+    const highPriorityCompleted = userTasks.filter(task =>
+      task.priority === 'High' && task.status === 'Completed'
+    ).length;
+    score += (highPriorityCompleted / Math.max(highPriorityTasks + highPriorityCompleted, 1)) * 20;
+
+    // Penalty for overdue tasks
+    score -= (overdueTasks / totalTasks) * 30;
+
+    return Math.max(0, Math.min(100, Math.round(score)));
+  }
+
+  function generateSmartRecommendations() {
+    const recommendations = [];
+
+    if (overdueTasks > 0) {
+      recommendations.push({
+        type: 'warning',
+        icon: 'heroicons:exclamation-triangle',
+        title: 'Overdue Tasks',
+        message: `You have ${overdueTasks} overdue task${overdueTasks > 1 ? 's' : ''}. Consider reprioritizing or delegating.`
+      });
+    }
+
+    if (dueTodayTasks > 0) {
+      recommendations.push({
+        type: 'info',
+        icon: 'heroicons:calendar',
+        title: 'Due Today',
+        message: `${dueTodayTasks} task${dueTodayTasks > 1 ? 's are' : ' is'} due today. Focus on completing these first.`
+      });
+    }
+
+    if (highPriorityTasks > 3) {
+      recommendations.push({
+        type: 'warning',
+        icon: 'heroicons:flag',
+        title: 'High Priority Backlog',
+        message: 'You have many high-priority tasks. Consider breaking them down into smaller, actionable items.'
+      });
+    }
+
+    if (productivityScore < 50) {
+      recommendations.push({
+        type: 'success',
+        icon: 'heroicons:light-bulb',
+        title: 'Productivity Tip',
+        message: 'Try the Pomodoro technique: 25 minutes focused work followed by a 5-minute break.'
+      });
+    }
+
+    if (pendingTasks > completedTasks) {
+      recommendations.push({
+        type: 'info',
+        icon: 'heroicons:chart-bar',
+        title: 'Task Balance',
+        message: 'You have more pending than completed tasks. Consider completing smaller tasks first for quick wins.'
+      });
+    }
+
+    return recommendations.slice(0, 3); // Show top 3 recommendations
+  }
+
   // Filter tasks by user's applicable roles
   $: userTasks = $todos.filter(task =>
+    !task.applicable_roles ||
+    task.applicable_roles.length === 0 ||
     task.applicable_roles.includes($userProfile.role) ||
     task.applicable_roles.includes('All')
   );
@@ -144,8 +229,6 @@
 <div class="min-h-screen bg-base-200 p-4">
   <div class="max-w-7xl mx-auto space-y-6">
 
-    <Breadcrumb currentPage="Dashboard" />
-
     <!-- Header -->
     <div class="flex justify-between items-center">
       <div>
@@ -154,9 +237,9 @@
       </div>
       <div class="flex gap-2">
         <VoiceInput onResult={handleVoiceCommand} placeholder="Say 'create task' or 'update task'" />
-        <button class="btn btn-primary" on:click={navigateToCreate}>
-          <Icon icon="heroicons:plus" class="w-5 h-5" />
-          Create Task
+        <button class="btn btn-primary btn-lg gap-3" on:click={navigateToCreate}>
+          <Icon icon="heroicons:plus-circle" class="w-8 h-8" />
+          <span class="text-lg font-semibold">Create Task</span>
         </button>
       </div>
     </div>
@@ -215,6 +298,62 @@
               <p class="text-2xl font-bold text-success">{completionRate}%</p>
             </div>
             <Icon icon="heroicons:check-circle" class="w-8 h-8 text-success" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Productivity Score & Smart Recommendations -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Productivity Score -->
+      <div class="card bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-xl">
+        <div class="card-body">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="card-title text-white">Productivity Score</h3>
+            <Icon icon="heroicons:chart-bar" class="w-8 h-8" />
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold mb-2">{productivityScore}</div>
+            <div class="text-sm opacity-90">
+              {#if productivityScore >= 80}
+                Excellent performance! 🎉
+              {:else if productivityScore >= 60}
+                Good progress, keep it up! 👍
+              {:else if productivityScore >= 40}
+                Room for improvement 📈
+              {:else}
+                Let's focus on priorities 🎯
+              {/if}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Recommendations -->
+      <div class="lg:col-span-2">
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title flex items-center gap-2">
+              <Icon icon="heroicons:light-bulb" class="w-6 h-6 text-warning" />
+              Smart Recommendations
+            </h3>
+            <div class="space-y-3">
+              {#each smartRecommendations as recommendation}
+                <div class="alert {recommendation.type === 'warning' ? 'alert-warning' : recommendation.type === 'success' ? 'alert-success' : 'alert-info'}">
+                  <Icon icon={recommendation.icon} class="w-5 h-5" />
+                  <div>
+                    <div class="font-semibold">{recommendation.title}</div>
+                    <div class="text-sm">{recommendation.message}</div>
+                  </div>
+                </div>
+              {/each}
+              {#if smartRecommendations.length === 0}
+                <div class="text-center py-4 text-base-content/60">
+                  <Icon icon="heroicons:check-circle" class="w-12 h-12 mx-auto mb-2 text-success" />
+                  <p>Great job! Everything looks good. Keep up the excellent work!</p>
+                </div>
+              {/if}
+            </div>
           </div>
         </div>
       </div>
@@ -314,8 +453,9 @@
                   </td>
                   <td>{task.due_date ? new Date(task.due_date).toLocaleDateString() : 'No due date'}</td>
                   <td>
-                    <button class="btn btn-ghost btn-xs" on:click|stopPropagation={() => navigateToUpdate(task.id)}>
-                      <Icon icon="heroicons:pencil" class="w-4 h-4" />
+                    <button class="btn btn-ghost btn-lg gap-2 hover:bg-blue-100 dark:hover:bg-blue-900/30" on:click|stopPropagation={() => navigateToUpdate(task.id)} title="Edit Task">
+                      <Icon icon="heroicons:pencil-square" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                      <span class="text-blue-600 dark:text-blue-400 font-medium">Edit</span>
                     </button>
                   </td>
                 </tr>
