@@ -259,7 +259,7 @@
 </script>
 
 <!-- Gesture Recognition Component (Invisible) -->
-<svelte:window on:gesture={handleGesture} />
+<!-- Removed problematic window gesture listener that was causing hydration errors -->
 
 {#if enabled}
   <!-- Visual feedback for gestures (optional) -->

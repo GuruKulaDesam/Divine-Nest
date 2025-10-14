@@ -29,6 +29,9 @@ class NotificationService {
       festivalReminders: true
     };
 
+    // Prevent multiple initializations
+    this.initialized = false;
+
     // Initialize alert templates
     this.alertTemplates = this.initializeAlertTemplates();
   }
@@ -171,6 +174,15 @@ class NotificationService {
 
   // Initialize the service
   init() {
+    // Prevent multiple initializations
+    if (this.initialized) {
+      console.log('NotificationService already initialized, skipping...');
+      return;
+    }
+    
+    this.initialized = true;
+    console.log('Initializing NotificationService...');
+    
     this.checkDuePayments();
     this.scheduleReminders();
     
