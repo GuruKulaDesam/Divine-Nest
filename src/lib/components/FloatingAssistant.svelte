@@ -193,7 +193,7 @@
 
 <!-- Floating Assistant Button -->
 <div class="fixed bottom-6 right-6 z-50">
-  <button class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl {isListening ? 'animate-pulse scale-110' : 'hover:scale-105'}" on:click={toggleAssistant} title="Voice Assistant - Say 'Shivo' or 'நண்பா' to activate">
+  <button class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl {isListening ? 'animate-pulse scale-110' : 'hover:scale-105'}" on:click={toggleAssistant} title="Shivo AI - OpenAI Assistant - Say 'Shivo' or 'நண்பா' to activate">
     <div class="flex flex-col items-center">
       <Icon icon={isListening ? "heroicons:microphone" : "heroicons:sparkles"} class="w-6 h-6 text-white" />
       <span class="text-xs text-white mt-0.5">{emotion}</span>

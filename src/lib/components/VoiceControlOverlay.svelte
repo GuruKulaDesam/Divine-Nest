@@ -14,25 +14,28 @@
   let feedback = '';
   let lastCommand = '';
 
-  // Subscribe to voice state
-  const unsubscribe = voiceState.subscribe(state => {
-    isListening = state.isListening;
-    isActive = state.isActive;
-    currentContext = state.currentContext;
-    feedback = state.feedback;
-    lastCommand = state.lastCommand;
-
-    // Update status message
-    if (isActive && isListening) {
-      voiceStatus = '🎤 Listening...';
-    } else if (isActive && !isListening) {
-      voiceStatus = '⏸️ Active (not listening)';
-    } else {
-      voiceStatus = '🔇 Voice control inactive';
-    }
-  });
+  // Store subscription - will be initialized in onMount
+  let unsubscribe: (() => void) | null = null;
 
   onMount(() => {
+    // Subscribe to voice state only on client side
+    unsubscribe = voiceState.subscribe(state => {
+      isListening = state.isListening;
+      isActive = state.isActive;
+      currentContext = state.currentContext;
+      feedback = state.feedback;
+      lastCommand = state.lastCommand;
+
+      // Update status message
+      if (isActive && isListening) {
+        voiceStatus = '🎤 Listening...';
+      } else if (isActive && !isListening) {
+        voiceStatus = '⏸️ Active (not listening)';
+      } else {
+        voiceStatus = '🔇 Voice control inactive';
+      }
+    });
+
     // Initialize voice controller first
     voiceController = new VoiceController();
     // Auto-start voice control after a brief delay
@@ -43,7 +46,9 @@
   });
 
   onDestroy(() => {
-    unsubscribe();
+    if (unsubscribe) {
+      unsubscribe();
+    }
   });
 
   function toggleVoiceControl() {

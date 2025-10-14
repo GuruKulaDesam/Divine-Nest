@@ -19,22 +19,22 @@
   const AssistantSections = [
     {
       id: "overview",
-      name: "Assistant Overview",
-      tamil: "உதவியாளர் கண்ணோட்டம்",
+      name: "Shivo AI Overview",
+      tamil: "ஷிவோ AI கண்ணோட்டம்",
       icon: "heroicons:sparkles",
       color: "purple"
     },
     {
       id: "voice",
-      name: "Voice Assistant",
-      tamil: "குரல் உதவியாளர்",
+      name: "Shivo Voice AI",
+      tamil: "ஷிவோ குரல் AI",
       icon: "heroicons:microphone",
       color: "blue"
     },
     {
       id: "ai",
-      name: "AI Chat",
-      tamil: "AI உரையாடல்",
+      name: "Shivo AI Chat",
+      tamil: "ஷிவோ AI உரையாடல்",
       icon: "heroicons:chat-bubble-left-right",
       color: "green"
     },
@@ -61,35 +61,35 @@
       icon: "heroicons:sparkles",
       color: "emerald",
       description: "Gentle care and spiritual guidance",
-      avatar: "���",
+      avatar: "���",
     },
     appa: {
       name: "Appa",
       icon: "heroicons:user",
       color: "blue",
       description: "Practical planning and task management",
-      avatar: "���",
+      avatar: "���",
     },
     amma: {
       name: "Amma",
       icon: "heroicons:heart",
       color: "purple",
       description: "Nurturing care and family coordination",
-      avatar: "���",
+      avatar: "���",
     },
     kids: {
       name: "Kids",
       icon: "heroicons:star",
       color: "orange",
       description: "Fun learning and playful interactions",
-      avatar: "���",
+      avatar: "���",
     },
     family: {
       name: "Family",
       icon: "heroicons:users",
       color: "indigo",
-      description: "Complete family AI assistant",
-      avatar: "���‍���‍���‍���",
+      description: "Complete family OpenAI assistant",
+      avatar: "���‍���‍���‍���",
     },
   };
 
@@ -103,7 +103,7 @@
 
     conversation = [
       { role: "user", content: "Hello Shivo", timestamp: "2024-01-15 09:00" },
-      { role: "assistant", content: "வணக்கம்! நான் உங்கள் குடும்ப உதவியாளர். என்ன உதவி வேண்டும்?", timestamp: "2024-01-15 09:00" }
+      { role: "assistant", content: "வணக்கம்! நான் உங்கள் ஷிவோ AI உதவியாளர். என்ன உதவி வேண்டும்?", timestamp: "2024-01-15 09:00" }
     ];
   });
 
@@ -137,7 +137,7 @@
 
   function wakeAI() {
     isAwake = true;
-    status = "AI Assistant is awake and ready";
+    status = "Shivo AI is awake and ready";
   }
 
   function generateMusic() {
@@ -157,7 +157,7 @@
   }
 </script>
 
-<!-- AI Assistant & Voice Suite Header -->
+<!-- Shivo AI & Voice Suite Header -->
 <div class="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
   <div class="container mx-auto px-4 py-6">
     <!-- Header Section -->
@@ -168,9 +168,9 @@
             <Icon icon="heroicons:sparkles" class="w-8 h-8 text-purple-600" />
           </div>
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">��� AI Assistant & Voice</h1>
+            <h1 class="text-3xl font-bold text-gray-900">🤖 Shivo AI & Voice</h1>
             <p class="text-lg text-gray-600">AI உதவியாளர் & குரல்</p>
-            <p class="text-sm text-gray-500">Intelligent voice assistant and AI companions for your family</p>
+            <p class="text-sm text-gray-500">OpenAI-powered voice assistant and AI companions for your family</p>
           </div>
         </div>
 
@@ -224,7 +224,7 @@
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm opacity-90">Status</p>
-              <p class="text-2xl font-bold">{isAwake ? "���" : "���"}</p>
+              <p class="text-2xl font-bold">{isAwake ? "���" : "���"}</p>
               <p class="text-xs opacity-75">{isAwake ? "Active" : "Sleeping"}</p>
             </div>
             <Icon icon="heroicons:bolt" class="w-8 h-8 opacity-80" />
@@ -287,7 +287,7 @@
             <!-- Overview Dashboard -->
             <div class="space-y-6">
               <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-bold text-gray-900">Assistant Overview</h2>
+                <h2 class="text-2xl font-bold text-gray-900">Shivo AI Overview</h2>
                 <span class="text-sm text-gray-500">உதவியாளர் கண்ணோட்டம்</span>
               </div>
 
@@ -345,9 +345,9 @@
             </div>
 
           {:else if activeSection === "voice"}
-            <!-- Voice Assistant -->
+            <!-- Shivo Voice AI -->
             <div class="space-y-4">
-              <h2 class="text-2xl font-bold text-gray-900">Voice Assistant</h2>
+              <h2 class="text-2xl font-bold text-gray-900">Shivo Voice AI</h2>
 
               <!-- Voice Control Panel -->
               <div class="bg-blue-50 rounded-lg p-6">
@@ -407,7 +407,7 @@
           {:else if activeSection === "ai"}
             <!-- AI Chat -->
             <div class="space-y-4">
-              <h2 class="text-2xl font-bold text-gray-900">AI Chat Assistant</h2>
+              <h2 class="text-2xl font-bold text-gray-900">Shivo AI Chat</h2>
 
               <!-- AI Status -->
               <div class="bg-green-50 rounded-lg p-4">

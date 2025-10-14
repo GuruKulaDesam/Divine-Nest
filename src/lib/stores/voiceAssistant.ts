@@ -7,7 +7,7 @@ export const events: Writable<any[]> = writable([]);
 export const notes: Writable<any[]> = writable([]);
 export const recordings: Writable<any[]> = writable([]);
 
-// Voice assistant state
+// Shivo AI state
 export const isListening: Writable<boolean> = writable(false);
 export const transcript: Writable<string> = writable('');
 export const emotion: Writable<string> = writable('neutral');
@@ -17,7 +17,7 @@ const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 // Function to parse intent using OpenAI
 export async function parseIntent(transcript: string): Promise<any> {
-  const prompt = `You are a helpful assistant for a South Indian family. Based on this voice command, extract the intent and generate a JSON object with one of: createTodo, setReminder, createNote, setEventReminder, startRecording, or stopRecording. Include relevant fields like title, message, time, date, content, etc.\n\nCommand: "${transcript}"\n\nReturn only valid JSON.`;
+  const prompt = `You are Shivo AI, an OpenAI-powered assistant for a South Indian family. Based on this voice command, extract the intent and generate a JSON object with one of: createTodo, setReminder, createNote, setEventReminder, startRecording, or stopRecording. Include relevant fields like title, message, time, date, content, etc.\n\nCommand: "${transcript}"\n\nReturn only valid JSON.`;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {

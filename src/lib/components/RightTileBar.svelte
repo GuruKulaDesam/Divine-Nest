@@ -97,7 +97,7 @@
       subTiles: [
         { label: "Ask AI", icon: "heroicons:sparkles", path: "/shivo-ai" },
         { label: "Agentic AI", icon: "heroicons:robot", path: "/shivo-agentic" },
-        { label: "Voice Assistant", icon: "heroicons:microphone", action: "voice-assistant" },
+        { label: "Shivo AI", icon: "heroicons:microphone", action: "voice-assistant" },
       ],
     },
     {

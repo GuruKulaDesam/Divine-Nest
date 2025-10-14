@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-  <title>Shivo - Voice Assistant</title>
+  <title>Shivo - OpenAI Powered AI Assistant</title>
 </svelte:head>
 
 <!-- Shivo HUD - Always visible -->
@@ -32,7 +32,7 @@
         </div>
         <div>
           <h1 class="text-4xl font-bold text-gray-800">Shivo</h1>
-          <p class="text-lg text-gray-600">Your Tamil-English Voice Assistant</p>
+          <p class="text-lg text-gray-600">Your Tamil-English OpenAI Assistant</p>
         </div>
       </div>
 

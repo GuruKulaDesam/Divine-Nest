@@ -269,7 +269,7 @@
             <div class="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center">
               <Icon icon="heroicons:microphone" class="w-6 h-6 text-white" />
             </div>
-            <h2 class="text-xl font-semibold text-gray-800">Voice Assistant</h2>
+            <h2 class="text-xl font-semibold text-gray-800">Shivo AI</h2>
           </div>
           <button on:click={toggleVoiceAssistant} class="px-3 py-1 text-sm rounded-xl transition-all duration-300 {voiceListening ? 'bg-red-500 text-white' : 'bg-indigo-500 text-white hover:bg-indigo-600'}">
             {voiceListening ? "Listening..." : "Start"}

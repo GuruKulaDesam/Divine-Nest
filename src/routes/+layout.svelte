@@ -46,9 +46,9 @@
     isListening = false;
   }
 
-  // Reactive layout determination based on viewMode store
-  $: useDesktopLayout = shouldUseDesktopLayout();
-  $: useMobileLayout = shouldUseMobileLayout();
+  // Layout determination - initialized safely for SSR
+  let useDesktopLayout = true; // Default to desktop for SSR
+  let useMobileLayout = false;
 
   onMount(async () => {
     // Initialize crash analytics
@@ -59,6 +59,10 @@
 
     // Initialize performance monitoring
     performanceMonitor.initialize();
+
+    // Set layout based on platform detection (client-side only)
+    useDesktopLayout = shouldUseDesktopLayout();
+    useMobileLayout = shouldUseMobileLayout();
 
     // Register service worker for PWA functionality
     if ('serviceWorker' in navigator) {

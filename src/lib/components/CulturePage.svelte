@@ -411,7 +411,7 @@
           <div class="flex items-center space-x-3 bg-white/50 rounded-xl p-4">
             <Icon icon="heroicons:microphone" class="w-8 h-8 text-indigo-500" />
             <div>
-              <h4 class="font-medium text-gray-800">Voice Assistant (Shivo)</h4>
+              <h4 class="font-medium text-gray-800">Shivo AI (OpenAI)</h4>
               <p class="text-sm text-gray-600">Explains rituals in Tamil-English</p>
             </div>
           </div>

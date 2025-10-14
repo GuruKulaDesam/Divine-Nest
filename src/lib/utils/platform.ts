@@ -57,14 +57,24 @@ export function getPlatform(): 'web' | 'android' | 'ios' {
  * Respects manual override from viewMode store
  */
 export function shouldUseMobileLayout(): boolean {
-  const currentViewMode = get(viewMode);
+  // During SSR, default to false (desktop layout)
+  if (typeof window === 'undefined') {
+    return false;
+  }
 
-  // Check for manual override
-  if (currentViewMode === 'mobile') return true;
-  if (currentViewMode === 'desktop') return false;
+  try {
+    const currentViewMode = get(viewMode);
 
-  // Default auto-detection
-  return isMobilePlatform();
+    // Check for manual override
+    if (currentViewMode === 'mobile') return true;
+    if (currentViewMode === 'desktop') return false;
+
+    // Default auto-detection
+    return isMobilePlatform();
+  } catch (error) {
+    // Fallback to auto-detection if store access fails
+    return isMobilePlatform();
+  }
 }
 
 /**
@@ -73,12 +83,22 @@ export function shouldUseMobileLayout(): boolean {
  * Respects manual override from viewMode store
  */
 export function shouldUseDesktopLayout(): boolean {
-  const currentViewMode = get(viewMode);
+  // During SSR, default to true (desktop layout)
+  if (typeof window === 'undefined') {
+    return true;
+  }
 
-  // Check for manual override
-  if (currentViewMode === 'desktop') return true;
-  if (currentViewMode === 'mobile') return false;
+  try {
+    const currentViewMode = get(viewMode);
 
-  // Default auto-detection
-  return isWebPlatform();
+    // Check for manual override
+    if (currentViewMode === 'desktop') return true;
+    if (currentViewMode === 'mobile') return false;
+
+    // Default auto-detection
+    return isWebPlatform();
+  } catch (error) {
+    // Fallback to auto-detection if store access fails
+    return isWebPlatform();
+  }
 }

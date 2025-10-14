@@ -5,7 +5,6 @@
   import FloatingActionButtons from "./FloatingActionButtons.svelte";
   import LayoutSwitcher from "./LayoutSwitcher.svelte";
   import UserLoginModal from "./UserLoginModal.svelte";
-  import VoiceControlOverlay from "./VoiceControlOverlay.svelte";
   import GestureRecognizer from "./GestureRecognizer.svelte";
   import VoiceDashboardController from "./VoiceDashboardController.svelte";
   import Icon from "@iconify/svelte";
@@ -438,9 +437,6 @@
 
   <!-- Floating Action Buttons - Desktop optimized -->
   <FloatingActionButtons on:action={handleRequestsAction} />
-
-  <!-- Global Voice Control Overlay -->
-  <VoiceControlOverlay />
 
   <!-- Voice Dashboard Controller -->
   <VoiceDashboardController />
